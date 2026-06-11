@@ -1,0 +1,36 @@
+{
+  "name": "ai-outpost",
+  "version": "0.5.0",
+  "private": true,
+  "description": "A low-maintenance AI intelligence briefing for AI application builders.",
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "packageManager": "pnpm@11.5.2",
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1",
+    "build": "next build",
+    "start": "next start",
+    "content:validate": "tsx scripts/content/validate.ts",
+    "content:export:wechat": "tsx scripts/content/export-wechat.ts",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "next": "16.2.9",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "16.2.9",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.0",
+    "vitest": "^4.0.18"
+  }
+}

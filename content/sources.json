@@ -1,0 +1,77 @@
+[
+  {
+    "id": "openai",
+    "name": "OpenAI",
+    "homepage": "https://openai.com/",
+    "officialUrls": [
+      "https://openai.com/news/",
+      "https://platform.openai.com/docs/",
+      "https://developers.openai.com/",
+      "https://github.com/openai/"
+    ],
+    "topics": ["models", "coding-tools", "agents", "multimodal"]
+  },
+  {
+    "id": "anthropic",
+    "name": "Anthropic",
+    "homepage": "https://www.anthropic.com/",
+    "officialUrls": [
+      "https://www.anthropic.com/news",
+      "https://docs.anthropic.com/",
+      "https://github.com/anthropics/"
+    ],
+    "topics": ["models", "coding-tools", "agents"]
+  },
+  {
+    "id": "google-ai",
+    "name": "Google AI",
+    "homepage": "https://ai.google/",
+    "officialUrls": [
+      "https://blog.google/technology/ai/",
+      "https://ai.google.dev/",
+      "https://github.com/google-gemini/"
+    ],
+    "topics": ["models", "coding-tools", "agents", "multimodal"]
+  },
+  {
+    "id": "github",
+    "name": "GitHub",
+    "homepage": "https://github.com/",
+    "officialUrls": [
+      "https://github.blog/",
+      "https://docs.github.com/",
+      "https://github.com/features/copilot"
+    ],
+    "topics": ["coding-tools", "open-source"]
+  },
+  {
+    "id": "microsoft-ai",
+    "name": "Microsoft AI",
+    "homepage": "https://www.microsoft.com/ai/",
+    "officialUrls": [
+      "https://blogs.microsoft.com/ai/",
+      "https://learn.microsoft.com/"
+    ],
+    "topics": ["models", "coding-tools", "agents", "industry"]
+  },
+  {
+    "id": "cursor",
+    "name": "Cursor",
+    "homepage": "https://www.cursor.com/",
+    "officialUrls": [
+      "https://www.cursor.com/changelog",
+      "https://docs.cursor.com/"
+    ],
+    "topics": ["coding-tools"]
+  },
+  {
+    "id": "model-context-protocol",
+    "name": "Model Context Protocol",
+    "homepage": "https://modelcontextprotocol.io/",
+    "officialUrls": [
+      "https://modelcontextprotocol.io/",
+      "https://github.com/modelcontextprotocol/"
+    ],
+    "topics": ["agents", "mcp", "open-source"]
+  }
+]
