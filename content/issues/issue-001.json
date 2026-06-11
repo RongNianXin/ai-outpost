@@ -1,0 +1,401 @@
+﻿{
+  "schemaVersion": 1,
+  "id": "issue-001",
+  "slug": "2026-06-01-ai-agent-infrastructure",
+  "issueNumber": 1,
+  "title": "本周 AI 开发重点：审核、SDK、沙箱与计费",
+  "summary": "本周重点是：AI 输出审核、Copilot 开发工具包、沙箱隔离、Copilot 计费和 Gemini 旧模型停止服务。对开发者来说，重点是更安全地用 AI、控制成本，并及时更新旧模型。",
+  "period": {
+    "start": "2026-06-01",
+    "end": "2026-06-07"
+  },
+  "status": "approved",
+  "publishedAt": null,
+  "topChangeIds": [
+    "openai-inline-moderation",
+    "copilot-sdk-ga",
+    "copilot-sandboxes-preview"
+  ],
+  "opportunities": [
+    {
+      "id": "agent-cost-observer",
+      "title": "低置信度设想：记录一次 AI 任务的成本",
+      "rationale": "先用表格记录一次 AI 任务大约花了多少额度和时间。现在只能说明成本值得关注，还不能说明它一定能做成产品。",
+      "relatedCardIds": [
+        "copilot-billing-ai-credits",
+        "copilot-sandboxes-preview"
+      ],
+      "confidence": "low"
+    },
+    {
+      "id": "moderation-review-gate",
+      "title": "低置信度设想：给 AI 输出增加一道检查",
+      "rationale": "给 AI 输出加一道简单检查规则，例如正常展示、隐藏、人工确认。目前只是实用想法，不代表已经验证商业需求。",
+      "relatedCardIds": [
+        "openai-inline-moderation"
+      ],
+      "confidence": "low"
+    }
+  ],
+  "practiceTask": {
+    "title": "给一个 AI 输出流程画出安全闸门",
+    "durationMinutes": 45,
+    "objective": "这个任务不需要写代码、不需要 API、不需要付费、不需要英文。可以用纸笔完成；没有项目时，就用 AI 客服回复做例子。",
+    "steps": [
+      "选择自己的 AI 功能；如果还没有项目，就以“AI 客服回复”为例。",
+      "画出用户输入、模型生成、工具调用和最终展示四个步骤。",
+      "为每个步骤写出最可能出现的一项风险。",
+      "标记哪些风险可以自动检查，哪些必须由人确认。",
+      "选一个最小检查规则，写成下一次开发可以执行的任务。"
+    ],
+    "relatedCardIds": [
+      "openai-inline-moderation",
+      "copilot-sandboxes-preview"
+    ]
+  },
+  "glossary": [
+    {
+      "term": "Agent",
+      "explanation": "能按目标连续执行任务的 AI 助手，不只是回答一句话。"
+    },
+    {
+      "term": "SDK",
+      "explanation": "给开发者用的工具包，可以把某项能力接进自己的软件。"
+    },
+    {
+      "term": "GA",
+      "explanation": "正式可用版本，通常比预览版更稳定。"
+    },
+    {
+      "term": "BYOK",
+      "explanation": "自带模型密钥，意思是用户自己提供模型账号或凭据。"
+    },
+    {
+      "term": "沙箱",
+      "explanation": "隔离环境，让程序在受限制的范围内运行，降低误操作风险。"
+    },
+    {
+      "term": "AI Credits",
+      "explanation": "GitHub 用来记录 AI 功能用量的额度单位。"
+    },
+    {
+      "term": "API",
+      "explanation": "软件之间互相调用能力的接口。"
+    }
+  ],
+  "cards": [
+    {
+      "id": "openai-inline-moderation",
+      "title": "OpenAI 把内容审核结果放进生成请求",
+      "category": "应用安全",
+      "publisher": "OpenAI",
+      "occurredAt": "2026-06-04",
+      "discoveredAt": "2026-06-11",
+      "oneLineSummary": "Responses API 和 Chat Completions API 可以在生成请求中同时返回输入与输出的审核结果。",
+      "whyItMatters": "过去常见的做法是额外调用一次审核接口。把审核结果放进生成流程可以减少集成步骤，也让安全检查更容易成为默认能力。",
+      "developerImpact": "以前可能要单独调用审核接口。现在部分生成接口可以一起返回审核结果。但系统不会自动拦截内容，开发者仍要自己决定是否展示、隐藏或交给人工确认。",
+      "maturity": "usable",
+      "noiseRisk": "low",
+      "suggestedAction": "learn",
+      "reviewRisk": "medium",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "OpenAI 允许生成 API 返回内容审核信号，应用仍需自行决定如何处理。",
+      "visualHint": "输入和输出共同经过审核闸门的流程图。",
+      "facts": [
+        {
+          "id": "openai-moderation-fact",
+          "claim": "OpenAI 于 2026 年 6 月 4 日为 Responses API 和 Chat Completions API 增加内联内容审核结果。",
+          "sourceIds": [
+            "openai-api-changelog",
+            "openai-moderation-guide"
+          ],
+          "limitations": [
+            "模型仍会生成内容，审核结果不会自动阻止输出。",
+            "流式请求需要等完整输出生成后才能获得输出审核结果。",
+            "应用必须在展示内容或执行后续操作前检查结果。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "OpenAI",
+        "API",
+        "安全"
+      ]
+    },
+    {
+      "id": "copilot-sdk-ga",
+      "title": "GitHub Copilot SDK 正式 GA",
+      "category": "Agent 开发",
+      "publisher": "GitHub",
+      "occurredAt": "2026-06-02",
+      "discoveredAt": "2026-06-11",
+      "oneLineSummary": "开发者可以把 Copilot 的规划、工具调用、文件修改、流式输出和多轮会话能力嵌入自己的应用。",
+      "whyItMatters": "GitHub Copilot 的 Agent 能力现在可以通过正式 GA 的 SDK 嵌入其他应用。内部工具、开发门户和面向用户的 AI 功能多了一个现成的接入选择。",
+      "developerImpact": "GitHub 把 Copilot 的部分 Agent 能力做成了开发工具包。开发者可以把它接进自己的应用，但仍要考虑费用、账号权限和输出是否可靠。",
+      "maturity": "usable",
+      "noiseRisk": "medium",
+      "suggestedAction": "learn",
+      "reviewRisk": "medium",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "Copilot 不只是编辑器里的功能，也开始变成可以接入其他应用的开发工具包。",
+      "visualHint": "SDK 位于应用与 Copilot Agent 运行时之间的架构图。",
+      "facts": [
+        {
+          "id": "copilot-sdk-ga-fact",
+          "claim": "GitHub 于 2026 年 6 月 2 日宣布 Copilot SDK 正式 GA。",
+          "sourceIds": [
+            "github-copilot-sdk-ga"
+          ],
+          "limitations": [
+            "现有 Copilot 用户可以使用；非 Copilot 用户需要通过 BYOK 自行提供模型凭据。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "GitHub",
+        "Copilot",
+        "SDK",
+        "Agent"
+      ]
+    },
+    {
+      "id": "copilot-sandboxes-preview",
+      "title": "Copilot 本地与云端沙箱进入公共预览",
+      "category": "Agent 安全",
+      "publisher": "GitHub",
+      "occurredAt": "2026-06-02",
+      "discoveredAt": "2026-06-11",
+      "oneLineSummary": "Copilot CLI 可用本地沙箱限制它发起的部分命令，云端任务可在 GitHub 托管的临时 Linux 环境中执行。",
+      "whyItMatters": "让 Agent 执行命令的主要风险之一，是它能接触哪些文件、网络和系统资源。沙箱把权限边界从提示词要求变成技术隔离。",
+      "developerImpact": "沙箱像一个隔离房间。Copilot 执行命令时，不一定能随便碰到电脑上的所有资源。但这还是预览功能，不能理解为所有风险都消失了。",
+      "maturity": "experimental",
+      "noiseRisk": "low",
+      "suggestedAction": "learn",
+      "reviewRisk": "medium",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "Agent 权限控制开始加入隔离执行环境，其中云端沙箱按用量计费。",
+      "visualHint": "本地沙箱和云端临时 Linux 环境的对比图。",
+      "facts": [
+        {
+          "id": "copilot-sandbox-preview-fact",
+          "claim": "GitHub Copilot 的本地和云端沙箱于 2026 年 6 月 2 日进入公共预览。",
+          "sourceIds": [
+            "github-copilot-sandbox-changelog",
+            "github-copilot-sandbox-docs"
+          ],
+          "limitations": [
+            "当前主要适用于 Copilot CLI，云端沙箱也可用于 Copilot App 会话。",
+            "本地沙箱包含在标准 Copilot 席位中；云端沙箱按计算、内存和快照存储计费。",
+            "组织成员使用云端沙箱前，组织或企业所有者必须启用 Cloud Sandbox 策略。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "GitHub",
+        "Copilot",
+        "沙箱",
+        "安全"
+      ]
+    },
+    {
+      "id": "copilot-billing-ai-credits",
+      "title": "Copilot 进入统一的用量计费阶段",
+      "category": "成本与商业",
+      "publisher": "GitHub",
+      "occurredAt": "2026-06-01",
+      "discoveredAt": "2026-06-11",
+      "oneLineSummary": "所有 Copilot 套餐开始按实际消耗的 GitHub AI Credits 计量，代码审查还会消耗 Actions 分钟。",
+      "whyItMatters": "Agent 的长上下文、推理和工具调用会把一次任务变成可累积的成本。开发者不能再只比较月费，还要观察真实工作流的单任务消耗。",
+      "developerImpact": "Copilot 仍有订阅套餐，但 AI 功能会按 AI Credits 记录用量。超出套餐额度后，可能产生额外费用，所以自动化任务越多，越要看成本。",
+      "maturity": "usable",
+      "noiseRisk": "low",
+      "suggestedAction": "try",
+      "reviewRisk": "medium",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "Copilot 仍采用订阅套餐，同时用 AI Credits 记录用量，超额使用可能产生额外费用。",
+      "visualHint": "月度套餐、AI Credits 和 Actions 分钟的成本组成图。",
+      "facts": [
+        {
+          "id": "copilot-billing-fact",
+          "claim": "自 2026 年 6 月 1 日起，所有 GitHub Copilot 套餐按照实际消耗的 GitHub AI Credits 计量；Copilot 代码审查还会消耗 GitHub Actions 分钟。",
+          "sourceIds": [
+            "github-copilot-billing",
+            "github-copilot-usage-billing-docs"
+          ],
+          "limitations": [
+            "套餐包含每月额度，不是所有使用都会立即产生额外账单。",
+            "超出套餐额度后需要配置额外消费预算。",
+            "公告发布时，Student、Pro、Pro+ 和 Max 套餐的新用户注册仍暂停。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "GitHub",
+        "Copilot",
+        "计费"
+      ]
+    },
+    {
+      "id": "gemini-20-shutdown",
+      "title": "四个 Gemini 2.0 API 模型停止服务",
+      "category": "模型迁移",
+      "publisher": "Google",
+      "occurredAt": "2026-06-01",
+      "discoveredAt": "2026-06-11",
+      "oneLineSummary": "Gemini 2.0 Flash 与 Flash-Lite 的四个模型 ID 已停止服务，仍在使用的应用需要迁移。",
+      "whyItMatters": "模型生命周期已经成为 AI 应用的日常维护事项。把模型 ID 写死且没有替代路径，会让应用在退役日期直接失败。",
+      "developerImpact": "如果项目还在使用这四个旧模型 ID，调用可能失败。开发者需要把配置里的旧模型名换成官方推荐的新模型，并重新检查效果。",
+      "maturity": "usable",
+      "noiseRisk": "low",
+      "suggestedAction": "try",
+      "reviewRisk": "low",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "更换模型 ID 后，建议重新检查输出质量、延迟、费用和安全设置。",
+      "visualHint": "四个旧模型 ID 指向两个替代模型的迁移图。",
+      "facts": [
+        {
+          "id": "gemini-shutdown-fact",
+          "claim": "Google 于 2026 年 6 月 1 日停止提供 gemini-2.0-flash、gemini-2.0-flash-001、gemini-2.0-flash-lite 和 gemini-2.0-flash-lite-001。",
+          "sourceIds": [
+            "google-gemini-release-notes",
+            "google-gemini-deprecations"
+          ],
+          "limitations": [
+            "两个 Flash 型号迁移至 gemini-3.5-flash。",
+            "两个 Flash-Lite 型号迁移至 gemini-3.1-flash-lite。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "Google",
+        "Gemini",
+        "迁移"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "openai-api-changelog",
+      "catalogId": "openai",
+      "title": "OpenAI API Changelog",
+      "url": "https://developers.openai.com/api/docs/changelog",
+      "sourceType": "official_changelog",
+      "publisher": "OpenAI",
+      "publishedAt": "2026-06-04",
+      "accessedAt": "2026-06-11T10:00:00.000Z",
+      "evidenceLocation": "June 2026, Jun 4",
+      "evidenceExcerpt": "该更新说明生成请求可以返回输入与输出的审核结果。"
+    },
+    {
+      "id": "openai-moderation-guide",
+      "catalogId": "openai",
+      "title": "Moderation",
+      "url": "https://developers.openai.com/api/docs/guides/moderation",
+      "sourceType": "official_docs",
+      "publisher": "OpenAI",
+      "publishedAt": null,
+      "accessedAt": "2026-06-11T10:00:00.000Z",
+      "evidenceLocation": "Moderate generated content",
+      "evidenceExcerpt": "指南要求应用检查审核结果后，再展示内容或执行后续动作。"
+    },
+    {
+      "id": "github-copilot-sdk-ga",
+      "catalogId": "github",
+      "title": "Copilot SDK is now generally available",
+      "url": "https://github.blog/changelog/2026-06-02-copilot-sdk-is-now-generally-available/",
+      "sourceType": "official_changelog",
+      "publisher": "GitHub",
+      "publishedAt": "2026-06-02",
+      "accessedAt": "2026-06-11T10:00:00.000Z",
+      "evidenceLocation": "Introduction and Pricing and availability",
+      "evidenceExcerpt": "公告将 SDK 标记为 GA，并列出 Agent 运行能力与使用资格。"
+    },
+    {
+      "id": "github-copilot-sandbox-changelog",
+      "catalogId": "github",
+      "title": "Cloud and local sandboxes for GitHub Copilot now in public preview",
+      "url": "https://github.blog/changelog/2026-06-02-cloud-and-local-sandboxes-for-github-copilot-now-in-public-preview/",
+      "sourceType": "official_changelog",
+      "publisher": "GitHub",
+      "publishedAt": "2026-06-02",
+      "accessedAt": "2026-06-11T10:00:00.000Z",
+      "evidenceLocation": "Local sandbox and Cloud sandbox",
+      "evidenceExcerpt": "公告说明两类沙箱进入公共预览，并区分本地与云端执行环境。"
+    },
+    {
+      "id": "github-copilot-sandbox-docs",
+      "catalogId": "github",
+      "title": "About cloud and local sandboxes",
+      "url": "https://docs.github.com/en/copilot/concepts/about-cloud-and-local-sandboxes",
+      "sourceType": "official_docs",
+      "publisher": "GitHub",
+      "publishedAt": null,
+      "accessedAt": "2026-06-11T10:00:00.000Z",
+      "evidenceLocation": "Authentication and access; Billing",
+      "evidenceExcerpt": "文档说明适用界面、组织策略和云端沙箱的计费维度。"
+    },
+    {
+      "id": "github-copilot-billing",
+      "catalogId": "github",
+      "title": "Updates to GitHub Copilot billing and plans",
+      "url": "https://github.blog/changelog/2026-06-01-updates-to-github-copilot-billing-and-plans/",
+      "sourceType": "official_changelog",
+      "publisher": "GitHub",
+      "publishedAt": "2026-06-01",
+      "accessedAt": "2026-06-11T10:00:00.000Z",
+      "evidenceLocation": "Usage-based billing and Configure a default Actions runner",
+      "evidenceExcerpt": "公告说明 AI Credits 用量计量以及代码审查使用 Actions 分钟。"
+    },
+    {
+      "id": "github-copilot-usage-billing-docs",
+      "catalogId": "github",
+      "title": "Usage-based billing for individuals",
+      "url": "https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-individuals",
+      "sourceType": "official_docs",
+      "publisher": "GitHub",
+      "publishedAt": null,
+      "accessedAt": "2026-06-11T10:00:00.000Z",
+      "evidenceLocation": "Monthly allowance and additional usage",
+      "evidenceExcerpt": "官方文档说明套餐月度额度、AI Credits 用量记录和额外使用预算。"
+    },
+    {
+      "id": "google-gemini-release-notes",
+      "catalogId": "google-ai",
+      "title": "Gemini API Release Notes",
+      "url": "https://ai.google.dev/gemini-api/docs/changelog",
+      "sourceType": "official_changelog",
+      "publisher": "Google",
+      "publishedAt": "2026-06-01",
+      "accessedAt": "2026-06-11T10:00:00.000Z",
+      "evidenceLocation": "June 1, 2026",
+      "evidenceExcerpt": "发布记录列出四个 Gemini 2.0 API 模型停止服务。"
+    },
+    {
+      "id": "google-gemini-deprecations",
+      "catalogId": "google-ai",
+      "title": "Gemini API Deprecations",
+      "url": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "sourceType": "official_docs",
+      "publisher": "Google",
+      "publishedAt": "2026-06-01",
+      "accessedAt": "2026-06-11T10:00:00.000Z",
+      "evidenceLocation": "Gemini 2.0 models",
+      "evidenceExcerpt": "退役表列出关闭日期、受影响模型和推荐替代型号。"
+    }
+  ],
+  "corrections": [],
+  "editorial": {
+    "generatedAt": "2026-06-11T10:00:00.000Z",
+    "aiReviewCompleted": true,
+    "factCheckCompletedAt": "2026-06-11T12:00:00.000Z",
+    "previewApprovedAt": "2026-06-11T19:02:49.1244147+08:00",
+    "publicationApprovedAt": null,
+    "notes": "已完成来源真实性、事实映射、反向质疑和中文编辑四轮 AI 质检。发布者已批准本地预览，尚未批准公开发布。"
+  }
+}
+

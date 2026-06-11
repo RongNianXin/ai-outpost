@@ -1,0 +1,66 @@
+:root {
+  --color-canvas: #e9e6df;
+  --color-paper: #f7f4ed;
+  --color-ink: #18211d;
+  --color-muted: #667069;
+  --color-line: #cbc8bf;
+  --color-accent: #a43d2f;
+  --color-accent-soft: #ead7d0;
+  --font-display: Georgia, "Times New Roman", "Songti SC", serif;
+  --font-body: Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: var(--color-paper);
+  font-family: var(--font-body);
+  line-height: 1.7;
+}
+
+a {
+  color: var(--color-accent);
+  text-underline-offset: 0.2em;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 100;
+  padding: 0.6rem 0.9rem;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  transform: translateY(-160%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+::selection {
+  background: var(--color-accent-soft);
+}

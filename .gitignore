@@ -1,9 +1,11 @@
 # dependencies
 /node_modules
+/.pnpm-store
 
 # next.js
 /.next
 /out
+*.tsbuildinfo
 
 # testing
 /coverage
@@ -19,4 +21,3 @@
 *.log
 .DS_Store
 Thumbs.db
-

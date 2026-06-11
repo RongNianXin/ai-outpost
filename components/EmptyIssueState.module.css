@@ -1,0 +1,107 @@
+.emptyState {
+  width: min(1120px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: clamp(4rem, 10vw, 8rem) 0 5rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.65fr);
+  gap: clamp(2rem, 7vw, 7rem);
+}
+
+.eyebrow {
+  margin: 0 0 1.25rem;
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.emptyState h1 {
+  max-width: 760px;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 0.94;
+}
+
+.summary {
+  align-self: end;
+  padding-bottom: 0.6rem;
+}
+
+.summary p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 1.05rem;
+}
+
+.actions {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.primaryAction {
+  padding: 0.7rem 0.95rem;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  text-decoration: none;
+}
+
+.promiseGrid {
+  grid-column: 1 / -1;
+  margin: 2rem 0 0;
+  padding: 0;
+  border-top: 1px solid var(--color-line);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.promiseGrid div {
+  padding: 1.5rem 2rem 0 0;
+}
+
+.promiseGrid div + div {
+  padding-left: 2rem;
+  border-left: 1px solid var(--color-line);
+}
+
+.promiseGrid dt {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+}
+
+.promiseGrid dd {
+  margin: 0.45rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 760px) {
+  .emptyState {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .promiseGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .promiseGrid div,
+  .promiseGrid div + div {
+    padding: 1.25rem 0;
+    border-left: 0;
+    border-bottom: 1px solid var(--color-line);
+  }
+}
+
+@media (max-width: 480px) {
+  .actions {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

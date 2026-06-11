@@ -1,0 +1,198 @@
+.card {
+  padding: clamp(2rem, 5vw, 3.5rem) 0;
+  border-top: 1px solid var(--color-ink);
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 130px minmax(0, 1fr);
+  gap: 2rem;
+}
+
+.numberBlock {
+  color: var(--color-muted);
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.number {
+  margin-bottom: 0.4rem;
+  color: var(--color-accent);
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.titleBlock h2 {
+  max-width: 860px;
+  margin: 0.75rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+}
+
+.summary {
+  max-width: 800px;
+  margin: 1.25rem 0 0;
+  color: var(--color-muted);
+  font-size: 1.08rem;
+}
+
+.analysisGrid {
+  margin: 2.5rem 0 0 162px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 3rem;
+}
+
+.analysisGrid h3 {
+  margin: 0 0 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.analysisGrid p {
+  margin: 0;
+  color: var(--color-muted);
+}
+
+.signalGrid {
+  margin: 2.5rem 0 0 162px;
+  padding: 0;
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.signalGrid div {
+  padding: 1rem 1.25rem 1rem 0;
+}
+
+.signalGrid div + div {
+  padding-left: 1.25rem;
+  border-left: 1px solid var(--color-line);
+}
+
+.signalGrid dt {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.signalGrid dd {
+  margin: 0.3rem 0 0;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+
+.signalGrid .action {
+  color: var(--color-accent);
+}
+
+.evidence {
+  margin: 1.5rem 0 0 162px;
+  color: var(--color-muted);
+}
+
+.evidence summary {
+  width: fit-content;
+  cursor: pointer;
+  color: var(--color-ink);
+  font-size: 0.86rem;
+}
+
+.evidence ul {
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.evidence li {
+  padding: 1rem 0;
+  border-top: 1px dotted var(--color-line);
+}
+
+.evidence p {
+  margin: 0;
+}
+
+.limitations {
+  margin-top: 0.45rem !important;
+  font-size: 0.82rem;
+}
+
+.sourceLinks {
+  margin-top: 0.55rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 760px) {
+  .header {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .numberBlock {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+
+  .number {
+    margin: 0;
+  }
+
+  .analysisGrid,
+  .signalGrid,
+  .evidence {
+    margin-left: 0;
+  }
+
+  .analysisGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .signalGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .signalGrid div,
+  .signalGrid div + div {
+    padding: 0.8rem 0;
+    border-left: 0;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .signalGrid div:last-child {
+    border-bottom: 0;
+  }
+}

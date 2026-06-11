@@ -29,7 +29,9 @@
   -> GitHub Pages
 ```
 
-结构化 JSON 是唯一事实源。AI 先生成 `draft` JSON，校验和质检通过后由人工将状态改为 `approved`；只有可公开状态才参与生产发布。转换器只能改变表达方式，不能创造新的硬事实。
+结构化 JSON 是唯一事实源。AI 先生成 `draft` JSON，多轮独立质检通过后将事实标记为 `ai_cross_checked`。发布者同意本地预览后记录 `previewApprovedAt` 并改为 `approved`；发布者再次明确批准公开后，才记录 `publicationApprovedAt` 与 `publishedAt` 并改为 `published`。转换器只能改变表达方式，不能创造新的硬事实。
+
+本地开发模式会显示 `approved` 内容用于网页预览，公众号转换器也允许导出 `approved` 草稿；生产构建只包含 `published` 和 `corrected`。
 
 ## 页面路由
 
@@ -62,4 +64,4 @@
 
 ## GitHub Pages
 
-构建输出目录为 `out/`。GitHub Actions负责安装依赖、校验内容、运行测试、构建和发布。项目站点使用仓库名作为 `basePath`；自定义域名可以通过环境配置移除该前缀。
+构建输出目录为 `out/`。GitHub Actions负责安装依赖、校验内容、运行测试、构建和发布。部署工作流只允许手动触发，不会因推送 `main` 自动公开内容。当前工作流按 GitHub Pages 项目站点处理，使用仓库名作为 `basePath`。V1 尚未实现自定义域名切换；确定域名后再单独调整工作流。
