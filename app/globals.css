@@ -1,12 +1,23 @@
 :root {
-  --color-canvas: #e9e6df;
-  --color-paper: #f7f4ed;
-  --color-ink: #18211d;
-  --color-muted: #667069;
-  --color-line: #cbc8bf;
-  --color-accent: #a43d2f;
-  --color-accent-soft: #ead7d0;
-  --font-display: Georgia, "Times New Roman", "Songti SC", serif;
+  --color-canvas: #edf3f8;
+  --color-paper: #ffffff;
+  --color-surface: #f7fafc;
+  --color-surface-strong: #eaf2ff;
+  --color-ink: #0b1220;
+  --color-muted: #5d6b82;
+  --color-line: #d8e2ee;
+  --color-line-strong: #b9c8da;
+  --color-accent: #2563eb;
+  --color-accent-strong: #1d4ed8;
+  --color-accent-soft: #dbeafe;
+  --color-warning: #f59e0b;
+  --color-warning-soft: #fff3d6;
+  --shadow-card: 0 18px 48px rgb(15 23 42 / 8%);
+  --shadow-soft: 0 10px 30px rgb(15 23 42 / 6%);
+  --radius-lg: 28px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
+  --font-display: Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
   --font-body: Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
@@ -30,7 +41,10 @@ html {
 body {
   min-height: 100vh;
   margin: 0;
-  background: var(--color-paper);
+  background:
+    radial-gradient(circle at 12% 0%, rgb(37 99 235 / 14%), transparent 28rem),
+    radial-gradient(circle at 85% 8%, rgb(245 158 11 / 14%), transparent 22rem),
+    linear-gradient(180deg, #f8fbff 0%, var(--color-canvas) 42%, #f6f8fb 100%);
   font-family: var(--font-body);
   line-height: 1.7;
 }

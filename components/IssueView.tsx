@@ -14,18 +14,23 @@ type IssueViewProps = {
 
 export function IssueView({ issue, canonicalPage = false }: IssueViewProps) {
   const keyCardIds = new Set(issue.topChangeIds);
+  const topCards = issue.topChangeIds.flatMap((cardId) => {
+    const card = issue.cards.find((item) => item.id === cardId);
+    return card ? [card] : [];
+  });
 
   return (
     <article>
       <header className={styles.issueHeader}>
-        <div className={styles.issueMeta}>
-          <span>Issue {String(issue.issueNumber).padStart(3, "0")}</span>
-          <span>{issueStatusLabels[issue.status]}</span>
-          <span>{formatPeriod(issue.period.start, issue.period.end)}</span>
-        </div>
-        <div className={styles.titleGrid}>
-          <h1>{issue.title}</h1>
-          <div>
+        <div className={styles.heroShell}>
+          <div className={styles.heroMain}>
+            <div className={styles.issueMeta}>
+              <span>Issue {String(issue.issueNumber).padStart(3, "0")}</span>
+              <span>{issueStatusLabels[issue.status]}</span>
+              <span>{formatPeriod(issue.period.start, issue.period.end)}</span>
+            </div>
+            <p className={styles.eyebrow}>AI intelligence briefing</p>
+            <h1>{issue.title}</h1>
             <p className={styles.summary}>{issue.summary}</p>
             {!canonicalPage && (
               <Link className={styles.detailLink} href={`/issues/${issue.slug}/`}>
@@ -33,30 +38,54 @@ export function IssueView({ issue, canonicalPage = false }: IssueViewProps) {
               </Link>
             )}
           </div>
+          <aside className={styles.heroPanel} aria-label="本期概览">
+            <p className={styles.panelLabel}>本期建议行动</p>
+            <strong>{issue.practiceTask.title}</strong>
+            <span>{issue.practiceTask.durationMinutes} 分钟实践任务</span>
+            <dl>
+              <div>
+                <dt>情报卡</dt>
+                <dd>{issue.cards.length}</dd>
+              </div>
+              <div>
+                <dt>重点变化</dt>
+                <dd>{issue.topChangeIds.length}</dd>
+              </div>
+              <div>
+                <dt>来源</dt>
+                <dd>{issue.sources.length}</dd>
+              </div>
+            </dl>
+          </aside>
         </div>
       </header>
 
-      {issue.topChangeIds.length > 0 && (
+      {topCards.length > 0 && (
         <section className={styles.topChanges} aria-labelledby="top-changes">
           <div>
             <p className={styles.sectionCode}>01 / Signals</p>
             <h2 id="top-changes">本期重要变化</h2>
+            <p className={styles.sectionIntro}>
+              先看这三条，快速判断本周 AI 应用开发方向的变化。
+            </p>
           </div>
           <ol>
-            {issue.topChangeIds.map((cardId) => {
-              const card = issue.cards.find((item) => item.id === cardId);
-              return card ? (
-                <li key={card.id}>
-                  <a href={`#${card.id}`}>{card.title}</a>
-                  <p>{card.oneLineSummary}</p>
-                </li>
-              ) : null;
-            })}
+            {topCards.map((card) => (
+              <li key={card.id}>
+                <a href={`#${card.id}`}>{card.title}</a>
+                <p>{card.oneLineSummary}</p>
+              </li>
+            ))}
           </ol>
         </section>
       )}
 
       <section className={styles.cards} aria-label="本期情报卡">
+        <div className={styles.cardsHeader}>
+          <p className={styles.sectionCode}>02 / Intel cards</p>
+          <h2>情报卡</h2>
+          <p>每张卡保留事实、判断和行动建议，先扫标签，再决定是否展开来源。</p>
+        </div>
         {issue.cards.map((card, index) => (
           <IntelCard
             card={card}
@@ -70,7 +99,7 @@ export function IssueView({ issue, canonicalPage = false }: IssueViewProps) {
 
       <section className={styles.actionSection}>
         <div className={styles.opportunities}>
-          <p className={styles.sectionCode}>02 / Opportunities</p>
+          <p className={styles.sectionCode}>03 / Opportunities</p>
           <h2>可能的产品机会</h2>
           {issue.opportunities.length > 0 ? (
             issue.opportunities.map((opportunity) => (
@@ -86,7 +115,7 @@ export function IssueView({ issue, canonicalPage = false }: IssueViewProps) {
         </div>
 
         <aside className={styles.practice}>
-          <p className={styles.sectionCode}>03 / Practice</p>
+          <p className={styles.sectionCode}>04 / Practice</p>
           <p className={styles.duration}>
             {issue.practiceTask.durationMinutes} 分钟
           </p>
@@ -102,7 +131,7 @@ export function IssueView({ issue, canonicalPage = false }: IssueViewProps) {
 
       {issue.glossary.length > 0 && (
         <section className={styles.glossary} aria-labelledby="glossary">
-          <p className={styles.sectionCode}>04 / Glossary</p>
+          <p className={styles.sectionCode}>05 / Glossary</p>
           <h2 id="glossary">术语解释</h2>
           <dl>
             {issue.glossary.map((entry) => (
@@ -116,7 +145,7 @@ export function IssueView({ issue, canonicalPage = false }: IssueViewProps) {
       )}
 
       <section className={styles.sources} aria-labelledby="source-list">
-        <p className={styles.sectionCode}>05 / Sources</p>
+        <p className={styles.sectionCode}>06 / Sources</p>
         <h2 id="source-list">原始来源</h2>
         <ol>
           {issue.sources.map((source) => (
