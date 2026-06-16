@@ -24,9 +24,10 @@ export function IntelCard({
   sources,
 }: IntelCardProps) {
   const sourceById = new Map(sources.map((source) => [source.id, source]));
+  const cardClassName = isKey ? `${styles.card} ${styles.keyCard}` : styles.card;
 
   return (
-    <article className={styles.card} id={card.id}>
+    <article className={cardClassName} id={card.id}>
       <header className={styles.header}>
         <div className={styles.numberBlock}>
           <span className={styles.number}>{String(index + 1).padStart(2, "0")}</span>
@@ -57,15 +58,17 @@ export function IntelCard({
       <dl className={styles.signalGrid}>
         <div>
           <dt>成熟度</dt>
-          <dd>{maturityLabels[card.maturity]}</dd>
+          <dd className={styles.badge}>{maturityLabels[card.maturity]}</dd>
         </div>
         <div>
           <dt>营销噪声</dt>
-          <dd>{noiseRiskLabels[card.noiseRisk]}</dd>
+          <dd className={styles.badge}>{noiseRiskLabels[card.noiseRisk]}</dd>
         </div>
         <div>
           <dt>建议行动</dt>
-          <dd className={styles.action}>{actionLabels[card.suggestedAction]}</dd>
+          <dd className={`${styles.badge} ${styles.action}`}>
+            {actionLabels[card.suggestedAction]}
+          </dd>
         </div>
       </dl>
 
