@@ -42,6 +42,12 @@ pnpm.cmd build
 
 Windows PowerShell 的脚本执行策略可能阻止 `pnpm.ps1`，因此文档统一使用 `pnpm.cmd`。
 
+本地预览固定使用 3100 端口，避免和其他网页项目常用的 3000 端口冲突：
+
+```text
+http://127.0.0.1:3100/
+```
+
 旧版 Windows PowerShell 读取中文 JSON 时应显式指定 UTF-8：
 
 ```powershell
