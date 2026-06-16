@@ -25,6 +25,9 @@ export function IntelCard({
 }: IntelCardProps) {
   const sourceById = new Map(sources.map((source) => [source.id, source]));
   const cardClassName = isKey ? `${styles.card} ${styles.keyCard}` : styles.card;
+  const factSourceCount = new Set(
+    card.facts.flatMap((fact) => fact.sourceIds),
+  ).size;
 
   return (
     <article className={cardClassName} id={card.id}>
@@ -40,9 +43,38 @@ export function IntelCard({
             <time dateTime={card.occurredAt}>{card.occurredAt}</time>
           </div>
           <h2>{card.title}</h2>
+          <p className={styles.conclusionLabel}>一句话结论</p>
           <p className={styles.summary}>{card.oneLineSummary}</p>
         </div>
+        <aside className={styles.actionPanel} aria-label="建议行动与风险标签">
+          <span>建议行动</span>
+          <strong>{actionLabels[card.suggestedAction]}</strong>
+          <small>
+            {maturityLabels[card.maturity]} · 噪声{noiseRiskLabels[card.noiseRisk]}
+          </small>
+        </aside>
       </header>
+
+      <section className={styles.factPanel} aria-label="事实支撑">
+        <div className={styles.factPanelHeader}>
+          <h3>事实支撑验证</h3>
+          <span>{factSourceCount} 个官方来源</span>
+        </div>
+        <ul className={styles.factList}>
+          {card.facts.map((fact) => (
+            <li key={fact.id}>
+              <p>{fact.claim}</p>
+              {fact.limitations.length > 0 && (
+                <ul className={styles.factLimits}>
+                  {fact.limitations.map((limitation) => (
+                    <li key={limitation}>{limitation}</li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
 
       <div className={styles.analysisGrid}>
         <section>
@@ -55,25 +87,8 @@ export function IntelCard({
         </section>
       </div>
 
-      <dl className={styles.signalGrid}>
-        <div>
-          <dt>成熟度</dt>
-          <dd className={styles.badge}>{maturityLabels[card.maturity]}</dd>
-        </div>
-        <div>
-          <dt>营销噪声</dt>
-          <dd className={styles.badge}>{noiseRiskLabels[card.noiseRisk]}</dd>
-        </div>
-        <div>
-          <dt>建议行动</dt>
-          <dd className={`${styles.badge} ${styles.action}`}>
-            {actionLabels[card.suggestedAction]}
-          </dd>
-        </div>
-      </dl>
-
       <details className={styles.evidence}>
-        <summary>查看 AI 交叉核查事实与原始来源</summary>
+        <summary>查看原始来源链接</summary>
         <ul>
           {card.facts.map((fact) => (
             <li key={fact.id}>

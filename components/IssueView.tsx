@@ -18,6 +18,8 @@ export function IssueView({ issue, canonicalPage = false }: IssueViewProps) {
     const card = issue.cards.find((item) => item.id === cardId);
     return card ? [card] : [];
   });
+  const fastTakeaway =
+    issue.summary.split("对开发者来说，").at(1) ?? issue.summary;
 
   return (
     <article>
@@ -31,6 +33,10 @@ export function IssueView({ issue, canonicalPage = false }: IssueViewProps) {
             </div>
             <p className={styles.eyebrow}>AI intelligence briefing</p>
             <h1>{issue.title}</h1>
+            <div className={styles.coreTakeaway} aria-label="本期 5 秒结论">
+              <span>5 秒结论</span>
+              <strong>{fastTakeaway}</strong>
+            </div>
             <p className={styles.summary}>{issue.summary}</p>
             {!canonicalPage && (
               <Link className={styles.detailLink} href={`/issues/${issue.slug}/`}>
