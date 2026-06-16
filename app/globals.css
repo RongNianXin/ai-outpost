@@ -29,6 +29,8 @@
 html {
   background: var(--color-canvas);
   color: var(--color-ink);
+  max-width: 100%;
+  overflow-x: clip;
   scroll-behavior: smooth;
 }
 
@@ -47,10 +49,13 @@ body {
     linear-gradient(180deg, #f8fbff 0%, var(--color-canvas) 42%, #f6f8fb 100%);
   font-family: var(--font-body);
   line-height: 1.7;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 a {
   color: var(--color-accent);
+  overflow-wrap: anywhere;
   text-underline-offset: 0.2em;
 }
 
