@@ -1,27 +1,18 @@
-# 第 001 期事实与证据映射报告
+# 第 001 期事实映射
 
-核验角色：事实与证据映射 Agent  
-核验日期：2026-06-11  
-结果：3 条直接通过，2 条修正事实与建议边界后通过，0 条完全不受支持。
+## 事实与来源
 
-## 核验结果
+| 卡片 | 已核查事实 | 来源 | 主要限制 |
+| --- | --- | --- | --- |
+| GitHub Agentic Workflows | 2026-06-11 进入公共预览，可用 Markdown 定义任务并编译为 Actions YAML。 | GitHub Changelog | 公共预览，不等于稳定生产能力。 |
+| Anthropic Claude Fable 5 | 2026-06-09 发布，模型 ID 为 `claude-fable-5`，支持 1M 上下文和 128k 最大输出。 | Anthropic Release Notes | tokenizer、数据保留和拒答行为需要重新测试。 |
+| OpenAI Web Search 图片结果 | 2026-06-09 Changelog 记录 Web Search 可返回图片结果。 | OpenAI API Changelog | 图片结果不等于自动拥有版权或商用授权。 |
+| Google 多模态模型退役 | 2026-06-15 Release Notes 列出部分图像和视频模型退役计划。 | Google Gemini API Release Notes | 只影响公告列出的模型 ID。 |
+| Cursor Bugbot /review | 2026-06-10 Changelog 记录 Bugbot 性能、成本和 `/review` 更新。 | Cursor Changelog | 指标来自 Cursor 官方自述。 |
+| Cursor SDK custom tools | 2026-06-04 Changelog 记录 custom tools、auto-review、custom stores 和 nested subagents。 | Cursor Changelog | 面向 Cursor SDK 使用者，不等于普通用户必须立即接入。 |
 
-| 情报 | 结论 | 核验重点 |
-| --- | --- | --- |
-| OpenAI 内联审核结果 | SUPPORTED | 日期、接口和功能均被官方页面直接支持；必须保留“不会自动阻断”的限制。 |
-| Copilot SDK GA | 修正后 SUPPORTED | GA、日期和资格被支持；“输出仍需审核”属于编辑建议，不作为官方限制。 |
-| Copilot 沙箱公共预览 | SUPPORTED | 必须写公共预览；组织使用云端沙箱前必须启用策略。 |
-| Copilot AI Credits 计费 | SUPPORTED | 所有套餐、月度额度、额外预算和 Actions 分钟均有官方依据。 |
-| Gemini 2.0 停止服务 | 修正后 SUPPORTED | 四个模型 ID、关闭日期和替代型号有官方依据；重新测试属于行动建议。 |
+## 事实分层
 
-## 已执行修正
-
-- 从 Copilot SDK 的官方限制中移除“Agent 输出需要审核”，保留在编辑分析层。
-- 将云端沙箱组织策略从“可能需要”改为“必须启用”。
-- 明确公告发布时暂停新注册的套餐为 Student、Pro、Pro+ 和 Max。
-- 从 Gemini 官方限制中移除“必须重新测试”，保留在开发者行动建议层。
-
-## 结论
-
-当前五条核心事实均有官方证据。下一步必须由反向质疑 Agent检查是否仍有夸大、时间误写或事实与分析混淆。
-
+- 来源事实：厂商官方页面明确写出的发布时间、功能名、状态和限制。
+- AI 分析：这些变化代表 Agent 正在进入工程流程，模型生命周期管理变得更重要。
+- 行动建议：先学习和做清单，不建议直接购买、迁移或上线自动化。

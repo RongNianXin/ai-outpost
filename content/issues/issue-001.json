@@ -1,272 +1,247 @@
-﻿{
+{
   "schemaVersion": 1,
   "id": "issue-001",
-  "slug": "2026-06-01-ai-agent-infrastructure",
+  "slug": "2026-06-17-ai-agent-model-workflows",
   "issueNumber": 1,
-  "title": "本周 AI 开发重点：审核、SDK、沙箱与计费",
-  "summary": "本周重点是：AI 输出审核、Copilot 开发工具包、沙箱隔离、Copilot 计费和 Gemini 旧模型停止服务。对开发者来说，重点是更安全地用 AI、控制成本，并及时更新旧模型。",
+  "title": "本周 AI 开发重点：Agent 工作流、模型升级与多模态维护",
+  "summary": "本周重点是：GitHub 把 Agent 工作流推入 Actions，Anthropic 发布 Claude Fable 5，OpenAI Web Search 支持图片结果，Google 提醒图像和视频模型迁移，Cursor 强化 Bugbot 与 SDK 工具接入。对开发者来说，Agent 开发正在从“功能演示”转向“安全、成本、基础设施”。同时需要管理模型生命周期、工具权限和代码审核成本。",
   "period": {
-    "start": "2026-06-01",
-    "end": "2026-06-07"
+    "start": "2026-06-04",
+    "end": "2026-06-17"
   },
   "status": "approved",
   "publishedAt": null,
   "topChangeIds": [
-    "openai-inline-moderation",
-    "copilot-sdk-ga",
-    "copilot-sandboxes-preview"
+    "github-agentic-workflows-preview",
+    "anthropic-claude-fable-5",
+    "openai-web-search-images"
   ],
   "opportunities": [
     {
-      "id": "agent-cost-observer",
-      "title": "低置信度设想：记录一次 AI 任务的成本",
-      "rationale": "先用表格记录一次 AI 任务大约花了多少额度和时间。现在只能说明成本值得关注，还不能说明它一定能做成产品。",
+      "id": "agent-workflow-template-library",
+      "title": "低置信度设想：Agent 工作流模板库",
+      "rationale": "把常见任务拆成可复用的 Markdown 模板，例如 issue 分类、CI 失败分析、文档更新和依赖检查。它适合先做成个人模板库，不急着做平台。",
       "relatedCardIds": [
-        "copilot-billing-ai-credits",
-        "copilot-sandboxes-preview"
+        "github-agentic-workflows-preview",
+        "cursor-sdk-custom-tools"
       ],
       "confidence": "low"
     },
     {
-      "id": "moderation-review-gate",
-      "title": "低置信度设想：给 AI 输出增加一道检查",
-      "rationale": "给 AI 输出加一道简单检查规则，例如正常展示、隐藏、人工确认。目前只是实用想法，不代表已经验证商业需求。",
+      "id": "model-migration-checklist",
+      "title": "低置信度设想：模型退役检查清单",
+      "rationale": "用表格记录项目里使用的模型 ID、用途、替代模型和迁移截止日期。它不需要自动扫描代码，先帮个人开发者避免模型退役导致应用突然不可用。",
       "relatedCardIds": [
-        "openai-inline-moderation"
+        "google-gemini-media-deprecations",
+        "anthropic-claude-fable-5"
       ],
       "confidence": "low"
+    },
+    {
+      "id": "pre-push-ai-review-gate",
+      "title": "中置信度设想：提交前 AI 审核闸门",
+      "rationale": "Cursor 和 GitHub 都在把代码审核前移到提交、PR 或 CI 环节。独立开发者可以先做一套自己的提交前检查表，验证是否能减少明显错误。",
+      "relatedCardIds": [
+        "cursor-bugbot-review",
+        "github-agentic-workflows-preview"
+      ],
+      "confidence": "medium"
     }
   ],
   "practiceTask": {
-    "title": "给一个 AI 输出流程画出安全闸门",
+    "title": "给你的 AI 开发流程做一张工具权限表",
     "durationMinutes": 45,
-    "objective": "这个任务不需要写代码、不需要 API、不需要付费、不需要英文。可以用纸笔完成；没有项目时，就用 AI 客服回复做例子。",
+    "objective": "不需要写代码、不需要购买 API、不需要英文。目标是把你使用 AI 开发时会碰到的工具、文件、网络和发布动作列出来，判断哪些可以自动执行，哪些必须人工确认。",
     "steps": [
-      "选择自己的 AI 功能；如果还没有项目，就以“AI 客服回复”为例。",
-      "画出用户输入、模型生成、工具调用和最终展示四个步骤。",
-      "为每个步骤写出最可能出现的一项风险。",
-      "标记哪些风险可以自动检查，哪些必须由人确认。",
-      "选一个最小检查规则，写成下一次开发可以执行的任务。"
+      "选一个真实或假想的 AI 开发任务，例如“让 AI 修改一个网页组件”。",
+      "列出 AI 可能接触的东西：代码文件、终端命令、浏览器、Git、外部网页和发布按钮。",
+      "给每一项标记风险：低、中、高。",
+      "写出处理规则：自动允许、先问我、禁止执行、只读查看。",
+      "挑一个最高风险动作，写成下一次开发时要遵守的一条明确规则。"
     ],
     "relatedCardIds": [
-      "openai-inline-moderation",
-      "copilot-sandboxes-preview"
+      "github-agentic-workflows-preview",
+      "cursor-sdk-custom-tools",
+      "cursor-bugbot-review"
     ]
   },
   "glossary": [
     {
-      "term": "Agent",
-      "explanation": "能按目标连续执行任务的 AI 助手，不只是回答一句话。"
+      "term": "Agent 工作流",
+      "explanation": "把 AI 任务接进工程流程，让它能按规则执行分类、检查、修复或更新。"
     },
     {
-      "term": "SDK",
-      "explanation": "给开发者用的工具包，可以把某项能力接进自己的软件。"
+      "term": "GitHub Actions",
+      "explanation": "GitHub 自带的自动化系统，常用于测试、构建和部署。"
     },
     {
-      "term": "GA",
-      "explanation": "正式可用版本，通常比预览版更稳定。"
+      "term": "MCP",
+      "explanation": "Model Context Protocol，让 AI 工具以统一方式连接外部工具和数据源。"
     },
     {
-      "term": "BYOK",
-      "explanation": "自带模型密钥，意思是用户自己提供模型账号或凭据。"
+      "term": "多模态",
+      "explanation": "AI 同时处理文本、图片、音频或视频等不同类型的信息。"
     },
     {
-      "term": "沙箱",
-      "explanation": "隔离环境，让程序在受限制的范围内运行，降低误操作风险。"
+      "term": "模型退役",
+      "explanation": "模型或模型 ID 到期关闭，继续调用可能失败，需要迁移到新模型。"
     },
     {
-      "term": "AI Credits",
-      "explanation": "GitHub 用来记录 AI 功能用量的额度单位。"
+      "term": "RAG",
+      "explanation": "检索增强生成，先找资料，再让模型基于资料回答。"
     },
     {
-      "term": "API",
-      "explanation": "软件之间互相调用能力的接口。"
+      "term": "Tokenizer",
+      "explanation": "把文字切成模型计费和处理单位的规则；规则变化会影响 token 数。"
+    },
+    {
+      "term": "审核闸门",
+      "explanation": "在 AI 执行动作前加一道检查，决定是否允许、暂停或禁止。"
     }
   ],
   "cards": [
     {
-      "id": "openai-inline-moderation",
-      "title": "OpenAI 把内容审核结果放进生成请求",
-      "category": "应用安全",
+      "id": "github-agentic-workflows-preview",
+      "title": "GitHub Agentic Workflows 进入公共预览",
+      "category": "Agent 工程化",
+      "publisher": "GitHub",
+      "occurredAt": "2026-06-11",
+      "discoveredAt": "2026-06-17",
+      "oneLineSummary": "GitHub 允许用自然语言 Markdown 定义 Agent 自动化任务，并把它编译成标准 Actions YAML。",
+      "whyItMatters": "Agent 正在从聊天窗口走进 CI、issue 处理和文档维护等工程流程。它不是单个智能体演示，而是把 AI 放进已有权限、runner 和策略体系里。",
+      "developerImpact": "如果你以后做 AI 开发工具，不只要考虑模型回答，还要考虑任务怎样触发、权限怎样限制、输出怎样验证，以及错误怎样回滚。",
+      "maturity": "experimental",
+      "noiseRisk": "medium",
+      "suggestedAction": "learn",
+      "reviewRisk": "medium",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "Agent 真正有价值的地方，可能不是聊天，而是进入已有工程流水线。",
+      "visualHint": "Markdown 任务定义进入 GitHub Actions，再进入沙箱和安全检查的流程图。",
+      "facts": [
+        {
+          "id": "github-agentic-workflows-fact",
+          "claim": "GitHub 于 2026 年 6 月 11 日宣布 Agentic Workflows 进入公共预览，可用自然语言 Markdown 定义任务，并编译为标准 GitHub Actions YAML。",
+          "sourceIds": [
+            "github-agentic-workflows"
+          ],
+          "limitations": [
+            "该功能处于公共预览，不应按稳定生产能力理解。",
+            "GitHub 描述了只读默认权限、沙箱容器、防火墙、安全输出和威胁检测，但这不等于可以无人工审核地自动合并所有改动。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "GitHub",
+        "Agent",
+        "Actions",
+        "自动化"
+      ]
+    },
+    {
+      "id": "anthropic-claude-fable-5",
+      "title": "Anthropic 发布 Claude Fable 5",
+      "category": "模型升级",
+      "publisher": "Anthropic",
+      "occurredAt": "2026-06-09",
+      "discoveredAt": "2026-06-17",
+      "oneLineSummary": "Claude Fable 5 发布，默认支持 1M token 上下文、128k 最大输出和 adaptive thinking。",
+      "whyItMatters": "长上下文、长输出和自动思考能力继续成为模型厂商竞争重点。但模型升级同时带来 tokenizer、数据保留和拒答处理等工程细节变化。",
+      "developerImpact": "不要只看模型更强。接入新模型前，要重新测 token 成本、拒答分支、数据保留要求，以及长上下文是否真的改善你的任务。",
+      "maturity": "usable",
+      "noiseRisk": "medium",
+      "suggestedAction": "learn",
+      "reviewRisk": "medium",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "新模型不是直接替换旧模型，接入前要做成本、拒答和数据保留检查。",
+      "visualHint": "新模型能力、成本变化和合规限制并列的检查表。",
+      "facts": [
+        {
+          "id": "anthropic-fable-5-fact",
+          "claim": "Anthropic Claude Platform Release Notes 在 2026 年 6 月 9 日记录，Claude Fable 5 发布，模型 ID 为 claude-fable-5，并支持默认 1M token 上下文、128k 最大输出和 adaptive thinking。",
+          "sourceIds": [
+            "anthropic-platform-release-notes"
+          ],
+          "limitations": [
+            "同页说明，新 tokenizer 会让相同文本相对 Claude Opus 4.7 之前模型大约多产生 30% token。",
+            "Claude Fable 5 要求 30 天数据保留，不适用于零数据保留。",
+            "拒答、fallback 和 thinking 参数行为需要按官方迁移说明单独处理。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "Anthropic",
+        "Claude",
+        "模型",
+        "长上下文"
+      ]
+    },
+    {
+      "id": "openai-web-search-images",
+      "title": "OpenAI Web Search 可返回图片结果",
+      "category": "多模态检索",
       "publisher": "OpenAI",
-      "occurredAt": "2026-06-04",
-      "discoveredAt": "2026-06-11",
-      "oneLineSummary": "Responses API 和 Chat Completions API 可以在生成请求中同时返回输入与输出的审核结果。",
-      "whyItMatters": "过去常见的做法是额外调用一次审核接口。把审核结果放进生成流程可以减少集成步骤，也让安全检查更容易成为默认能力。",
-      "developerImpact": "以前可能要单独调用审核接口。现在部分生成接口可以一起返回审核结果。但系统不会自动拦截内容，开发者仍要自己决定是否展示、隐藏或交给人工确认。",
+      "occurredAt": "2026-06-09",
+      "discoveredAt": "2026-06-17",
+      "oneLineSummary": "Responses API 的 Web Search 可以在普通文本搜索结果之外返回图片结果。",
+      "whyItMatters": "很多 AI 应用不只需要文字证据，还需要当前网页上的图片线索，例如产品图、地点、事件和视觉参考。搜索工具开始更自然地连接多模态内容。",
+      "developerImpact": "如果你的应用要做趋势观察、商品研究或素材辅助，图片搜索会很有用。但图片结果不等于可以随便使用原图，仍要处理版权、来源和展示规则。",
       "maturity": "usable",
       "noiseRisk": "low",
       "suggestedAction": "learn",
       "reviewRisk": "medium",
       "reviewStatus": "ai_cross_checked",
-      "communicationAngle": "OpenAI 允许生成 API 返回内容审核信号，应用仍需自行决定如何处理。",
-      "visualHint": "输入和输出共同经过审核闸门的流程图。",
+      "communicationAngle": "搜索型 AI 应用开始从只引用文字，走向同时拿到网页图片线索。",
+      "visualHint": "文本搜索结果和图片搜索结果并排进入同一个证据栏。",
       "facts": [
         {
-          "id": "openai-moderation-fact",
-          "claim": "OpenAI 于 2026 年 6 月 4 日为 Responses API 和 Chat Completions API 增加内联内容审核结果。",
+          "id": "openai-web-search-image-fact",
+          "claim": "OpenAI API Changelog 在 2026 年 6 月 9 日记录，Web Search 可以在普通文本结果之外返回图片结果，适用于需要当前或网页 grounded 视觉内容的场景。",
           "sourceIds": [
-            "openai-api-changelog",
-            "openai-moderation-guide"
+            "openai-api-changelog"
           ],
           "limitations": [
-            "模型仍会生成内容，审核结果不会自动阻止输出。",
-            "流式请求需要等完整输出生成后才能获得输出审核结果。",
-            "应用必须在展示内容或执行后续操作前检查结果。"
+            "这说明搜索工具能返回图片结果，不代表图片自动具备可商用授权。",
+            "具体调用方式、返回结构和费用仍需要按 OpenAI Web Search 指南确认。"
           ],
           "reviewStatus": "ai_cross_checked"
         }
       ],
       "tags": [
         "OpenAI",
-        "API",
-        "安全"
+        "Web Search",
+        "多模态",
+        "RAG"
       ]
     },
     {
-      "id": "copilot-sdk-ga",
-      "title": "GitHub Copilot SDK 正式 GA",
-      "category": "Agent 开发",
-      "publisher": "GitHub",
-      "occurredAt": "2026-06-02",
-      "discoveredAt": "2026-06-11",
-      "oneLineSummary": "开发者可以把 Copilot 的规划、工具调用、文件修改、流式输出和多轮会话能力嵌入自己的应用。",
-      "whyItMatters": "GitHub Copilot 的 Agent 能力现在可以通过正式 GA 的 SDK 嵌入其他应用。内部工具、开发门户和面向用户的 AI 功能多了一个现成的接入选择。",
-      "developerImpact": "GitHub 把 Copilot 的部分 Agent 能力做成了开发工具包。开发者可以把它接进自己的应用，但仍要考虑费用、账号权限和输出是否可靠。",
-      "maturity": "usable",
-      "noiseRisk": "medium",
-      "suggestedAction": "learn",
-      "reviewRisk": "medium",
-      "reviewStatus": "ai_cross_checked",
-      "communicationAngle": "Copilot 不只是编辑器里的功能，也开始变成可以接入其他应用的开发工具包。",
-      "visualHint": "SDK 位于应用与 Copilot Agent 运行时之间的架构图。",
-      "facts": [
-        {
-          "id": "copilot-sdk-ga-fact",
-          "claim": "GitHub 于 2026 年 6 月 2 日宣布 Copilot SDK 正式 GA。",
-          "sourceIds": [
-            "github-copilot-sdk-ga"
-          ],
-          "limitations": [
-            "现有 Copilot 用户可以使用；非 Copilot 用户需要通过 BYOK 自行提供模型凭据。"
-          ],
-          "reviewStatus": "ai_cross_checked"
-        }
-      ],
-      "tags": [
-        "GitHub",
-        "Copilot",
-        "SDK",
-        "Agent"
-      ]
-    },
-    {
-      "id": "copilot-sandboxes-preview",
-      "title": "Copilot 本地与云端沙箱进入公共预览",
-      "category": "Agent 安全",
-      "publisher": "GitHub",
-      "occurredAt": "2026-06-02",
-      "discoveredAt": "2026-06-11",
-      "oneLineSummary": "Copilot CLI 可用本地沙箱限制它发起的部分命令，云端任务可在 GitHub 托管的临时 Linux 环境中执行。",
-      "whyItMatters": "让 Agent 执行命令的主要风险之一，是它能接触哪些文件、网络和系统资源。沙箱把权限边界从提示词要求变成技术隔离。",
-      "developerImpact": "沙箱像一个隔离房间。Copilot 执行命令时，不一定能随便碰到电脑上的所有资源。但这还是预览功能，不能理解为所有风险都消失了。",
-      "maturity": "experimental",
-      "noiseRisk": "low",
-      "suggestedAction": "learn",
-      "reviewRisk": "medium",
-      "reviewStatus": "ai_cross_checked",
-      "communicationAngle": "Agent 权限控制开始加入隔离执行环境，其中云端沙箱按用量计费。",
-      "visualHint": "本地沙箱和云端临时 Linux 环境的对比图。",
-      "facts": [
-        {
-          "id": "copilot-sandbox-preview-fact",
-          "claim": "GitHub Copilot 的本地和云端沙箱于 2026 年 6 月 2 日进入公共预览。",
-          "sourceIds": [
-            "github-copilot-sandbox-changelog",
-            "github-copilot-sandbox-docs"
-          ],
-          "limitations": [
-            "当前主要适用于 Copilot CLI，云端沙箱也可用于 Copilot App 会话。",
-            "本地沙箱包含在标准 Copilot 席位中；云端沙箱按计算、内存和快照存储计费。",
-            "组织成员使用云端沙箱前，组织或企业所有者必须启用 Cloud Sandbox 策略。"
-          ],
-          "reviewStatus": "ai_cross_checked"
-        }
-      ],
-      "tags": [
-        "GitHub",
-        "Copilot",
-        "沙箱",
-        "安全"
-      ]
-    },
-    {
-      "id": "copilot-billing-ai-credits",
-      "title": "Copilot 进入统一的用量计费阶段",
-      "category": "成本与商业",
-      "publisher": "GitHub",
-      "occurredAt": "2026-06-01",
-      "discoveredAt": "2026-06-11",
-      "oneLineSummary": "所有 Copilot 套餐开始按实际消耗的 GitHub AI Credits 计量，代码审查还会消耗 Actions 分钟。",
-      "whyItMatters": "Agent 的长上下文、推理和工具调用会把一次任务变成可累积的成本。开发者不能再只比较月费，还要观察真实工作流的单任务消耗。",
-      "developerImpact": "Copilot 仍有订阅套餐，但 AI 功能会按 AI Credits 记录用量。超出套餐额度后，可能产生额外费用，所以自动化任务越多，越要看成本。",
-      "maturity": "usable",
-      "noiseRisk": "low",
-      "suggestedAction": "try",
-      "reviewRisk": "medium",
-      "reviewStatus": "ai_cross_checked",
-      "communicationAngle": "Copilot 仍采用订阅套餐，同时用 AI Credits 记录用量，超额使用可能产生额外费用。",
-      "visualHint": "月度套餐、AI Credits 和 Actions 分钟的成本组成图。",
-      "facts": [
-        {
-          "id": "copilot-billing-fact",
-          "claim": "自 2026 年 6 月 1 日起，所有 GitHub Copilot 套餐按照实际消耗的 GitHub AI Credits 计量；Copilot 代码审查还会消耗 GitHub Actions 分钟。",
-          "sourceIds": [
-            "github-copilot-billing",
-            "github-copilot-usage-billing-docs"
-          ],
-          "limitations": [
-            "套餐包含每月额度，不是所有使用都会立即产生额外账单。",
-            "超出套餐额度后需要配置额外消费预算。",
-            "公告发布时，Student、Pro、Pro+ 和 Max 套餐的新用户注册仍暂停。"
-          ],
-          "reviewStatus": "ai_cross_checked"
-        }
-      ],
-      "tags": [
-        "GitHub",
-        "Copilot",
-        "计费"
-      ]
-    },
-    {
-      "id": "gemini-20-shutdown",
-      "title": "四个 Gemini 2.0 API 模型停止服务",
+      "id": "google-gemini-media-deprecations",
+      "title": "Google 宣布 Gemini 图像和视频模型退役计划",
       "category": "模型迁移",
       "publisher": "Google",
-      "occurredAt": "2026-06-01",
-      "discoveredAt": "2026-06-11",
-      "oneLineSummary": "Gemini 2.0 Flash 与 Flash-Lite 的四个模型 ID 已停止服务，仍在使用的应用需要迁移。",
-      "whyItMatters": "模型生命周期已经成为 AI 应用的日常维护事项。把模型 ID 写死且没有替代路径，会让应用在退役日期直接失败。",
-      "developerImpact": "如果项目还在使用这四个旧模型 ID，调用可能失败。开发者需要把配置里的旧模型名换成官方推荐的新模型，并重新检查效果。",
+      "occurredAt": "2026-06-15",
+      "discoveredAt": "2026-06-17",
+      "oneLineSummary": "Gemini API Release Notes 列出多项 Imagen、Gemini Image 和 Veo 模型的退役时间，部分视频模型将在 2026 年 6 月 30 日关闭。",
+      "whyItMatters": "多模态应用通常会把模型 ID 写进配置、脚本或后端服务。模型退役不是新闻小事，而是会让线上功能失效的维护事项。",
+      "developerImpact": "如果你做过图片生成、视频生成或视觉素材工具，要建立模型 ID 清单和到期提醒。即使暂时不迁移，也要知道哪些调用可能在截止日后失败。",
       "maturity": "usable",
       "noiseRisk": "low",
       "suggestedAction": "try",
       "reviewRisk": "low",
       "reviewStatus": "ai_cross_checked",
-      "communicationAngle": "更换模型 ID 后，建议重新检查输出质量、延迟、费用和安全设置。",
-      "visualHint": "四个旧模型 ID 指向两个替代模型的迁移图。",
+      "communicationAngle": "AI 应用需要像管理依赖包一样管理模型 ID 生命周期。",
+      "visualHint": "旧模型 ID、关闭日期、推荐替代模型三列表格。",
       "facts": [
         {
-          "id": "gemini-shutdown-fact",
-          "claim": "Google 于 2026 年 6 月 1 日停止提供 gemini-2.0-flash、gemini-2.0-flash-001、gemini-2.0-flash-lite 和 gemini-2.0-flash-lite-001。",
+          "id": "google-media-deprecation-fact",
+          "claim": "Google Gemini API Release Notes 在 2026 年 6 月 15 日宣布，部分 Imagen 4、Gemini 3 Image 和 Veo 模型进入退役流程；图像模型关闭日期为 2026 年 8 月 17 日，列出的 Veo 视频模型关闭日期为 2026 年 6 月 30 日。",
           "sourceIds": [
-            "google-gemini-release-notes",
-            "google-gemini-deprecations"
+            "google-gemini-release-notes"
           ],
           "limitations": [
-            "两个 Flash 型号迁移至 gemini-3.5-flash。",
-            "两个 Flash-Lite 型号迁移至 gemini-3.1-flash-lite。"
+            "并非所有 Gemini 多模态模型都被关闭，受影响的是公告列出的具体模型 ID。",
+            "视频模型迁移建议包括 Veo 3.1 preview 或 Gemini Enterprise Agent Platform 上的 3.1 GA 模型。"
           ],
           "reviewStatus": "ai_cross_checked"
         }
@@ -274,11 +249,113 @@
       "tags": [
         "Google",
         "Gemini",
+        "Imagen",
+        "Veo",
         "迁移"
+      ]
+    },
+    {
+      "id": "cursor-bugbot-review",
+      "title": "Cursor Bugbot 可以在提交前用 /review 运行",
+      "category": "代码审核",
+      "publisher": "Cursor",
+      "occurredAt": "2026-06-10",
+      "discoveredAt": "2026-06-17",
+      "oneLineSummary": "Cursor 宣布 Bugbot 更快、更便宜、平均发现更多问题，并支持在推送代码前通过 /review 运行 Bugbot 或 Security Review。",
+      "whyItMatters": "AI 编码速度越快，越需要更早发现明显错误。把审查放到推送前，可以让开发者在 PR 之前先处理一部分问题。",
+      "developerImpact": "即使不使用 Cursor，也可以学习这个流程：提交前先做一次固定检查，避免把明显错误推到仓库或线上环境。",
+      "maturity": "usable",
+      "noiseRisk": "medium",
+      "suggestedAction": "learn",
+      "reviewRisk": "medium",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "AI 写代码越快，越需要把审核闸门前移到提交之前。",
+      "visualHint": "本地修改、/review、PR、CI 四步检查链路。",
+      "facts": [
+        {
+          "id": "cursor-bugbot-review-fact",
+          "claim": "Cursor Changelog 在 2026 年 6 月 10 日记录，Bugbot 平均 review 时间约从 5 分钟降到 90 秒，平均每次 review 发现 bug 数从 0.56 提升到 0.62，单次运行成本约降低 22%；同页说明可在推送前用 /review 运行 Bugbot 和 Security Review。",
+          "sourceIds": [
+            "cursor-changelog"
+          ],
+          "limitations": [
+            "性能和成本数据来自 Cursor 官方自述，实际效果会受配置影响。",
+            "/review 可用于 Cursor 3.7+ 和 cursor.com/agents；CLI 支持仍标注为 coming soon。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "Cursor",
+        "Bugbot",
+        "代码审核",
+        "安全"
+      ]
+    },
+    {
+      "id": "cursor-sdk-custom-tools",
+      "title": "Cursor SDK 增加 custom tools 与 auto-review",
+      "category": "MCP 与工具调用",
+      "publisher": "Cursor",
+      "occurredAt": "2026-06-04",
+      "discoveredAt": "2026-06-17",
+      "oneLineSummary": "Cursor SDK 支持自定义工具、自动审核、JSONL 或自定义存储，并允许嵌套子 Agent。",
+      "whyItMatters": "Agent 能力正在从编辑器交互走向可编程 SDK。自定义工具通过内置 MCP server 暴露，说明 MCP 正在成为工具调用权限和集成路径的一部分。",
+      "developerImpact": "如果以后做自己的 AI 开发工具，重点不是让模型知道更多，而是怎样安全地暴露工具、保存运行状态、限制高风险调用。",
+      "maturity": "experimental",
+      "noiseRisk": "medium",
+      "suggestedAction": "save",
+      "reviewRisk": "medium",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "Agent SDK 的核心竞争正在转向工具权限、运行状态和多 Agent 编排。",
+      "visualHint": "自定义函数经 MCP server 进入 Agent，并通过 auto-review 判断是否允许执行。",
+      "facts": [
+        {
+          "id": "cursor-sdk-custom-tools-fact",
+          "claim": "Cursor Changelog 在 2026 年 6 月 4 日记录，Cursor SDK 新增 custom tools、auto-review、JSONL/custom stores 和 nested subagents；custom tools 通过内置 MCP server custom-user-tools 暴露给 Agent。",
+          "sourceIds": [
+            "cursor-changelog"
+          ],
+          "limitations": [
+            "该更新面向 Cursor SDK 使用者，不等于普通 Cursor 编辑器用户立刻需要接入。",
+            "auto-review 依赖规则配置，不能替代对删除、发布、付费调用等高风险动作的人类确认。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "Cursor",
+        "SDK",
+        "MCP",
+        "Agent"
       ]
     }
   ],
   "sources": [
+    {
+      "id": "github-agentic-workflows",
+      "catalogId": "github",
+      "title": "GitHub Agentic Workflows is now in public preview",
+      "url": "https://github.blog/changelog/2026-06-11-github-agentic-workflows-is-now-in-public-preview/",
+      "sourceType": "official_changelog",
+      "publisher": "GitHub",
+      "publishedAt": "2026-06-11",
+      "accessedAt": "2026-06-17T11:00:00.000+08:00",
+      "evidenceLocation": "Release body: Security-first by design",
+      "evidenceExcerpt": "公告说明 Agentic Workflows 进入公共预览，可用 Markdown 定义任务并编译为 Actions YAML。"
+    },
+    {
+      "id": "anthropic-platform-release-notes",
+      "catalogId": "anthropic",
+      "title": "Claude Platform Release Notes",
+      "url": "https://docs.anthropic.com/en/release-notes/api",
+      "sourceType": "official_changelog",
+      "publisher": "Anthropic",
+      "publishedAt": "2026-06-09",
+      "accessedAt": "2026-06-17T11:00:00.000+08:00",
+      "evidenceLocation": "June 9, 2026",
+      "evidenceExcerpt": "发布记录列出 Claude Fable 5 的模型 ID、上下文、输出、adaptive thinking 和限制。"
+    },
     {
       "id": "openai-api-changelog",
       "catalogId": "openai",
@@ -286,82 +363,10 @@
       "url": "https://developers.openai.com/api/docs/changelog",
       "sourceType": "official_changelog",
       "publisher": "OpenAI",
-      "publishedAt": "2026-06-04",
-      "accessedAt": "2026-06-11T10:00:00.000Z",
-      "evidenceLocation": "June 2026, Jun 4",
-      "evidenceExcerpt": "该更新说明生成请求可以返回输入与输出的审核结果。"
-    },
-    {
-      "id": "openai-moderation-guide",
-      "catalogId": "openai",
-      "title": "Moderation",
-      "url": "https://developers.openai.com/api/docs/guides/moderation",
-      "sourceType": "official_docs",
-      "publisher": "OpenAI",
-      "publishedAt": null,
-      "accessedAt": "2026-06-11T10:00:00.000Z",
-      "evidenceLocation": "Moderate generated content",
-      "evidenceExcerpt": "指南要求应用检查审核结果后，再展示内容或执行后续动作。"
-    },
-    {
-      "id": "github-copilot-sdk-ga",
-      "catalogId": "github",
-      "title": "Copilot SDK is now generally available",
-      "url": "https://github.blog/changelog/2026-06-02-copilot-sdk-is-now-generally-available/",
-      "sourceType": "official_changelog",
-      "publisher": "GitHub",
-      "publishedAt": "2026-06-02",
-      "accessedAt": "2026-06-11T10:00:00.000Z",
-      "evidenceLocation": "Introduction and Pricing and availability",
-      "evidenceExcerpt": "公告将 SDK 标记为 GA，并列出 Agent 运行能力与使用资格。"
-    },
-    {
-      "id": "github-copilot-sandbox-changelog",
-      "catalogId": "github",
-      "title": "Cloud and local sandboxes for GitHub Copilot now in public preview",
-      "url": "https://github.blog/changelog/2026-06-02-cloud-and-local-sandboxes-for-github-copilot-now-in-public-preview/",
-      "sourceType": "official_changelog",
-      "publisher": "GitHub",
-      "publishedAt": "2026-06-02",
-      "accessedAt": "2026-06-11T10:00:00.000Z",
-      "evidenceLocation": "Local sandbox and Cloud sandbox",
-      "evidenceExcerpt": "公告说明两类沙箱进入公共预览，并区分本地与云端执行环境。"
-    },
-    {
-      "id": "github-copilot-sandbox-docs",
-      "catalogId": "github",
-      "title": "About cloud and local sandboxes",
-      "url": "https://docs.github.com/en/copilot/concepts/about-cloud-and-local-sandboxes",
-      "sourceType": "official_docs",
-      "publisher": "GitHub",
-      "publishedAt": null,
-      "accessedAt": "2026-06-11T10:00:00.000Z",
-      "evidenceLocation": "Authentication and access; Billing",
-      "evidenceExcerpt": "文档说明适用界面、组织策略和云端沙箱的计费维度。"
-    },
-    {
-      "id": "github-copilot-billing",
-      "catalogId": "github",
-      "title": "Updates to GitHub Copilot billing and plans",
-      "url": "https://github.blog/changelog/2026-06-01-updates-to-github-copilot-billing-and-plans/",
-      "sourceType": "official_changelog",
-      "publisher": "GitHub",
-      "publishedAt": "2026-06-01",
-      "accessedAt": "2026-06-11T10:00:00.000Z",
-      "evidenceLocation": "Usage-based billing and Configure a default Actions runner",
-      "evidenceExcerpt": "公告说明 AI Credits 用量计量以及代码审查使用 Actions 分钟。"
-    },
-    {
-      "id": "github-copilot-usage-billing-docs",
-      "catalogId": "github",
-      "title": "Usage-based billing for individuals",
-      "url": "https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-individuals",
-      "sourceType": "official_docs",
-      "publisher": "GitHub",
-      "publishedAt": null,
-      "accessedAt": "2026-06-11T10:00:00.000Z",
-      "evidenceLocation": "Monthly allowance and additional usage",
-      "evidenceExcerpt": "官方文档说明套餐月度额度、AI Credits 用量记录和额外使用预算。"
+      "publishedAt": "2026-06-09",
+      "accessedAt": "2026-06-17T11:00:00.000+08:00",
+      "evidenceLocation": "June 2026, Jun 9",
+      "evidenceExcerpt": "Changelog 说明 Web Search 可在文本结果之外返回图片结果。"
     },
     {
       "id": "google-gemini-release-notes",
@@ -370,32 +375,31 @@
       "url": "https://ai.google.dev/gemini-api/docs/changelog",
       "sourceType": "official_changelog",
       "publisher": "Google",
-      "publishedAt": "2026-06-01",
-      "accessedAt": "2026-06-11T10:00:00.000Z",
-      "evidenceLocation": "June 1, 2026",
-      "evidenceExcerpt": "发布记录列出四个 Gemini 2.0 API 模型停止服务。"
+      "publishedAt": "2026-06-15",
+      "accessedAt": "2026-06-17T11:00:00.000+08:00",
+      "evidenceLocation": "June 15, 2026",
+      "evidenceExcerpt": "Release Notes 列出被退役的图像与视频生成模型及关闭日期。"
     },
     {
-      "id": "google-gemini-deprecations",
-      "catalogId": "google-ai",
-      "title": "Gemini API Deprecations",
-      "url": "https://ai.google.dev/gemini-api/docs/deprecations",
-      "sourceType": "official_docs",
-      "publisher": "Google",
-      "publishedAt": "2026-06-01",
-      "accessedAt": "2026-06-11T10:00:00.000Z",
-      "evidenceLocation": "Gemini 2.0 models",
-      "evidenceExcerpt": "退役表列出关闭日期、受影响模型和推荐替代型号。"
+      "id": "cursor-changelog",
+      "catalogId": "cursor",
+      "title": "What's New in Cursor — Latest Updates & Release Notes",
+      "url": "https://www.cursor.com/changelog",
+      "sourceType": "official_changelog",
+      "publisher": "Cursor",
+      "publishedAt": "2026-06-10",
+      "accessedAt": "2026-06-17T11:00:00.000+08:00",
+      "evidenceLocation": "Jun 10 and Jun 4, 2026 entries",
+      "evidenceExcerpt": "Changelog 记录 Bugbot /review 更新，以及 SDK custom tools、auto-review 和 MCP server 相关能力。"
     }
   ],
   "corrections": [],
   "editorial": {
-    "generatedAt": "2026-06-11T10:00:00.000Z",
+    "generatedAt": "2026-06-17T11:00:00.000+08:00",
     "aiReviewCompleted": true,
-    "factCheckCompletedAt": "2026-06-11T12:00:00.000Z",
-    "previewApprovedAt": "2026-06-11T19:02:49.1244147+08:00",
+    "factCheckCompletedAt": "2026-06-17T11:20:00.000+08:00",
+    "previewApprovedAt": "2026-06-17T11:30:00.000+08:00",
     "publicationApprovedAt": null,
-    "notes": "已完成来源真实性、事实映射、反向质疑和中文编辑四轮 AI 质检。发布者已批准本地预览，尚未批准公开发布。"
+    "notes": "第 001 期已按 2026-06-17 覆盖更新，仅用于本地预览。保留官方来源和 AI 交叉核查状态，尚未获得公开发布批准。MCP 本期通过 Cursor SDK custom tools 的内置 MCP server 观察，不强行加入缺乏新官方更新的独立 MCP 新闻。"
   }
 }
-

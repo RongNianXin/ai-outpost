@@ -55,21 +55,26 @@ export function IssueView({ issue, canonicalPage = false }: IssueViewProps) {
             )}
           </div>
           <aside className={styles.heroPanel} aria-label="本期概览">
-            <div className={styles.heroVisual} aria-hidden="true">
-              <span className={`${styles.visualDot} ${styles.visualDotPrimary}`} />
-              <span className={`${styles.visualDot} ${styles.visualDotDark}`} />
-              <span className={`${styles.visualDot} ${styles.visualDotWarm}`} />
-              <span className={styles.visualLine} />
-              <span className={`${styles.visualPill} ${styles.visualPillSource}`}>
-                官方来源
-              </span>
-              <span className={`${styles.visualPill} ${styles.visualPillAction}`}>
-                行动建议
-              </span>
+            <div className={styles.heroPipeline} aria-label="从资讯到行动流程">
+              <div>
+                <span>01</span>
+                <strong>官方来源</strong>
+                <small>保留发布日期和原始链接</small>
+              </div>
+              <div>
+                <span>02</span>
+                <strong>影响分析</strong>
+                <small>拆出开发者需要理解的变化</small>
+              </div>
+              <div>
+                <span>03</span>
+                <strong>行动建议</strong>
+                <small>转成可学习、收藏或验证的任务</small>
+              </div>
             </div>
             <p className={styles.panelLabel}>本期重点</p>
             <strong>从资讯到行动</strong>
-            <span>事实、影响、成熟度和建议行动同源生成。</span>
+            <span>事实、影响、风险和建议行动同源生成。</span>
             <dl>
               <div>
                 <dt>情报卡</dt>
@@ -111,8 +116,8 @@ export function IssueView({ issue, canonicalPage = false }: IssueViewProps) {
       <section className={styles.cards} aria-label="本期情报卡">
         <div className={styles.cardsHeader}>
           <p className={styles.sectionCode}>02 / 情报卡</p>
-          <h2>先看结论，再看事实支撑</h2>
-          <p>卡片减少装饰标签，把业务分类高亮，来源和日期置灰。</p>
+          <h2>先看结论，再展开事实支撑</h2>
+          <p>默认只展示结论、影响和行动建议；技术证据与来源可按需展开。</p>
         </div>
         <div className={styles.cardsGrid}>
           {issue.cards.map((card, index) => (
@@ -120,6 +125,9 @@ export function IssueView({ issue, canonicalPage = false }: IssueViewProps) {
               card={card}
               index={index}
               isKey={keyCardIds.has(card.id)}
+              isPracticeRelated={issue.practiceTask.relatedCardIds.includes(
+                card.id,
+              )}
               key={card.id}
               sources={issue.sources}
             />
@@ -144,12 +152,13 @@ export function IssueView({ issue, canonicalPage = false }: IssueViewProps) {
           )}
         </div>
 
-        <aside className={styles.practice}>
+        <aside className={styles.practice} id="weekly-practice">
           <p className={styles.sectionCode}>04 / Practice</p>
+          <h2>本周实践</h2>
           <p className={styles.duration}>
             {issue.practiceTask.durationMinutes} 分钟
           </p>
-          <h2>{issue.practiceTask.title}</h2>
+          <h3>{issue.practiceTask.title}</h3>
           <p>{issue.practiceTask.objective}</p>
           <ol>
             {issue.practiceTask.steps.map((step) => (
@@ -209,6 +218,14 @@ export function IssueView({ issue, canonicalPage = false }: IssueViewProps) {
           </ul>
         </section>
       )}
+
+      <section className={styles.subscribePanel} aria-label="订阅与反馈">
+        <a href="mailto:?subject=订阅下一期 AI 前哨站">[ 订阅下一期 ]</a>
+        <span>|</span>
+        <a href="mailto:?subject=提交 AI 情报给 AI 前哨站">
+          [ 提交你的 AI 情报 ]
+        </a>
+      </section>
     </article>
   );
 }
@@ -223,7 +240,7 @@ function confidenceLabel(confidence: "low" | "medium" | "high") {
 
 function buildThemeLabels(issue: Issue) {
   const categories = Array.from(new Set(issue.cards.map((card) => card.category)));
-  const labels: string[] = [];
+  const labels: string[] = ["官方来源"];
 
   if (categories.some((category) => category.includes("安全"))) {
     labels.push("审核安全");
@@ -241,7 +258,11 @@ function buildThemeLabels(issue: Issue) {
     labels.push("模型迁移");
   }
 
-  return labels.length > 0 ? labels : categories.slice(0, 4);
+  if (categories.some((category) => category.includes("多模态"))) {
+    labels.push("多模态");
+  }
+
+  return labels.length > 1 ? labels.slice(0, 4) : categories.slice(0, 4);
 }
 
 function toChineseCount(count: number) {

@@ -4,7 +4,8 @@
 .actionSection,
 .glossary,
 .sources,
-.corrections {
+.corrections,
+.subscribePanel {
   width: min(1180px, calc(100% - 2rem));
   min-width: 0;
   margin-right: auto;
@@ -187,87 +188,81 @@
   padding: clamp(1rem, 3vw, 1.4rem);
 }
 
-.heroVisual {
+.heroPipeline {
   position: relative;
-  min-height: 190px;
+  display: grid;
+  gap: 0.7rem;
   margin-bottom: 1.2rem;
-  overflow: hidden;
   border: 1px solid var(--color-line);
   border-radius: var(--radius-md);
   background:
-    radial-gradient(circle at 25% 38%, rgb(37 99 235 / 18%), transparent 4.2rem),
-    radial-gradient(circle at 72% 48%, rgb(245 158 11 / 16%), transparent 4.8rem),
-    linear-gradient(145deg, #f8fbff, #eef5ff);
+    linear-gradient(180deg, rgb(248 251 255 / 92%), rgb(255 255 255 / 76%)),
+    radial-gradient(circle at 8% 10%, rgb(37 99 235 / 12%), transparent 9rem);
+  padding: 0.9rem;
 }
 
-.visualLine {
+.heroPipeline::before {
   position: absolute;
-  top: 48%;
-  right: 18%;
-  left: 18%;
-  height: 2px;
-  background: linear-gradient(90deg, rgb(37 99 235 / 34%), rgb(245 158 11 / 42%));
-  transform: rotate(-8deg);
+  top: 1.65rem;
+  bottom: 1.65rem;
+  left: 2.16rem;
+  width: 1px;
+  background: linear-gradient(180deg, rgb(37 99 235 / 38%), rgb(245 158 11 / 34%));
+  content: "";
 }
 
-.visualDot {
-  position: absolute;
+.heroPipeline div {
+  position: relative;
   z-index: 1;
   display: grid;
-  place-items: center;
-  border: 1px solid currentcolor;
-  border-radius: 999px;
-  background: rgb(255 255 255 / 76%);
-  box-shadow: 0 14px 28px rgb(15 23 42 / 8%);
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: 0.1rem 0.75rem;
+  align-items: center;
+  min-height: 4.15rem;
+  border: 1px solid rgb(216 226 238 / 80%);
+  border-radius: var(--radius-sm);
+  background: rgb(255 255 255 / 88%);
+  padding: 0.72rem 0.78rem;
 }
 
-.visualDotPrimary {
-  top: 3.1rem;
-  left: 2rem;
-  width: 5.2rem;
-  height: 5.2rem;
-  color: var(--color-accent);
+.heroPipeline div:nth-child(2) span {
+  background: var(--color-ink);
+  color: white;
 }
 
-.visualDotDark {
-  top: 1.9rem;
-  right: 2.1rem;
-  width: 4.6rem;
-  height: 4.6rem;
-  color: #334155;
-}
-
-.visualDotWarm {
-  right: 3.3rem;
-  bottom: 1.6rem;
-  width: 5rem;
-  height: 5rem;
-  color: var(--color-warning);
-}
-
-.visualPill {
-  position: absolute;
-  z-index: 2;
-  border-radius: 999px;
-  background: white;
-  color: var(--color-muted);
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  padding: 0.42rem 0.62rem;
-}
-
-.visualPillSource {
-  top: 5.1rem;
-  left: 3.1rem;
-  color: var(--color-accent);
-}
-
-.visualPillAction {
-  right: 2.8rem;
-  bottom: 3.5rem;
+.heroPipeline div:nth-child(3) span {
+  background: var(--color-warning-soft);
   color: #9a5a00;
+}
+
+.heroPipeline div > span {
+  grid-row: span 2;
+  display: inline-grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border: 1px solid rgb(37 99 235 / 22%);
+  border-radius: 999px;
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.heroPipeline strong {
+  color: var(--color-ink);
+  font-size: 0.98rem;
+  font-weight: 850;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.heroPipeline small {
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  line-height: 1.4;
 }
 
 .heroPanel strong {
@@ -481,6 +476,15 @@
   line-height: 1.3;
 }
 
+.practice h3 {
+  margin: 0.85rem 0 0;
+  color: var(--color-ink);
+  font-size: clamp(1.18rem, 2.2vw, 1.48rem);
+  font-weight: 850;
+  letter-spacing: -0.03em;
+  line-height: 1.24;
+}
+
 .opportunities article p,
 .practice > p,
 .practice li,
@@ -536,6 +540,33 @@
 .corrections {
   margin-top: 1.5rem;
   padding: clamp(1.25rem, 4vw, 2rem);
+}
+
+.subscribePanel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  margin-top: 1.5rem;
+  border: 1px dashed var(--color-line-strong);
+  border-radius: var(--radius-md);
+  background: rgb(255 255 255 / 58%);
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: 1rem;
+}
+
+.subscribePanel a {
+  color: var(--color-muted);
+  text-decoration: none;
+}
+
+.subscribePanel a:hover {
+  color: var(--color-accent);
 }
 
 .glossary dl {
@@ -638,7 +669,8 @@
   .actionSection,
   .glossary,
   .sources,
-  .corrections {
+  .corrections,
+  .subscribePanel {
     width: min(100% - 1rem, 1180px);
   }
 
@@ -657,20 +689,22 @@
   }
 
   .topicRail {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.45rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 8px;
     max-width: 100%;
   }
 
   .topicRail li {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    flex: 0 1 calc(50% - 4px);
     min-height: 2.35rem;
     border-radius: var(--radius-sm);
     font-size: 0.78rem;
-    text-align: center;
+    text-align: left;
     padding: 0.42rem 0.5rem;
   }
 
@@ -683,31 +717,6 @@
   .glossary,
   .corrections {
     border-radius: var(--radius-md);
-  }
-
-  .heroVisual {
-    min-height: 160px;
-  }
-
-  .visualDotPrimary {
-    top: 2.5rem;
-    left: 1.3rem;
-  }
-
-  .visualDotDark {
-    right: 1.4rem;
-  }
-
-  .visualDotWarm {
-    right: 2.1rem;
-  }
-
-  .visualPillSource {
-    left: 2.2rem;
-  }
-
-  .visualPillAction {
-    right: 1.8rem;
   }
 
   .heroPanel dl {

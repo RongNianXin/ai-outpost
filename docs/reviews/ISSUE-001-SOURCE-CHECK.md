@@ -1,35 +1,26 @@
 # 第 001 期来源真实性报告
 
-核验角色：来源真实性 Agent  
-核验日期：2026-06-11  
-结果：7 个来源直接通过，2 个来源修正元数据后通过，0 个来源被判定为假冒。
+核验日期：2026-06-17  
+结论：5 个保留来源均为官方来源，0 个来源来自社交媒体或媒体二传。
 
-## 通过来源
+## 来源核验表
 
 | 来源 ID | 结论 | 官方身份与日期依据 |
 | --- | --- | --- |
-| `openai-api-changelog` | PASS | OpenAI 官方开发者站；Changelog 明确列出 2026-06-04 更新。 |
-| `github-copilot-sdk-ga` | PASS | GitHub 官方 Changelog；页面显示 2026-06-02。 |
-| `github-copilot-sandbox-changelog` | PASS | GitHub 官方 Changelog；页面显示 2026-06-02，并明确标记公共预览。 |
-| `github-copilot-billing` | PASS | GitHub 官方 Changelog；页面显示 2026-06-01。 |
-| `github-copilot-usage-billing-docs` | PASS | GitHub 官方文档；最终地址属于 `docs.github.com`，页面说明套餐月度额度、AI Credits 用量记录和额外使用预算，页面未标注独立发布日期。 |
-| `google-gemini-release-notes` | PASS | Google AI for Developers 官方站；Release Notes 有 2026-06-01 条目。 |
-| `google-gemini-deprecations` | PASS | Google 官方文档；页面更新时间和模型表格均支持 2026-06-01。 |
+| `github-agentic-workflows` | PASS | GitHub 官方 Changelog；页面日期为 2026-06-11。 |
+| `anthropic-platform-release-notes` | PASS | Anthropic 官方文档域名 `docs.anthropic.com`；Release Notes 含 2026-06-09 条目。 |
+| `openai-api-changelog` | PASS | OpenAI 官方开发者站；Changelog 含 2026-06-09 条目。 |
+| `google-gemini-release-notes` | PASS | Google AI for Developers 官方站；Release Notes 含 2026-06-15 条目。 |
+| `cursor-changelog` | PASS | Cursor 官方 Changelog；同页含 2026-06-10 和 2026-06-04 条目。 |
 
-## 修正后通过
+## 未采用内容
 
-| 来源 ID | 问题 | 修正 |
-| --- | --- | --- |
-| `openai-moderation-guide` | 官方文档没有显示发布日期。 | `publishedAt` 改为空，不再借用关联公告日期；标题改为页面实际标题。 |
-| `github-copilot-sandbox-docs` | 官方文档没有显示发布日期。 | `publishedAt` 改为空，不再借用关联公告日期。 |
+- 未采用社交媒体传闻。
+- 未采用媒体改写稿。
+- 未强行加入独立 MCP 新闻；本期 MCP 只通过 Cursor SDK custom tools 的官方 Changelog 观察。
 
-## 高风险内容的第二官方依据
+## 核验边界
 
-- OpenAI 内容审核：API Changelog 与 Moderation 官方指南互相支持。
-- GitHub 沙箱：Changelog 与 GitHub Docs互相支持。
-- GitHub 计费：Changelog 与官方用量计费文档互相支持。
-- Gemini 模型停止服务：Release Notes 与 Deprecations 表格互相支持。
-
-## 结论
-
-所有保留来源均能确认属于官方组织。两项问题属于日期元数据不严谨，不是来源身份造假。系统已经允许官方长期文档将发布日期明确留空。
+- 官方 Changelog 和官方文档可以证明“该厂商这样宣布过”。
+- 它们不能证明功能在所有账号、地区、套餐中都可用。
+- Cursor 的 Bugbot 速度和成本指标来自 Cursor 官方自述，需要在真实项目里再验证。
