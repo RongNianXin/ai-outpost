@@ -94,6 +94,7 @@ const productOpportunitySchema = z.object({
   id: idSchema,
   title: z.string().min(4).max(100),
   rationale: z.string().min(8).max(600),
+  plainLanguage: z.string().min(8).max(240),
   relatedCardIds: z.array(idSchema).min(1).max(6),
   confidence: z.enum(["low", "medium", "high"]),
 });

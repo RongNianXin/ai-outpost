@@ -39,6 +39,20 @@ export const technicalRiskLabels: Record<IntelCard["reviewRisk"], string> = {
   high: "高",
 };
 
+type OpportunityConfidence = Issue["opportunities"][number]["confidence"];
+
+export const opportunityLevelLabels: Record<OpportunityConfidence, string> = {
+  low: "先记下",
+  medium: "小步试做",
+  high: "优先验证",
+};
+
+export const opportunityLevelDescriptions: Record<OpportunityConfidence, string> = {
+  low: "想法还早，先放进个人灵感清单。",
+  medium: "可以用 30 到 120 分钟做个小样。",
+  high: "和当前实践强相关，优先做一次验证。",
+};
+
 export const issueStatusLabels: Record<Issue["status"], string> = {
   draft: "待验证",
   approved: "AI 已验证",
