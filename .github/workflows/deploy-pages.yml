@@ -56,6 +56,9 @@ jobs:
       - name: Validate content
         run: pnpm content:validate
 
+      - name: Check source links
+        run: pnpm content:check:links
+
       - name: Test
         run: pnpm test
 

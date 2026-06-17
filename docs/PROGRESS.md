@@ -8,8 +8,8 @@
 | 1. 可运行骨架 | 已完成 | v0.2.0-shell |
 | 2. 内容引擎 | 已完成 | v0.3.0-content-engine |
 | 3. MVP 页面 | 已完成视觉确认与 v3 落地 | v0.4.0-ui-mvp |
-| 4. 第一期演练 | 已完成本地预览，尚未公开发布 | v0.5.0-first-issue |
-| 5. 公开发布 | 未开始 | v1.0.0 |
+| 4. 第一期演练 | 已完成本地预览与发布状态切换 | v0.5.0-first-issue |
+| 5. 公开发布 | 发布前验证中 | v1.0.0 |
 
 ## 2026-06-17
 
@@ -27,12 +27,13 @@
 - 按发布者要求，不新建第 002 期，直接覆盖更新 `content/issues/issue-001.json`。
 - 新时间范围：2026-06-04 至 2026-06-17。
 - 新主题：Agent 工作流、模型升级、多模态维护、代码审核和 MCP 工具接入。
-- 保留 `approved` 作为本地预览状态，`publishedAt` 仍为空，生产构建不会公开发布。
+- 已于 2026-06-18 将状态从 `approved` 切换为 `published`，并填写 `publishedAt`，生产构建会生成正式期刊页面。
 - 更新审核包：`docs/reviews/ISSUE-001-REVIEW.md`、来源真实性、事实映射、反向质疑和中文编辑审核均已同步到 6 月 17 日版本。
 - 生成新的公众号稿：`exports/wechat/2026-06-17-ai-agent-model-workflows.md`。
 - 验证结果：`content:validate`、`content:export:wechat`、`typecheck`、`lint`、`test` 和 `build` 全部通过。
 - 本地 3100 开发服务器已重启；首页和新版详情页均返回 200。
 - 应用内浏览器自动化层无法访问本机端口，但已用系统默认浏览器打开真实本地预览地址。
+- 2026-06-18 追加发布准备：`content:validate`、`content:check:links`、`content:export:wechat`、`typecheck`、`lint`、`test` 和 `build` 全部通过；生产构建已生成正式期刊 slug。OpenAI 403 与 Google 超时继续按防误杀规则记录为警告，不阻塞发布准备。
 
 ### Gemini 精修建议处理
 
@@ -145,7 +146,7 @@
 ### 风险
 
 - 自动检查只能证明布局没有明显溢出、结构存在且构建通过；内容事实仍以官方来源为准。
-- 生产构建仍不会公开第 001 期正式 slug，这是发布闸门的预期行为；公开发布前需完成自动化发布前检查并填写 `publishedAt`。
+- 第 001 期已切换为 `published`；公开发布前需完成状态切换后的自动化发布前检查和 GitHub Pages 部署验证。
 
 ### 下一步
 
