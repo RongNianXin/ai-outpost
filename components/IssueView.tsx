@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { formatDate, formatPeriod } from "@/lib/content/format";
 import { issueStatusLabels } from "@/lib/content/labels";
 import type { Issue } from "@/lib/content/schema";
@@ -9,10 +7,9 @@ import styles from "./IssueView.module.css";
 
 type IssueViewProps = {
   issue: Issue;
-  canonicalPage?: boolean;
 };
 
-export function IssueView({ issue, canonicalPage = false }: IssueViewProps) {
+export function IssueView({ issue }: IssueViewProps) {
   const keyCardIds = new Set(issue.topChangeIds);
   const topCards = issue.topChangeIds.flatMap((cardId) => {
     const card = issue.cards.find((item) => item.id === cardId);
@@ -48,11 +45,6 @@ export function IssueView({ issue, canonicalPage = false }: IssueViewProps) {
               <strong>{fastTakeaway}</strong>
             </div>
             <p className={styles.summary}>{issue.summary}</p>
-            {!canonicalPage && (
-              <Link className={styles.detailLink} href={`/issues/${issue.slug}/`}>
-                打开独立期刊页面
-              </Link>
-            )}
           </div>
           <aside className={styles.heroPanel} aria-label="本期概览">
             <div className={styles.heroPipeline} aria-label="从资讯到行动流程">

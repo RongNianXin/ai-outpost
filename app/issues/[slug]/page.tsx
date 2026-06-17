@@ -58,5 +58,5 @@ export default async function IssuePage({ params }: IssuePageProps) {
     notFound();
   }
 
-  return <IssueView canonicalPage issue={issue} />;
+  return <IssueView issue={issue} />;
 }
