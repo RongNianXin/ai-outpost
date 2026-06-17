@@ -1,8 +1,8 @@
 import { EmptyIssueState } from "@/components/EmptyIssueState";
-import { IssueView } from "@/components/IssueView";
+import { HomeIssueSummary } from "@/components/HomeIssueSummary";
 import { getLatestPublicIssue } from "@/lib/content/repository";
 
 export default async function HomePage() {
   const issue = await getLatestPublicIssue();
-  return issue ? <IssueView issue={issue} /> : <EmptyIssueState />;
+  return issue ? <HomeIssueSummary issue={issue} /> : <EmptyIssueState />;
 }
