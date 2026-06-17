@@ -101,7 +101,7 @@
   background: rgb(37 99 235 / 10%);
   color: var(--color-accent);
   font-family: var(--font-mono);
-  font-size: 0.86rem;
+  font-size: 0.875rem;
   font-weight: 900;
   letter-spacing: 0.1em;
   line-height: 1;
@@ -146,7 +146,7 @@
 .sourceShortcuts span {
   color: var(--color-muted);
   font-family: var(--font-mono);
-  font-size: 0.86rem;
+  font-size: 0.875rem;
   font-weight: 900;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -388,7 +388,7 @@
   }
 
   .meta {
-    font-size: 0.84rem;
+    font-size: 0.875rem;
   }
 
   .titleBlock h2 {
