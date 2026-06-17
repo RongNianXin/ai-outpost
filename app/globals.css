@@ -19,7 +19,7 @@
   --radius-sm: 12px;
   --font-display: Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
   --font-body: Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
-  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --font-mono: "JetBrains Mono", "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 
 * {

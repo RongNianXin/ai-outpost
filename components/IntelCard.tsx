@@ -1,7 +1,7 @@
 import {
-  actionLabels,
-  maturityLabels,
-  noiseRiskLabels,
+  strategyDescriptions,
+  strategyLabels,
+  technicalRiskLabels,
 } from "@/lib/content/labels";
 import type {
   EvidenceSource,
@@ -14,6 +14,7 @@ type IntelCardProps = {
   card: IntelCardData;
   index: number;
   isKey: boolean;
+  isPracticeRelated: boolean;
   sources: EvidenceSource[];
 };
 
@@ -21,103 +22,110 @@ export function IntelCard({
   card,
   index,
   isKey,
+  isPracticeRelated,
   sources,
 }: IntelCardProps) {
   const sourceById = new Map(sources.map((source) => [source.id, source]));
   const cardClassName = isKey ? `${styles.card} ${styles.keyCard}` : styles.card;
+  const cardNumber = String(index + 1).padStart(2, "0");
   const factSourceCount = new Set(
     card.facts.flatMap((fact) => fact.sourceIds),
   ).size;
+  const officialSources = Array.from(
+    new Set(card.facts.flatMap((fact) => fact.sourceIds)),
+  ).flatMap((sourceId) => {
+    const source = sourceById.get(sourceId);
+    return source ? [source] : [];
+  });
 
   return (
     <article className={cardClassName} id={card.id}>
       <header className={styles.header}>
-        <div className={styles.numberBlock}>
-          <span className={styles.number}>{String(index + 1).padStart(2, "0")}</span>
-          <span>{isKey ? "重点情报" : "情报简讯"}</span>
-        </div>
         <div className={styles.titleBlock}>
+          <h2>{card.title}</h2>
           <div className={styles.meta}>
+            <span className={styles.number}>{cardNumber}</span>
             <span className={styles.categoryBadge}>{card.category}</span>
             <span className={styles.metaMuted}>{card.publisher}</span>
             <time className={styles.metaMuted} dateTime={card.occurredAt}>
               {card.occurredAt}
             </time>
           </div>
-          <h2>{card.title}</h2>
-          <p className={styles.conclusionLabel}>一句话结论</p>
+          <p className={styles.conclusionLabel}>
+            {isKey ? "重点情报" : "情报简讯"} · 结论
+          </p>
           <p className={styles.summary}>{card.oneLineSummary}</p>
         </div>
-        <aside className={styles.actionPanel} aria-label="建议行动与风险标签">
-          <span>建议行动</span>
-          <strong>{actionLabels[card.suggestedAction]}</strong>
-          <small>
-            {maturityLabels[card.maturity]} · 噪声{noiseRiskLabels[card.noiseRisk]}
-          </small>
+
+        <div className={styles.insightGrid}>
+          <section>
+            <h3>对开发者的影响</h3>
+            <p>{card.developerImpact}</p>
+          </section>
+          <section>
+            <h3>为什么重要</h3>
+            <p>{card.whyItMatters}</p>
+          </section>
+        </div>
+
+        <aside className={styles.actionPanel} aria-label="策略建议与技术风险">
+          <span>策略建议</span>
+          <strong>{strategyLabels[card.suggestedAction]}</strong>
+          <p>{strategyDescriptions[card.suggestedAction]}</p>
+          <small>技术风险：{technicalRiskLabels[card.reviewRisk]}</small>
         </aside>
+        {isPracticeRelated && (
+          <p className={styles.practiceNote}>
+            注：本期末尾的
+            <a href="#weekly-practice">【本周实践】</a>
+            已为你准备了该场景的低成本安全闸门设计方案，可直接跳转阅读。
+          </p>
+        )}
       </header>
 
-      <section className={styles.factPanel} aria-label="事实支撑">
-        <div className={styles.factPanelHeader}>
-          <h3>事实支撑验证</h3>
-          <span>{factSourceCount} 个官方来源</span>
-        </div>
-        <ul className={styles.factList}>
-          {card.facts.map((fact) => (
-            <li key={fact.id}>
-              <p>{fact.claim}</p>
-              {fact.limitations.length > 0 && (
-                <ul className={styles.factLimits}>
-                  {fact.limitations.map((limitation) => (
-                    <li key={limitation}>{limitation}</li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <div className={styles.analysisGrid}>
-        <section>
-          <h3>为什么值得关注</h3>
-          <p>{card.whyItMatters}</p>
-        </section>
-        <section>
-          <h3>对应用开发者的影响</h3>
-          <p>{card.developerImpact}</p>
-        </section>
-      </div>
-
       <details className={styles.evidence}>
-        <summary>查看原始来源链接</summary>
-        <ul>
-          {card.facts.map((fact) => (
-            <li key={fact.id}>
-              <p>{fact.claim}</p>
-              {fact.limitations.length > 0 && (
-                <p className={styles.limitations}>
-                  限制：{fact.limitations.join("；")}
-                </p>
-              )}
-              <div className={styles.sourceLinks}>
-                {fact.sourceIds.map((sourceId) => {
-                  const source = sourceById.get(sourceId);
-                  return source ? (
-                    <a
-                      href={source.url}
-                      key={source.id}
-                      rel="noreferrer"
-                      target="_blank"
-                    >
-                      {source.publisher}：{source.title}
-                    </a>
-                  ) : null;
-                })}
-              </div>
-            </li>
-          ))}
-        </ul>
+        <summary>
+          <span>[ 展开技术实据与来源 ]</span>
+          <small>{factSourceCount} 个官方来源</small>
+        </summary>
+        <div className={styles.evidenceBody}>
+          <section className={styles.factPanel} aria-label="事实支撑">
+            <div className={styles.factPanelHeader}>
+              <h3>事实支撑验证</h3>
+              <span>{factSourceCount} 个官方来源</span>
+            </div>
+            <ul className={styles.factList}>
+              {card.facts.map((fact) => (
+                <li key={fact.id}>
+                  <p>{fact.claim}</p>
+                  {fact.limitations.length > 0 && (
+                    <ul className={styles.factLimits}>
+                      {fact.limitations.map((limitation) => (
+                        <li key={limitation}>{limitation}</li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          {officialSources.length > 0 && (
+            <nav className={styles.sourceShortcuts} aria-label="官方链接">
+              <span>官方链接</span>
+              {officialSources.map((source) => (
+                <a
+                  href={source.url}
+                  key={source.id}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {source.publisher}：{source.title}
+                </a>
+              ))}
+            </nav>
+          )}
+        </div>
       </details>
     </article>
   );
