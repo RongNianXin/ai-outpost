@@ -17,12 +17,24 @@ type IssueViewProps = {
   issue: Issue;
 };
 
+function getSourceCardMap(issue: Issue) {
+  return new Map(
+    issue.sources.map((source) => [
+      source.id,
+      issue.cards.filter((card) =>
+        card.facts.some((fact) => fact.sourceIds.includes(source.id)),
+      ),
+    ]),
+  );
+}
+
 export function IssueView({ issue }: IssueViewProps) {
   const keyCardIds = new Set(issue.topChangeIds);
   const topCards = getTopCards(issue);
   const themeLabels = getIssueThemeLabels(issue);
   const fastTakeaway = getFastTakeaway(issue);
   const focusCount = toChineseCount(topCards.length);
+  const sourceCardMap = getSourceCardMap(issue);
 
   return (
     <article>
@@ -72,8 +84,8 @@ export function IssueView({ issue }: IssueViewProps) {
               </a>
               <a href="#source-list">
                 <span>03</span>
-                <strong>最后查原始来源</strong>
-                <small>需要确认事实时回到官方链接。</small>
+                <strong>最后查来源索引</strong>
+                <small>确认每个来源支撑了哪张情报卡。</small>
               </a>
             </nav>
             <p className={styles.readingTime}>完整阅读约 5 分钟。</p>
@@ -147,22 +159,51 @@ export function IssueView({ issue }: IssueViewProps) {
 
       <section className={styles.sources} aria-labelledby="source-list">
         <p className={styles.sectionCode}>04 / Sources</p>
-        <h2 id="source-list">原始来源</h2>
-        <ol>
-          {issue.sources.map((source) => (
-            <li key={source.id}>
-              <a href={source.url} rel="noreferrer" target="_blank">
-                {source.title}
-              </a>
-              <span>
-                {source.publisher} ·{" "}
-                {source.publishedAt
-                  ? formatDate(source.publishedAt)
-                  : "官方页面未标注发布日期"}
-              </span>
-            </li>
-          ))}
-        </ol>
+        <h2 id="source-list">来源索引</h2>
+        <p className={styles.sourceIntro}>
+          这里列出本期所有官方来源，并标注每个来源支撑了哪些情报卡。卡片内链接用于就地核查，
+          这里用于查看整期来源结构。
+        </p>
+        <details className={styles.sourceDetails}>
+          <summary>
+            <span>展开 {issue.sources.length} 个官方来源与对应情报</span>
+            <small>用于核查，不影响正文阅读</small>
+          </summary>
+          <ol>
+            {issue.sources.map((source, index) => {
+              const supportedCards = sourceCardMap.get(source.id) ?? [];
+
+              return (
+                <li key={source.id}>
+                  <span className={styles.sourceNumber}>
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <a href={source.url} rel="noreferrer" target="_blank">
+                    {source.title}
+                  </a>
+                  <span className={styles.sourceMeta}>
+                    {source.publisher} ·{" "}
+                    {source.publishedAt
+                      ? formatDate(source.publishedAt)
+                      : "官方页面未标注发布日期"}
+                  </span>
+                  {supportedCards.length > 0 && (
+                    <div className={styles.sourceCards}>
+                      <strong>支撑情报</strong>
+                      <ul>
+                        {supportedCards.map((card) => (
+                          <li key={card.id}>
+                            <a href={`#${card.id}`}>{card.title}</a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </li>
+              );
+            })}
+          </ol>
+        </details>
       </section>
 
       {issue.corrections.length > 0 && (

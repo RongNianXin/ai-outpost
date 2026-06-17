@@ -12,7 +12,7 @@
   background: rgb(255 255 255 / 72%);
   color: var(--color-accent);
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.8125rem;
   font-weight: 800;
   letter-spacing: 0.14em;
   padding: 0.35rem 0.6rem;
@@ -67,7 +67,7 @@
 .issueList time {
   color: var(--color-muted);
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.8125rem;
 }
 
 .issueList a {

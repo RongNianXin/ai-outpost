@@ -11,7 +11,7 @@
   margin: 0 0 1.25rem;
   color: var(--color-accent);
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.8125rem;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -78,7 +78,7 @@
 .promiseGrid dd {
   margin: 0.45rem 0 0;
   color: var(--color-muted);
-  font-size: 0.85rem;
+  font-size: 0.875rem;
 }
 
 @media (max-width: 760px) {

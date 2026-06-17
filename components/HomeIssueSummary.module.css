@@ -60,7 +60,7 @@
 .sectionCode,
 .panelCode {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.8125rem;
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -109,7 +109,7 @@
   border-radius: 999px;
   background: rgb(255 255 255 / 76%);
   color: #254064;
-  font-size: 0.84rem;
+  font-size: 0.875rem;
   font-weight: 800;
   line-height: 1.2;
   overflow-wrap: anywhere;
@@ -133,7 +133,7 @@
   background: var(--color-accent);
   color: white;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.8125rem;
   font-weight: 900;
   letter-spacing: 0.1em;
   line-height: 1;
@@ -239,7 +239,7 @@
   background: var(--color-accent-soft);
   color: var(--color-accent);
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.8125rem;
   font-weight: 900;
 }
 
@@ -252,7 +252,7 @@
 
 .valuePanel li small {
   color: var(--color-muted);
-  font-size: 0.82rem;
+  font-size: 0.875rem;
   line-height: 1.45;
 }
 
@@ -271,7 +271,7 @@
 .valuePanel dt {
   color: var(--color-muted);
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.8125rem;
   font-weight: 900;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -394,7 +394,7 @@
   color: var(--color-accent);
   content: counter(signals, decimal-leading-zero);
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.8125rem;
   font-weight: 900;
 }
 
@@ -465,7 +465,7 @@
     flex: 0 1 calc(50% - 4px);
     min-height: 2.35rem;
     border-radius: var(--radius-sm);
-    font-size: 0.78rem;
+    font-size: 0.875rem;
     padding: 0.42rem 0.5rem;
   }
 }
