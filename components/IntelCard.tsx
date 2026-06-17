@@ -38,9 +38,11 @@ export function IntelCard({
         </div>
         <div className={styles.titleBlock}>
           <div className={styles.meta}>
-            <span>{card.category}</span>
-            <span>{card.publisher}</span>
-            <time dateTime={card.occurredAt}>{card.occurredAt}</time>
+            <span className={styles.categoryBadge}>{card.category}</span>
+            <span className={styles.metaMuted}>{card.publisher}</span>
+            <time className={styles.metaMuted} dateTime={card.occurredAt}>
+              {card.occurredAt}
+            </time>
           </div>
           <h2>{card.title}</h2>
           <p className={styles.conclusionLabel}>一句话结论</p>
