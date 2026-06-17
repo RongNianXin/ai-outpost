@@ -4,7 +4,7 @@ import styles from "../simple-page.module.css";
 
 export const metadata: Metadata = {
   title: "关于",
-  description: "了解 AI 前哨站的来源、审核方法和内容原则。",
+  description: "了解 AI 前哨站的来源、自动验证方法和内容原则。",
 };
 
 export default function AboutPage() {
@@ -26,10 +26,11 @@ export default function AboutPage() {
         “AI 交叉核查事实”说明官方真正发布了什么；“影响分析”解释它与 AI
         应用开发者的关系；“行动建议”给出此刻更适合忽略、收藏、学习还是动手验证。
       </p>
-      <h2>人工最终批准</h2>
+      <h2>AI 自动验证说明</h2>
       <p>
-        AI 协助收集、去重、分类、评分、起草和质检，但正式内容必须经过人工批准。
-        没有明确证据定位的候选直接淘汰。发布后发现错误时会留下公开更正记录。
+        内容由 AI 自动检索、整理和生成，并经过多轮 AI 交叉校验。系统会在构建前检查字段完整性、
+        来源引用关系、模糊行动表述和官方来源链接。自动验证只能降低错误概率，不能替代原始来源；
+        重要信息请以官方链接为准。发布后发现错误时会留下公开更正记录。
       </p>
     </article>
   );

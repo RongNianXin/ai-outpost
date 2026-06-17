@@ -1,5 +1,6 @@
 .issueHeader,
 .topChanges,
+.verificationPanel,
 .cards,
 .actionSection,
 .glossary,
@@ -319,6 +320,7 @@
 
 .topChanges > div,
 .topChanges ol,
+.verificationPanel,
 .cardsHeader,
 .opportunities,
 .practice,
@@ -336,6 +338,7 @@
 }
 
 .topChanges h2,
+.verificationPanel h2,
 .cardsHeader h2,
 .opportunities h2,
 .practice h2,
@@ -411,6 +414,19 @@
   color: var(--color-muted);
   font-size: 0.88rem;
   line-height: 1.65;
+}
+
+.verificationPanel {
+  margin-top: 1rem;
+  padding: clamp(1.1rem, 3vw, 1.45rem);
+}
+
+.verificationPanel p:last-child {
+  max-width: 880px;
+  margin: 0.82rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.94rem;
+  line-height: 1.72;
 }
 
 .cards {
@@ -665,6 +681,7 @@
 @media (max-width: 640px) {
   .issueHeader,
   .topChanges,
+  .verificationPanel,
   .cards,
   .actionSection,
   .glossary,

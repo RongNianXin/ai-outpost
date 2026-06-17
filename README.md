@@ -12,7 +12,7 @@ AI 前哨站是一份面向 AI 应用创造者的低维护情报周报。
 - 突出本期最多 3 个重要变化
 - 提供产品机会和一个 30 至 120 分钟的实践任务
 - 同一份结构化内容生成网页和微信公众号草稿
-- 将发布者阅读中文摘要、网页预览和发布控制在 15 至 30 分钟，硬上限 45 分钟
+- 使用 AI 交叉核查、离线内容校验和发布前链接检查降低人工审核成本
 - 使用静态网站部署，不维护数据库和应用服务器
 
 ## 技术方案
@@ -33,6 +33,7 @@ AI 前哨站是一份面向 AI 应用创造者的低维护情报周报。
 pnpm.cmd install
 pnpm.cmd dev
 pnpm.cmd content:validate
+pnpm.cmd content:check:links
 pnpm.cmd content:export:wechat
 pnpm.cmd lint
 pnpm.cmd typecheck
@@ -56,18 +57,32 @@ Get-Content -Raw -Encoding UTF8 content\issues\example-draft.json
 
 ## 项目文档
 
+- [当前任务状态](task_plan.md)
+- [长期项目发现](findings.md)
+- [当前进度摘要](progress.md)
 - [产品定义](docs/PRODUCT.md)
 - [版本路线](docs/ROADMAP.md)
 - [技术架构](docs/ARCHITECTURE.md)
 - [内容生产流程](docs/CONTENT-OPS.md)
+- [项目工作流](docs/WORKFLOW.md)
 - [关键决策](docs/DECISIONS.md)
 - [研发进度](docs/PROGRESS.md)
 
+## 新会话接手
+
+新会话或新 AI 接手时，先读取：
+
+1. `task_plan.md`
+2. `findings.md`
+3. `progress.md`
+
+然后只按当前任务读取必要文件，不默认扫描全仓库。复杂任务再查阅 `docs/` 下的详细产品、架构和内容流程文档。
+
 ## 当前状态
 
-项目处于 V1 本地预览阶段。第 001 期已完成标准化 AI 交叉核查并进入本地预览，但尚未获得公开发布批准。生产构建不会包含该期内容，GitHub Pages 部署也只能手动触发。
+项目处于 V1 本地预览阶段。第 001 期已完成标准化 AI 交叉核查并进入本地预览，但尚未进入公开发布状态。生产构建不会包含该期内容，GitHub Pages 部署也只能手动触发。自动验证只能降低错误概率，重要信息仍以官方来源为准。
 
-发布者审核入口：
+自动验证入口：
 
-- [第 001 期审核包](docs/reviews/ISSUE-001-REVIEW.md)
+- [第 001 期自动验证摘要](docs/reviews/ISSUE-001-REVIEW.md)
 - [AI 事实核验协议](docs/FACT-CHECK-PROTOCOL.md)

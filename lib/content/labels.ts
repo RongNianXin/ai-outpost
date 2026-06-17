@@ -40,8 +40,8 @@ export const technicalRiskLabels: Record<IntelCard["reviewRisk"], string> = {
 };
 
 export const issueStatusLabels: Record<Issue["status"], string> = {
-  draft: "草稿",
-  approved: "已批准",
+  draft: "待验证",
+  approved: "AI 已验证",
   published: "已发布",
   corrected: "已更正",
 };

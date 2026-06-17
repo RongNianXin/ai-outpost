@@ -12,6 +12,7 @@
     "build": "next build",
     "start": "next start",
     "content:validate": "tsx scripts/content/validate.ts",
+    "content:check:links": "tsx scripts/content/check-links.ts",
     "content:export:wechat": "tsx scripts/content/export-wechat.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",

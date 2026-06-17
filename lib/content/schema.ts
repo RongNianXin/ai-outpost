@@ -297,19 +297,12 @@ export const issueSchema = z
         context.addIssue({
           code: "custom",
           path: ["editorial", "previewApprovedAt"],
-          message: "Approved issues require preview approval.",
+          message: "Approved issues require automated preview verification.",
         });
       }
     }
 
     if (publicStatus) {
-      if (!issue.editorial.publicationApprovedAt) {
-        context.addIssue({
-          code: "custom",
-          path: ["editorial", "publicationApprovedAt"],
-          message: "Public issues require separate publication approval.",
-        });
-      }
       if (!issue.publishedAt) {
         context.addIssue({
           code: "custom",

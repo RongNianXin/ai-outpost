@@ -6,6 +6,16 @@ export type ContentValidationError = {
   message: string;
 };
 
+const vagueActionPhrases = [
+  "保持关注",
+  "建议试用",
+  "拭目以待",
+  "根据实际情况决定",
+  "视情况而定",
+  "值得关注",
+  "持续观察",
+];
+
 export function validateContentCollection(
   issues: Array<{ fileName: string; issue: Issue }>,
   catalog: SourceCatalogEntry[],
@@ -56,9 +66,64 @@ export function validateContentCollection(
         });
       }
     });
+
+    addVaguePhraseErrors(fileName, issue, errors);
   });
 
   return errors;
+}
+
+function addVaguePhraseErrors(
+  fileName: string,
+  issue: Issue,
+  errors: ContentValidationError[],
+) {
+  issue.cards.forEach((card, cardIndex) => {
+    checkTextForVaguePhrases(
+      `${fileName}.cards.${cardIndex}.oneLineSummary`,
+      card.oneLineSummary,
+      errors,
+    );
+  });
+
+  issue.opportunities.forEach((opportunity, opportunityIndex) => {
+    checkTextForVaguePhrases(
+      `${fileName}.opportunities.${opportunityIndex}.rationale`,
+      opportunity.rationale,
+      errors,
+    );
+  });
+
+  checkTextForVaguePhrases(
+    `${fileName}.practiceTask.objective`,
+    issue.practiceTask.objective,
+    errors,
+  );
+
+  issue.practiceTask.steps.forEach((step, stepIndex) => {
+    checkTextForVaguePhrases(
+      `${fileName}.practiceTask.steps.${stepIndex}`,
+      step,
+      errors,
+    );
+  });
+}
+
+function checkTextForVaguePhrases(
+  path: string,
+  value: string,
+  errors: ContentValidationError[],
+) {
+  const matchedPhrase = vagueActionPhrases.find((phrase) =>
+    value.includes(phrase),
+  );
+
+  if (matchedPhrase) {
+    errors.push({
+      path,
+      message: `Vague action phrase "${matchedPhrase}" is not allowed. Use a concrete next action instead.`,
+    });
+  }
 }
 
 function addDuplicateCollectionErrors(
