@@ -113,6 +113,16 @@ export function IssueView({ issue, canonicalPage = false }: IssueViewProps) {
         </section>
       )}
 
+      <section className={styles.verificationPanel} aria-labelledby="ai-verification">
+        <p className={styles.sectionCode}>Auto Verification</p>
+        <h2 id="ai-verification">AI 自动验证说明</h2>
+        <p>
+          本站内容由 AI 自动检索、整理和生成，并经过多轮 AI 交叉校验。构建前会执行字段完整性、
+          来源引用、模糊行动表述和链接活体检查。自动验证用于降低错误概率，不能替代原始来源；
+          重要信息请以官方链接为准。
+        </p>
+      </section>
+
       <section className={styles.cards} aria-label="本期情报卡">
         <div className={styles.cardsHeader}>
           <p className={styles.sectionCode}>02 / 情报卡</p>

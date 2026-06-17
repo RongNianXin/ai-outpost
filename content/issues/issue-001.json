@@ -400,6 +400,6 @@
     "factCheckCompletedAt": "2026-06-17T11:20:00.000+08:00",
     "previewApprovedAt": "2026-06-17T11:30:00.000+08:00",
     "publicationApprovedAt": null,
-    "notes": "第 001 期已按 2026-06-17 覆盖更新，仅用于本地预览。保留官方来源和 AI 交叉核查状态，尚未获得公开发布批准。MCP 本期通过 Cursor SDK custom tools 的内置 MCP server 观察，不强行加入缺乏新官方更新的独立 MCP 新闻。"
+    "notes": "第 001 期已按 2026-06-17 覆盖更新，仅用于本地预览。保留官方来源和 AI 交叉核查状态，尚未切换公开发布状态。MCP 本期通过 Cursor SDK custom tools 的内置 MCP server 观察，不强行加入缺乏新官方更新的独立 MCP 新闻。"
   }
 }

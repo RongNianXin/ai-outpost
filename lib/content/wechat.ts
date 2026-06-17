@@ -98,7 +98,7 @@ export function renderWechatMarkdown(issue: Issue): string {
   lines.push(
     "---",
     "",
-    "来源事实、AI 分析和行动建议已分层整理；正式发布前仍需人工确认。",
+    "来源事实、AI 分析和行动建议已按单列文本流整理。内容经过 AI 交叉校验和脚本检查；重要信息请以官方来源为准。",
     "",
   );
 

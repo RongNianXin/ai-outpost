@@ -52,7 +52,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <main id="main-content">{children}</main>
         <footer className={styles.footer}>
           <p>看见变化，理解影响，立即行动。</p>
-          <p>内容经 AI 辅助整理，重要事实由人工批准后发布。</p>
+          <p>内容由 AI 自动整理并交叉校验；重要信息请以官方来源为准。</p>
         </footer>
       </body>
     </html>

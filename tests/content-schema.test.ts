@@ -106,16 +106,16 @@ describe("issueSchema", () => {
     ).toBe("approved");
   });
 
-  it("requires separate publication approval for public issues", () => {
-    expect(() =>
+  it("allows public issues without a separate human publication approval", () => {
+    expect(
       issueSchema.parse({
         ...baseIssue,
         editorial: {
           ...baseIssue.editorial,
           publicationApprovedAt: null,
         },
-      }),
-    ).toThrow(/publication approval/i);
+      }).status,
+    ).toBe("published");
   });
 
   it("requires a publication date for public issues", () => {
@@ -260,9 +260,9 @@ describe("validateContentCollection", () => {
       catalog,
     );
 
-    expect(errors.some((error) => error.message.includes("Duplicate issue slug"))).toBe(
-      true,
-    );
+    expect(
+      errors.some((error) => error.message.includes("Duplicate issue slug")),
+    ).toBe(true);
   });
 
   it("rejects evidence URLs outside the official allowlist", () => {
@@ -273,6 +273,34 @@ describe("validateContentCollection", () => {
     );
 
     expect(errors.some((error) => error.message.includes("outside"))).toBe(true);
+  });
+
+  it("rejects vague action phrases in free text fields", () => {
+    const issue = issueSchema.parse({
+      ...baseIssue,
+      cards: [
+        {
+          ...baseIssue.cards[0],
+          oneLineSummary: "这项变化值得保持关注，后续再根据实际情况决定。",
+        },
+      ],
+    });
+    const errors = validateContentCollection(
+      [{ fileName: "issue.json", issue }],
+      sourceCatalogSchema.parse([
+        {
+          id: "official-source",
+          name: "Official Source",
+          homepage: "https://example.com/",
+          officialUrls: ["https://example.com/"],
+          topics: ["models"],
+        },
+      ]),
+    );
+
+    expect(
+      errors.some((error) => error.message.includes("Vague action phrase")),
+    ).toBe(true);
   });
 });
 

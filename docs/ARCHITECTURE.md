@@ -23,13 +23,14 @@
   -> AI 候选与证据包
   -> AI 独立质检
   -> draft JSON
-  -> Zod 校验
-  -> 人工批准
+  -> 离线结构校验
+  -> 联网链接校验
+  -> AI 自动验证说明
   -> Next.js 网页 / 微信公众号 Markdown
   -> GitHub Pages
 ```
 
-结构化 JSON 是唯一事实源。AI 先生成 `draft` JSON，多轮独立质检通过后将事实标记为 `ai_cross_checked`。发布者同意本地预览后记录 `previewApprovedAt` 并改为 `approved`；发布者再次明确批准公开后，才记录 `publicationApprovedAt` 与 `publishedAt` 并改为 `published`。转换器只能改变表达方式，不能创造新的硬事实。
+结构化 JSON 是唯一事实源。AI 先生成 `draft` JSON，多轮独立质检通过后将事实标记为 `ai_cross_checked`。离线校验负责字段、枚举、引用关系和反套话检查；联网校验负责发布前来源链接活体检查。本地预览通过后记录 `previewApprovedAt` 并改为 `approved`；公开发布时记录 `publishedAt` 并改为 `published`。`publicationApprovedAt` 作为旧字段保留兼容，不再作为公开发布闸门。转换器只能改变表达方式，不能创造新的硬事实。
 
 本地开发模式会显示 `approved` 内容用于网页预览，公众号转换器也允许导出 `approved` 草稿；生产构建只包含 `published` 和 `corrected`。
 
@@ -38,7 +39,7 @@
 - `/`：最新一期
 - `/archive/`：历史归档
 - `/issues/[slug]/`：期刊详情
-- `/about/`：方法、来源和审核原则
+- `/about/`：方法、来源和自动验证原则
 
 动态期刊路由使用 `generateStaticParams` 在构建时生成。
 

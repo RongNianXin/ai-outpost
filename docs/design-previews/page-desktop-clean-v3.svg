@@ -204,7 +204,7 @@
       <text x="48" y="166" class="muted small">低置信度：先用表格记录额度和时间。</text>
       <rect x="28" y="196" width="548" height="64" rx="16" fill="#F8FAFC" stroke="#D8E2EE"/>
       <text x="48" y="223" class="ink body" font-weight="850">给 AI 输出增加一道检查</text>
-      <text x="48" y="246" class="muted small">低置信度：正常展示、隐藏、人工确认。</text>
+      <text x="48" y="246" class="muted small">低置信度：正常展示、隐藏、二次确认。</text>
     </g>
     <g transform="translate(646 0)">
       <rect x="0" y="0" width="604" height="286" rx="24" fill="#FFFFFF" stroke="#D8E2EE"/>
@@ -214,7 +214,7 @@
       <g transform="translate(28 146)">
         <text x="0" y="0" class="ink body" font-weight="850">1. 选择 AI 功能或 AI 客服回复</text>
         <text x="0" y="34" class="ink body" font-weight="850">2. 画出输入、生成、工具调用、展示</text>
-        <text x="0" y="68" class="ink body" font-weight="850">3. 标记自动检查和人工确认边界</text>
+        <text x="0" y="68" class="ink body" font-weight="850">3. 标记自动检查和高风险边界</text>
         <text x="0" y="102" class="ink body" font-weight="850">4. 写成下一次开发任务</text>
       </g>
     </g>
@@ -225,6 +225,6 @@
     <text x="28" y="44" class="blue label">术语与来源</text>
     <text x="28" y="76" class="muted body">术语解释和原始来源保留在页尾，降低首屏噪音，但不牺牲可追溯性。</text>
     <text x="850" y="44" class="muted small">OpenAI API Changelog · GitHub Changelog · Gemini Release Notes</text>
-    <text x="850" y="76" class="muted small">所有正式发布内容仍需人工批准。</text>
+    <text x="850" y="76" class="muted small">自动验证降低错误概率，重要信息以官方来源为准。</text>
   </g>
 </svg>

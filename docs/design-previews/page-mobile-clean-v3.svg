@@ -158,7 +158,7 @@
       <text x="20" y="108" class="muted body">45 分钟，不需要 API、不需要付费。</text>
       <text x="20" y="148" class="ink body" font-weight="850">1. 选择 AI 功能或 AI 客服回复</text>
       <text x="20" y="180" class="ink body" font-weight="850">2. 画出输入、生成、工具调用、展示</text>
-      <text x="20" y="212" class="ink body" font-weight="850">3. 标记自动检查和人工确认边界</text>
+      <text x="20" y="212" class="ink body" font-weight="850">3. 标记自动检查和高风险边界</text>
     </g>
 
     <text x="36" y="2540" class="muted small">术语解释与原始来源置于页尾，保留可追溯性。</text>
