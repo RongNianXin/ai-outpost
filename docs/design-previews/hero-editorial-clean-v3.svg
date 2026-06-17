@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">AI Outpost clean editorial hero preview</title>
+  <desc id="desc">A cleaner editorial-style hero preview for AI Outpost, with restrained typography, clear hierarchy, and no text collisions.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F8FBFF"/>
+      <stop offset="0.52" stop-color="#EFF5FB"/>
+      <stop offset="1" stop-color="#F7F8FA"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0F172A"/>
+      <stop offset="0.65" stop-color="#1D4ED8"/>
+      <stop offset="1" stop-color="#38BDF8"/>
+    </linearGradient>
+    <linearGradient id="visual" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#DBEAFE"/>
+      <stop offset="0.48" stop-color="#F8FAFC"/>
+      <stop offset="1" stop-color="#FFF7ED"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="20" flood-color="#0F172A" flood-opacity="0.09"/>
+    </filter>
+    <style>
+      .font { font-family: Arial, "Microsoft YaHei", "PingFang SC", sans-serif; }
+      .mono { font-family: Consolas, "SFMono-Regular", monospace; }
+      .ink { fill: #0B1220; }
+      .muted { fill: #64748B; }
+      .blue { fill: #2563EB; }
+      .orange { fill: #9A5A00; }
+      .small { font-size: 14px; }
+      .label { font-size: 12px; font-weight: 800; letter-spacing: 1.4px; }
+      .chip { font-size: 13px; font-weight: 800; }
+      .headline { font-size: 48px; font-weight: 860; letter-spacing: -1.9px; }
+      .subhead { font-size: 19px; line-height: 1.6; }
+      .signalTitle { font-size: 20px; font-weight: 850; letter-spacing: -0.4px; }
+      .signalMeta { font-size: 13px; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="760" fill="url(#bg)"/>
+  <circle cx="190" cy="96" r="250" fill="#2563EB" opacity="0.08"/>
+  <circle cx="1010" cy="98" r="230" fill="#F59E0B" opacity="0.08"/>
+
+  <g class="font">
+    <rect x="0" y="0" width="1200" height="54" fill="#F8FBFF" opacity="0.94"/>
+    <line x1="0" y1="54" x2="1200" y2="54" stroke="#D8E2EE"/>
+    <rect x="52" y="12" width="32" height="32" rx="10" fill="url(#mark)"/>
+    <text x="68" y="33" text-anchor="middle" fill="#FFFFFF" font-size="13" font-weight="850">AI</text>
+    <text x="98" y="24" class="ink" font-size="16" font-weight="850">AI 前哨站</text>
+    <text x="98" y="42" class="muted mono" font-size="9" letter-spacing="2">AI OUTPOST</text>
+    <text x="890" y="31" class="muted" font-size="14">最新一期</text>
+    <text x="990" y="31" class="muted" font-size="14">历史归档</text>
+    <text x="1090" y="31" class="muted" font-size="14">关于</text>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <rect x="48" y="98" width="1104" height="612" rx="30" fill="#FFFFFF" stroke="#D8E2EE"/>
+  </g>
+
+  <g class="font">
+    <g transform="translate(88 138)">
+      <rect x="0" y="0" width="330" height="34" rx="17" fill="#F8FAFC" stroke="#CBD5E1"/>
+      <text x="18" y="22" class="mono muted" font-size="12" font-weight="800">ISSUE 001</text>
+      <circle cx="104" cy="17" r="3" fill="#CBD5E1"/>
+      <text x="118" y="22" class="muted" font-size="12" font-weight="800">已批准</text>
+      <circle cx="178" cy="17" r="3" fill="#CBD5E1"/>
+      <text x="192" y="22" class="mono muted" font-size="12" font-weight="800">06.01 - 06.07</text>
+
+      <text x="0" y="82" class="blue label">本期核心判断</text>
+      <text x="0" y="142" class="ink headline">AI 开发者本周</text>
+      <text x="0" y="198" class="ink headline">需要关注的三件事</text>
+      <text x="0" y="242" class="muted subhead">更安全地用 AI，控制成本，并及时更新旧模型。</text>
+
+      <g transform="translate(0 274)">
+        <rect x="0" y="0" width="94" height="34" rx="17" fill="#EFF6FF" stroke="#BFDBFE"/>
+        <text x="47" y="22" text-anchor="middle" class="blue chip">审核安全</text>
+        <rect x="106" y="0" width="98" height="34" rx="17" fill="#F8FAFC" stroke="#CBD5E1"/>
+        <text x="155" y="22" text-anchor="middle" class="ink chip">Agent 基建</text>
+        <rect x="216" y="0" width="94" height="34" rx="17" fill="#FFF7ED" stroke="#FDBA74"/>
+        <text x="263" y="22" text-anchor="middle" class="orange chip">成本计量</text>
+        <rect x="322" y="0" width="94" height="34" rx="17" fill="#F8FAFC" stroke="#CBD5E1"/>
+        <text x="369" y="22" text-anchor="middle" class="muted chip">模型迁移</text>
+      </g>
+
+      <rect x="0" y="342" width="600" height="104" rx="22" fill="#F8FAFC" stroke="#D8E2EE"/>
+      <rect x="20" y="366" width="76" height="28" rx="14" fill="#2563EB"/>
+      <text x="58" y="385" text-anchor="middle" fill="#FFFFFF" class="label">5 秒结论</text>
+      <text x="20" y="424" class="ink" font-size="22" font-weight="850">Agent 开发正在从“功能演示”转向“安全、成本、基础设施”。</text>
+    </g>
+
+    <g transform="translate(748 138)">
+      <rect x="0" y="0" width="344" height="390" rx="26" fill="#F8FAFC" stroke="#D8E2EE"/>
+      <rect x="24" y="24" width="296" height="190" rx="24" fill="url(#visual)" stroke="#CBD5E1"/>
+      <path d="M70 154 C116 82, 182 214, 256 72" fill="none" stroke="#2563EB" stroke-width="4" stroke-linecap="round" opacity="0.78"/>
+      <circle cx="70" cy="154" r="9" fill="#2563EB"/>
+      <circle cx="151" cy="142" r="9" fill="#0F172A"/>
+      <circle cx="256" cy="72" r="9" fill="#F59E0B"/>
+      <rect x="42" y="40" width="96" height="28" rx="14" fill="#FFFFFF" opacity="0.86"/>
+      <text x="90" y="59" text-anchor="middle" class="blue" font-size="13" font-weight="850">官方来源</text>
+      <rect x="176" y="164" width="118" height="28" rx="14" fill="#FFFFFF" opacity="0.86"/>
+      <text x="235" y="183" text-anchor="middle" class="muted" font-size="13" font-weight="850">行动建议</text>
+
+      <text x="24" y="254" class="blue label">本期重点</text>
+      <text x="24" y="288" class="ink" font-size="27" font-weight="850">从资讯到行动</text>
+      <text x="24" y="320" class="muted small">每条情报保留事实、影响、成熟度与建议行动。</text>
+
+      <g transform="translate(24 342)">
+        <rect x="0" y="0" width="86" height="46" rx="14" fill="#FFFFFF" stroke="#D8E2EE"/>
+        <text x="16" y="20" class="muted" font-size="12">情报卡</text>
+        <text x="16" y="39" class="blue" font-size="23" font-weight="900">5</text>
+        <rect x="104" y="0" width="86" height="46" rx="14" fill="#FFFFFF" stroke="#D8E2EE"/>
+        <text x="120" y="20" class="muted" font-size="12">重点变化</text>
+        <text x="120" y="39" class="blue" font-size="23" font-weight="900">3</text>
+        <rect x="208" y="0" width="86" height="46" rx="14" fill="#FFFFFF" stroke="#D8E2EE"/>
+        <text x="224" y="20" class="muted" font-size="12">实践</text>
+        <text x="224" y="39" class="blue" font-size="23" font-weight="900">45</text>
+      </g>
+    </g>
+
+    <g transform="translate(88 594)">
+      <text x="0" y="0" class="blue label">三条重点信号</text>
+      <g transform="translate(0 24)">
+        <rect x="0" y="0" width="318" height="76" rx="18" fill="#FFFFFF" stroke="#D8E2EE"/>
+        <rect x="18" y="20" width="36" height="36" rx="12" fill="#EFF6FF"/>
+        <text x="36" y="43" text-anchor="middle" class="blue" font-size="14" font-weight="900">01</text>
+        <text x="68" y="30" class="ink signalTitle">内容审核进入生成链路</text>
+        <text x="68" y="54" class="muted signalMeta">OpenAI · 学习</text>
+      </g>
+      <g transform="translate(340 24)">
+        <rect x="0" y="0" width="318" height="76" rx="18" fill="#FFFFFF" stroke="#D8E2EE"/>
+        <rect x="18" y="20" width="36" height="36" rx="12" fill="#F8FAFC"/>
+        <text x="36" y="43" text-anchor="middle" class="ink" font-size="14" font-weight="900">02</text>
+        <text x="68" y="30" class="ink signalTitle">Copilot SDK 正式可用</text>
+        <text x="68" y="54" class="muted signalMeta">GitHub · 学习</text>
+      </g>
+      <g transform="translate(680 24)">
+        <rect x="0" y="0" width="318" height="76" rx="18" fill="#FFFFFF" stroke="#D8E2EE"/>
+        <rect x="18" y="20" width="36" height="36" rx="12" fill="#FFF7ED"/>
+        <text x="36" y="43" text-anchor="middle" class="orange" font-size="14" font-weight="900">03</text>
+        <text x="68" y="30" class="ink signalTitle">Agent 沙箱进入预览</text>
+        <text x="68" y="54" class="muted signalMeta">GitHub · 学习</text>
+      </g>
+    </g>
+  </g>
+</svg>

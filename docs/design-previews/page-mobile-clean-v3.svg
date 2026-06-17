@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="430" height="2600" viewBox="0 0 430 2600" role="img" aria-labelledby="title desc">
+  <title id="title">AI Outpost mobile full page preview</title>
+  <desc id="desc">A mobile full-page preview for AI Outpost with single-column layout and compact information cards.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F8FBFF"/>
+      <stop offset="0.52" stop-color="#EFF5FB"/>
+      <stop offset="1" stop-color="#F7F8FA"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0F172A"/>
+      <stop offset="0.65" stop-color="#1D4ED8"/>
+      <stop offset="1" stop-color="#38BDF8"/>
+    </linearGradient>
+    <style>
+      .font { font-family: Arial, "Microsoft YaHei", "PingFang SC", sans-serif; }
+      .mono { font-family: Consolas, "SFMono-Regular", monospace; }
+      .ink { fill: #0B1220; }
+      .muted { fill: #64748B; }
+      .blue { fill: #2563EB; }
+      .orange { fill: #9A5A00; }
+      .label { font-size: 11px; font-weight: 850; letter-spacing: 1.2px; }
+      .headline { font-size: 35px; font-weight: 860; letter-spacing: -1.4px; }
+      .sectionTitle { font-size: 25px; font-weight: 850; letter-spacing: -0.7px; }
+      .cardTitle { font-size: 20px; font-weight: 850; letter-spacing: -0.45px; }
+      .body { font-size: 15px; }
+      .small { font-size: 12px; }
+      .chip { font-size: 12px; font-weight: 800; }
+    </style>
+  </defs>
+
+  <rect width="430" height="2600" fill="url(#bg)"/>
+  <g class="font">
+    <rect x="0" y="0" width="430" height="62" fill="#F8FBFF"/>
+    <line x1="0" y1="62" x2="430" y2="62" stroke="#D8E2EE"/>
+    <rect x="18" y="14" width="34" height="34" rx="11" fill="url(#mark)"/>
+    <text x="35" y="36" text-anchor="middle" fill="#FFFFFF" font-size="13" font-weight="850">AI</text>
+    <text x="66" y="26" class="ink" font-size="16" font-weight="850">AI 前哨站</text>
+    <text x="66" y="45" class="muted mono" font-size="9" letter-spacing="2">AI OUTPOST</text>
+
+    <rect x="14" y="88" width="402" height="570" rx="26" fill="#FFFFFF" stroke="#D8E2EE"/>
+    <g transform="translate(34 120)">
+      <rect x="0" y="0" width="260" height="32" rx="16" fill="#F8FAFC" stroke="#CBD5E1"/>
+      <text x="16" y="21" class="mono muted" font-size="11" font-weight="800">ISSUE 001</text>
+      <circle cx="94" cy="16" r="3" fill="#CBD5E1"/>
+      <text x="108" y="21" class="muted" font-size="11" font-weight="800">已批准</text>
+      <circle cx="164" cy="16" r="3" fill="#CBD5E1"/>
+      <text x="178" y="21" class="mono muted" font-size="11" font-weight="800">06.01 - 06.07</text>
+
+      <text x="0" y="76" class="blue label">本期核心判断</text>
+      <text x="0" y="126" class="ink headline">AI 开发者本周</text>
+      <text x="0" y="168" class="ink headline">需要关注的三件事</text>
+      <text x="0" y="206" class="muted body">更安全地用 AI，控制成本，并及时更新旧模型。</text>
+
+      <g transform="translate(0 236)">
+        <rect x="0" y="0" width="82" height="32" rx="16" fill="#EFF6FF" stroke="#BFDBFE"/>
+        <text x="41" y="21" text-anchor="middle" class="blue chip">审核安全</text>
+        <rect x="92" y="0" width="88" height="32" rx="16" fill="#F8FAFC" stroke="#CBD5E1"/>
+        <text x="136" y="21" text-anchor="middle" class="ink chip">Agent 基建</text>
+        <rect x="190" y="0" width="82" height="32" rx="16" fill="#FFF7ED" stroke="#FDBA74"/>
+        <text x="231" y="21" text-anchor="middle" class="orange chip">成本计量</text>
+        <rect x="0" y="42" width="82" height="32" rx="16" fill="#F8FAFC" stroke="#CBD5E1"/>
+        <text x="41" y="63" text-anchor="middle" class="muted chip">模型迁移</text>
+      </g>
+
+      <rect x="0" y="336" width="362" height="118" rx="20" fill="#F8FAFC" stroke="#D8E2EE"/>
+      <rect x="18" y="360" width="72" height="26" rx="13" fill="#2563EB"/>
+      <text x="54" y="378" text-anchor="middle" fill="#FFFFFF" class="label">5 秒结论</text>
+      <text x="18" y="412" class="ink" font-size="18" font-weight="850">Agent 开发正在从“功能演示”转向</text>
+      <text x="18" y="438" class="ink" font-size="18" font-weight="850">“安全、成本、基础设施”。</text>
+
+      <rect x="0" y="482" width="362" height="50" rx="16" fill="#EFF6FF" stroke="#BFDBFE"/>
+      <text x="18" y="512" class="blue" font-size="15" font-weight="850">本期：5 张情报卡 · 3 个重点变化 · 45 分钟实践</text>
+    </g>
+
+    <g transform="translate(14 690)">
+      <text x="0" y="0" class="blue label">三条重点信号</text>
+      <g transform="translate(0 24)">
+        <rect x="0" y="0" width="402" height="84" rx="18" fill="#FFFFFF" stroke="#D8E2EE"/>
+        <rect x="18" y="22" width="38" height="38" rx="12" fill="#EFF6FF"/>
+        <text x="37" y="47" text-anchor="middle" class="blue" font-size="14" font-weight="900">01</text>
+        <text x="70" y="32" class="ink cardTitle">内容审核进入生成链路</text>
+        <text x="70" y="58" class="muted small">OpenAI · 学习 · 低噪声</text>
+      </g>
+      <g transform="translate(0 122)">
+        <rect x="0" y="0" width="402" height="84" rx="18" fill="#FFFFFF" stroke="#D8E2EE"/>
+        <rect x="18" y="22" width="38" height="38" rx="12" fill="#F8FAFC"/>
+        <text x="37" y="47" text-anchor="middle" class="ink" font-size="14" font-weight="900">02</text>
+        <text x="70" y="32" class="ink cardTitle">Copilot SDK 正式可用</text>
+        <text x="70" y="58" class="muted small">GitHub · 学习 · 中噪声</text>
+      </g>
+      <g transform="translate(0 220)">
+        <rect x="0" y="0" width="402" height="84" rx="18" fill="#FFFFFF" stroke="#D8E2EE"/>
+        <rect x="18" y="22" width="38" height="38" rx="12" fill="#FFF7ED"/>
+        <text x="37" y="47" text-anchor="middle" class="orange" font-size="14" font-weight="900">03</text>
+        <text x="70" y="32" class="ink cardTitle">Agent 沙箱进入预览</text>
+        <text x="70" y="58" class="muted small">GitHub · 学习 · 低噪声</text>
+      </g>
+    </g>
+
+    <g transform="translate(14 1040)">
+      <text x="0" y="0" class="blue label">情报卡</text>
+      <text x="0" y="36" class="ink sectionTitle">先看结论，再看事实支撑</text>
+      <text x="0" y="64" class="muted body">减少装饰标签，业务分类高亮，来源置灰。</text>
+
+      <g transform="translate(0 94)">
+        <rect x="0" y="0" width="402" height="254" rx="22" fill="#FFFFFF" stroke="#BFDBFE"/>
+        <rect x="20" y="24" width="74" height="28" rx="14" fill="#EFF6FF" stroke="#BFDBFE"/>
+        <text x="57" y="43" text-anchor="middle" class="blue chip">应用安全</text>
+        <text x="108" y="43" class="muted small">OpenAI · 06-04</text>
+        <text x="20" y="84" class="ink cardTitle">OpenAI 把内容审核结果放进生成请求</text>
+        <text x="20" y="118" class="ink body" font-weight="850">生成请求可同时返回输入与输出的审核结果。</text>
+        <rect x="20" y="146" width="362" height="70" rx="16" fill="#F8FAFC" stroke="#D8E2EE"/>
+        <text x="38" y="174" class="muted small">事实：OpenAI 更新 Responses API 和 Chat</text>
+        <text x="38" y="197" class="muted small">Completions API；应用仍需自行处理。</text>
+        <rect x="20" y="226" width="70" height="24" rx="12" fill="#FFF7ED" stroke="#FDBA74"/>
+        <text x="55" y="243" text-anchor="middle" class="orange chip">学习</text>
+      </g>
+
+      <g transform="translate(0 374)">
+        <rect x="0" y="0" width="402" height="244" rx="22" fill="#FFFFFF" stroke="#D8E2EE"/>
+        <rect x="20" y="24" width="74" height="28" rx="14" fill="#F8FAFC" stroke="#CBD5E1"/>
+        <text x="57" y="43" text-anchor="middle" class="ink chip">Agent</text>
+        <text x="108" y="43" class="muted small">GitHub · 06-02</text>
+        <text x="20" y="84" class="ink cardTitle">GitHub Copilot SDK 正式 GA</text>
+        <text x="20" y="118" class="ink body" font-weight="850">Copilot 的 Agent 能力可嵌入其它应用。</text>
+        <rect x="20" y="146" width="362" height="60" rx="16" fill="#F8FAFC" stroke="#D8E2EE"/>
+        <text x="38" y="174" class="muted small">事实：GitHub 公告将 SDK 标记为正式可用。</text>
+        <rect x="20" y="216" width="70" height="24" rx="12" fill="#FFF7ED" stroke="#FDBA74"/>
+        <text x="55" y="233" text-anchor="middle" class="orange chip">学习</text>
+      </g>
+
+      <g transform="translate(0 644)">
+        <rect x="0" y="0" width="402" height="224" rx="22" fill="#FFFFFF" stroke="#D8E2EE"/>
+        <rect x="20" y="24" width="74" height="28" rx="14" fill="#EFF6FF" stroke="#BFDBFE"/>
+        <text x="57" y="43" text-anchor="middle" class="blue chip">安全</text>
+        <text x="108" y="43" class="muted small">GitHub · 06-02</text>
+        <text x="20" y="84" class="ink cardTitle">Copilot 沙箱进入公共预览</text>
+        <text x="20" y="118" class="ink body" font-weight="850">Agent 权限控制开始加入隔离执行环境。</text>
+        <rect x="20" y="146" width="362" height="48" rx="16" fill="#F8FAFC" stroke="#D8E2EE"/>
+        <text x="38" y="176" class="muted small">本地和云端沙箱边界仍需继续验证。</text>
+      </g>
+    </g>
+
+    <g transform="translate(14 1980)">
+      <rect x="0" y="0" width="402" height="210" rx="22" fill="#FFFFFF" stroke="#D8E2EE"/>
+      <text x="20" y="40" class="blue label">产品机会</text>
+      <text x="20" y="76" class="ink sectionTitle">低成本可验证设想</text>
+      <text x="20" y="112" class="ink body" font-weight="850">记录一次 AI 任务的成本</text>
+      <text x="20" y="140" class="muted small">低置信度：先用表格记录额度和时间。</text>
+      <text x="20" y="176" class="ink body" font-weight="850">给 AI 输出增加一道检查</text>
+    </g>
+
+    <g transform="translate(14 2222)">
+      <rect x="0" y="0" width="402" height="250" rx="22" fill="#FFFFFF" stroke="#D8E2EE"/>
+      <text x="20" y="40" class="blue label">本周实践</text>
+      <text x="20" y="76" class="ink sectionTitle">画出安全闸门</text>
+      <text x="20" y="108" class="muted body">45 分钟，不需要 API、不需要付费。</text>
+      <text x="20" y="148" class="ink body" font-weight="850">1. 选择 AI 功能或 AI 客服回复</text>
+      <text x="20" y="180" class="ink body" font-weight="850">2. 画出输入、生成、工具调用、展示</text>
+      <text x="20" y="212" class="ink body" font-weight="850">3. 标记自动检查和人工确认边界</text>
+    </g>
+
+    <text x="36" y="2540" class="muted small">术语解释与原始来源置于页尾，保留可追溯性。</text>
+  </g>
+</svg>
