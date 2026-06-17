@@ -1,9 +1,13 @@
+import Link from "next/link";
+
 import { formatDate, formatPeriod } from "@/lib/content/format";
+import { issueStatusLabels } from "@/lib/content/labels";
 import {
-  issueStatusLabels,
-  opportunityLevelDescriptions,
-  opportunityLevelLabels,
-} from "@/lib/content/labels";
+  getFastTakeaway,
+  getIssueThemeLabels,
+  getTopCards,
+  toChineseCount,
+} from "@/lib/content/presentation";
 import type { Issue } from "@/lib/content/schema";
 
 import { IntelCard } from "./IntelCard";
@@ -15,17 +19,17 @@ type IssueViewProps = {
 
 export function IssueView({ issue }: IssueViewProps) {
   const keyCardIds = new Set(issue.topChangeIds);
-  const topCards = issue.topChangeIds.flatMap((cardId) => {
-    const card = issue.cards.find((item) => item.id === cardId);
-    return card ? [card] : [];
-  });
-  const themeLabels = buildThemeLabels(issue);
-  const fastTakeaway =
-    issue.summary.split("对开发者来说，").at(1) ?? issue.summary;
+  const topCards = getTopCards(issue);
+  const themeLabels = getIssueThemeLabels(issue);
+  const fastTakeaway = getFastTakeaway(issue);
   const focusCount = toChineseCount(topCards.length);
 
   return (
     <article>
+      <nav className={styles.returnNav} aria-label="页面导航">
+        <Link href="/">返回首页导读</Link>
+      </nav>
+
       <header className={styles.issueHeader}>
         <div className={styles.heroShell}>
           <div className={styles.heroMain}>
@@ -34,7 +38,7 @@ export function IssueView({ issue }: IssueViewProps) {
               <span>{issueStatusLabels[issue.status]}</span>
               <span>{formatPeriod(issue.period.start, issue.period.end)}</span>
             </div>
-            <p className={styles.eyebrow}>本期核心判断</p>
+            <p className={styles.eyebrow}>完整期刊页</p>
             <h1>
               <span>AI 开发者本周</span>
               <span>需要关注的{focusCount}件事</span>
@@ -50,41 +54,29 @@ export function IssueView({ issue }: IssueViewProps) {
             </div>
             <p className={styles.summary}>{issue.summary}</p>
           </div>
+
           <aside className={styles.heroPanel} aria-label="本期概览">
-            <div className={styles.heroPipeline} aria-label="从资讯到行动流程">
-              <div>
+            <p className={styles.panelLabel}>阅读地图</p>
+            <strong>建议按这个顺序读</strong>
+            <span>详情页用于核查和深读，不再重复首页导读。</span>
+            <nav className={styles.readingMap} aria-label="详情页阅读顺序">
+              <a href="#top-changes">
                 <span>01</span>
-                <strong>官方来源</strong>
-                <small>保留发布日期和原始链接</small>
-              </div>
-              <div>
+                <strong>先看重点信号</strong>
+                <small>快速确认本期最重要的变化。</small>
+              </a>
+              <a href="#ai-verification">
                 <span>02</span>
-                <strong>影响分析</strong>
-                <small>拆出开发者需要理解的变化</small>
-              </div>
-              <div>
+                <strong>理解验证方式</strong>
+                <small>知道内容如何经过 AI 交叉校验。</small>
+              </a>
+              <a href="#source-list">
                 <span>03</span>
-                <strong>行动建议</strong>
-                <small>转成可学习、收藏或验证的任务</small>
-              </div>
-            </div>
-            <p className={styles.panelLabel}>本期重点</p>
-            <strong>从资讯到行动</strong>
-            <span>事实、影响、风险和建议行动同源生成。</span>
-            <dl>
-              <div>
-                <dt>情报卡</dt>
-                <dd>{issue.cards.length}</dd>
-              </div>
-              <div>
-                <dt>重点变化</dt>
-                <dd>{issue.topChangeIds.length}</dd>
-              </div>
-              <div>
-                <dt>来源</dt>
-                <dd>{issue.sources.length}</dd>
-              </div>
-            </dl>
+                <strong>最后查原始来源</strong>
+                <small>需要确认事实时回到官方链接。</small>
+              </a>
+            </nav>
+            <p className={styles.readingTime}>完整阅读约 5 分钟。</p>
           </aside>
         </div>
       </header>
@@ -114,7 +106,7 @@ export function IssueView({ issue }: IssueViewProps) {
         <h2 id="ai-verification">AI 自动验证说明</h2>
         <p>
           本站内容由 AI 自动检索、整理和生成，并经过多轮 AI 交叉校验。构建前会执行字段完整性、
-          来源引用、模糊行动表述和链接活体检查。自动验证用于降低错误概率，不能替代原始来源；
+          来源引用、模糊结论表述和链接活体检查。自动验证用于降低错误概率，不能替代原始来源；
           重要信息请以官方链接为准。
         </p>
       </section>
@@ -123,7 +115,7 @@ export function IssueView({ issue }: IssueViewProps) {
         <div className={styles.cardsHeader}>
           <p className={styles.sectionCode}>02 / 情报卡</p>
           <h2>先看结论，再展开事实支撑</h2>
-          <p>默认只展示结论、影响和行动建议；技术证据与来源可按需展开。</p>
+          <p>默认只展示结论、影响和阅读建议；技术证据与来源可按需展开。</p>
         </div>
         <div className={styles.cardsGrid}>
           {issue.cards.map((card, index) => (
@@ -131,9 +123,6 @@ export function IssueView({ issue }: IssueViewProps) {
               card={card}
               index={index}
               isKey={keyCardIds.has(card.id)}
-              isPracticeRelated={issue.practiceTask.relatedCardIds.includes(
-                card.id,
-              )}
               key={card.id}
               sources={issue.sources}
             />
@@ -141,50 +130,9 @@ export function IssueView({ issue }: IssueViewProps) {
         </div>
       </section>
 
-      <section className={styles.actionSection}>
-        <div className={styles.opportunities}>
-          <p className={styles.sectionCode}>03 / Opportunities</p>
-          <h2>可以尝试的小项目</h2>
-          {issue.opportunities.length > 0 ? (
-            issue.opportunities.map((opportunity) => (
-              <article key={opportunity.id}>
-                <span>
-                  行动级别：{opportunityLevelLabels[opportunity.confidence]}
-                </span>
-                <h3>{opportunity.title}</h3>
-                <p className={styles.opportunityPlain}>
-                  {opportunity.plainLanguage}
-                </p>
-                <p>{opportunity.rationale}</p>
-                <small>
-                  {opportunityLevelDescriptions[opportunity.confidence]}
-                </small>
-              </article>
-            ))
-          ) : (
-            <p className={styles.muted}>本期没有足够明确的产品机会。</p>
-          )}
-        </div>
-
-        <aside className={styles.practice} id="weekly-practice">
-          <p className={styles.sectionCode}>04 / Practice</p>
-          <h2>本周实践</h2>
-          <p className={styles.duration}>
-            {issue.practiceTask.durationMinutes} 分钟
-          </p>
-          <h3>{issue.practiceTask.title}</h3>
-          <p>{issue.practiceTask.objective}</p>
-          <ol>
-            {issue.practiceTask.steps.map((step) => (
-              <li key={step}>{step}</li>
-            ))}
-          </ol>
-        </aside>
-      </section>
-
       {issue.glossary.length > 0 && (
         <section className={styles.glossary} aria-labelledby="glossary">
-          <p className={styles.sectionCode}>05 / Glossary</p>
+          <p className={styles.sectionCode}>03 / Glossary</p>
           <h2 id="glossary">术语解释</h2>
           <dl>
             {issue.glossary.map((entry) => (
@@ -198,7 +146,7 @@ export function IssueView({ issue }: IssueViewProps) {
       )}
 
       <section className={styles.sources} aria-labelledby="source-list">
-        <p className={styles.sectionCode}>06 / Sources</p>
+        <p className={styles.sectionCode}>04 / Sources</p>
         <h2 id="source-list">原始来源</h2>
         <ol>
           {issue.sources.map((source) => (
@@ -242,44 +190,4 @@ export function IssueView({ issue }: IssueViewProps) {
       </section>
     </article>
   );
-}
-
-function buildThemeLabels(issue: Issue) {
-  const categories = Array.from(new Set(issue.cards.map((card) => card.category)));
-  const labels: string[] = ["官方来源"];
-
-  if (categories.some((category) => category.includes("安全"))) {
-    labels.push("审核安全");
-  }
-
-  if (categories.some((category) => category.includes("Agent"))) {
-    labels.push("Agent 基建");
-  }
-
-  if (categories.some((category) => category.includes("成本"))) {
-    labels.push("成本计量");
-  }
-
-  if (categories.some((category) => category.includes("模型"))) {
-    labels.push("模型迁移");
-  }
-
-  if (categories.some((category) => category.includes("多模态"))) {
-    labels.push("多模态");
-  }
-
-  return labels.length > 1 ? labels.slice(0, 4) : categories.slice(0, 4);
-}
-
-function toChineseCount(count: number) {
-  const labels: Record<number, string> = {
-    1: "一",
-    2: "两",
-    3: "三",
-    4: "四",
-    5: "五",
-    6: "六",
-  };
-
-  return labels[count] ?? String(count);
 }

@@ -2,8 +2,6 @@ import {
   actionLabels,
   maturityLabels,
   noiseRiskLabels,
-  opportunityLevelDescriptions,
-  opportunityLevelLabels,
 } from "./labels";
 import type { EvidenceSource, Issue } from "./schema";
 
@@ -45,7 +43,7 @@ export function renderWechatMarkdown(issue: Issue): string {
       "",
       `**营销噪声风险：** ${noiseRiskLabels[card.noiseRisk]}`,
       "",
-      `**建议行动：** ${actionLabels[card.suggestedAction]}`,
+      `**建议处理：** ${actionLabels[card.suggestedAction]}`,
       "",
       "**AI 交叉核查事实：**",
       "",
@@ -59,35 +57,6 @@ export function renderWechatMarkdown(issue: Issue): string {
     });
     lines.push("");
   });
-
-  if (issue.opportunities.length > 0) {
-    lines.push("## 可以尝试的小项目", "");
-    issue.opportunities.forEach((opportunity) => {
-      lines.push(
-        `### ${opportunity.title}`,
-        "",
-        `**行动级别：** ${opportunityLevelLabels[opportunity.confidence]}。${opportunityLevelDescriptions[opportunity.confidence]}`,
-        "",
-        `**新手解释：** ${opportunity.plainLanguage}`,
-        "",
-        opportunity.rationale,
-        "",
-      );
-    });
-  }
-
-  lines.push(
-    "## 本期实践任务",
-    "",
-    `**${issue.practiceTask.title}（约 ${issue.practiceTask.durationMinutes} 分钟）**`,
-    "",
-    issue.practiceTask.objective,
-    "",
-  );
-  issue.practiceTask.steps.forEach((step, index) => {
-    lines.push(`${index + 1}. ${step}`);
-  });
-  lines.push("");
 
   if (issue.glossary.length > 0) {
     lines.push("## 术语解释", "");
@@ -109,7 +78,7 @@ export function renderWechatMarkdown(issue: Issue): string {
   lines.push(
     "---",
     "",
-    "来源事实、AI 分析和行动建议已按单列文本流整理。内容经过 AI 交叉校验和脚本检查；重要信息请以官方来源为准。",
+    "来源事实和 AI 分析已按单列文本流整理。内容经过 AI 交叉校验和脚本检查；重要信息请以官方来源为准。",
     "",
   );
 

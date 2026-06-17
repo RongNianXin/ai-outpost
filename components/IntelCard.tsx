@@ -14,7 +14,6 @@ type IntelCardProps = {
   card: IntelCardData;
   index: number;
   isKey: boolean;
-  isPracticeRelated: boolean;
   sources: EvidenceSource[];
 };
 
@@ -22,7 +21,6 @@ export function IntelCard({
   card,
   index,
   isKey,
-  isPracticeRelated,
   sources,
 }: IntelCardProps) {
   const sourceById = new Map(sources.map((source) => [source.id, source]));
@@ -68,19 +66,12 @@ export function IntelCard({
           </section>
         </div>
 
-        <aside className={styles.actionPanel} aria-label="策略建议与技术风险">
-          <span>策略建议</span>
+        <aside className={styles.actionPanel} aria-label="阅读建议与技术风险">
+          <span>阅读建议</span>
           <strong>{strategyLabels[card.suggestedAction]}</strong>
           <p>{strategyDescriptions[card.suggestedAction]}</p>
           <small>技术风险：{technicalRiskLabels[card.reviewRisk]}</small>
         </aside>
-        {isPracticeRelated && (
-          <p className={styles.practiceNote}>
-            注：本期末尾的
-            <a href="#weekly-practice">【本周实践】</a>
-            已为你准备了该场景的低成本安全闸门设计方案，可直接跳转阅读。
-          </p>
-        )}
       </header>
 
       <details className={styles.evidence}>

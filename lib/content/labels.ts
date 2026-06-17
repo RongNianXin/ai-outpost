@@ -16,41 +16,27 @@ export const actionLabels: Record<IntelCard["suggestedAction"], string> = {
   ignore: "忽略",
   save: "收藏",
   learn: "学习",
-  try: "动手验证",
+  try: "重点阅读",
 };
 
 export const strategyLabels: Record<IntelCard["suggestedAction"], string> = {
   ignore: "暂不处理",
-  save: "持续关注",
+  save: "持续观察",
   learn: "先学习",
-  try: "动手试一下",
+  try: "重点阅读",
 };
 
 export const strategyDescriptions: Record<IntelCard["suggestedAction"], string> = {
   ignore: "这条暂时不用投入时间，知道有这件事即可。",
-  save: "先收藏或记录，后续变化明确时再决定是否投入。",
+  save: "先收藏或记录，后续变化明确时再判断重要性。",
   learn: "先读懂概念和官方说明，暂时不要求动手实现。",
-  try: "适合用一个小实验验证，不需要立刻做成产品。",
+  try: "这条对开发者影响较直接，建议优先读完事实和限制条件。",
 };
 
 export const technicalRiskLabels: Record<IntelCard["reviewRisk"], string> = {
   low: "低",
   medium: "中",
   high: "高",
-};
-
-type OpportunityConfidence = Issue["opportunities"][number]["confidence"];
-
-export const opportunityLevelLabels: Record<OpportunityConfidence, string> = {
-  low: "先记下",
-  medium: "小步试做",
-  high: "优先验证",
-};
-
-export const opportunityLevelDescriptions: Record<OpportunityConfidence, string> = {
-  low: "想法还早，先放进个人灵感清单。",
-  medium: "可以用 30 到 120 分钟做个小样。",
-  high: "和当前实践强相关，优先做一次验证。",
 };
 
 export const issueStatusLabels: Record<Issue["status"], string> = {

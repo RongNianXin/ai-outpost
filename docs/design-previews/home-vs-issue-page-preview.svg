@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="950" viewBox="0 0 1500 950" role="img" aria-labelledby="title desc">
+  <title id="title">AI Outpost home summary versus issue detail preview</title>
+  <desc id="desc">A side-by-side design preview comparing a concise latest-issue homepage with a full issue detail page.</desc>
+  <defs>
+    <linearGradient id="pageBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eef5ff"/>
+      <stop offset="0.55" stop-color="#f8fbff"/>
+      <stop offset="1" stop-color="#fff7e7"/>
+    </linearGradient>
+    <linearGradient id="cardBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#f4f8ff"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="22" stdDeviation="22" flood-color="#1d4ed8" flood-opacity="0.12"/>
+    </filter>
+    <style>
+      .bg { fill: url(#pageBg); }
+      .panel { fill: rgba(255,255,255,0.86); stroke: #cddbef; stroke-width: 1.2; filter: url(#shadow); }
+      .card { fill: url(#cardBg); stroke: #d4e1f2; stroke-width: 1.1; }
+      .soft { fill: #f7faff; stroke: #d4e1f2; stroke-width: 1; }
+      .blue { fill: #2563eb; }
+      .blueSoft { fill: #dbeafe; }
+      .warning { fill: #f59e0b; }
+      .warningSoft { fill: #fef3c7; }
+      .ink { fill: #0f172a; }
+      .muted { fill: #5f718b; }
+      .light { fill: #94a3b8; }
+      .white { fill: white; }
+      .title { font-family: Inter, "Microsoft YaHei", sans-serif; font-size: 42px; font-weight: 850; letter-spacing: -1.6px; }
+      .h2 { font-family: Inter, "Microsoft YaHei", sans-serif; font-size: 26px; font-weight: 850; letter-spacing: -0.7px; }
+      .h3 { font-family: Inter, "Microsoft YaHei", sans-serif; font-size: 19px; font-weight: 850; }
+      .body { font-family: Inter, "Microsoft YaHei", sans-serif; font-size: 15px; line-height: 1.6; }
+      .small { font-family: "JetBrains Mono", Consolas, monospace; font-size: 12px; font-weight: 800; letter-spacing: 1.2px; }
+      .micro { font-family: Inter, "Microsoft YaHei", sans-serif; font-size: 13px; font-weight: 700; }
+      .label { font-family: "JetBrains Mono", Consolas, monospace; font-size: 11px; font-weight: 900; letter-spacing: 1.1px; }
+    </style>
+  </defs>
+
+  <rect width="1500" height="950" class="bg"/>
+  <text x="72" y="70" class="small blue">AI OUTPOST / INFORMATION ARCHITECTURE PREVIEW</text>
+  <text x="72" y="116" class="title ink">首页摘要版 vs 详情完整页</text>
+  <text x="72" y="148" class="body muted">左边解决“我该不该读这期”；右边解决“我要完整阅读、核实来源、保存链接”。</text>
+
+  <!-- Left: Home summary -->
+  <g transform="translate(72 190)">
+    <rect width="640" height="680" rx="34" class="panel"/>
+    <text x="36" y="52" class="small blue">HOME / 最新一期摘要</text>
+    <text x="36" y="96" class="h2 ink">首页只做快速判断</text>
+    <text x="36" y="126" class="body muted">目标：30 秒内知道这期讲什么、值不值得点进去。</text>
+
+    <rect x="36" y="158" width="568" height="178" rx="24" class="card"/>
+    <text x="64" y="202" class="label blue">5 秒结论</text>
+    <text x="64" y="242" class="h2 ink">AI 开发者本周需要关注的三件事</text>
+    <text x="64" y="280" class="body muted">Agent 从功能演示转向安全、成本、基础设施。</text>
+    <rect x="64" y="300" width="126" height="36" rx="18" class="blue"/>
+    <text x="87" y="323" class="micro white">阅读完整本期</text>
+
+    <text x="36" y="380" class="small blue">TOP SIGNALS</text>
+    <g transform="translate(36 402)">
+      <rect width="176" height="102" rx="18" class="soft"/>
+      <circle cx="28" cy="28" r="16" class="blueSoft"/>
+      <text x="23" y="33" class="label blue">01</text>
+      <text x="20" y="62" class="h3 ink">Agent 工作流</text>
+      <text x="20" y="86" class="micro muted">进入工程流水线</text>
+    </g>
+    <g transform="translate(232 402)">
+      <rect width="176" height="102" rx="18" class="soft"/>
+      <circle cx="28" cy="28" r="16" class="blueSoft"/>
+      <text x="23" y="33" class="label blue">02</text>
+      <text x="20" y="62" class="h3 ink">模型升级</text>
+      <text x="20" y="86" class="micro muted">成本和限制重测</text>
+    </g>
+    <g transform="translate(428 402)">
+      <rect width="176" height="102" rx="18" class="soft"/>
+      <circle cx="28" cy="28" r="16" class="blueSoft"/>
+      <text x="23" y="33" class="label blue">03</text>
+      <text x="20" y="62" class="h3 ink">多模态维护</text>
+      <text x="20" y="86" class="micro muted">模型退役要迁移</text>
+    </g>
+
+    <rect x="36" y="540" width="270" height="96" rx="20" class="card"/>
+    <text x="60" y="574" class="label blue">小项目入口</text>
+    <text x="60" y="606" class="h3 ink">可以尝试的小项目</text>
+    <text x="60" y="630" class="micro muted">只露出 2-3 个方向，引导进入详情。</text>
+
+    <rect x="334" y="540" width="270" height="96" rx="20" class="card"/>
+    <text x="358" y="574" class="label blue">实践入口</text>
+    <text x="358" y="606" class="h3 ink">本周实践</text>
+    <text x="358" y="630" class="micro muted">45 分钟任务，点进详情看步骤。</text>
+  </g>
+
+  <!-- Right: Issue detail -->
+  <g transform="translate(788 190)">
+    <rect width="640" height="680" rx="34" class="panel"/>
+    <text x="36" y="52" class="small blue">ISSUE DETAIL / 固定期刊页</text>
+    <text x="36" y="96" class="h2 ink">详情页负责完整阅读</text>
+    <text x="36" y="126" class="body muted">目标：把所有情报卡、事实、来源和实践步骤完整保留下来。</text>
+
+    <rect x="36" y="158" width="568" height="96" rx="22" class="card"/>
+    <text x="64" y="196" class="label blue">完整标题与摘要</text>
+    <text x="64" y="228" class="h3 ink">同一期标题，但下面继续展开全部内容</text>
+
+    <text x="36" y="300" class="small blue">FULL CONTENT FLOW</text>
+    <g transform="translate(36 324)">
+      <rect width="568" height="54" rx="16" class="soft"/>
+      <circle cx="30" cy="27" r="16" class="blueSoft"/>
+      <text x="25" y="32" class="label blue">01</text>
+      <text x="60" y="33" class="h3 ink">三条重点信号</text>
+      <text x="370" y="33" class="micro muted">快速扫读</text>
+    </g>
+    <g transform="translate(36 390)">
+      <rect width="568" height="78" rx="16" class="soft"/>
+      <circle cx="30" cy="27" r="16" class="blueSoft"/>
+      <text x="25" y="32" class="label blue">02</text>
+      <text x="60" y="33" class="h3 ink">6 张完整情报卡</text>
+      <text x="60" y="58" class="micro muted">结论、影响、行动建议、技术实据、来源链接</text>
+    </g>
+    <g transform="translate(36 480)">
+      <rect width="568" height="54" rx="16" class="soft"/>
+      <circle cx="30" cy="27" r="16" class="warningSoft"/>
+      <text x="25" y="32" class="label warning">03</text>
+      <text x="60" y="33" class="h3 ink">可以尝试的小项目</text>
+      <text x="370" y="33" class="micro muted">专业描述 + 新手解释</text>
+    </g>
+    <g transform="translate(36 546)">
+      <rect width="568" height="54" rx="16" class="soft"/>
+      <circle cx="30" cy="27" r="16" class="blueSoft"/>
+      <text x="25" y="32" class="label blue">04</text>
+      <text x="60" y="33" class="h3 ink">本周实践 / 术语 / 原始来源</text>
+      <text x="370" y="33" class="micro muted">适合保存和复查</text>
+    </g>
+
+    <rect x="36" y="626" width="568" height="28" rx="14" class="blueSoft"/>
+    <text x="58" y="645" class="micro blue">固定 URL：适合归档、分享、搜索引擎收录</text>
+  </g>
+
+  <g transform="translate(72 900)">
+    <rect width="1356" height="1" fill="#cddbef"/>
+    <text x="0" y="34" class="body muted">设计结论：如果采用这个方向，首页不再重复完整长文，而是变成“最新一期入口”；详情页保留完整期刊内容。</text>
+  </g>
+</svg>

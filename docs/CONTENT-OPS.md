@@ -12,12 +12,12 @@
 
 1. AI 只检查白名单官方博客、文档、更新日志和 GitHub Releases。
 2. 删除日期不明、无官方来源、重复或相关性弱的候选。
-3. 按相关性、变化程度、可行动性和证据清晰度排序。
-4. AI 生成情报卡、产品机会、实践任务和证据定位。
+3. 按相关性、变化程度、开发者影响和证据清晰度排序。
+4. AI 生成情报卡、影响分析、阅读建议和证据定位。
 5. AI 生成状态为 `draft` 的 JSON。
 6. 独立的来源真实性 Agent、事实映射 Agent 和反向质疑 Agent分别完成标准化检查。
 7. 全部事实通过后标记为 `ai_cross_checked`，并生成全中文自动验证摘要。
-8. 离线运行 `pnpm.cmd content:validate`，检查 Schema、枚举、重复 ID、来源引用和模糊行动表述。
+8. 离线运行 `pnpm.cmd content:validate`，检查 Schema、枚举、重复 ID、来源引用和模糊结论表述。
 9. 发布前运行 `pnpm.cmd content:check:links`，对来源链接做联网活体检查；明确 404 或 5xx 时熔断发布。
 10. 本地预览通过后记录 `previewApprovedAt` 并改为 `approved`；准备公开发布时填写 `publishedAt` 并改为 `published`。`publicationApprovedAt` 作为旧字段保留兼容，不再作为公开发布闸门。
 

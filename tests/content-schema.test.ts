@@ -203,8 +203,9 @@ describe("renderWechatMarkdown", () => {
     expect(markdown).toContain(issue.title);
     expect(markdown).toContain(issue.period.start);
     expect(markdown).toContain(issue.cards[0].facts[0].claim);
-    expect(markdown).toContain(issue.opportunities[0].plainLanguage);
     expect(markdown).toContain(issue.sources[0].url);
+    expect(markdown).not.toContain("可以尝试的小项目");
+    expect(markdown).not.toContain("本期实践任务");
   });
 
   it("labels official documentation without a publication date", () => {
