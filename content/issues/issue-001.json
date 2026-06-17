@@ -9,8 +9,8 @@
     "start": "2026-06-04",
     "end": "2026-06-17"
   },
-  "status": "approved",
-  "publishedAt": null,
+  "status": "published",
+  "publishedAt": "2026-06-18T00:00:00.000+08:00",
   "topChangeIds": [
     "github-agentic-workflows-preview",
     "anthropic-claude-fable-5",
