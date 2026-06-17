@@ -19,8 +19,9 @@
   "opportunities": [
     {
       "id": "agent-workflow-template-library",
-      "title": "低置信度设想：Agent 工作流模板库",
+      "title": "Agent 工作流模板库",
       "rationale": "把常见任务拆成可复用的 Markdown 模板，例如 issue 分类、CI 失败分析、文档更新和依赖检查。它适合先做成个人模板库，不急着做平台。",
+      "plainLanguage": "对你来说，它更像一套可复制的 AI 工作流清单，不是一个大产品。",
       "relatedCardIds": [
         "github-agentic-workflows-preview",
         "cursor-sdk-custom-tools"
@@ -29,8 +30,9 @@
     },
     {
       "id": "model-migration-checklist",
-      "title": "低置信度设想：模型退役检查清单",
+      "title": "模型退役检查清单",
       "rationale": "用表格记录项目里使用的模型 ID、用途、替代模型和迁移截止日期。它不需要自动扫描代码，先帮个人开发者避免模型退役导致应用突然不可用。",
+      "plainLanguage": "对你来说，它更像一张模型使用台账，提醒你哪些模型会过期、什么时候要替换。",
       "relatedCardIds": [
         "google-gemini-media-deprecations",
         "anthropic-claude-fable-5"
@@ -39,8 +41,9 @@
     },
     {
       "id": "pre-push-ai-review-gate",
-      "title": "中置信度设想：提交前 AI 审核闸门",
+      "title": "提交前 AI 审核闸门",
       "rationale": "Cursor 和 GitHub 都在把代码审核前移到提交、PR 或 CI 环节。独立开发者可以先做一套自己的提交前检查表，验证是否能减少明显错误。",
+      "plainLanguage": "对你来说，它更像提交代码前的 AI 自查表，先把明显错误挡在仓库外面。",
       "relatedCardIds": [
         "cursor-bugbot-review",
         "github-agentic-workflows-preview"

@@ -1,5 +1,9 @@
 import { formatDate, formatPeriod } from "@/lib/content/format";
-import { issueStatusLabels } from "@/lib/content/labels";
+import {
+  issueStatusLabels,
+  opportunityLevelDescriptions,
+  opportunityLevelLabels,
+} from "@/lib/content/labels";
 import type { Issue } from "@/lib/content/schema";
 
 import { IntelCard } from "./IntelCard";
@@ -140,13 +144,21 @@ export function IssueView({ issue }: IssueViewProps) {
       <section className={styles.actionSection}>
         <div className={styles.opportunities}>
           <p className={styles.sectionCode}>03 / Opportunities</p>
-          <h2>可能的产品机会</h2>
+          <h2>可以尝试的小项目</h2>
           {issue.opportunities.length > 0 ? (
             issue.opportunities.map((opportunity) => (
               <article key={opportunity.id}>
-                <span>置信度：{confidenceLabel(opportunity.confidence)}</span>
+                <span>
+                  行动级别：{opportunityLevelLabels[opportunity.confidence]}
+                </span>
                 <h3>{opportunity.title}</h3>
+                <p className={styles.opportunityPlain}>
+                  {opportunity.plainLanguage}
+                </p>
                 <p>{opportunity.rationale}</p>
+                <small>
+                  {opportunityLevelDescriptions[opportunity.confidence]}
+                </small>
               </article>
             ))
           ) : (
@@ -230,14 +242,6 @@ export function IssueView({ issue }: IssueViewProps) {
       </section>
     </article>
   );
-}
-
-function confidenceLabel(confidence: "low" | "medium" | "high") {
-  return {
-    low: "低",
-    medium: "中",
-    high: "高",
-  }[confidence];
 }
 
 function buildThemeLabels(issue: Issue) {

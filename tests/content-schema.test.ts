@@ -25,6 +25,7 @@ const baseIssue = {
       id: "opportunity-001",
       title: "构建一个小型验证工具",
       rationale: "用很小的投入验证这项变化是否能改善现有工作流。",
+      plainLanguage: "对你来说，它更像一个可以快速完成的小练习。",
       relatedCardIds: ["card-001"],
       confidence: "medium" as const,
     },
@@ -202,6 +203,7 @@ describe("renderWechatMarkdown", () => {
     expect(markdown).toContain(issue.title);
     expect(markdown).toContain(issue.period.start);
     expect(markdown).toContain(issue.cards[0].facts[0].claim);
+    expect(markdown).toContain(issue.opportunities[0].plainLanguage);
     expect(markdown).toContain(issue.sources[0].url);
   });
 

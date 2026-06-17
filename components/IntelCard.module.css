@@ -40,7 +40,7 @@
   border-radius: 999px;
   background: var(--color-accent-soft);
   color: var(--color-accent);
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   letter-spacing: 0;
   line-height: 1;
   padding: 0.45rem 0.58rem;
@@ -57,7 +57,7 @@
   align-items: center;
   margin-top: 0.76rem;
   font-family: var(--font-mono);
-  font-size: 0.66rem;
+  font-size: 0.88rem;
   font-weight: 800;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -101,7 +101,7 @@
   background: rgb(37 99 235 / 10%);
   color: var(--color-accent);
   font-family: var(--font-mono);
-  font-size: 0.66rem;
+  font-size: 0.86rem;
   font-weight: 900;
   letter-spacing: 0.1em;
   line-height: 1;
@@ -124,7 +124,7 @@
   margin: 0.7rem 0 0;
   border-left: 3px solid rgb(245 158 11 / 70%);
   color: var(--color-muted);
-  font-size: 0.88rem;
+  font-size: 0.96rem;
   line-height: 1.6;
   padding-left: 0.85rem;
 }
@@ -165,7 +165,7 @@
 .sourceShortcuts span {
   color: var(--color-muted);
   font-family: var(--font-mono);
-  font-size: 0.66rem;
+  font-size: 0.86rem;
   font-weight: 900;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -177,7 +177,7 @@
   border-radius: 999px;
   background: white;
   color: var(--color-accent);
-  font-size: 0.78rem;
+  font-size: 0.92rem;
   font-weight: 750;
   line-height: 1.35;
   overflow-wrap: anywhere;
@@ -193,7 +193,7 @@
 .actionPanel span {
   color: #7a4a00;
   font-family: var(--font-mono);
-  font-size: 0.66rem;
+  font-size: 0.88rem;
   font-weight: 900;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -216,7 +216,7 @@
   grid-column: 1 / -1;
   margin: 0.05rem 0 0;
   color: #544017;
-  font-size: 0.88rem;
+  font-size: 0.96rem;
   line-height: 1.55;
 }
 
@@ -228,7 +228,7 @@
   background: rgb(255 255 255 / 70%);
   color: #3f4958;
   font-family: var(--font-mono);
-  font-size: 0.76rem;
+  font-size: 0.9rem;
   font-weight: 850;
   line-height: 1.45;
   padding: 0.34rem 0.55rem;
@@ -255,7 +255,7 @@
   margin: 0;
   color: var(--color-accent);
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.88rem;
   font-weight: 900;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -265,7 +265,7 @@
   border-radius: 999px;
   background: white;
   color: var(--color-muted);
-  font-size: 0.78rem;
+  font-size: 0.9rem;
   font-weight: 800;
   padding: 0.35rem 0.6rem;
 }
@@ -290,7 +290,7 @@
 .factList p {
   margin: 0;
   color: var(--color-ink);
-  font-size: 0.94rem;
+  font-size: 0.98rem;
   line-height: 1.62;
   overflow-wrap: anywhere;
 }
@@ -304,7 +304,7 @@
 .factLimits li {
   position: relative;
   color: var(--color-muted);
-  font-size: 0.83rem;
+  font-size: 0.92rem;
   line-height: 1.55;
   padding-left: 1rem;
 }
@@ -337,7 +337,7 @@
   margin: 0 0 0.5rem;
   color: var(--color-muted);
   font-family: var(--font-mono);
-  font-size: 0.66rem;
+  font-size: 0.88rem;
   font-weight: 900;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -346,7 +346,7 @@
 .insightGrid p {
   margin: 0;
   color: var(--color-muted);
-  font-size: 0.91rem;
+  font-size: 0.98rem;
   line-height: 1.62;
   overflow-wrap: anywhere;
 }
@@ -369,7 +369,7 @@
   cursor: pointer;
   color: var(--color-ink);
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.92rem;
   font-weight: 850;
   letter-spacing: 0.04em;
   padding: 0.82rem 0.9rem;
@@ -383,7 +383,7 @@
 .evidence summary small {
   color: var(--color-muted);
   font-family: var(--font-body);
-  font-size: 0.78rem;
+  font-size: 0.9rem;
   font-weight: 750;
   letter-spacing: 0;
 }
@@ -407,7 +407,7 @@
   }
 
   .meta {
-    font-size: 0.62rem;
+    font-size: 0.84rem;
   }
 
   .titleBlock h2 {

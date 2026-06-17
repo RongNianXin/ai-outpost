@@ -2,6 +2,8 @@ import {
   actionLabels,
   maturityLabels,
   noiseRiskLabels,
+  opportunityLevelDescriptions,
+  opportunityLevelLabels,
 } from "./labels";
 import type { EvidenceSource, Issue } from "./schema";
 
@@ -59,9 +61,18 @@ export function renderWechatMarkdown(issue: Issue): string {
   });
 
   if (issue.opportunities.length > 0) {
-    lines.push("## 可能的产品机会", "");
+    lines.push("## 可以尝试的小项目", "");
     issue.opportunities.forEach((opportunity) => {
-      lines.push(`### ${opportunity.title}`, "", opportunity.rationale, "");
+      lines.push(
+        `### ${opportunity.title}`,
+        "",
+        `**行动级别：** ${opportunityLevelLabels[opportunity.confidence]}。${opportunityLevelDescriptions[opportunity.confidence]}`,
+        "",
+        `**新手解释：** ${opportunity.plainLanguage}`,
+        "",
+        opportunity.rationale,
+        "",
+      );
     });
   }
 

@@ -92,6 +92,11 @@ function addVaguePhraseErrors(
       opportunity.rationale,
       errors,
     );
+    checkTextForVaguePhrases(
+      `${fileName}.opportunities.${opportunityIndex}.plainLanguage`,
+      opportunity.plainLanguage,
+      errors,
+    );
   });
 
   checkTextForVaguePhrases(
