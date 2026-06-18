@@ -14,6 +14,7 @@
     "content:validate": "tsx scripts/content/validate.ts",
     "content:check:links": "tsx scripts/content/check-links.ts",
     "content:export:wechat": "tsx scripts/content/export-wechat.ts",
+    "notify:serverchan": "tsx scripts/notify/server-chan.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"

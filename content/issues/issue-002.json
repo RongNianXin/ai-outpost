@@ -1,0 +1,290 @@
+{
+  "schemaVersion": 1,
+  "id": "issue-002",
+  "slug": "2026-06-18-agent-discovery-cloud-agents-tts",
+  "issueNumber": 2,
+  "title": "本周 AI 开发短版：Agent 发现、云端子 Agent 与语音流式生成",
+  "summary": "这是第 002 期短版，补收 6 月 17 日第 001 期生成后出现的官方更新，并检查到 6 月 18 日。重点是：Cursor 把云端 Agent 环境和云端子 Agent 推到桌面端，GitHub 与 Microsoft 推动 ARD/Agent Finder 解决 Agent 工具发现问题，Google Gemini API 为 TTS 预览模型增加流式生成。对开发者来说，Agent 基础设施正在从“写代码助手”走向“工具发现、云环境、并行任务和实时多模态输出”的系统能力。",
+  "period": {
+    "start": "2026-06-17",
+    "end": "2026-06-18"
+  },
+  "status": "approved",
+  "publishedAt": null,
+  "topChangeIds": [
+    "cursor-cloud-agent-environments",
+    "github-agent-finder-ard",
+    "google-gemini-tts-streaming"
+  ],
+  "opportunities": [
+    {
+      "id": "cloud-agent-runbook",
+      "title": "云端 Agent 运行手册",
+      "rationale": "把项目依赖安装、环境变量、测试命令和禁止动作写进一份固定文档，让云端 Agent 启动时有明确边界。",
+      "plainLanguage": "对你来说，它更像一份让 AI 远程干活前必须阅读的说明书。",
+      "relatedCardIds": [
+        "cursor-cloud-agent-environments"
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "agent-resource-catalog",
+      "title": "Agent 工具资源目录",
+      "rationale": "把 MCP server、内部脚本、文档、技能和人工确认入口登记成目录，先解决工具从哪里来、谁能用、何时需要确认。",
+      "plainLanguage": "对你来说，它更像一张 AI 工具通讯录，先记录可用资源和风险等级。",
+      "relatedCardIds": [
+        "github-agent-finder-ard"
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "streaming-tts-demo",
+      "title": "流式语音输出小演示",
+      "rationale": "用一个低风险 demo 验证文本转语音的延迟、分段体验和失败处理，为后续播客、导读或语音助手保留技术判断。",
+      "plainLanguage": "对你来说，它更像一次听感测试，判断语音输出是否真的适合内容产品。",
+      "relatedCardIds": [
+        "google-gemini-tts-streaming"
+      ],
+      "confidence": "low"
+    }
+  ],
+  "practiceTask": {
+    "title": "给 Agent 工具做一张资源发现表",
+    "durationMinutes": 45,
+    "objective": "把一个 AI 开发任务拆成工具、环境和人工确认三列，判断哪些资源可以自动发现，哪些资源必须由你确认后才能使用。",
+    "steps": [
+      "选一个真实任务，例如“让 AI 自动生成下一期周报草稿”。",
+      "列出任务需要的资源：官方网页、内容 JSON、构建命令、Git 命令、发布入口。",
+      "给每个资源标注使用方式：只读、可写、可联网、需要人工确认。",
+      "写出禁止自动执行的动作，例如公开发布、删除文件、付费调用和账号授权。",
+      "把这张表保存到项目文档里，作为下一次周更自动化的输入。"
+    ],
+    "relatedCardIds": [
+      "github-agent-finder-ard",
+      "cursor-cloud-agent-environments"
+    ]
+  },
+  "glossary": [
+    {
+      "term": "ARD",
+      "explanation": "Agentic Resource Discovery，用统一方式发布、索引和发现 AI 可用资源的规范。"
+    },
+    {
+      "term": "Agent Finder",
+      "explanation": "GitHub Copilot 用于按任务发现可用 AI 资源的能力，不等于自动安装工具。"
+    },
+    {
+      "term": "云端子 Agent",
+      "explanation": "在云端独立环境中运行的辅助 Agent，可与本地工作区隔离。"
+    },
+    {
+      "term": "TTS",
+      "explanation": "Text-to-Speech，把文本转换成语音输出。"
+    },
+    {
+      "term": "流式生成",
+      "explanation": "结果边生成边返回，用户不必等完整输出结束后才听到或看到。"
+    }
+  ],
+  "cards": [
+    {
+      "id": "cursor-cloud-agent-environments",
+      "title": "Cursor 3.7 加入云端环境设置和云端子 Agent",
+      "category": "Agent 基建",
+      "publisher": "Cursor",
+      "occurredAt": "2026-06-17",
+      "discoveredAt": "2026-06-18",
+      "oneLineSummary": "Cursor 在桌面端 Agents Window 中加入云端环境设置，并支持用 /in-cloud 启动云端子 Agent。",
+      "whyItMatters": "AI 编程工具正在把执行环境从本地编辑器扩展到云端虚拟机。环境配置、依赖安装、分支隔离和长任务运行会成为 Agent 产品的基础能力。",
+      "developerImpact": "如果你以后让 AI 处理更长的开发任务，需要提前定义环境初始化、命令权限、分支策略和结果验收，不应只把提示词写得更详细。",
+      "maturity": "experimental",
+      "noiseRisk": "medium",
+      "suggestedAction": "learn",
+      "reviewRisk": "medium",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "Agent 开发的竞争点正在从“会不会写代码”转向“能否在正确环境里长时间执行任务”。",
+      "visualHint": "本地工作区、云端 VM、独立分支和共享终端组成的执行链路图。",
+      "facts": [
+        {
+          "id": "cursor-cloud-env-fact",
+          "claim": "Cursor Changelog 在 2026 年 6 月 17 日记录，Cursor 3.7 为 Agents Window 引入 cloud environment setup，并说明 Cursor 可在云端帮助设置开发环境、展示共享终端进度，并把环境保存为可复用 snapshot。",
+          "sourceIds": [
+            "cursor-cloud-agents"
+          ],
+          "limitations": [
+            "该能力面向 Cursor 用户和 Cursor 云端 Agent 场景，不代表所有 AI 编程工具都已具备同等能力。",
+            "云端执行涉及权限、成本、私有代码和环境变量，仍需要发布前人工确认和高风险动作限制。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        },
+        {
+          "id": "cursor-cloud-subagent-fact",
+          "claim": "同一 Cursor Changelog 条目说明，可用 /in-cloud 启动运行在独立 VM 和分支上的 cloud subagent，用于隔离长时间或并行任务。",
+          "sourceIds": [
+            "cursor-cloud-agents"
+          ],
+          "limitations": [
+            "官方条目描述的是产品能力，不等于云端子 Agent 输出天然正确。",
+            "并行任务会增加状态合并和结果审核成本，不能替代最终检查。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "Cursor",
+        "Agent",
+        "云环境",
+        "子Agent"
+      ]
+    },
+    {
+      "id": "github-agent-finder-ard",
+      "title": "GitHub Agent Finder 与 Microsoft ARD 指向 Agent 资源发现",
+      "category": "Agent 工具发现",
+      "publisher": "GitHub / Microsoft",
+      "occurredAt": "2026-06-17",
+      "discoveredAt": "2026-06-18",
+      "oneLineSummary": "GitHub 发布 Agent Finder，Microsoft 同日介绍 ARD 规范，用于让 AI 客户端按任务发现可用资源。",
+      "whyItMatters": "Agent 生态的问题正在从“有没有工具”变成“怎样找到合适工具、怎样限制工具来源、怎样避免上下文窗口塞满无关资源”。资源发现会影响 MCP、skills、内部脚本和企业治理。",
+      "developerImpact": "如果你做 AI 开发工具或内部自动化，不要只堆工具列表。更关键的是资源目录、权限边界、发现规则和安装确认机制。",
+      "maturity": "experimental",
+      "noiseRisk": "medium",
+      "suggestedAction": "save",
+      "reviewRisk": "medium",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "Agent 真正规模化之前，需要先解决“工具从哪里来、谁允许用、何时接入”的发现问题。",
+      "visualHint": "任务描述进入资源注册表，再由治理规则筛选 MCP、技能和工具的流程图。",
+      "facts": [
+        {
+          "id": "github-agent-finder-fact",
+          "claim": "GitHub Changelog 在 2026 年 6 月 17 日宣布 Agent Finder 可用，并说明它可从指定 registry 发现 AI 资源、支持 managed settings，且不会静默安装工具。",
+          "sourceIds": [
+            "github-agent-finder"
+          ],
+          "limitations": [
+            "GitHub 明确说明 Agent Finder 只是发现合适工具，不会自动连接或安装。",
+            "企业可用资源仍受 managed settings 控制，不能把它理解成无限制工具调用。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        },
+        {
+          "id": "microsoft-ard-fact",
+          "claim": "Microsoft 在 2026 年 6 月 17 日介绍 Agentic Resource Discovery specification，称其为发布、索引和发现 AI capabilities 的开放规范，并列出与 GitHub、Google、Hugging Face 等机构协作。",
+          "sourceIds": [
+            "microsoft-ard-spec"
+          ],
+          "limitations": [
+            "ARD 是规范方向和生态协作信号，不等于所有 AI 客户端已经完成兼容。",
+            "资源发现降低连接成本，但可信度、权限和审计仍需要产品侧单独设计。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "GitHub",
+        "Microsoft",
+        "ARD",
+        "MCP",
+        "Agent"
+      ]
+    },
+    {
+      "id": "google-gemini-tts-streaming",
+      "title": "Gemini API 为 TTS 预览模型增加流式生成",
+      "category": "多模态实时输出",
+      "publisher": "Google",
+      "occurredAt": "2026-06-17",
+      "discoveredAt": "2026-06-18",
+      "oneLineSummary": "Gemini API Release Notes 记录，gemini-3.1-flash-tts-preview 支持语音生成流式输出。",
+      "whyItMatters": "语音输出如果只能等完整结果生成完再播放，产品体验会很重。流式 TTS 更适合导读、实时助手、课程陪练和长内容播报。",
+      "developerImpact": "如果你做内容产品，可以把“文字周报”未来扩展成语音导读。但现阶段要先测试延迟、断句、失败重试和费用，再决定是否接入。",
+      "maturity": "experimental",
+      "noiseRisk": "low",
+      "suggestedAction": "learn",
+      "reviewRisk": "low",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "多模态能力不只是生成图片或视频，实时语音输出也开始进入应用交互链路。",
+      "visualHint": "文本分段进入 TTS 模型，音频片段边生成边播放的时间轴。",
+      "facts": [
+        {
+          "id": "google-tts-streaming-fact",
+          "claim": "Google Gemini API Release Notes 在 2026 年 6 月 17 日记录，streamGenerateContent 和 Interactions API 的 stream: true 现在支持 gemini-3.1-flash-tts-preview 模型的 speech generation streaming。",
+          "sourceIds": [
+            "google-gemini-tts-streaming"
+          ],
+          "limitations": [
+            "该模型名称包含 preview，应按预览能力处理，不应假设长期稳定。",
+            "官方条目只说明流式支持，实际延迟、音质、价格和并发限制仍需要按 Text-to-Speech 文档测试。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "Google",
+        "Gemini",
+        "TTS",
+        "多模态",
+        "流式生成"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "cursor-cloud-agents",
+      "catalogId": "cursor",
+      "title": "What's New in Cursor - Latest Updates & Release Notes",
+      "url": "https://cursor.com/changelog",
+      "sourceType": "official_changelog",
+      "publisher": "Cursor",
+      "publishedAt": "2026-06-17",
+      "accessedAt": "2026-06-18T16:30:00.000+08:00",
+      "evidenceLocation": "3.7 Jun 17, 2026: Cloud Environment Setup and Cloud Subagents in Agents Window",
+      "evidenceExcerpt": "Changelog 说明 Cursor 可帮助在云端设置开发环境、保存可复用 snapshot，并可用 /in-cloud 启动独立 VM 和分支上的 cloud subagent。"
+    },
+    {
+      "id": "github-agent-finder",
+      "catalogId": "github",
+      "title": "Agent finder for GitHub Copilot now available",
+      "url": "https://github.blog/changelog/2026-06-17-agent-finder-for-github-copilot-now-available/",
+      "sourceType": "official_changelog",
+      "publisher": "GitHub",
+      "publishedAt": "2026-06-17",
+      "accessedAt": "2026-06-18T16:30:00.000+08:00",
+      "evidenceLocation": "Release body: registry, managed settings and no auto installation",
+      "evidenceExcerpt": "GitHub 说明 Agent Finder 可从 registry 发现资源、受 managed settings 限制，并明确不会静默连接或安装工具。"
+    },
+    {
+      "id": "microsoft-ard-spec",
+      "catalogId": "microsoft-ai",
+      "title": "Introducing the Agentic Resource Discovery specification",
+      "url": "https://commandline.microsoft.com/agentic-resource-discovery-specification-ard/",
+      "sourceType": "official_blog",
+      "publisher": "Microsoft",
+      "publishedAt": "2026-06-17",
+      "accessedAt": "2026-06-18T16:30:00.000+08:00",
+      "evidenceLocation": "Article body: secure common layer and collaboration list",
+      "evidenceExcerpt": "Microsoft 将 ARD 描述为用于发布、索引和发现 AI capabilities 的开放规范，并列出多家协作方。"
+    },
+    {
+      "id": "google-gemini-tts-streaming",
+      "catalogId": "google-ai",
+      "title": "Gemini API Release Notes",
+      "url": "https://ai.google.dev/gemini-api/docs/changelog",
+      "sourceType": "official_changelog",
+      "publisher": "Google",
+      "publishedAt": "2026-06-17",
+      "accessedAt": "2026-06-18T16:30:00.000+08:00",
+      "evidenceLocation": "June 17, 2026: Streaming support for speech generation",
+      "evidenceExcerpt": "Release Notes 说明 streamGenerateContent 和 Interactions API 的 stream: true 支持 gemini-3.1-flash-tts-preview 的语音生成流式输出。"
+    }
+  ],
+  "corrections": [],
+  "editorial": {
+    "generatedAt": "2026-06-18T16:30:00.000+08:00",
+    "aiReviewCompleted": true,
+    "factCheckCompletedAt": "2026-06-18T16:30:00.000+08:00",
+    "previewApprovedAt": "2026-06-18T16:30:00.000+08:00",
+    "publicationApprovedAt": null,
+    "notes": "第 002 期为 V1.5 稳定周更自动化演练的短版草稿。主要候选来自第 001 期生成后才发现的 2026-06-17 官方更新，因此 period 覆盖 2026-06-17 至 2026-06-18。status=approved 仅表示可进入本地预览与人工审核，不代表允许公开发布。"
+  }
+}

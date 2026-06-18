@@ -14,6 +14,12 @@ AI 前哨站是一份面向 AI 应用创造者的低维护情报周报。
 - 使用 AI 交叉核查、离线内容校验和发布前链接检查降低人工审核成本
 - 使用静态网站部署，不维护数据库和应用服务器
 
+## 当前优先级
+
+第 001 期已公开发布。下一阶段优先实现稳定周更内容生产：自动收集、筛选、核验、生成草稿、预览和发布前检查，最终由项目作者确认后上线。
+
+微信公众号、小红书和 X/Twitter 前期只作为可选分享包输出方向，不作为近期自动发布目标。
+
 ## 技术方案
 
 - Next.js 16
@@ -63,6 +69,8 @@ Get-Content -Raw -Encoding UTF8 content\issues\example-draft.json
 - [版本路线](docs/ROADMAP.md)
 - [技术架构](docs/ARCHITECTURE.md)
 - [内容生产流程](docs/CONTENT-OPS.md)
+- [周更自动化验收清单](docs/WEEKLY-AUTOMATION-ACCEPTANCE.md)
+- [第 002 期周更任务包](docs/ISSUE-002-WEEKLY-TASK-PACK.md)
 - [项目工作流](docs/WORKFLOW.md)
 - [关键决策](docs/DECISIONS.md)
 - [研发进度](docs/PROGRESS.md)
@@ -79,7 +87,7 @@ Get-Content -Raw -Encoding UTF8 content\issues\example-draft.json
 
 ## 当前状态
 
-项目处于 V1 本地预览阶段。第 001 期已完成标准化 AI 交叉核查并进入本地预览，但尚未进入公开发布状态。生产构建不会包含该期内容，GitHub Pages 部署也只能手动触发。自动验证只能降低错误概率，重要信息仍以官方来源为准。
+项目已完成 V1 公开发布。第 001 期已完成标准化 AI 交叉核查并发布到 GitHub Pages；下一阶段进入 V1.5 稳定周更自动化规划。自动验证只能降低错误概率，重要信息仍以官方来源为准。
 
 自动验证入口：
 

@@ -1,0 +1,90 @@
+{
+  "weekId": "2026-W25",
+  "issueId": "issue-002",
+  "period": {
+    "start": "2026-06-17",
+    "end": "2026-06-18",
+    "basis": "Issue 001 was generated on 2026-06-17 before several official updates were discovered. Issue 002 is a short supplement covering late-discovered official updates and the 2026-06-18 check."
+  },
+  "status": "awaiting_human_review",
+  "runMode": "normal",
+  "requiresUserConfirmation": true,
+  "lastStep": "awaiting_human_review",
+  "candidateSummary": {
+    "collected": 7,
+    "kept": 3,
+    "rejected": 4,
+    "frontierObservationCandidates": 1
+  },
+  "candidates": [
+    {
+      "id": "cursor-cloud-agents",
+      "source": "Cursor official changelog",
+      "url": "https://cursor.com/changelog",
+      "publishedAt": "2026-06-17",
+      "decision": "kept",
+      "reason": "High relevance to AI coding workflow automation: cloud environment setup and cloud subagents in the Cursor desktop Agents Window."
+    },
+    {
+      "id": "github-agent-finder-ard",
+      "source": "GitHub Changelog and Microsoft Command Line blog",
+      "url": "https://github.blog/changelog/2026-06-17-agent-finder-for-github-copilot-now-available/",
+      "publishedAt": "2026-06-17",
+      "decision": "kept",
+      "reason": "High relevance to Agent resource discovery, MCP/tools/skills registry governance, and human-controlled installation boundaries."
+    },
+    {
+      "id": "google-gemini-tts-streaming",
+      "source": "Google Gemini API Release Notes",
+      "url": "https://ai.google.dev/gemini-api/docs/changelog",
+      "publishedAt": "2026-06-17",
+      "decision": "kept",
+      "reason": "Relevant multimodal platform update: streaming support for speech generation on a preview TTS model."
+    }
+  ],
+  "rejectedCandidates": [
+    {
+      "id": "github-copilot-app-ga",
+      "source": "GitHub Changelog",
+      "reason": "Potentially relevant, but the direct official page repeatedly failed during live fetch. Left out of the draft to avoid weak verification."
+    },
+    {
+      "id": "github-copilot-chat-auto-mode",
+      "source": "GitHub Changelog",
+      "reason": "Potentially relevant, but the direct official page repeatedly failed during live fetch and it overlaps with broader Copilot product availability updates."
+    },
+    {
+      "id": "anthropic-sonnet-opus-4-retirement",
+      "source": "Anthropic Release Notes",
+      "url": "https://docs.anthropic.com/en/release-notes/api",
+      "publishedAt": "2026-06-15",
+      "reason": "Official fact confirmed, but it falls inside the previous issue window and overlaps with issue 001 model lifecycle coverage."
+    },
+    {
+      "id": "openai-api-changelog",
+      "source": "OpenAI API Changelog",
+      "url": "https://developers.openai.com/api/docs/changelog",
+      "reason": "No matching June 17 or June 18 API changelog entry was found in the fetched page."
+    }
+  ],
+  "checks": {
+    "contentValidate": "passed",
+    "linkCheck": "passed_with_warnings",
+    "wechatExport": "passed",
+    "typecheck": "passed",
+    "lint": "passed",
+    "test": "passed",
+    "build": "passed"
+  },
+  "decision": {
+    "recommendation": "short_issue_candidate",
+    "reason": "There are enough verified official updates for a short issue, but not enough fresh material for a full six-card weekly edition. Automated checks passed; publication now requires human review.",
+    "needsHumanReview": true
+  },
+  "notes": [
+    "This is the first V1.5 weekly automation rehearsal.",
+    "Do not publish without explicit user confirmation.",
+    "Status approved in content JSON means visible in local development preview; it does not mean publication is approved.",
+    "Link check warnings are limited to known OpenAI 403 and Google Gemini timeout/abort behavior; issue-002 Cursor, GitHub, and Microsoft links returned OK, while the Google issue-002 link returned uncertain due timeout/abort."
+  ]
+}

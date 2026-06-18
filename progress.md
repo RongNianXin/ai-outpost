@@ -1,5 +1,76 @@
 # AI Outpost Progress
 
+## 2026-06-18 周更自动化验收清单落地
+
+- 用户明确纠偏：当前不应审核第 002 期文案，应优先确认自动功能是否完成、如何验证、如何在 2026-06-20 17:00 前打通发布链路。
+- 用户确认新的基建路线：GitHub Actions 定时任务作为云端运行内核，第三方微信推送服务作为第一阶段提醒通道。
+- 已明确放弃本地计划任务和邮件提醒。
+- 本周六目标改为：GitHub Actions 自动跑检索校验 -> 第三方服务推送微信通知 -> 用户确认后手动触发官网发布。
+- 公众号、小红书、X/Twitter 第一阶段只生成文案草稿，由人工复制发布。
+- 已完成三种微信推送服务初步判断：优先 Server酱 / Server酱³，备选 WxPusher，暂缓 PushDeer。
+- 已记录 GitHub Actions 定时换算：北京时间周六 17:00 对应 UTC 09:00；因整点可能延迟，正式配置可考虑 17:05 或 17:07。
+- 已新增 Server酱通知脚本：`scripts/notify/server-chan.ts`，只读取环境变量 `SERVER_CHAN_SENDKEY`，不把密钥写入仓库。
+- 已新增 GitHub Actions workflow：`.github/workflows/weekly-ops.yml`，支持手动触发和每周六 17:05 北京时间定时运行。
+- 已新增 package script：`pnpm.cmd notify:serverchan`。
+- 当前等待用户把 sendkey 配置为 GitHub Secret：`SERVER_CHAN_SENDKEY`，然后在 GitHub Actions 手动触发 `AI Outpost weekly ops` 测试微信推送。
+- 新增脚本后的验证结果：`typecheck`、`lint`、`test`、`content:validate`、`content:export:wechat`、`build` 均通过；生产构建仍只公开第 001 期。
+- 已暂停失败的 Codex 2 分钟提醒测试：`AI Outpost 2分钟提醒测试`。
+- 已新增 `docs/WEEKLY-AUTOMATION-ACCEPTANCE.md`，记录当前已完成能力、未完成能力、人工验证、自我验证、交叉 AI 验证、6 月 20 日发布目标和各平台待讨论事项。
+- 当前判断：内容生成和自动校验已能演练；GitHub Actions 定时化、微信推送、一键确认、官网发布 workflow 尚未完成。
+- 下一步建议：先选定 Server酱 / WxPusher / PushDeer 之一，做最小微信推送测试，再实现 GitHub Actions 定时草稿生成 workflow。
+
+## 2026-06-18 第 002 期自动化演练完成到人工审核点
+
+- 已创建运行状态文件：`ops/weekly-run-state.json` 和 `ops/runs/2026-W25.json`。
+- 已生成第 002 期短版草稿：`content/issues/issue-002.json`，状态为 `approved`，仅用于本地预览。
+- 已补充官方来源白名单：`content/sources.json` 增加 `https://cursor.com/changelog` 和 `https://commandline.microsoft.com/`。
+- 已生成公众号 Markdown：`exports/wechat/2026-06-18-agent-discovery-cloud-agents-tts.md`。
+- 已生成轻量分享包：`exports/social/2026-06-18-agent-discovery-cloud-agents-tts.md`。
+- 已修复本地预览排序：`lib/content/repository.ts` 改为按真实时间排序，并新增测试覆盖同日 `approved` 草稿排序。
+- 已启动本地开发服务器，预览页返回 200：`http://127.0.0.1:3100/issues/2026-06-18-agent-discovery-cloud-agents-tts/`。
+- 自动校验结果：`content:validate`、`content:export:wechat`、`typecheck`、`lint`、`test`、`build` 均通过；`content:check:links` 通过但有警告，OpenAI 403 和 Google 页面超时/中止属于既有外部访问不确定项。
+- 生产构建确认：只生成第 001 期公开详情页，第 002 期不会误上线。
+- 当前状态：已停止在人工审核点；收到明确发布确认前，不应切换 `published`、提交 Git 或触发线上发布。
+
+## 2026-06-18 稳定周更自动化规划落地
+
+- 根据用户确认，项目下一阶段从“第 002 期内容生产任务包”进一步收敛为“稳定周更自动化”。
+- 已确认优先级：官网主站优先、稳定内容生成优先、发布前人工确认、内容不足可短版或跳过。
+- 已确认暂不优先做：微信公众号、小红书、X/Twitter 自动发布；尤其用户当前没有 X/Twitter 账号，也不希望前期被社媒平台复杂度拖住。
+- 已更新规划文档：`docs/PRODUCT.md`、`docs/ROADMAP.md`、`docs/CONTENT-OPS.md`、`docs/ARCHITECTURE.md`、`docs/WORKFLOW.md`。
+- 已更新交接判断：`task_plan.md` 与 `findings.md` 新增 V1.5 稳定周更自动化方向。
+- 当前未执行代码修改、依赖安装、构建、测试或 Git 操作。
+- 已新增第 002 期稳定周更任务包：`docs/ISSUE-002-WEEKLY-TASK-PACK.md`。
+- 任务包已定义运行状态、运行日志、候选来源、筛选规则、AI 质检角色、预算控制、自动检查、确认摘要、发布后记录、短版/跳过规则和后续脚本化候选。
+- 本轮仍未执行代码修改、依赖安装、构建、测试或 Git 操作。
+- 下一步建议：优先实现或手动创建 `ops/weekly-run-state.json` 与 `ops/runs/<weekId>.json` 的最小结构，然后按任务包启动第 002 期候选收集。
+
+## 2026-06-18 统一交接
+
+- 本次交接原因：阶段完成并准备切换到新会话。
+- 当前阶段是否完成：完成。V1 公开发布链路已完成。
+- 新会话应该继续旧任务，还是进入新阶段：进入新阶段。
+- 新阶段目标：准备第 002 期内容生产任务包，验证 AI 前哨站能否以低维护方式持续产出周报。
+- 当前真实状态：第 001 期已发布；GitHub Pages 已重新部署；用户已验证网页端各项操作正常。
+- 最新提交：`d7cf36f docs: add frontier concept observation rules`。
+- 公开站点：[https://rongnianxin.github.io/ai-outpost/](https://rongnianxin.github.io/ai-outpost/)
+- 本地开发地址：`http://127.0.0.1:3100/`。
+- 修改过的关键文件：`content/issues/issue-001.json`、`components/IssueView.tsx`、`components/IntelCard.tsx`、`components/HomeIssueSummary.tsx`、相关 CSS Modules、`scripts/content/*`、`.github/workflows/deploy-pages.yml`、`docs/CONTENT-OPS.md`、`docs/PRODUCT.md`、`task_plan.md`、`findings.md`、`progress.md`。
+- 最近验证结果：`content:validate`、`content:check:links`、`content:export:wechat`、`typecheck`、`lint`、`test`、`build` 均曾在发布准备阶段通过；用户已完成线上网页端人工验证。
+- 未完成内容：第 002 期尚未启动；是否加入“前沿概念观察”需要在第 002 期选题时判断；暂未补 E2E 自动化测试。
+- 当前阻塞项：无。
+- 建议开发者现在检查的文件：`task_plan.md`、`findings.md`、`progress.md`、`docs/CONTENT-OPS.md`、`content/issues/issue-001.json`、`.github/workflows/deploy-pages.yml`。
+- 是否建议开发者手动保存 Git：建议。此交接更新修改了根目录三个交接文件，本轮按要求不执行 Git 操作。
+
+## 下一步行动
+
+建议新会话直接开始“第 002 期内容生产任务包”：
+
+1. 明确第 002 期时间窗口。
+2. 定义候选来源范围：官方来源为主，专家/社区来源只用于 0-1 条前沿概念观察。
+3. 设计 AI 收集、去重、事实映射、风险标注和发布前校验流程。
+4. 暂不新增网站功能，除非第 002 期生产流程暴露出明确结构问题。
+
 ## 本轮内容策略补充
 - 新增“前沿概念观察”规则：官方来源仍是主干，每期最多允许 1 条专家社区升温的新概念观察。
 - 该规则只写入文档，不改页面、Schema 或第 001 期内容，避免把热度概念误包装成官方事实。
