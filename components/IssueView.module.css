@@ -303,6 +303,7 @@
 .sources h2,
 .corrections h2,
 .glossary h2 {
+  scroll-margin-top: 10rem;
   margin: 0;
   color: var(--color-ink);
   font-size: clamp(1.55rem, 3vw, 2.3rem);
@@ -723,5 +724,14 @@
 
   .cards {
     padding-top: 1.5rem;
+  }
+
+  .topChanges h2,
+  .verificationPanel h2,
+  .cardsHeader h2,
+  .sources h2,
+  .corrections h2,
+  .glossary h2 {
+    scroll-margin-top: 11rem;
   }
 }

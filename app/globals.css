@@ -31,12 +31,19 @@ html {
   color: var(--color-ink);
   max-width: 100%;
   overflow-x: clip;
+  scroll-padding-top: 9rem;
   scroll-behavior: smooth;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  html {
+    scroll-padding-top: 11rem;
   }
 }
 
