@@ -55,10 +55,18 @@ export async function getPublicIssueBySlug(
   return issues.find((issue) => issue.slug === slug) ?? null;
 }
 
-function compareIssuesNewestFirst(a: Issue, b: Issue) {
-  const aDate = a.publishedAt ?? a.period.end;
-  const bDate = b.publishedAt ?? b.period.end;
-  return bDate.localeCompare(aDate);
+export function compareIssuesNewestFirst(a: Issue, b: Issue) {
+  const timeDifference = getIssueSortTime(b) - getIssueSortTime(a);
+  if (timeDifference !== 0) {
+    return timeDifference;
+  }
+
+  return b.issueNumber - a.issueNumber;
+}
+
+function getIssueSortTime(issue: Issue) {
+  const sortDate = issue.publishedAt ?? `${issue.period.end}T23:59:59.999+08:00`;
+  return Date.parse(sortDate);
 }
 
 function stripBom(contents: string) {

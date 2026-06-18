@@ -1,0 +1,91 @@
+name: AI Outpost weekly ops
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 17:05 Asia/Shanghai on Saturdays. GitHub Actions cron uses UTC.
+    - cron: "5 9 * * 6"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  weekly-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.5.2
+          run_install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate content
+        run: pnpm content:validate
+
+      - name: Check source links
+        run: pnpm content:check:links
+
+      - name: Export WeChat draft
+        run: pnpm content:export:wechat
+
+      - name: Type check
+        run: pnpm typecheck
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Test
+        run: pnpm test
+
+      - name: Build static site
+        run: pnpm build
+
+      - name: Upload weekly artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: weekly-ops-output
+          path: |
+            exports/**
+            ops/**
+            content/issues/**
+
+      - name: Prepare notification message
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo "AI_OUTPOST_NOTIFY_TITLE=AI Outpost 周更检查：${{ job.status }}"
+            echo "AI_OUTPOST_NOTIFY_DESP<<EOF"
+            echo "运行状态：${{ job.status }}"
+            echo ""
+            echo "运行类型：${{ github.event_name }}"
+            echo "分支：${{ github.ref_name }}"
+            echo "运行链接：${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            echo ""
+            echo "如果状态为 success：请打开运行链接查看 artifacts 和草稿，再决定是否手动触发官网发布。"
+            echo "如果状态为 failure：请先查看失败步骤，不要发布。"
+            echo "EOF"
+          } >> "$GITHUB_ENV"
+
+      - name: Notify WeChat via ServerChan
+        if: always()
+        env:
+          SERVER_CHAN_SENDKEY: ${{ secrets.SERVER_CHAN_SENDKEY }}
+        run: |
+          pnpm tsx scripts/notify/server-chan.ts \
+            --title "$AI_OUTPOST_NOTIFY_TITLE" \
+            --desp "$AI_OUTPOST_NOTIFY_DESP"

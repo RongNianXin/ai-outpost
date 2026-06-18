@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 
 import { issueSchema } from "../lib/content/schema";
-import { isIssueVisible } from "../lib/content/repository";
+import {
+  compareIssuesNewestFirst,
+  isIssueVisible,
+} from "../lib/content/repository";
 import { sourceCatalogSchema } from "../lib/content/source-catalog";
 import { validateContentCollection } from "../lib/content/validation";
 import { renderWechatMarkdown } from "../lib/content/wechat";
@@ -316,5 +319,27 @@ describe("issue visibility", () => {
   it("shows published issues in development and production", () => {
     expect(isIssueVisible("published", "development")).toBe(true);
     expect(isIssueVisible("published", "production")).toBe(true);
+  });
+});
+
+describe("issue ordering", () => {
+  it("sorts same-day approved drafts after earlier published timestamps", () => {
+    const publishedIssue = issueSchema.parse(baseIssue);
+    const approvedIssue = issueSchema.parse({
+      ...baseIssue,
+      id: "issue-002",
+      slug: "issue-002",
+      issueNumber: 2,
+      status: "approved",
+      publishedAt: null,
+      period: {
+        start: "2026-06-17",
+        end: "2026-06-18",
+      },
+    });
+
+    expect(
+      [publishedIssue, approvedIssue].sort(compareIssuesNewestFirst)[0].id,
+    ).toBe("issue-002");
   });
 });

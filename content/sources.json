@@ -50,6 +50,7 @@
     "homepage": "https://www.microsoft.com/ai/",
     "officialUrls": [
       "https://blogs.microsoft.com/ai/",
+      "https://commandline.microsoft.com/",
       "https://learn.microsoft.com/"
     ],
     "topics": ["models", "coding-tools", "agents", "industry"]
@@ -59,6 +60,7 @@
     "name": "Cursor",
     "homepage": "https://www.cursor.com/",
     "officialUrls": [
+      "https://cursor.com/changelog",
       "https://www.cursor.com/changelog",
       "https://docs.cursor.com/"
     ],

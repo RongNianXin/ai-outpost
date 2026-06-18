@@ -1,0 +1,14 @@
+{
+  "mode": "normal",
+  "weekId": "2026-W25",
+  "issueId": "issue-002",
+  "period": {
+    "start": "2026-06-17",
+    "end": "2026-06-18",
+    "basis": "short_issue_for_late_discovered_official_updates_after_issue_001_generation"
+  },
+  "startedAt": "2026-06-18T00:00:00.000+08:00",
+  "lastStep": "awaiting_human_review",
+  "requiresUserConfirmation": true,
+  "failureReason": null
+}
