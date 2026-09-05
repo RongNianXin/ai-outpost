@@ -13,7 +13,9 @@ export function getFastTakeaway(issue: Issue) {
 
 export function getIssueThemeLabels(issue: Issue) {
   const categories = Array.from(new Set(issue.cards.map((card) => card.category)));
-  const labels: string[] = ["官方来源"];
+  const labels: string[] = [issue.sources.some((source) =>
+    ["independent_review", "creator_review"].includes(source.sourceType))
+    ? "官方 + 第三方测评" : "官方来源"];
 
   if (categories.some((category) => category.includes("安全"))) {
     labels.push("审核安全");
@@ -39,6 +41,18 @@ export function getIssueThemeLabels(issue: Issue) {
 }
 
 export function getWeeklyImpactBullets(issue: Issue) {
+  const issueSpecificBullets = Array.from(
+    new Set(
+      getTopCards(issue)
+        .map((card) => card.communicationAngle.trim())
+        .filter(Boolean),
+    ),
+  );
+
+  if (issueSpecificBullets.length > 0) {
+    return issueSpecificBullets.slice(0, 4);
+  }
+
   const searchableText = issue.cards
     .flatMap((card) => [card.title, card.category, card.publisher, ...card.tags])
     .join(" ");

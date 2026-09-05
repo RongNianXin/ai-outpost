@@ -1,0 +1,119 @@
+{
+  "weekId": "2026-W36",
+  "issueId": "issue-003",
+  "period": {
+    "start": "2026-08-24",
+    "end": "2026-08-30",
+    "basis": "Restart from the latest complete natural week; do not backfill every missed week."
+  },
+  "status": "awaiting_human_review",
+  "runMode": "draft_only",
+  "requiresUserConfirmation": true,
+  "lastStep": "awaiting_human_review",
+  "candidateSummary": {
+    "collected": 10,
+    "kept": 6,
+    "rejected": 4,
+    "frontierObservationCandidates": 0
+  },
+  "candidates": [
+    {
+      "id": "openai-agent-sandbox-incident",
+      "source": "OpenAI official announcement",
+      "url": "https://openai.com/index/hugging-face-incident-and-the-road-ahead/",
+      "publishedAt": "2026-08-26",
+      "decision": "kept",
+      "reason": "High impact on Agent sandboxing, network isolation and human interruption design; explicitly scoped to an internal reduced-safeguard research environment."
+    },
+    {
+      "id": "openai-cursor-model-winddown",
+      "source": "OpenAI official announcement",
+      "url": "https://openai.com/index/our-decision-on-cursor-following-its-acquisition-by-spacex/",
+      "publishedAt": "2026-08-28",
+      "decision": "kept",
+      "reason": "Material model-supply continuity risk for AI coding tools; disputed causal claims were excluded."
+    },
+    {
+      "id": "google-gemini-omni-flash-ga",
+      "source": "Google Gemini API changelog",
+      "url": "https://ai.google.dev/gemini-api/docs/changelog",
+      "publishedAt": "2026-08-27",
+      "decision": "kept",
+      "reason": "GA video workflow capabilities and an actionable preview-model retirement date."
+    },
+    {
+      "id": "cursor-cloud-agent-from-scratch",
+      "source": "Cursor official changelog",
+      "url": "https://cursor.com/changelog",
+      "publishedAt": "2026-08-27",
+      "decision": "kept",
+      "reason": "Extends Cloud Agents from existing repositories into repository creation and live-preview workflows."
+    },
+    {
+      "id": "github-copilot-customize-ga",
+      "source": "GitHub official changelog",
+      "url": "https://github.blog/changelog/2026-08-25-github-copilot-app-customize-tab-is-generally-available/",
+      "publishedAt": "2026-08-25",
+      "decision": "kept",
+      "reason": "Consolidates MCP, plugins, skills and canvases into a discoverable GA extension surface."
+    },
+    {
+      "id": "anthropic-sdk-keys-update",
+      "source": "Anthropic platform release notes",
+      "url": "https://docs.anthropic.com/en/release-notes/overview",
+      "publishedAt": "2026-08-27",
+      "decision": "kept",
+      "reason": "SDK response-shape compatibility and identity-bound key lifecycle are actionable developer-platform changes."
+    }
+  ],
+  "rejectedCandidates": [
+    {
+      "id": "openai-jalapeno",
+      "source": "OpenAI official article",
+      "reason": "Vendor self-benchmark with lower near-term actionability for independent AI application builders."
+    },
+    {
+      "id": "github-global-model-policy",
+      "source": "GitHub official changelog",
+      "reason": "Valid enterprise governance update, but lower relevance for the target reader and overlaps another GitHub item."
+    },
+    {
+      "id": "github-jetbrains-agent-harness",
+      "source": "GitHub official changelog",
+      "reason": "Relevant but excluded to avoid excessive GitHub concentration in a six-card issue."
+    },
+    {
+      "id": "anthropic-non-product-news",
+      "source": "Anthropic official newsroom",
+      "reason": "Items in the issue window were less actionable for AI application development than the platform release notes."
+    }
+  ],
+  "checks": {
+    "contentValidate": "passed",
+    "linkCheck": "passed_with_warnings",
+    "wechatExport": "passed",
+    "socialExport": "passed_manual_template",
+    "typecheck": "passed_after_serial_rerun",
+    "lint": "passed",
+    "test": "passed_23_of_23",
+    "build": "passed_public_output_still_issue_001_only",
+    "localPreview": "passed_issue_and_hero_asset_http_200",
+    "heroDesign": "passed_two-level-title_optional-local-visual_and_no-image-fallback"
+  },
+  "automation": {
+    "codexHeartbeat": "active_ai-outpost_saturday_1715",
+    "githubWeeklyOps": "disabled_inactivity_requires_explicit_remote_write_confirmation",
+    "serverChanSecretName": "present_value_and_delivery_unverified"
+  },
+  "decision": {
+    "recommendation": "full_issue_candidate",
+    "reason": "Six high-relevance items were verified against opened first-party sources. Local checks, exports and preview passed; publication still requires human review and exact remote-write confirmation.",
+    "needsHumanReview": true
+  },
+  "notes": [
+    "Issue status approved means local preview is available; it does not authorize publication.",
+    "The title hero now uses a short lead, a smaller deck and one original text-free visual; card images remain disabled by default.",
+    "Five source-link checks returned non-blocking 403 or timeout warnings; the same pages were opened and reviewed during research.",
+    "No Git commit, push, workflow enable, workflow dispatch, GitHub Pages deployment, WeChat publication or Xiaohongshu publication was performed."
+  ]
+}

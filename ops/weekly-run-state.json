@@ -1,13 +1,13 @@
 {
-  "mode": "normal",
-  "weekId": "2026-W25",
-  "issueId": "issue-002",
+  "mode": "draft_only",
+  "weekId": "2026-W36",
+  "issueId": "issue-003",
   "period": {
-    "start": "2026-06-17",
-    "end": "2026-06-18",
-    "basis": "short_issue_for_late_discovered_official_updates_after_issue_001_generation"
+    "start": "2026-08-31",
+    "end": "2026-09-05",
+    "basis": "scheduled_partial_week_refresh_cut_off_at_2026-09-05_10-01_asia_shanghai"
   },
-  "startedAt": "2026-06-18T00:00:00.000+08:00",
+  "startedAt": "2026-09-05T10:01:37.000+08:00",
   "lastStep": "awaiting_human_review",
   "requiresUserConfirmation": true,
   "failureReason": null

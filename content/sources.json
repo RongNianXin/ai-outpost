@@ -4,6 +4,7 @@
     "name": "OpenAI",
     "homepage": "https://openai.com/",
     "officialUrls": [
+      "https://openai.com/index/",
       "https://openai.com/news/",
       "https://platform.openai.com/docs/",
       "https://developers.openai.com/",
@@ -17,6 +18,7 @@
     "homepage": "https://www.anthropic.com/",
     "officialUrls": [
       "https://www.anthropic.com/news",
+      "https://www.anthropic.com/claude-fable-and-mythos-5-1",
       "https://docs.anthropic.com/",
       "https://github.com/anthropics/"
     ],
@@ -51,6 +53,7 @@
     "officialUrls": [
       "https://blogs.microsoft.com/ai/",
       "https://commandline.microsoft.com/",
+      "https://code.visualstudio.com/",
       "https://learn.microsoft.com/"
     ],
     "topics": ["models", "coding-tools", "agents", "industry"]
@@ -62,6 +65,7 @@
     "officialUrls": [
       "https://cursor.com/changelog",
       "https://www.cursor.com/changelog",
+      "https://cursor.com/docs/",
       "https://docs.cursor.com/"
     ],
     "topics": ["coding-tools"]
@@ -75,5 +79,21 @@
       "https://github.com/modelcontextprotocol/"
     ],
     "topics": ["agents", "mcp", "open-source"]
+  },
+  {
+    "id": "artificial-analysis",
+    "name": "Artificial Analysis",
+    "homepage": "https://artificialanalysis.ai/",
+    "officialUrls": [],
+    "reviewUrls": ["https://artificialanalysis.ai/articles/"],
+    "topics": ["benchmarks", "models"]
+  },
+  {
+    "id": "claire-vo",
+    "name": "Claire Vo / How I AI",
+    "homepage": "https://clairevo.com/",
+    "officialUrls": [],
+    "reviewUrls": ["https://www.lennysnewsletter.com/p/gpt-6-astra-is-a-banger-heres-everything"],
+    "topics": ["creator-review", "workflows"]
   }
 ]

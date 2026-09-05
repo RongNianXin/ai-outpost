@@ -38,10 +38,7 @@ export function HomeIssueSummary({ issue }: HomeIssueSummaryProps) {
             <span>{formatPeriod(issue.period.start, issue.period.end)}</span>
           </div>
           <p className={styles.eyebrow}>最新一期导读</p>
-          <h1>
-            <span>AI 开发者本周</span>
-            <span>需要关注什么</span>
-          </h1>
+          <h1>{issue.title}</h1>
           <ul className={styles.topicRail} aria-label="本期主题">
             {themeLabels.map((label) => (
               <li key={label}>{label}</li>

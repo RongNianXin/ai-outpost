@@ -9,6 +9,8 @@
 
 # testing
 /coverage
+/output/playwright/
+/.playwright-cli/
 
 # generated content exports
 /exports
@@ -16,6 +18,7 @@
 # local environment
 .env*
 !.env.example
+/.local
 
 # logs and OS files
 *.log

@@ -1,5 +1,7 @@
 # AI Outpost
 
+现行发布平台、推广流程、阶段成果与文档维护规则：[推广与分发](docs/PROMOTION.md)。本期检查结论：[003 期发布前检查](docs/reviews/ISSUE-003-PREFLIGHT-2026-09-05.md)。历史日志不代表当前操作规则。
+
 AI 前哨站是一份面向 AI 应用创造者的低维护情报周报。
 
 它不追求覆盖所有 AI 新闻，而是从官方来源中筛选少量重要变化，解释这些变化为什么值得关注，并帮助读者判断是否需要继续深读。
@@ -16,9 +18,9 @@ AI 前哨站是一份面向 AI 应用创造者的低维护情报周报。
 
 ## 当前优先级
 
-第 001 期已公开发布。下一阶段优先实现稳定周更内容生产：自动收集、筛选、核验、生成草稿、预览和发布前检查，最终由项目作者确认后上线。
+第 001 期已公开发布，第 003 期处于本地审核状态。当前优先验证周六自动刷新内容，以及官网、微信公众号、小红书三个独立发布出口。
 
-微信公众号、小红书和 X/Twitter 前期只作为可选分享包输出方向，不作为近期自动发布目标。
+本机发布控制页负责生成公众号 HTML/封面、小红书竖版封面，并检查三个平台的实际准备度；每个平台仍需单独确认，控制页不提供“全部发布”。
 
 ## 技术方案
 
@@ -40,6 +42,8 @@ pnpm.cmd dev
 pnpm.cmd content:validate
 pnpm.cmd content:check:links
 pnpm.cmd content:export:wechat
+pnpm.cmd publish:prepare
+pnpm.cmd publish:console
 pnpm.cmd lint
 pnpm.cmd typecheck
 pnpm.cmd test
@@ -52,6 +56,12 @@ Windows PowerShell 的脚本执行策略可能阻止 `pnpm.ps1`，因此文档�
 
 ```text
 http://127.0.0.1:3100/
+```
+
+本机三平台发布控制页固定使用 3101 端口：
+
+```text
+http://127.0.0.1:3101/
 ```
 
 旧版 Windows PowerShell 读取中文 JSON 时应显式指定 UTF-8：
@@ -72,6 +82,7 @@ Get-Content -Raw -Encoding UTF8 content\issues\example-draft.json
 - [周更自动化验收清单](docs/WEEKLY-AUTOMATION-ACCEPTANCE.md)
 - [第 002 期周更任务包](docs/ISSUE-002-WEEKLY-TASK-PACK.md)
 - [项目工作流](docs/WORKFLOW.md)
+- [微信公众号申请与接入](docs/WECHAT-OFFICIAL-ACCOUNT-SETUP.md)
 - [关键决策](docs/DECISIONS.md)
 - [研发进度](docs/PROGRESS.md)
 
@@ -87,7 +98,7 @@ Get-Content -Raw -Encoding UTF8 content\issues\example-draft.json
 
 ## 当前状态
 
-项目已完成 V1 公开发布。第 001 期已完成标准化 AI 交叉核查并发布到 GitHub Pages；下一阶段进入 V1.5 稳定周更自动化规划。自动验证只能降低错误概率，重要信息仍以官方来源为准。
+项目已完成 V1 公开发布，并进入 V1.5 周更与三平台发布准备阶段。Codex 每周六 10:00 生成本地草稿和预览；外部平台发布仍由项目作者逐个平台确认。自动验证只能降低错误概率，重要信息仍以官方来源为准。
 
 自动验证入口：
 

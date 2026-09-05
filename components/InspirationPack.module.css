@@ -1,0 +1,34 @@
+.pack {
+  width: min(1180px, calc(100% - 2rem));
+  margin: 2rem auto;
+  padding: clamp(1.1rem, 3vw, 1.8rem);
+  border: 1px solid var(--color-line);
+  border-left: 3px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
+.header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.header h2 { margin: 0; font-size: 1.3rem; }
+.pack p { color: var(--color-muted); font-size: .9rem; line-height: 1.65; }
+.format { color: var(--color-accent); font: 1rem var(--font-mono); }
+.actions { display: flex; flex-wrap: wrap; gap: .7rem; }
+.actions button, .actions a {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; padding: .55rem .9rem;
+  border: 1px solid var(--color-line-strong); border-radius: 8px;
+  background: var(--color-paper); color: var(--color-accent-strong);
+  font: inherit; font-size: .9rem; text-decoration: none; cursor: pointer;
+}
+.actions a[aria-disabled="true"] { opacity: .65; cursor: wait; }
+.actions button:hover, .actions a:hover { background: var(--color-accent-soft); }
+.pack :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
+.status:empty { display: none; }
+.pack details { margin-top: 1rem; border-top: 1px solid var(--color-line); padding-top: .85rem; }
+.pack summary { color: var(--color-muted); font-size: .9rem; cursor: pointer; }
+.pack textarea {
+  display: block; width: 100%; min-width: 0; height: 22rem; resize: vertical;
+  border: 1px solid var(--color-line); border-radius: 8px; padding: .8rem;
+  background: var(--color-paper); color: var(--color-ink);
+  font: .85rem/1.65 var(--font-mono); overflow-wrap: anywhere; white-space: pre-wrap;
+}
