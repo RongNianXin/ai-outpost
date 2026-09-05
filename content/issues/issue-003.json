@@ -7,7 +7,7 @@
   "summary": "GPT-6 Astra 是这周不能漏掉的大事：OpenAI 把重点放在电脑操作和多步工作上。独立测评看到编程效率进步，也发现综合分数和呈现质量并非全面领先；博主的真实任务则提供了另一种观察角度。另有自托管 Agent、长视频理解和代码评审更新。",
   "hero": {
     "lead": "GPT-6 来了，能放心交活吗？",
-    "deck": "发布亮点、一手测评，以及没那么完美的地方",
+    "deck": "发布亮点、第三方测评，以及没那么完美的地方",
     "visual": {
       "src": "/images/issues/issue-003-hero-2026-09-05.png",
       "width": 1536,
@@ -222,7 +222,7 @@
     },
     {
       "id": "google-agentic-video-understanding",
-      "title": "Gemini 看长视频不再逐秒扫，先找和问题有关的片段",
+      "title": "Gemini 新增长视频理解模式，按问题寻找相关片段",
       "category": "多模态",
       "publisher": "Google",
       "occurredAt": "2026-09-01",
@@ -272,7 +272,7 @@
     },
     {
       "id": "anthropic-fable-5-1",
-      "title": "Fable 5.1 上线：缓存便宜了，Agent 跑长任务更省",
+      "title": "Fable 5.1 缓存降价，实际省多少要看用法",
       "category": "模型与成本",
       "publisher": "Anthropic",
       "occurredAt": "2026-09-01",
