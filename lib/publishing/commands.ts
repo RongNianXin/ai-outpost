@@ -69,7 +69,8 @@ export function commandSummary(result: CommandResult) {
 
 function trimOutput(value: string) {
   const maxLength = 8_000;
-  const trimmed = value.trim();
+  // Leading whitespace is data in Git porcelain (the index/worktree columns).
+  const trimmed = value.trimEnd();
   return trimmed.length <= maxLength
     ? trimmed
     : `${trimmed.slice(0, maxLength)}\n…输出已截断`;
