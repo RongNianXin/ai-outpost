@@ -16,7 +16,12 @@ vi.mock("node:fs/promises", () => ({ readFile: vi.fn(), writeFile: vi.fn(), acce
 vi.mock("../lib/publishing/config", () => ({ getWechatConfig: () => ({
   configured: true, appId: "mock", appSecret: "mock", author: "test",
 }) }));
-const issue = issueSchema.parse(JSON.parse(readFileSync("content/issues/issue-003.json", "utf8")));
+// The restore scenario requires an approved input, regardless of the live issue's release state.
+const issue = issueSchema.parse({
+  ...JSON.parse(readFileSync("content/issues/issue-003.json", "utf8")),
+  status: "approved",
+  publishedAt: null,
+});
 const xhsInput = { issueId: issue.id, title: "test", body: "test", imagePath: "fake.jpg", isPrivate: true };
 beforeEach(() => { vi.resetAllMocks(); vi.stubGlobal("fetch", vi.fn()); });
 afterEach(() => vi.unstubAllGlobals());
