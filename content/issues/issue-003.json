@@ -20,8 +20,8 @@
     "start": "2026-08-31",
     "end": "2026-09-05"
   },
-  "status": "approved",
-  "publishedAt": null,
+  "status": "published",
+  "publishedAt": "2026-09-05T10:13:02.781Z",
   "topChangeIds": [
     "openai-gpt-6-astra",
     "anthropic-fable-5-1",
@@ -562,7 +562,7 @@
     "aiReviewCompleted": true,
     "factCheckCompletedAt": "2026-09-05T07:51:49.512Z",
     "previewApprovedAt": "2026-09-05T07:57:58.757Z",
-    "publicationApprovedAt": null,
+    "publicationApprovedAt": "2026-09-05T10:13:02.781Z",
     "notes": "9 月 5 日补充重磅遗漏复核：GPT-6 Astra 替换 Playco 次要案例并置顶，保持 6 条与原 URL。官方发布事实、AA 9 月 3 日独立测评及 Claire Vo 实测自述分别归因；未独立复现评测或完整观看视频。其余 5 条沿用上午已核对内容。本轮为本地待用户审核版本，approved 仅表示自动预览门槛，不代表用户同意公开发布；publicationApprovedAt 保持 null。"
   }
 }
