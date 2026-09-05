@@ -195,7 +195,7 @@ export function IssueView({ issue }: IssueViewProps) {
       <InspirationPack
         markdown={renderInspirationMarkdown(issue)}
         href={getInspirationPath(issue.slug, process.env.NEXT_PUBLIC_BASE_PATH)}
-        filename={`ai-outpost-${issue.id}.md`}
+        filename={`ai-outpost-issue-${String(issue.issueNumber).padStart(3, "0")}.md`}
       />
 
       <section className={styles.sources} aria-labelledby="source-list">

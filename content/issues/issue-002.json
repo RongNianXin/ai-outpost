@@ -2,14 +2,14 @@
   "schemaVersion": 1,
   "id": "issue-002",
   "slug": "2026-06-18-agent-discovery-cloud-agents-tts",
-  "issueNumber": 2,
+  "issueNumber": 0,
   "title": "本周 AI 开发短版：Agent 发现、云端子 Agent 与语音流式生成",
   "summary": "这是第 002 期短版，补收 6 月 17 日第 001 期生成后出现的官方更新，并检查到 6 月 18 日。重点是：Cursor 把云端 Agent 环境和云端子 Agent 推到桌面端，GitHub 与 Microsoft 推动 ARD/Agent Finder 解决 Agent 工具发现问题，Google Gemini API 为 TTS 预览模型增加流式生成。对开发者来说，Agent 基础设施正在从“写代码助手”走向“工具发现、云环境、并行任务和实时多模态输出”的系统能力。",
   "period": {
     "start": "2026-06-17",
     "end": "2026-06-18"
   },
-  "status": "approved",
+  "status": "draft",
   "publishedAt": null,
   "topChangeIds": [
     "cursor-cloud-agent-environments",
