@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { formatDate, formatPeriod } from "@/lib/content/format";
@@ -6,11 +7,13 @@ import {
   getFastTakeaway,
   getIssueThemeLabels,
   getTopCards,
-  toChineseCount,
 } from "@/lib/content/presentation";
 import type { Issue } from "@/lib/content/schema";
+import { getSourceTypeLabel } from "@/lib/content/source-labels";
 
 import { IntelCard } from "./IntelCard";
+import { InspirationPack } from "./InspirationPack";
+import { getInspirationPath, renderInspirationMarkdown } from "@/lib/content/inspiration";
 import styles from "./IssueView.module.css";
 
 type IssueViewProps = {
@@ -33,8 +36,11 @@ export function IssueView({ issue }: IssueViewProps) {
   const topCards = getTopCards(issue);
   const themeLabels = getIssueThemeLabels(issue);
   const fastTakeaway = getFastTakeaway(issue);
-  const focusCount = toChineseCount(topCards.length);
   const sourceCardMap = getSourceCardMap(issue);
+  const heroVisual = issue.hero?.visual;
+  const heroVisualSrc = heroVisual
+    ? `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${heroVisual.src}`
+    : null;
 
   return (
     <article>
@@ -43,8 +49,10 @@ export function IssueView({ issue }: IssueViewProps) {
       </nav>
 
       <header className={styles.issueHeader}>
-        <div className={styles.heroShell}>
-          <div className={styles.heroMain}>
+        <div
+          className={`${styles.heroShell} ${heroVisual ? styles.hasVisual : styles.noVisual}`}
+        >
+          <div className={styles.heroCopy}>
             <div className={styles.issueMeta}>
               <span>Issue {String(issue.issueNumber).padStart(3, "0")}</span>
               <span>{issueStatusLabels[issue.status]}</span>
@@ -52,19 +60,46 @@ export function IssueView({ issue }: IssueViewProps) {
             </div>
             <p className={styles.eyebrow}>完整期刊页</p>
             <h1>
-              <span>AI 开发者本周</span>
-              <span>需要关注的{focusCount}件事</span>
+              {issue.hero ? (
+                <>
+                  <span className={styles.headlineLead}>{issue.hero.lead}</span>
+                  <span className={styles.headlineDeck}>{issue.hero.deck}</span>
+                </>
+              ) : (
+                issue.title
+              )}
             </h1>
             <ul className={styles.topicRail} aria-label="本期主题">
               {themeLabels.map((label) => (
                 <li key={label}>{label}</li>
               ))}
             </ul>
+          </div>
+
+          {heroVisual && heroVisualSrc && (
+            <figure className={styles.heroVisual}>
+              <div className={styles.visualFrame}>
+                <Image
+                  alt={heroVisual.alt}
+                  height={heroVisual.height}
+                  priority
+                  sizes="(max-width: 980px) calc(100vw - 4rem), 38vw"
+                  src={heroVisualSrc}
+                  width={heroVisual.width}
+                />
+              </div>
+              <figcaption>{heroVisual.caption}</figcaption>
+            </figure>
+          )}
+
+          <div className={styles.heroAnalysis}>
             <div className={styles.coreTakeaway} aria-label="本期 5 秒结论">
               <span>5 秒结论</span>
               <strong>{fastTakeaway}</strong>
             </div>
-            <p className={styles.summary}>{issue.summary}</p>
+            {fastTakeaway !== issue.summary && (
+              <p className={styles.summary}>{issue.summary}</p>
+            )}
           </div>
 
           <aside className={styles.heroPanel} aria-label="本期概览">
@@ -119,7 +154,7 @@ export function IssueView({ issue }: IssueViewProps) {
         <p>
           本站内容由 AI 自动检索、整理和生成，并经过多轮 AI 交叉校验。构建前会执行字段完整性、
           来源引用、模糊结论表述和链接活体检查。自动验证用于降低错误概率，不能替代原始来源；
-          重要信息请以官方链接为准。
+          产品信息以官方资料为准，第三方测评只适用于原文所述条件，本站未必独立复现。
         </p>
       </section>
 
@@ -157,16 +192,22 @@ export function IssueView({ issue }: IssueViewProps) {
         </section>
       )}
 
+      <InspirationPack
+        markdown={renderInspirationMarkdown(issue)}
+        href={getInspirationPath(issue.slug, process.env.NEXT_PUBLIC_BASE_PATH)}
+        filename={`ai-outpost-${issue.id}.md`}
+      />
+
       <section className={styles.sources} aria-labelledby="source-list">
         <p className={styles.sectionCode}>04 / Sources</p>
         <h2 id="source-list">来源索引</h2>
         <p className={styles.sourceIntro}>
-          这里列出本期所有官方来源，并标注每个来源支撑了哪些情报卡。卡片内链接用于就地核查，
+          这里区分官方资料、独立测评和博主实测自述，并标注它们支撑的情报卡。卡片内链接用于就地核查，
           这里用于查看整期来源结构。
         </p>
         <details className={styles.sourceDetails}>
           <summary>
-            <span>展开 {issue.sources.length} 个官方来源与对应情报</span>
+            <span>展开 {issue.sources.length} 个原始来源与对应情报</span>
             <small>用于核查，不影响正文阅读</small>
           </summary>
           <ol>
@@ -182,10 +223,10 @@ export function IssueView({ issue }: IssueViewProps) {
                     {source.title}
                   </a>
                   <span className={styles.sourceMeta}>
-                    {source.publisher} ·{" "}
+                    {getSourceTypeLabel(source)} · {source.publisher} ·{" "}
                     {source.publishedAt
                       ? formatDate(source.publishedAt)
-                      : "官方页面未标注发布日期"}
+                      : "来源页面未标注发布日期"}
                   </span>
                   {supportedCards.length > 0 && (
                     <div className={styles.sourceCards}>

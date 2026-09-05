@@ -9,6 +9,7 @@ import type {
 } from "@/lib/content/schema";
 
 import styles from "./IntelCard.module.css";
+import { getSourceTypeLabel } from "@/lib/content/source-labels";
 
 type IntelCardProps = {
   card: IntelCardData;
@@ -29,7 +30,7 @@ export function IntelCard({
   const factSourceCount = new Set(
     card.facts.flatMap((fact) => fact.sourceIds),
   ).size;
-  const officialSources = Array.from(
+  const citedSources = Array.from(
     new Set(card.facts.flatMap((fact) => fact.sourceIds)),
   ).flatMap((sourceId) => {
     const source = sourceById.get(sourceId);
@@ -57,11 +58,11 @@ export function IntelCard({
 
         <div className={styles.insightGrid}>
           <section>
-            <h3>对开发者的影响</h3>
+            <h3>这和你有什么关系</h3>
             <p>{card.developerImpact}</p>
           </section>
           <section>
-            <h3>为什么重要</h3>
+            <h3>真正改变了什么</h3>
             <p>{card.whyItMatters}</p>
           </section>
         </div>
@@ -77,13 +78,13 @@ export function IntelCard({
       <details className={styles.evidence}>
         <summary>
           <span>[ 展开技术实据与来源 ]</span>
-          <small>{factSourceCount} 个官方来源</small>
+          <small>{factSourceCount} 个原始来源</small>
         </summary>
         <div className={styles.evidenceBody}>
           <section className={styles.factPanel} aria-label="事实支撑">
             <div className={styles.factPanelHeader}>
-              <h3>事实支撑验证</h3>
-              <span>{factSourceCount} 个官方来源</span>
+              <h3>事实、测评与限制</h3>
+              <span>{factSourceCount} 个原始来源</span>
             </div>
             <ul className={styles.factList}>
               {card.facts.map((fact) => (
@@ -101,17 +102,17 @@ export function IntelCard({
             </ul>
           </section>
 
-          {officialSources.length > 0 && (
-            <nav className={styles.sourceShortcuts} aria-label="官方链接">
-              <span>官方链接</span>
-              {officialSources.map((source) => (
+          {citedSources.length > 0 && (
+            <nav className={styles.sourceShortcuts} aria-label="原始来源">
+              <span>原始来源</span>
+              {citedSources.map((source) => (
                 <a
                   href={source.url}
                   key={source.id}
                   rel="noreferrer"
                   target="_blank"
                 >
-                  {source.publisher}：{source.title}
+                  [{getSourceTypeLabel(source)}] {source.publisher}：{source.title}
                 </a>
               ))}
             </nav>

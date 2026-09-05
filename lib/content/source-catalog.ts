@@ -11,7 +11,8 @@ const sourceCatalogEntrySchema = z.object({
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   name: z.string().min(2).max(100),
   homepage: z.url(),
-  officialUrls: z.array(z.url()).min(1).max(12),
+  officialUrls: z.array(z.url()).max(12),
+  reviewUrls: z.array(z.url()).max(12).default([]),
   topics: z.array(z.string().min(2).max(40)).min(1).max(12),
 });
 

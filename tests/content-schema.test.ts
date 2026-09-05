@@ -5,9 +5,22 @@ import {
   compareIssuesNewestFirst,
   isIssueVisible,
 } from "../lib/content/repository";
+import { buildPreviewUrl, selectPreviewIssue } from "../lib/content/preview";
+import { getWeeklyImpactBullets } from "../lib/content/presentation";
 import { sourceCatalogSchema } from "../lib/content/source-catalog";
 import { validateContentCollection } from "../lib/content/validation";
 import { renderWechatMarkdown } from "../lib/content/wechat";
+import { getConfirmationPhrases } from "../lib/publishing/actions";
+import {
+  renderWechatHtml,
+  renderXiaohongshuPost,
+} from "../lib/publishing/derivatives";
+import { getIssuePackageHash } from "../lib/publishing/prepare";
+import {
+  getBlockingChanges,
+  getPublicationPaths,
+  parseGitStatus,
+} from "../lib/publishing/git-state";
 
 const baseIssue = {
   schemaVersion: 1 as const,
@@ -95,9 +108,74 @@ const baseIssue = {
   },
 };
 
+describe("third-party evidence", () => {
+  const catalog = sourceCatalogSchema.parse([{
+    id: "official-source", name: "Test evaluator", homepage: "https://example.com",
+    officialUrls: ["https://example.com/news"],
+    reviewUrls: ["https://example.com/reviews"],
+    topics: ["models"],
+  }]);
+
+  function reviewIssue() {
+    const issue = issueSchema.parse(baseIssue);
+    issue.sources[0].sourceType = "independent_review";
+    issue.sources[0].url = "https://example.com/reviews/astra";
+    return issue;
+  }
+
+  it("accepts reviews only on their classified allowlist", () => {
+    const issue = reviewIssue();
+    expect(validateContentCollection([{fileName: "test.json", issue}], catalog)).toEqual([]);
+    issue.sources[0].sourceType = "official_announcement";
+    expect(validateContentCollection([{fileName: "test.json", issue}], catalog)
+      .some((error) => error.message.includes("official allowlist"))).toBe(true);
+  });
+
+  it("rejects lookalike hosts and path prefixes", () => {
+    for (const url of ["https://example.com.evil.test/reviews/astra", "https://example.com/reviews-fake/astra"]) {
+      const issue = reviewIssue();
+      issue.sources[0].url = url;
+      expect(validateContentCollection([{fileName: "test.json", issue}], catalog).length).toBeGreaterThan(0);
+    }
+  });
+
+  it("preserves review labels in both WeChat exports", () => {
+    const issue = reviewIssue();
+    expect(renderWechatHtml(issue)).toContain("独立测评");
+    expect(renderWechatMarkdown(issue)).toContain("独立测评");
+    issue.sources[0].sourceType = "creator_review";
+    expect(renderWechatHtml(issue)).toContain("博主实测自述");
+    expect(renderWechatMarkdown(issue)).toContain("博主实测自述");
+  });
+});
+
 describe("issueSchema", () => {
   it("accepts a complete approved issue", () => {
-    expect(issueSchema.parse(baseIssue).slug).toBe("issue-001");
+    const issue = issueSchema.parse(baseIssue);
+
+    expect(issue.slug).toBe("issue-001");
+    expect(issue.hero).toBeNull();
+  });
+
+  it("accepts an optional editorial hero with a local visual", () => {
+    const issue = issueSchema.parse({
+      ...baseIssue,
+      hero: {
+        lead: "一个 AI 跑出了沙箱",
+        deck: "模型路线变化，另外几条更新也值得留意",
+        visual: {
+          src: "/images/issues/issue-001-hero.jpg",
+          width: 1536,
+          height: 1024,
+          alt: "一个发光节点正在越过透明沙箱的边界",
+          caption: "本期原创主视觉",
+        },
+      },
+    });
+
+    expect(issue.hero?.visual?.src).toBe(
+      "/images/issues/issue-001-hero.jpg",
+    );
   });
 
   it("allows approved content without a publication date", () => {
@@ -218,7 +296,87 @@ describe("renderWechatMarkdown", () => {
     });
     const markdown = renderWechatMarkdown(issue);
 
-    expect(markdown).toContain("官方页面未标注发布日期");
+    expect(markdown).toContain("来源页面未标注发布日期");
+  });
+});
+
+describe("publishing derivatives", () => {
+  it("derives WeChat HTML and Xiaohongshu copy from the same issue", () => {
+    const issue = issueSchema.parse(baseIssue);
+    const html = renderWechatHtml(issue);
+    const xiaohongshu = renderXiaohongshuPost(issue);
+
+    expect(html).toContain(issue.cards[0].facts[0].claim);
+    expect(html).toContain(issue.sources[0].url);
+    expect(xiaohongshu.body).toContain(issue.cards[0].oneLineSummary);
+    expect(xiaohongshu.body).toContain(issue.cards[0].developerImpact);
+    expect(Array.from(xiaohongshu.title).length).toBeLessThanOrEqual(19);
+  });
+
+  it("keeps the content hash stable when only publication metadata changes", () => {
+    const approved = issueSchema.parse({
+      ...baseIssue,
+      status: "approved",
+      publishedAt: null,
+      editorial: {
+        ...baseIssue.editorial,
+        publicationApprovedAt: null,
+      },
+    });
+    const published = issueSchema.parse(baseIssue);
+
+    expect(getIssuePackageHash(approved)).toBe(getIssuePackageHash(published));
+  });
+
+  it("binds every external action confirmation to the issue number", () => {
+    const issue = issueSchema.parse(baseIssue);
+    const phrases = getConfirmationPhrases(issue);
+
+    expect(phrases.website_publish).toBe("发布官网第001期");
+    expect(phrases.wechat_publish).toBe("发布公众号第001期");
+    expect(phrases.xiaohongshu_publish).toBe("公开发布小红书第001期");
+  });
+});
+
+describe("website publication allowlist", () => {
+  it("allows current issue assets and planning notes but blocks code changes", () => {
+    const issue = issueSchema.parse({
+      ...baseIssue,
+      hero: {
+        lead: "测试主标题",
+        deck: "测试补充标题",
+        visual: {
+          src: "/images/issues/issue-001-hero.jpg",
+          width: 1200,
+          height: 800,
+          alt: "一张用于发布白名单测试的本地主视觉图片",
+          caption: "测试主视觉",
+        },
+      },
+    });
+    const changes = parseGitStatus(
+      [
+        " M content/issues/issue-001.json",
+        "?? public/images/issues/issue-001-hero.jpg",
+        " M task_plan.md",
+        " M lib/content/schema.ts",
+      ].join("\n"),
+    );
+
+    expect(getBlockingChanges(changes, issue).map((change) => change.path)).toEqual([
+      "lib/content/schema.ts",
+    ]);
+    expect(getPublicationPaths(issue, changes)).toEqual([
+      "content/issues/issue-001.json",
+      "public/images/issues/issue-001-hero.jpg",
+    ]);
+  });
+
+  it("blocks pre-staged publication files", () => {
+    const issue = issueSchema.parse(baseIssue);
+    const changes = parseGitStatus("M  content/issues/issue-001.json");
+
+    expect(getBlockingChanges(changes, issue)).toHaveLength(1);
   });
 });
 
@@ -308,6 +466,21 @@ describe("validateContentCollection", () => {
       errors.some((error) => error.message.includes("Vague action phrase")),
     ).toBe(true);
   });
+
+  it("rejects formulaic AI-style phrases in reader-facing copy", () => {
+    const issue = issueSchema.parse({
+      ...baseIssue,
+      summary: "此外，这项更新至关重要，开发者需要认真评估具体影响。",
+    });
+    const errors = validateContentCollection(
+      [{ fileName: "issue.json", issue }],
+      catalog,
+    );
+
+    expect(
+      errors.some((error) => error.message.includes("Formulaic style phrase")),
+    ).toBe(true);
+  });
 });
 
 describe("issue visibility", () => {
@@ -341,5 +514,59 @@ describe("issue ordering", () => {
     expect(
       [publishedIssue, approvedIssue].sort(compareIssuesNewestFirst)[0].id,
     ).toBe("issue-002");
+  });
+});
+
+describe("issue presentation", () => {
+  it("prefers issue-specific communication angles for weekly impacts", () => {
+    const issue = issueSchema.parse(baseIssue);
+
+    expect(getWeeklyImpactBullets(issue)).toEqual([
+      issue.cards[0].communicationAngle,
+    ]);
+  });
+});
+
+describe("preview target", () => {
+  it("selects the latest approved issue and builds its local URL", () => {
+    const publishedIssue = issueSchema.parse(baseIssue);
+    const approvedIssue = issueSchema.parse({
+      ...baseIssue,
+      id: "issue-002",
+      slug: "issue-002",
+      issueNumber: 2,
+      status: "approved",
+      publishedAt: null,
+      period: {
+        start: "2026-06-17",
+        end: "2026-06-18",
+      },
+    });
+
+    const selectedIssue = selectPreviewIssue([
+      publishedIssue,
+      approvedIssue,
+    ]);
+
+    expect(selectedIssue.id).toBe("issue-002");
+    expect(buildPreviewUrl(selectedIssue)).toBe(
+      "http://127.0.0.1:3100/issues/issue-002/",
+    );
+  });
+
+  it("rejects a requested draft that is not ready for preview", () => {
+    const draftIssue = issueSchema.parse({
+      ...baseIssue,
+      status: "draft",
+      publishedAt: null,
+      editorial: {
+        ...baseIssue.editorial,
+        previewApprovedAt: null,
+      },
+    });
+
+    expect(() => selectPreviewIssue([draftIssue], draftIssue.slug)).toThrow(
+      /not previewable/i,
+    );
   });
 });

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI 前哨站｜本机发布轨道</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body data-session-token="__SESSION_TOKEN__" data-default-slug="__DEFAULT_SLUG__">
+    <header class="masthead">
+      <a class="brand" href="http://127.0.0.1:3100/" target="_blank" rel="noreferrer">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>AI 前哨站</span>
+      </a>
+      <div class="local-badge"><span></span>仅本机可访问</div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">Publish rail / 发布轨道</p>
+        <div class="hero-grid">
+          <div>
+            <h1 id="page-title">一份事实源，<br />三条独立出口。</h1>
+            <p class="hero-copy">先把本期内容和图片准备好，再分别检查、预览、发送。公开动作不会被合并成一个危险的“全发”按钮。</p>
+          </div>
+          <div class="run-panel">
+            <label for="issue-select">当前期刊</label>
+            <select id="issue-select" aria-label="选择期刊"></select>
+            <strong id="issue-title">正在读取…</strong>
+            <span id="issue-meta">—</span>
+            <button class="prepare-button" id="prepare-button" type="button">生成三平台发布包</button>
+            <button class="quiet-button" id="refresh-button" type="button">重新检查状态</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="rail" aria-label="发布流程">
+        <div class="rail-origin">
+          <span>唯一事实源</span>
+          <strong>期刊 JSON</strong>
+        </div>
+        <div class="rail-line" aria-hidden="true"><i></i><i></i><i></i></div>
+        <p>准备包会同时生成官网预览、公众号 HTML/封面和小红书竖版封面；三个平台各自保留确认门禁。</p>
+      </section>
+
+      <section class="platforms" aria-label="三平台发布状态">
+        <article class="platform" data-platform="website">
+          <header><span class="platform-code">WEB</span><div><h2>官方网站</h2><p>GitHub Pages</p></div></header>
+          <div class="status-row"><span class="status-pill">检查中</span><span>公开网页</span></div>
+          <ul class="checks"></ul>
+          <div class="platform-actions">
+            <a class="preview-link" id="website-preview" target="_blank" rel="noreferrer">打开真实网页</a>
+            <button type="button" data-action="website_publish">发布官网</button>
+          </div>
+          <p class="fine-print">会验证干净工作区、main 分支和远端一致性，再提交期刊状态并触发 Pages。当前有未保存改动时自动锁定。</p>
+        </article>
+
+        <article class="platform" data-platform="wechat">
+          <header><span class="platform-code">WX</span><div><h2>微信公众号</h2><p>订阅号草稿与发布</p></div></header>
+          <div class="status-row"><span class="status-pill">检查中</span><span>官方接口</span></div>
+          <ul class="checks"></ul>
+          <div class="platform-actions">
+            <a class="preview-link" id="wechat-preview" target="_blank" rel="noreferrer">预览公众号稿</a>
+            <button type="button" data-action="wechat_draft">创建草稿</button>
+            <button class="secondary-action" type="button" data-action="wechat_publish">发布文章（非群发）</button>
+          </div>
+          <p class="fine-print">建议申请内容型订阅号。这里的接口“发布”是生成公开文章，不等于向关注者群发；没有接口时可复制富文本到后台。</p>
+        </article>
+
+        <article class="platform" data-platform="xiaohongshu">
+          <header><span class="platform-code">RED</span><div><h2>小红书</h2><p>图文笔记</p></div></header>
+          <div class="status-row"><span class="status-pill">检查中</span><span>本机 CLI</span></div>
+          <ul class="checks"></ul>
+          <div class="platform-actions">
+            <a class="preview-link" id="xhs-preview" target="_blank" rel="noreferrer">预览笔记与封面</a>
+            <button type="button" data-action="xiaohongshu_private">发私密测试</button>
+            <button class="secondary-action" type="button" data-action="xiaohongshu_publish">公开发布</button>
+          </div>
+          <p class="fine-print">先做私密测试。登录 Cookie 由 xhs 工具保存在本机，绝不上传 GitHub；预览页也可复制文案供人工发布。</p>
+        </article>
+      </section>
+
+      <section class="receipts" aria-labelledby="receipts-title">
+        <div><p class="eyebrow">Receipts / 回执</p><h2 id="receipts-title">最近动作</h2></div>
+        <ol id="receipt-list"><li>还没有发布回执。</li></ol>
+      </section>
+
+      <section class="setup-note">
+        <strong>周六 10:00 的任务只负责刷新内容和打开预览。</strong>
+        <span>电脑需要开机，Codex 桌面端需要保持运行。真正发布仍由你在此页逐个平台确认。</span>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <dialog id="confirm-dialog">
+      <form method="dialog">
+        <button class="dialog-close" value="cancel" aria-label="关闭">×</button>
+        <p class="eyebrow">Final gate / 最终门禁</p>
+        <h2>确认这次平台写入</h2>
+        <p>这一步会改变外部平台状态。请输入下面的完整确认句：</p>
+        <code id="confirm-phrase"></code>
+        <label for="confirm-input">确认句</label>
+        <input id="confirm-input" autocomplete="off" />
+        <div class="dialog-actions">
+          <button class="quiet-button" value="cancel">取消</button>
+          <button id="confirm-submit" value="default">执行</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>

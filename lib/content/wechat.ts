@@ -4,6 +4,7 @@ import {
   noiseRiskLabels,
 } from "./labels";
 import type { EvidenceSource, Issue } from "./schema";
+import { getSourceTypeLabel } from "./source-labels";
 
 export function renderWechatMarkdown(issue: Issue): string {
   const sourceById = new Map(
@@ -45,7 +46,7 @@ export function renderWechatMarkdown(issue: Issue): string {
       "",
       `**建议处理：** ${actionLabels[card.suggestedAction]}`,
       "",
-      "**AI 交叉核查事实：**",
+      "**事实、测评与限制：**",
       "",
     );
 
@@ -69,8 +70,8 @@ export function renderWechatMarkdown(issue: Issue): string {
   if (issue.sources.length > 0) {
     lines.push("## 原始来源", "");
     issue.sources.forEach((source, index) => {
-      const sourceDate = source.publishedAt ?? "官方页面未标注发布日期";
-      lines.push(`${index + 1}. [${source.title}](${source.url})，${sourceDate}`);
+      const sourceDate = source.publishedAt ?? "来源页面未标注发布日期";
+      lines.push(`${index + 1}. [${source.title}](${source.url})，${getSourceTypeLabel(source)}，${sourceDate}`);
     });
     lines.push("");
   }
@@ -78,7 +79,7 @@ export function renderWechatMarkdown(issue: Issue): string {
   lines.push(
     "---",
     "",
-    "来源事实和 AI 分析已按单列文本流整理。内容经过 AI 交叉校验和脚本检查；重要信息请以官方来源为准。",
+    "来源事实和 AI 分析已按单列文本流整理。内容经过 AI 交叉校验和脚本检查；产品信息以官方资料为准，测评结论只适用于原文所述条件。",
     "",
   );
 

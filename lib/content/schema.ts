@@ -36,6 +36,8 @@ export const sourceTypes = [
   "official_pricing",
   "official_status",
   "official_announcement",
+  "independent_review",
+  "creator_review",
 ] as const;
 
 const dateSchema = z.iso.date();
@@ -118,6 +120,26 @@ const glossaryEntrySchema = z.object({
   explanation: z.string().min(4).max(160),
 });
 
+const issueHeroSchema = z.object({
+  lead: z.string().min(4).max(36),
+  deck: z.string().min(6).max(80),
+  visual: z
+    .object({
+      src: z
+        .string()
+        .regex(
+          /^\/images\/issues\/[a-z0-9][a-z0-9/-]*\.(?:jpg|jpeg|png|webp)$/,
+          "Hero visual must be a project-local image under /images/issues/.",
+        ),
+      width: z.number().int().min(320).max(4096),
+      height: z.number().int().min(240).max(4096),
+      alt: z.string().min(8).max(180),
+      caption: z.string().min(4).max(120),
+    })
+    .nullable()
+    .default(null),
+});
+
 export const issueSchema = z
   .object({
     schemaVersion: z.literal(1),
@@ -126,6 +148,7 @@ export const issueSchema = z
     issueNumber: z.number().int().min(0),
     title: z.string().min(4).max(120),
     summary: z.string().min(8).max(600),
+    hero: issueHeroSchema.nullable().default(null),
     period: z.object({
       start: dateSchema,
       end: dateSchema,
