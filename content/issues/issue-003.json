@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "issue-003",
   "slug": "2026-08-31-self-hosted-agents-video-understanding-pr-merge",
-  "issueNumber": 3,
+  "issueNumber": 2,
   "title": "GPT-6 来了，工作真能交给它吗？本周 6 条 AI 更新",
   "summary": "GPT-6 Astra 是这周不能漏掉的大事：OpenAI 把重点放在电脑操作和多步工作上。独立测评看到编程效率进步，也发现综合分数和呈现质量并非全面领先；博主的真实任务则提供了另一种观察角度。另有自托管 Agent、长视频理解和代码评审更新。",
   "hero": {
@@ -20,7 +20,7 @@
     "start": "2026-08-31",
     "end": "2026-09-05"
   },
-  "status": "published",
+  "status": "corrected",
   "publishedAt": "2026-09-05T10:13:02.781Z",
   "topChangeIds": [
     "openai-gpt-6-astra",
@@ -556,7 +556,11 @@
       "evidenceExcerpt": "作者说明获得提前体验资格，原文列出浏览器 QA、ChatPRD 功能开发、CRM 和 Blender 等任务。本期仅核对文字说明和章节，未完整观看视频。"
     }
   ],
-  "corrections": [],
+  "corrections": [{
+    "correctedAt": "2026-09-05T18:30:38+08:00",
+    "description": "对外期号由003更正为002：此前002仅为未发布演练稿。本期正文、原发布时间与网址不变。",
+    "affectedCardIds": []
+  }],
   "editorial": {
     "generatedAt": "2026-09-05T07:51:49.512Z",
     "aiReviewCompleted": true,
