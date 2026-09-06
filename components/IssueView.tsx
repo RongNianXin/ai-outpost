@@ -264,9 +264,7 @@ export function IssueView({ issue }: IssueViewProps) {
       )}
 
       <section className={styles.contactPanel} aria-label="联系与投稿">
-        <a href="mailto:RNX100823@outlook.com">
-          邮件联系 / 投稿
-        </a>
+        <span>邮件联系 / 投稿</span>
         <span className={styles.contactEmail}>RNX100823@outlook.com</span>
       </section>
     </article>
