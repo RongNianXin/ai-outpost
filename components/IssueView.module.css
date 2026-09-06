@@ -506,19 +506,10 @@
   padding: 1rem;
 }
 
-.contactPanel a {
-  color: var(--color-muted);
-  text-decoration: none;
-}
-
 .contactEmail {
   user-select: all;
   overflow-wrap: anywhere;
   min-width: 0;
-}
-
-.contactPanel a:hover {
-  color: var(--color-accent);
 }
 
 .glossary dl {
