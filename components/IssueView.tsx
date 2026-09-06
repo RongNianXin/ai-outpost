@@ -263,12 +263,11 @@ export function IssueView({ issue }: IssueViewProps) {
         </section>
       )}
 
-      <section className={styles.subscribePanel} aria-label="订阅与反馈">
-        <a href="mailto:?subject=订阅下一期 AI 前哨站">[ 订阅下一期 ]</a>
-        <span>|</span>
-        <a href="mailto:?subject=提交 AI 情报给 AI 前哨站">
-          [ 提交你的 AI 情报 ]
+      <section className={styles.contactPanel} aria-label="联系与投稿">
+        <a href="mailto:RNX100823@outlook.com">
+          邮件联系 / 投稿
         </a>
+        <span className={styles.contactEmail}>RNX100823@outlook.com</span>
       </section>
     </article>
   );

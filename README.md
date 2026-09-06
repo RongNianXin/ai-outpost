@@ -1,5 +1,7 @@
 # AI Outpost
 
+[在线阅读](https://rongnianxin.github.io/ai-outpost/)
+
 现行发布平台、推广流程、阶段成果与文档维护规则：[推广与分发](docs/PROMOTION.md)。本期检查结论：[003 期发布前检查](docs/reviews/ISSUE-003-PREFLIGHT-2026-09-05.md)。历史日志不代表当前操作规则。
 
 AI 前哨站是一份面向 AI 应用创造者的低维护情报周报。
