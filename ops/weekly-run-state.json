@@ -8,7 +8,9 @@
     "basis": "scheduled_partial_week_refresh_cut_off_at_2026-09-05_10-01_asia_shanghai"
   },
   "startedAt": "2026-09-05T10:01:37.000+08:00",
-  "lastStep": "awaiting_human_review",
+  "lastStep": "published_local_record_reconciled",
   "requiresUserConfirmation": true,
-  "failureReason": null
+  "failureReason": null,
+  "reconciledAt": "2026-09-07T07:15:22.821Z",
+  "reconciliationEvidence": "Formal issueNumber 002 is corrected with publishedAt; public permanent page HTTP 200. Internal issue-003 is not formal issue 003."
 }

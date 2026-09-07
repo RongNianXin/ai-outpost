@@ -1,0 +1,3 @@
+const http=require('node:http'),fs=require('node:fs'),path=require('node:path');
+const routes=new Map([['/',['full.html','text/html; charset=utf-8']],['/full.html',['full.html','text/html; charset=utf-8']],['/hero.png',['hero.png','image/png']]]);
+http.createServer((req,res)=>{const file=routes.get(req.url);if(!file||!['GET','HEAD'].includes(req.method)){res.writeHead(404);res.end('Not found');return;}res.writeHead(200,{'Content-Type':file[1],'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'});res.end(req.method==='HEAD'?undefined:fs.readFileSync(path.join(__dirname,file[0])));}).listen(3193,'127.0.0.1',()=>console.log('Full issue preview: http://127.0.0.1:3193/full.html'));

@@ -1,0 +1,12 @@
+{
+  "purpose": "Fixed issue 002 reference; not a generic converter",
+  "files": {
+    "build.cjs": "fa68fbd45fbde18c1a378fd7cd344312002113438216ecd15aa4936739c6fd1a",
+    "serve.cjs": "c0ec1ae89a5bbc669e9e109661c5627de4fb90e39b108a570a8d797ac072a9f9"
+  },
+  "originalSnapshotFiles": {
+    "build.cjs": "fa68fbd45fbde18c1a378fd7cd344312002113438216ecd15aa4936739c6fd1a",
+    "serve.cjs": "c0ec1ae89a5bbc669e9e109661c5627de4fb90e39b108a570a8d797ac072a9f9"
+  },
+  "hashNormalization": "UTF-8 text with CRLF normalized to LF"
+}
