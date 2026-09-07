@@ -22,7 +22,10 @@
     "notify:serverchan": "tsx scripts/notify/server-chan.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "content:research:start": "node scripts/ops/research-start.mjs",
+    "ops:check": "node scripts/ops/check-weekly.mjs",
+    "ops:test": "node --test scripts/ops/check-weekly.checks.mjs scripts/ops/research-start.checks.mjs"
   },
   "dependencies": {
     "next": "16.2.9",

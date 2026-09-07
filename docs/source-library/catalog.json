@@ -1,0 +1,1390 @@
+{
+  "schemaVersion": 1,
+  "reviewedOn": "2026-09-07",
+  "scope": "发现与评价目录；不替代content/sources.json逐篇证据映射；不新增Git仓库",
+  "entries": [
+    {
+      "id": "openai",
+      "name": "OpenAI",
+      "kind": "vendor",
+      "entryUrl": "https://openai.com/news/",
+      "language": "英文",
+      "topics": [
+        "模型发布",
+        "Codex",
+        "Agent"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "official_event_discovery",
+      "existingEvidenceCatalogId": "openai",
+      "identityEvidence": [
+        "https://openai.com/news/"
+      ],
+      "assessment": {
+        "relevance": "AI/Agent相关",
+        "traceability": "入口可读；文章原始证据逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "试用；不视为永久合格",
+        "note": "核心必查；新闻页含政策/安全栏目，技术选题需逐篇筛选"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "本轮公开入口、简介或目录可见内容；未穷尽主体历史、员工个人言论或全平台帖子",
+        "finding": "核心必查；新闻页含政策/安全栏目，技术选题需逐篇筛选",
+        "decision": "仅发现线索；引用前审查原主体及具体内容，缺口不写成无风险"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按现有用途使用",
+        "promotion": "仅技术项目适用，非一般推广必查"
+      }
+    },
+    {
+      "id": "anthropic",
+      "name": "Anthropic",
+      "kind": "vendor",
+      "entryUrl": "https://www.anthropic.com/news",
+      "language": "英文",
+      "topics": [
+        "Claude",
+        "Agent"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "official_event_discovery",
+      "existingEvidenceCatalogId": "anthropic",
+      "identityEvidence": [
+        "https://www.anthropic.com/news"
+      ],
+      "assessment": {
+        "relevance": "AI/Agent相关",
+        "traceability": "入口可读；文章原始证据逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "试用；不视为永久合格",
+        "note": "核心必查；公告与政策内容分开"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "本轮公开入口、简介或目录可见内容；未穷尽主体历史、员工个人言论或全平台帖子",
+        "finding": "核心必查；公告与政策内容分开",
+        "decision": "仅发现线索；引用前审查原主体及具体内容，缺口不写成无风险"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按现有用途使用",
+        "promotion": "仅技术项目适用，非一般推广必查"
+      }
+    },
+    {
+      "id": "google-ai",
+      "name": "Google AI",
+      "kind": "vendor",
+      "entryUrl": "https://blog.google/innovation-and-ai/technology/ai/",
+      "language": "英文",
+      "topics": [
+        "Gemini",
+        "Agent",
+        "多模态"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "official_event_discovery",
+      "existingEvidenceCatalogId": "google-ai",
+      "identityEvidence": [
+        "https://blog.google/innovation-and-ai/technology/ai/"
+      ],
+      "assessment": {
+        "relevance": "AI/Agent相关",
+        "traceability": "入口可读；文章原始证据逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "试用；不视为永久合格",
+        "note": "原入口跳转到当前路径；泛产品新闻需筛选"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "本轮公开入口、简介或目录可见内容；未穷尽主体历史、员工个人言论或全平台帖子",
+        "finding": "原入口跳转到当前路径；泛产品新闻需筛选",
+        "decision": "仅发现线索；引用前审查原主体及具体内容，缺口不写成无风险"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按现有用途使用",
+        "promotion": "仅技术项目适用，非一般推广必查"
+      }
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "kind": "vendor",
+      "entryUrl": "https://github.blog/",
+      "language": "英文",
+      "topics": [
+        "Copilot",
+        "开发工具"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "official_event_discovery",
+      "existingEvidenceCatalogId": "github",
+      "identityEvidence": [
+        "https://github.blog/"
+      ],
+      "assessment": {
+        "relevance": "AI/Agent相关",
+        "traceability": "入口可读；文章原始证据逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "试用；不视为永久合格",
+        "note": "编辑博客不等于每篇都是更新公告"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "本轮公开入口、简介或目录可见内容；未穷尽主体历史、员工个人言论或全平台帖子",
+        "finding": "编辑博客不等于每篇都是更新公告",
+        "decision": "仅发现线索；引用前审查原主体及具体内容，缺口不写成无风险"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按现有用途使用",
+        "promotion": "仅技术项目适用，非一般推广必查"
+      }
+    },
+    {
+      "id": "microsoft-ai",
+      "name": "Microsoft AI",
+      "kind": "vendor",
+      "entryUrl": "https://news.microsoft.com/source/topics/ai/",
+      "language": "英文",
+      "topics": [
+        "Agent",
+        "开发工具"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "official_event_discovery",
+      "existingEvidenceCatalogId": "microsoft-ai",
+      "identityEvidence": [
+        "https://news.microsoft.com/source/topics/ai/"
+      ],
+      "assessment": {
+        "relevance": "AI/Agent相关",
+        "traceability": "入口可读；文章原始证据逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "试用；不视为永久合格",
+        "note": "原blogs入口已跳转；客户案例保留厂商利益关系"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "本轮公开入口、简介或目录可见内容；未穷尽主体历史、员工个人言论或全平台帖子",
+        "finding": "原blogs入口已跳转；客户案例保留厂商利益关系",
+        "decision": "仅发现线索；引用前审查原主体及具体内容，缺口不写成无风险"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按现有用途使用",
+        "promotion": "仅技术项目适用，非一般推广必查"
+      }
+    },
+    {
+      "id": "cursor",
+      "name": "Cursor",
+      "kind": "vendor",
+      "entryUrl": "https://cursor.com/changelog",
+      "language": "英文",
+      "topics": [
+        "编码Agent"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "official_event_discovery",
+      "existingEvidenceCatalogId": "cursor",
+      "identityEvidence": [
+        "https://cursor.com/changelog"
+      ],
+      "assessment": {
+        "relevance": "AI/Agent相关",
+        "traceability": "入口可读；文章原始证据逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "试用；不视为永久合格",
+        "note": "核心必查；版本和开放范围逐项核实"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "本轮公开入口、简介或目录可见内容；未穷尽主体历史、员工个人言论或全平台帖子",
+        "finding": "核心必查；版本和开放范围逐项核实",
+        "decision": "仅发现线索；引用前审查原主体及具体内容，缺口不写成无风险"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按现有用途使用",
+        "promotion": "仅技术项目适用，非一般推广必查"
+      }
+    },
+    {
+      "id": "model-context-protocol",
+      "name": "MCP",
+      "kind": "project",
+      "entryUrl": "https://modelcontextprotocol.io/",
+      "language": "英文",
+      "topics": [
+        "Agent协议"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "official_event_discovery",
+      "existingEvidenceCatalogId": "model-context-protocol",
+      "identityEvidence": [
+        "https://modelcontextprotocol.io/"
+      ],
+      "assessment": {
+        "relevance": "AI/Agent相关",
+        "traceability": "入口可读；文章原始证据逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "试用；不视为永久合格",
+        "note": "首页转当前版本文档；具体变更另查仓库"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "本轮公开入口、简介或目录可见内容；未穷尽主体历史、员工个人言论或全平台帖子",
+        "finding": "首页转当前版本文档；具体变更另查仓库",
+        "decision": "仅发现线索；引用前审查原主体及具体内容，缺口不写成无风险"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按现有用途使用",
+        "promotion": "仅技术项目适用，非一般推广必查"
+      }
+    },
+    {
+      "id": "deepseek",
+      "name": "DeepSeek",
+      "kind": "vendor",
+      "entryUrl": "https://api-docs.deepseek.com/updates/",
+      "language": "中英",
+      "topics": [
+        "模型",
+        "Agent"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "official_event_discovery",
+      "existingEvidenceCatalogId": null,
+      "identityEvidence": [
+        "https://api-docs.deepseek.com/updates/"
+      ],
+      "assessment": {
+        "relevance": "AI/Agent相关",
+        "traceability": "入口可读；文章原始证据逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "试用；不视为永久合格",
+        "note": "更新日志可读；另以中文版本核对措辞"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "本轮公开入口、简介或目录可见内容；未穷尽主体历史、员工个人言论或全平台帖子",
+        "finding": "更新日志可读；另以中文版本核对措辞",
+        "decision": "仅发现线索；引用前审查原主体及具体内容，缺口不写成无风险"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按现有用途使用",
+        "promotion": "仅技术项目适用，非一般推广必查"
+      }
+    },
+    {
+      "id": "qwen",
+      "name": "Qwen",
+      "kind": "vendor",
+      "entryUrl": "https://github.com/QwenLM",
+      "language": "中英",
+      "topics": [
+        "模型",
+        "编码Agent"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "official_event_discovery",
+      "existingEvidenceCatalogId": null,
+      "identityEvidence": [
+        "https://github.com/QwenLM"
+      ],
+      "assessment": {
+        "relevance": "AI/Agent相关",
+        "traceability": "入口可读；文章原始证据逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "试用；不视为永久合格",
+        "note": "组织简介指向qwen.ai；blog动态页本次无正文，优先官方仓库与单篇公告"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "本轮公开入口、简介或目录可见内容；未穷尽主体历史、员工个人言论或全平台帖子",
+        "finding": "组织简介指向qwen.ai；blog动态页本次无正文，优先官方仓库与单篇公告",
+        "decision": "仅发现线索；引用前审查原主体及具体内容，缺口不写成无风险"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按现有用途使用",
+        "promotion": "仅技术项目适用，非一般推广必查"
+      }
+    },
+    {
+      "id": "meta-ai",
+      "name": "Meta AI",
+      "kind": "vendor",
+      "entryUrl": "https://ai.meta.com/blog/",
+      "language": "英文",
+      "topics": [
+        "模型",
+        "开源"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "official_event_discovery",
+      "existingEvidenceCatalogId": null,
+      "identityEvidence": [
+        "https://ai.meta.com/blog/"
+      ],
+      "assessment": {
+        "relevance": "AI/Agent相关",
+        "traceability": "入口可读；文章原始证据逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "试用；不视为永久合格",
+        "note": "厂商原文入口；逐篇排除与本刊无关的政策议题"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "本轮公开入口、简介或目录可见内容；未穷尽主体历史、员工个人言论或全平台帖子",
+        "finding": "厂商原文入口；逐篇排除与本刊无关的政策议题",
+        "decision": "仅发现线索；引用前审查原主体及具体内容，缺口不写成无风险"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按现有用途使用",
+        "promotion": "仅技术项目适用，非一般推广必查"
+      }
+    },
+    {
+      "id": "moonshot",
+      "name": "Moonshot AI / Kimi",
+      "kind": "vendor",
+      "entryUrl": "https://platform.kimi.ai/docs/overview",
+      "language": "中英",
+      "topics": [
+        "模型",
+        "Agent"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "official_event_discovery",
+      "existingEvidenceCatalogId": null,
+      "identityEvidence": [
+        "https://platform.kimi.ai/docs/overview"
+      ],
+      "assessment": {
+        "relevance": "AI/Agent相关",
+        "traceability": "入口可读；文章原始证据逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "试用；不视为永久合格",
+        "note": "moonshot平台入口跳转至kimi；文档不是按时间排列的新闻全集"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "本轮公开入口、简介或目录可见内容；未穷尽主体历史、员工个人言论或全平台帖子",
+        "finding": "moonshot平台入口跳转至kimi；文档不是按时间排列的新闻全集",
+        "decision": "仅发现线索；引用前审查原主体及具体内容，缺口不写成无风险"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按现有用途使用",
+        "promotion": "仅技术项目适用，非一般推广必查"
+      }
+    },
+    {
+      "id": "bytedance",
+      "name": "ByteDance",
+      "kind": "vendor",
+      "entryUrl": "https://github.com/bytedance",
+      "language": "中英",
+      "topics": [
+        "Agent",
+        "开源工具"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "official_event_discovery",
+      "existingEvidenceCatalogId": null,
+      "identityEvidence": [
+        "https://github.com/bytedance"
+      ],
+      "assessment": {
+        "relevance": "AI/Agent相关",
+        "traceability": "入口可读；文章原始证据逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "试用；不视为永久合格",
+        "note": "组织页可读；seed网站本次失败，仓库覆盖不等于完整产品公告"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "本轮公开入口、简介或目录可见内容；未穷尽主体历史、员工个人言论或全平台帖子",
+        "finding": "组织页可读；seed网站本次失败，仓库覆盖不等于完整产品公告",
+        "decision": "仅发现线索；引用前审查原主体及具体内容，缺口不写成无风险"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按现有用途使用",
+        "promotion": "仅技术项目适用，非一般推广必查"
+      }
+    },
+    {
+      "id": "zhipu",
+      "name": "智谱",
+      "kind": "vendor",
+      "entryUrl": "https://docs.bigmodel.cn/",
+      "language": "中文",
+      "topics": [
+        "模型",
+        "Agent"
+      ],
+      "access": "failed",
+      "checkedOn": "2026-09-07",
+      "status": "needs_access_review",
+      "use": "official_event_discovery",
+      "existingEvidenceCatalogId": null,
+      "identityEvidence": [
+        "https://docs.bigmodel.cn/"
+      ],
+      "assessment": {
+        "relevance": "AI/Agent相关",
+        "traceability": "入口或正文不完整",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "受限",
+        "decision": "试用；不视为永久合格",
+        "note": "本次超时，保留待复查；THUDM页面现为THUKEG，不将其直接冒认为智谱官方新闻页"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "本轮公开入口、简介或目录可见内容；未穷尽主体历史、员工个人言论或全平台帖子",
+        "finding": "本次超时，保留待复查；THUDM页面现为THUKEG，不将其直接冒认为智谱官方新闻页",
+        "decision": "仅发现线索；引用前审查原主体及具体内容，缺口不写成无风险"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按现有用途使用",
+        "promotion": "仅技术项目适用，非一般推广必查"
+      }
+    },
+    {
+      "id": "stanford-hai",
+      "name": "Stanford HAI",
+      "kind": "research",
+      "entryUrl": "https://hai.stanford.edu/news",
+      "language": "英文",
+      "topics": [
+        "AI研究"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "inspiration_then_original_evidence",
+      "existingEvidenceCatalogId": null,
+      "identityEvidence": [
+        "https://hai.stanford.edu/news"
+      ],
+      "assessment": {
+        "relevance": "AI/Agent相关",
+        "traceability": "入口可读；文章原始证据逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "试用；不视为永久合格",
+        "note": "大学机构来源，不是模型厂商公告；新闻、观点、政策文章分开"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "本轮公开入口、简介或目录可见内容；未穷尽主体历史、员工个人言论或全平台帖子",
+        "finding": "大学机构来源，不是模型厂商公告；新闻、观点、政策文章分开",
+        "decision": "仅发现线索；引用前审查原主体及具体内容，缺口不写成无风险"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按现有用途使用",
+        "promotion": "仅技术项目适用，非一般推广必查"
+      }
+    },
+    {
+      "id": "mit-news-ai",
+      "name": "MIT News AI",
+      "kind": "research",
+      "entryUrl": "https://news.mit.edu/topic/artificial-intelligence2",
+      "language": "英文",
+      "topics": [
+        "AI研究"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "inspiration_then_original_evidence",
+      "existingEvidenceCatalogId": null,
+      "identityEvidence": [
+        "https://news.mit.edu/topic/artificial-intelligence2"
+      ],
+      "assessment": {
+        "relevance": "AI/Agent相关",
+        "traceability": "入口可读；文章原始证据逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "试用；不视为永久合格",
+        "note": "机构新闻需回溯论文和作者；不能将研究结果冒称产品已上线"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "本轮公开入口、简介或目录可见内容；未穷尽主体历史、员工个人言论或全平台帖子",
+        "finding": "机构新闻需回溯论文和作者；不能将研究结果冒称产品已上线",
+        "decision": "仅发现线索；引用前审查原主体及具体内容，缺口不写成无风险"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按现有用途使用",
+        "promotion": "仅技术项目适用，非一般推广必查"
+      }
+    },
+    {
+      "id": "artificial-analysis",
+      "name": "Artificial Analysis",
+      "kind": "independent_review",
+      "entryUrl": "https://artificialanalysis.ai/articles/",
+      "language": "英文",
+      "topics": [
+        "测评方法",
+        "模型"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "inspiration_then_original_evidence",
+      "existingEvidenceCatalogId": "artificial-analysis",
+      "identityEvidence": [
+        "https://artificialanalysis.ai/articles/"
+      ],
+      "assessment": {
+        "relevance": "AI/Agent相关",
+        "traceability": "入口可读；文章原始证据逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "试用；不视为永久合格",
+        "note": "非厂商官方；需记录榜单版本与任务限制，不将总分当用户效果"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "本轮公开入口、简介或目录可见内容；未穷尽主体历史、员工个人言论或全平台帖子",
+        "finding": "非厂商官方；需记录榜单版本与任务限制，不将总分当用户效果",
+        "decision": "仅发现线索；引用前审查原主体及具体内容，缺口不写成无风险"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按现有用途使用",
+        "promotion": "仅技术项目适用，非一般推广必查"
+      }
+    },
+    {
+      "id": "claire-vo",
+      "name": "Claire Vo / How I AI",
+      "kind": "creator",
+      "entryUrl": "https://clairevo.com/",
+      "language": "英文",
+      "topics": [
+        "Agent工作流",
+        "体验"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "inspiration_then_original_evidence",
+      "existingEvidenceCatalogId": "claire-vo",
+      "identityEvidence": [
+        "https://clairevo.com/"
+      ],
+      "assessment": {
+        "relevance": "AI/Agent相关",
+        "traceability": "入口可读；文章原始证据逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "试用；不视为永久合格",
+        "note": "非厂商官方；个人主页身份可读，具体实验仍需逐篇核验赞助和方法"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "本轮公开入口、简介或目录可见内容；未穷尽主体历史、员工个人言论或全平台帖子",
+        "finding": "非厂商官方；个人主页身份可读，具体实验仍需逐篇核验赞助和方法",
+        "decision": "仅发现线索；引用前审查原主体及具体内容，缺口不写成无风险"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按现有用途使用",
+        "promotion": "受众问题/表达线索；不是投稿许可"
+      }
+    },
+    {
+      "id": "jiqizhixin",
+      "name": "机器之心",
+      "kind": "media",
+      "entryUrl": "https://www.jiqizhixin.com/",
+      "language": "中文",
+      "topics": [
+        "模型",
+        "论文",
+        "产业线索"
+      ],
+      "access": "partial",
+      "checkedOn": "2026-09-07",
+      "status": "needs_access_review",
+      "use": "inspiration_then_original_evidence",
+      "existingEvidenceCatalogId": null,
+      "identityEvidence": [
+        "https://www.jiqizhixin.com/"
+      ],
+      "assessment": {
+        "relevance": "AI/Agent相关",
+        "traceability": "入口或正文不完整",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "受限",
+        "decision": "试用；不视为永久合格",
+        "note": "用户推荐；民间科技媒体/非模型厂商官方账号。网页仅有限正文，公众号主体与具体文章待逐篇回读"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "本轮公开入口、简介或目录可见内容；未穷尽主体历史、员工个人言论或全平台帖子",
+        "finding": "用户推荐；民间科技媒体/非模型厂商官方账号。网页仅有限正文，公众号主体与具体文章待逐篇回读",
+        "decision": "仅发现线索；引用前审查原主体及具体内容，缺口不写成无风险"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按现有用途使用",
+        "promotion": "受众问题/表达线索；不是投稿许可"
+      }
+    },
+    {
+      "id": "qbitai",
+      "name": "量子位",
+      "kind": "media",
+      "entryUrl": "https://www.qbitai.com/",
+      "language": "中文",
+      "topics": [
+        "AI产品",
+        "产业线索"
+      ],
+      "access": "search_only",
+      "checkedOn": "2026-09-07",
+      "status": "needs_access_review",
+      "use": "inspiration_then_original_evidence",
+      "existingEvidenceCatalogId": null,
+      "identityEvidence": [
+        "https://www.qbitai.com/"
+      ],
+      "assessment": {
+        "relevance": "AI/Agent相关",
+        "traceability": "入口或正文不完整",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "受限",
+        "decision": "试用；不视为永久合格",
+        "note": "用户推荐；民间科技媒体/非模型厂商官方账号。搜索可见官网和关于页，直接读取失败；粉丝自述不评分"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "本轮公开入口、简介或目录可见内容；未穷尽主体历史、员工个人言论或全平台帖子",
+        "finding": "用户推荐；民间科技媒体/非模型厂商官方账号。搜索可见官网和关于页，直接读取失败；粉丝自述不评分",
+        "decision": "仅发现线索；引用前审查原主体及具体内容，缺口不写成无风险"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按现有用途使用",
+        "promotion": "受众问题/表达线索；不是投稿许可"
+      }
+    },
+    {
+      "id": "zhihu",
+      "name": "知乎AI相关讨论",
+      "kind": "community",
+      "entryUrl": "https://www.zhihu.com/",
+      "language": "中文",
+      "topics": [
+        "问题",
+        "争议",
+        "使用障碍"
+      ],
+      "access": "login_or_challenge",
+      "checkedOn": "2026-09-07",
+      "status": "needs_access_review",
+      "use": "inspiration_then_original_evidence",
+      "existingEvidenceCatalogId": null,
+      "identityEvidence": [
+        "https://www.zhihu.com/"
+      ],
+      "assessment": {
+        "relevance": "AI/Agent相关",
+        "traceability": "入口或正文不完整",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "受限",
+        "decision": "试用；不视为永久合格",
+        "note": "平台非模型厂商官方；具体答主另审；安全验证未绕过，未读热榜"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "本轮公开入口、简介或目录可见内容；未穷尽主体历史、员工个人言论或全平台帖子",
+        "finding": "平台非模型厂商官方；具体答主另审；安全验证未绕过，未读热榜",
+        "decision": "仅发现线索；引用前审查原主体及具体内容，缺口不写成无风险"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按现有用途使用",
+        "promotion": "受众问题/表达线索；不是投稿许可"
+      }
+    },
+    {
+      "id": "openai-community",
+      "name": "OpenAI开发者社区",
+      "kind": "vendor_hosted_community",
+      "entryUrl": "https://community.openai.com/",
+      "language": "英文为主",
+      "topics": [
+        "ChatGPT",
+        "Codex",
+        "API问题"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "inspiration_then_original_evidence",
+      "existingEvidenceCatalogId": null,
+      "identityEvidence": [
+        "https://community.openai.com/"
+      ],
+      "assessment": {
+        "relevance": "AI/Agent相关",
+        "traceability": "入口可读；文章原始证据逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "试用；不视为永久合格",
+        "note": "官方承载/用户发帖；帖子不是官方立场；首页有ChatGPT和Codex板块"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "本轮公开入口、简介或目录可见内容；未穷尽主体历史、员工个人言论或全平台帖子",
+        "finding": "官方承载/用户发帖；帖子不是官方立场；首页有ChatGPT和Codex板块",
+        "decision": "仅发现线索；引用前审查原主体及具体内容，缺口不写成无风险"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按现有用途使用",
+        "promotion": "受众问题/表达线索；不是投稿许可"
+      }
+    },
+    {
+      "id": "codex-community",
+      "name": "OpenAI Codex板块",
+      "kind": "vendor_hosted_community",
+      "entryUrl": "https://community.openai.com/c/codex/37",
+      "language": "英文为主",
+      "topics": [
+        "Codex问题和项目线索"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "inspiration_then_original_evidence",
+      "existingEvidenceCatalogId": null,
+      "identityEvidence": [
+        "https://community.openai.com/c/codex/37"
+      ],
+      "assessment": {
+        "relevance": "AI/Agent相关",
+        "traceability": "入口可读；文章原始证据逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "试用；不视为永久合格",
+        "note": "板块列表可见回复/浏览数，未逐篇阅读全文；不能称本周最高热度已统计"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "本轮公开入口、简介或目录可见内容；未穷尽主体历史、员工个人言论或全平台帖子",
+        "finding": "板块列表可见回复/浏览数，未逐篇阅读全文；不能称本周最高热度已统计",
+        "decision": "仅发现线索；引用前审查原主体及具体内容，缺口不写成无风险"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按现有用途使用",
+        "promotion": "受众问题/表达线索；不是投稿许可"
+      }
+    },
+    {
+      "id": "claude-community",
+      "name": "Claude社区入口",
+      "kind": "vendor_hosted_community",
+      "entryUrl": "https://claude.com/community",
+      "language": "英文为主",
+      "topics": [
+        "Claude讨论线索"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "inspiration_then_original_evidence",
+      "existingEvidenceCatalogId": null,
+      "identityEvidence": [
+        "https://claude.com/community"
+      ],
+      "assessment": {
+        "relevance": "AI/Agent相关",
+        "traceability": "入口可读；文章原始证据逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "试用；不视为永久合格",
+        "note": "官方页面提供Discord/Reddit入口；未加入Discord、未读取服务器帖子"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "本轮公开入口、简介或目录可见内容；未穷尽主体历史、员工个人言论或全平台帖子",
+        "finding": "官方页面提供Discord/Reddit入口；未加入Discord、未读取服务器帖子",
+        "decision": "仅发现线索；引用前审查原主体及具体内容，缺口不写成无风险"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按现有用途使用",
+        "promotion": "受众问题/表达线索；不是投稿许可"
+      }
+    },
+    {
+      "id": "claude-code-repo",
+      "name": "Claude Code仓库",
+      "kind": "vendor_hosted_community",
+      "entryUrl": "https://github.com/anthropics/claude-code",
+      "language": "英文为主",
+      "topics": [
+        "Agent更新与问题"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "inspiration_then_original_evidence",
+      "existingEvidenceCatalogId": null,
+      "identityEvidence": [
+        "https://github.com/anthropics/claude-code"
+      ],
+      "assessment": {
+        "relevance": "AI/Agent相关",
+        "traceability": "入口可读；文章原始证据逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "试用；不视为永久合格",
+        "note": "维护者发布与普通用户Issue分开；本次核对仓库README，未统计全部讨论"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "本轮公开入口、简介或目录可见内容；未穷尽主体历史、员工个人言论或全平台帖子",
+        "finding": "维护者发布与普通用户Issue分开；本次核对仓库README，未统计全部讨论",
+        "decision": "仅发现线索；引用前审查原主体及具体内容，缺口不写成无风险"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按现有用途使用",
+        "promotion": "受众问题/表达线索；不是投稿许可"
+      }
+    },
+    {
+      "id": "github-community",
+      "name": "GitHub Community",
+      "kind": "community",
+      "entryUrl": "https://github.com/orgs/community/discussions",
+      "language": "英文为主",
+      "topics": [
+        "Copilot",
+        "开发者问题"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "inspiration_then_original_evidence",
+      "existingEvidenceCatalogId": null,
+      "identityEvidence": [
+        "https://github.com/orgs/community/discussions"
+      ],
+      "assessment": {
+        "relevance": "AI/Agent相关",
+        "traceability": "入口可读；文章原始证据逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "试用；不视为永久合格",
+        "note": "GitHub承载的用户讨论；平台身份不能为发帖者背书"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "本轮公开入口、简介或目录可见内容；未穷尽主体历史、员工个人言论或全平台帖子",
+        "finding": "GitHub承载的用户讨论；平台身份不能为发帖者背书",
+        "decision": "仅发现线索；引用前审查原主体及具体内容，缺口不写成无风险"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按现有用途使用",
+        "promotion": "受众问题/表达线索；不是投稿许可"
+      }
+    },
+    {
+      "id": "huggingface-blog",
+      "name": "Hugging Face Blog",
+      "kind": "community",
+      "entryUrl": "https://huggingface.co/blog",
+      "language": "英文为主",
+      "topics": [
+        "开源模型/Agent"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "inspiration_then_original_evidence",
+      "existingEvidenceCatalogId": null,
+      "identityEvidence": [
+        "https://huggingface.co/blog"
+      ],
+      "assessment": {
+        "relevance": "开源模型/Agent",
+        "traceability": "入口与可见目录已读；正文逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "条件纳入",
+        "note": "有官方与社区文章混排，趋势列表含旧文和敏感技术话题，须逐作者/文章审查；不能整站当官方公告"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "当前公开入口/目录有限审查，不是主体全历史调查",
+        "finding": "有官方与社区文章混排，趋势列表含旧文和敏感技术话题，须逐作者/文章审查；不能整站当官方公告",
+        "decision": "引用前逐篇审查，争议技术/政治无关内容不纳入"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按主题候选/框架重大更新",
+        "promotion": "技术项目受众痛点线索，不默认投稿入口"
+      }
+    },
+    {
+      "id": "huggingface-papers",
+      "name": "Hugging Face Daily Papers",
+      "kind": "community",
+      "entryUrl": "https://huggingface.co/papers",
+      "language": "英文为主",
+      "topics": [
+        "论文线索"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "inspiration_then_original_evidence",
+      "existingEvidenceCatalogId": null,
+      "identityEvidence": [
+        "https://huggingface.co/papers"
+      ],
+      "assessment": {
+        "relevance": "论文线索",
+        "traceability": "入口与可见目录已读；正文逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "条件纳入",
+        "note": "社区提交/投票不是同行评审；回原论文、代码及版本日期"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "当前公开入口/目录有限审查，不是主体全历史调查",
+        "finding": "社区提交/投票不是同行评审；回原论文、代码及版本日期",
+        "decision": "引用前逐篇审查，争议技术/政治无关内容不纳入"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按主题候选/框架重大更新",
+        "promotion": "技术项目受众痛点线索，不默认投稿入口"
+      }
+    },
+    {
+      "id": "langchain-blog",
+      "name": "LangChain Blog",
+      "kind": "vendor",
+      "entryUrl": "https://www.langchain.com/blog",
+      "language": "英文为主",
+      "topics": [
+        "Agent工程"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "inspiration_then_original_evidence",
+      "existingEvidenceCatalogId": null,
+      "identityEvidence": [
+        "https://www.langchain.com/blog"
+      ],
+      "assessment": {
+        "relevance": "Agent工程",
+        "traceability": "入口与可见目录已读；正文逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "条件纳入",
+        "note": "博客含客户营销案例，发布事实与效果宣传分开；旧blog.langchain.com已跳转"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "当前公开入口/目录有限审查，不是主体全历史调查",
+        "finding": "博客含客户营销案例，发布事实与效果宣传分开；旧blog.langchain.com已跳转",
+        "decision": "引用前逐篇审查，争议技术/政治无关内容不纳入"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按主题候选/框架重大更新",
+        "promotion": "技术项目受众痛点线索，不默认投稿入口"
+      }
+    },
+    {
+      "id": "langgraph-releases",
+      "name": "LangGraph Releases",
+      "kind": "project",
+      "entryUrl": "https://github.com/langchain-ai/langgraph/releases",
+      "language": "英文为主",
+      "topics": [
+        "Agent框架更新"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "inspiration_then_original_evidence",
+      "existingEvidenceCatalogId": null,
+      "identityEvidence": [
+        "https://github.com/langchain-ai/langgraph/releases"
+      ],
+      "assessment": {
+        "relevance": "Agent框架更新",
+        "traceability": "入口与可见目录已读；正文逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "条件纳入",
+        "note": "维护者版本变更可追溯，但小补丁不自动是本周重大消息"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "当前公开入口/目录有限审查，不是主体全历史调查",
+        "finding": "维护者版本变更可追溯，但小补丁不自动是本周重大消息",
+        "decision": "引用前逐篇审查，争议技术/政治无关内容不纳入"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按主题候选/框架重大更新",
+        "promotion": "技术项目受众痛点线索，不默认投稿入口"
+      }
+    },
+    {
+      "id": "deepmind-blog",
+      "name": "Google DeepMind Blog",
+      "kind": "vendor",
+      "entryUrl": "https://deepmind.google/blog/",
+      "language": "英文为主",
+      "topics": [
+        "模型/研究"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "inspiration_then_original_evidence",
+      "existingEvidenceCatalogId": null,
+      "identityEvidence": [
+        "https://deepmind.google/blog/"
+      ],
+      "assessment": {
+        "relevance": "模型/研究",
+        "traceability": "入口与可见目录已读；正文逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "条件纳入",
+        "note": "与Google AI按事件去重；学术结果不是全面产品可用性"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "当前公开入口/目录有限审查，不是主体全历史调查",
+        "finding": "与Google AI按事件去重；学术结果不是全面产品可用性",
+        "decision": "引用前逐篇审查，争议技术/政治无关内容不纳入"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按主题候选/框架重大更新",
+        "promotion": "技术项目受众痛点线索，不默认投稿入口"
+      }
+    },
+    {
+      "id": "bair-blog",
+      "name": "Berkeley BAIR Blog",
+      "kind": "research",
+      "entryUrl": "https://bair.berkeley.edu/blog/",
+      "language": "英文为主",
+      "topics": [
+        "研究线索"
+      ],
+      "access": "failed",
+      "checkedOn": "2026-09-07",
+      "status": "needs_access_review",
+      "use": "inspiration_then_original_evidence",
+      "existingEvidenceCatalogId": null,
+      "identityEvidence": [
+        "https://bair.berkeley.edu/blog/"
+      ],
+      "assessment": {
+        "relevance": "研究线索",
+        "traceability": "读取失败",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "受限",
+        "decision": "候选待复核",
+        "note": "首页与archive本次直接读取失败，仅搜索可见存档；保留候选，不当本周已检查"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "当前公开入口/目录有限审查，不是主体全历史调查",
+        "finding": "首页与archive本次直接读取失败，仅搜索可见存档；保留候选，不当本周已检查",
+        "decision": "引用前逐篇审查，争议技术/政治无关内容不纳入"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按主题候选/框架重大更新",
+        "promotion": "技术项目受众痛点线索，不默认投稿入口"
+      }
+    },
+    {
+      "id": "nvidia-agentic",
+      "name": "NVIDIA Agentic AI Technical Blog",
+      "kind": "vendor",
+      "entryUrl": "https://developer.nvidia.com/blog/blog/category/generative-ai/",
+      "language": "英文为主",
+      "topics": [
+        "Agent基础设施"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "inspiration_then_original_evidence",
+      "existingEvidenceCatalogId": null,
+      "identityEvidence": [
+        "https://developer.nvidia.com/blog/blog/category/generative-ai/"
+      ],
+      "assessment": {
+        "relevance": "Agent基础设施",
+        "traceability": "入口与可见目录已读；正文逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "条件纳入",
+        "note": "研究博客猜测入口失败后改用实际可读分类页；厂商性能/成本结论需任务条件与其他证据"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "当前公开入口/目录有限审查，不是主体全历史调查",
+        "finding": "研究博客猜测入口失败后改用实际可读分类页；厂商性能/成本结论需任务条件与其他证据",
+        "decision": "引用前逐篇审查，争议技术/政治无关内容不纳入"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按主题候选/框架重大更新",
+        "promotion": "技术项目受众痛点线索，不默认投稿入口"
+      }
+    },
+    {
+      "id": "smolagents-releases",
+      "name": "smolagents Releases",
+      "kind": "project",
+      "entryUrl": "https://github.com/huggingface/smolagents/releases",
+      "language": "英文为主",
+      "topics": [
+        "Agent框架"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "inspiration_then_original_evidence",
+      "existingEvidenceCatalogId": null,
+      "identityEvidence": [
+        "https://github.com/huggingface/smolagents/releases"
+      ],
+      "assessment": {
+        "relevance": "Agent框架",
+        "traceability": "入口与可见目录已读；正文逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "条件纳入",
+        "note": "维护者更新可查；发布条目不代表生产成熟度"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "当前公开入口/目录有限审查，不是主体全历史调查",
+        "finding": "维护者更新可查；发布条目不代表生产成熟度",
+        "decision": "引用前逐篇审查，争议技术/政治无关内容不纳入"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "按主题候选/框架重大更新",
+        "promotion": "技术项目受众痛点线索，不默认投稿入口"
+      }
+    },
+    {
+      "id": "sspai-community-rules",
+      "name": "少数派社区规则",
+      "kind": "platform_rules",
+      "entryUrl": "https://sspai.com/page/community-rules",
+      "language": "中文",
+      "topics": [
+        "社区边界"
+      ],
+      "access": "readable",
+      "checkedOn": "2026-09-07",
+      "status": "conditional",
+      "use": "platform_boundary_reference",
+      "existingEvidenceCatalogId": null,
+      "identityEvidence": [
+        "https://sspai.com/page/community-rules"
+      ],
+      "assessment": {
+        "relevance": "社区边界",
+        "traceability": "入口与可见目录已读；正文逐篇核验",
+        "sampleAccuracy": null,
+        "correctionPractice": null,
+        "effort": "较低",
+        "decision": "条件纳入",
+        "note": "本页适用评论及关联群组，不能当文章投稿总规则。禁止推广类评论，AI评论有严格限定；适合推广侧维护边界，不是AI新闻源"
+      },
+      "sensitivity": {
+        "subject": "limited_screen_not_clearance",
+        "content": "article_review_required",
+        "scope": "当前公开入口/目录有限审查，不是主体全历史调查",
+        "finding": "本页适用评论及关联群组，不能当文章投稿总规则。禁止推广类评论，AI评论有严格限定；适合推广侧维护边界，不是AI新闻源",
+        "decision": "引用前逐篇审查，争议技术/政治无关内容不纳入"
+      },
+      "lastUsedIssue": null,
+      "nextReviewTrigger": "publication_or_handoff_or_material_change",
+      "fit": {
+        "outpost": "推广时查；不占新闻卡",
+        "promotion": "平台规则原文"
+      }
+    }
+  ]
+}

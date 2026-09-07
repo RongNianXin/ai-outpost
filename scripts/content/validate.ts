@@ -20,6 +20,14 @@ async function main() {
     console.log(`Validated ${sources.length} source catalog entries.`);
 
     const collectionErrors = validateContentCollection(files, sources);
+    // Number zero is an unnumbered rehearsal, not a public series issue.
+    files.forEach(({ fileName, issue }) => {
+      if (issue.issueNumber <= 0) return;
+      const expected = `AI 前哨站第 ${String(issue.issueNumber).padStart(3, "0")} 期`;
+      if (issue.title !== expected) {
+        collectionErrors.push({ path: `${fileName}.title`, message: `Expected series title: ${expected}` });
+      }
+    });
     const assetErrors = await validateHeroAssets(files);
     if (collectionErrors.length > 0 || assetErrors.length > 0) {
       console.error("Content collection validation failed:");

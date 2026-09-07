@@ -3,7 +3,7 @@
   "id": "issue-001",
   "slug": "2026-06-17-ai-agent-model-workflows",
   "issueNumber": 1,
-  "title": "本周 AI 开发重点：Agent 工作流、模型升级与多模态维护",
+  "title": "AI 前哨站第 001 期",
   "summary": "本周重点是：GitHub 把 Agent 工作流推入 Actions，Anthropic 发布 Claude Fable 5，OpenAI Web Search 支持图片结果，Google 提醒图像和视频模型迁移，Cursor 强化 Bugbot 与 SDK 工具接入。对开发者来说，Agent 开发正在从“功能演示”转向“安全、成本、基础设施”。同时需要管理模型生命周期、工具权限和代码审核成本。",
   "period": {
     "start": "2026-06-04",

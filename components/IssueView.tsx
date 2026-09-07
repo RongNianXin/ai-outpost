@@ -62,7 +62,7 @@ export function IssueView({ issue }: IssueViewProps) {
             <h1>
               {issue.hero ? (
                 <>
-                  <span className={styles.headlineLead}>{issue.hero.lead}</span>
+                  <span className={styles.headlineLead}>{issue.title}</span>
                   <span className={styles.headlineDeck}>{issue.hero.deck}</span>
                 </>
               ) : (
