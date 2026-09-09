@@ -8,7 +8,12 @@ test('missing, empty, corrupted or duplicate library fails before research', () 
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'outpost-source-check-'));
   try {
     assert.throws(() => loadResearchContext(root));
-    const dir = path.join(root, 'docs/source-library'); fs.mkdirSync(dir, { recursive: true });
+    const publicDir = path.join(root, 'docs/source-library'); fs.mkdirSync(publicDir, { recursive: true });
+    fs.writeFileSync(path.join(publicDir, 'README.md'), 'public guide');
+    fs.writeFileSync(path.join(publicDir, 'catalog.json'), JSON.stringify({ entries: [{ id: 'public-must-not-load' }] }));
+    assert.throws(() => loadResearchContext(root), /Private research library missing/);
+    const dir = path.join(root, '.local/source-library'); fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, 'research-notes.md'), 'private notes');
     fs.writeFileSync(path.join(dir, 'README.md'), 'guide');
     fs.writeFileSync(path.join(dir, 'catalog.json'), '{broken');
     assert.throws(() => loadResearchContext(root));
@@ -22,6 +27,11 @@ test('missing, empty, corrupted or duplicate library fails before research', () 
     assert.equal(a.catalog.entries[0].id, 'test');
     fs.appendFileSync(path.join(dir, 'README.md'), ' revised');
     assert.notEqual(loadResearchContext(root).fingerprint, a.fingerprint);
+    const b = loadResearchContext(root);
+    fs.appendFileSync(path.join(dir, 'research-notes.md'), ' changed');
+    assert.notEqual(loadResearchContext(root).fingerprint, b.fingerprint);
+    fs.rmSync(path.join(dir, 'research-notes.md'));
+    assert.throws(() => loadResearchContext(root));
   } finally {
     const relative = path.relative(path.resolve(os.tmpdir()), path.resolve(root));
     if (!relative || relative.startsWith('..') || path.isAbsolute(relative)) throw Error('Unsafe fixture path');

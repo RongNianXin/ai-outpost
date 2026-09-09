@@ -25,7 +25,10 @@
     "test": "vitest run",
     "content:research:start": "node scripts/ops/research-start.mjs",
     "ops:check": "node scripts/ops/check-weekly.mjs",
-    "ops:test": "node --test scripts/ops/check-weekly.checks.mjs scripts/ops/research-start.checks.mjs"
+    "ops:handoff:manifest": "node scripts/ops/check-handoff-context.mjs",
+    "ops:handoff:check": "node scripts/ops/check-handoff-context.mjs --check",
+    "privacy:check": "node scripts/ops/check-source-privacy.mjs",
+    "ops:test": "node --test scripts/ops/check-weekly.checks.mjs scripts/ops/research-start.checks.mjs scripts/ops/check-handoff-context.checks.mjs scripts/ops/check-source-privacy.checks.mjs"
   },
   "dependencies": {
     "next": "16.2.9",
