@@ -1,0 +1,34 @@
+{
+  "weekId": "2026-W25",
+  "issueId": "issue-002",
+  "period": {
+    "start": "2026-06-17",
+    "end": "2026-06-18",
+    "basis": "Issue 001 was generated on 2026-06-17 before several official updates were discovered. Issue 002 is a short supplement covering late-discovered official updates and the 2026-06-18 check."
+  },
+  "status": "awaiting_human_review",
+  "runMode": "normal",
+  "requiresUserConfirmation": true,
+  "lastStep": "awaiting_human_review",
+  "checks": {
+    "contentValidate": "passed",
+    "linkCheck": "passed_with_warnings",
+    "wechatExport": "passed",
+    "typecheck": "passed",
+    "lint": "passed",
+    "test": "passed",
+    "build": "passed"
+  },
+  "decision": {
+    "recommendation": "short_issue_candidate",
+    "reason": "There are enough verified official updates for a short issue, but not enough fresh material for a full six-card weekly edition. Automated checks passed; publication now requires human review.",
+    "needsHumanReview": true
+  },
+  "notes": [
+    "This is the first V1.5 weekly automation rehearsal.",
+    "Do not publish without explicit user confirmation.",
+    "Status approved in content JSON means visible in local development preview; it does not mean publication is approved.",
+    "Link check warnings are limited to known OpenAI 403 and Google Gemini timeout/abort behavior; issue-002 Cursor, GitHub, and Microsoft links returned OK, while the Google issue-002 link returned uncertain due timeout/abort."
+  ],
+  "privateResearch": "Research details retained in the owner-only local archive; see source-library module."
+}

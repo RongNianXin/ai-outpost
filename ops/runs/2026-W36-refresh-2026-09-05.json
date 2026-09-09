@@ -1,0 +1,42 @@
+{
+  "weekId": "2026-W36",
+  "issueId": "issue-003",
+  "period": {
+    "start": "2026-08-31",
+    "end": "2026-09-05",
+    "cutoff": "2026-09-05T10:01:37.000+08:00",
+    "basis": "Saturday scheduled refresh; use only information published before run time."
+  },
+  "status": "awaiting_human_review",
+  "runMode": "draft_only",
+  "requiresUserConfirmation": true,
+  "lastStep": "preview_opened_and_awaiting_human_review",
+  "checks": {
+    "contentValidate": "passed",
+    "linkCheck": "passed_with_warnings_14_ok_5_nonblocking_403_or_timeout",
+    "typecheck": "passed",
+    "lint": "passed",
+    "test": "passed_28_of_28",
+    "build": "passed_public_output_still_issue_001_only",
+    "publishPrepare": "passed_manifest_wechat_html_cover_xhs_copy_and_3x4_cover",
+    "localPreview": "passed_issue_hero_six_cards_and_source_index_http_200",
+    "publishConsole": "passed_http_200_token_guard_and_platform_preflight"
+  },
+  "platformReadiness": {
+    "website": "blocked_by_28_existing_non_issue_changes_until_local_version_is_saved",
+    "wechat": "blocked_by_missing_official_account_credentials_and_live_permission_test",
+    "xiaohongshu": "ready_for_private_test_but_no_post_was_sent"
+  },
+  "decision": {
+    "recommendation": "full_issue_ready_for_human_preview",
+    "reason": "Six official-source-backed items cover one coherent theme and all local verification gates passed. Publication remains locked behind explicit per-platform confirmation.",
+    "needsHumanReview": true
+  },
+  "notes": [
+    "The original 2026-W36 run record remains untouched; this file records the later Saturday refresh.",
+    "Issue 003 is approved for local preview, publishedAt remains null, and production build still exports only issue 001.",
+    "The Codex browser tabs were queued for this background automation thread; the system-browser fallback was blocked by host policy and was not bypassed.",
+    "No Git commit, push, workflow dispatch, deployment, WeChat draft/publication or Xiaohongshu post was performed."
+  ],
+  "privateResearch": "Research details retained in the owner-only local archive; see source-library module."
+}

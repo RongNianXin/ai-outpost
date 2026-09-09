@@ -1,0 +1,42 @@
+{
+  "weekId": "2026-W36",
+  "issueId": "issue-003",
+  "period": {
+    "start": "2026-08-24",
+    "end": "2026-08-30",
+    "basis": "Restart from the latest complete natural week; do not backfill every missed week."
+  },
+  "status": "awaiting_human_review",
+  "runMode": "draft_only",
+  "requiresUserConfirmation": true,
+  "lastStep": "awaiting_human_review",
+  "checks": {
+    "contentValidate": "passed",
+    "linkCheck": "passed_with_warnings",
+    "wechatExport": "passed",
+    "socialExport": "passed_manual_template",
+    "typecheck": "passed_after_serial_rerun",
+    "lint": "passed",
+    "test": "passed_23_of_23",
+    "build": "passed_public_output_still_issue_001_only",
+    "localPreview": "passed_issue_and_hero_asset_http_200",
+    "heroDesign": "passed_two-level-title_optional-local-visual_and_no-image-fallback"
+  },
+  "automation": {
+    "codexHeartbeat": "active_ai-outpost_saturday_1715",
+    "githubWeeklyOps": "disabled_inactivity_requires_explicit_remote_write_confirmation",
+    "serverChanSecretName": "present_value_and_delivery_unverified"
+  },
+  "decision": {
+    "recommendation": "full_issue_candidate",
+    "reason": "Six high-relevance items were verified against opened first-party sources. Local checks, exports and preview passed; publication still requires human review and exact remote-write confirmation.",
+    "needsHumanReview": true
+  },
+  "notes": [
+    "Issue status approved means local preview is available; it does not authorize publication.",
+    "The title hero now uses a short lead, a smaller deck and one original text-free visual; card images remain disabled by default.",
+    "Five source-link checks returned non-blocking 403 or timeout warnings; the same pages were opened and reviewed during research.",
+    "No Git commit, push, workflow enable, workflow dispatch, GitHub Pages deployment, WeChat publication or Xiaohongshu publication was performed."
+  ],
+  "privateResearch": "Research details retained in the owner-only local archive; see source-library module."
+}
