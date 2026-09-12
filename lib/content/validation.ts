@@ -84,6 +84,50 @@ export function validateContentCollection(
   return errors;
 }
 
+/**
+ * Enforce the public issue-number/file-name contract at the filesystem boundary.
+ * A rehearsal without a formal number uses a date/topic draft name; a numbered
+ * draft is reserved as issue-NNN-draft and must not occupy issue-NNN.json.
+ */
+export function validateIssueFileNames(
+  issues: Array<{ fileName: string; issue: Issue }>,
+): ContentValidationError[] {
+  const errors: ContentValidationError[] = [];
+
+  for (const { fileName, issue } of issues) {
+    const stem = fileName.replace(/\.json$/i, "");
+    if (stem !== issue.id) {
+      errors.push({
+        path: `${fileName}.id`,
+        message: `File name stem must match issue id: expected ${stem}, got ${issue.id}`,
+      });
+    }
+
+    if (issue.issueNumber > 0) {
+      const issueStem = `issue-${String(issue.issueNumber).padStart(3, "0")}`;
+      const expectedStem = issue.status === "draft" ? `${issueStem}-draft` : issueStem;
+      if (stem !== expectedStem) {
+        errors.push({
+          path: fileName,
+          message: `Numbered issue file must be ${expectedStem}.json; drafts must not occupy ${issueStem}.json`,
+        });
+      }
+    } else if (issue.status !== "draft") {
+      errors.push({
+        path: `${fileName}.status`,
+        message: "An issue with issueNumber 0 must remain a draft.",
+      });
+    } else if (stem.startsWith("issue-")) {
+      errors.push({
+        path: fileName,
+        message: "An unnumbered draft must use draft-<date>-<topic>.json, not issue-NNN.json.",
+      });
+    }
+  }
+
+  return errors;
+}
+
 function isWithinSourceUrl(value: string, allowed: string) {
   const url = new URL(value);
   const base = new URL(allowed);

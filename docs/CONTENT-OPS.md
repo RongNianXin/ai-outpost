@@ -7,6 +7,8 @@
 - 内部id与文件名等于对外期号：issue-NNN，NNN与issueNumber同值、至少三位补零；下一期为issue-004。id只允许小写字母、数字和连字符，schema会拒绝括号和全角字符，写不了“（draft）”。
 - slug是稳定公开网址标识，公开地址为 /issues/<slug>/ 与 /issues/<slug>/brief.md；改期号不动slug，不为改期号迁移已分享网址。
 - 文件名里的数字只能是对外期号。已分配期号但未定稿的草稿用issue-NNN-draft；未分配正式期号或不发布的演练稿用draft-<日期>-<主题>并设issueNumber=0，不得占用issue-NNN。
+- 示例：`issue-002.json` 只能表示第002期正式稿；若第002期在定稿前需要保留候选文件，使用 `issue-002-draft.json`，其 `id` 也必须是 `issue-002-draft`；与任何正式期号无关的废弃演练使用 `draft-<日期>-<主题>.json`。正式文件、编号草稿和无编号演练不能互相冒名。
+- `content:validate` 必须同时核对文件名、JSON `id`、`issueNumber` 和 `status`：正式/已批准文件只能是匹配的 `issue-NNN.json`；已分配编号的草稿只能是 `issue-NNN-draft.json`；`issueNumber=0` 只能保持 draft 且不得使用 `issue-` 命名空间。
 - 草稿转正式稿时把文件名改成issue-NNN，并同步ops/weekly-run-state.json的issueId与相关ops/runs记录；漏同步只会让ops:check报需核对，不会自动补跑或发布。
 - issueNumber为对外期号，正式发布按已公开最大期号加1。发布前核对首页、详情、归档、导出正文及下载文件名；已有公开内容更正期号时保留更正记录和原发布时间。新增未编号草稿时需遵守现有集合唯一性校验，不批量分配重复0。
 - 编号统一（2026-09-12用户确认，方案B）：演练稿issue-002.json（issueNumber=0）改为draft-2026-06-18-agent-shortform.json；对外002的issue-003.json改为issue-002.json；对外003的issue-004.json改为issue-003.json。动因是演练稿占用数字位，把后续内部编号整体顶偏一位。

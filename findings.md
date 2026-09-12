@@ -1,5 +1,11 @@
 # AI Outpost Findings
 
+## 2026-09-12：期号漂移根因与防复发结论
+
+- 用户确认的不变量：正式文件 `issue-NNN.json`、JSON `id=issue-NNN`、`issueNumber=N` 和对外“第 NNN 期”必须四者一致。已分配期号但未定稿时用 `issue-NNN-draft.json`；未分配期号的演练稿用 `draft-<日期>-<主题>.json` 且 `issueNumber=0`。
+- 旧错误能进入仓库的直接原因是集合校验只查 `id/slug/issueNumber` 重复，没有核对文件名与 JSON 身份，也没有禁止 `issueNumber=0` 占用 `issue-` 命名空间。现已增加机器校验与回归测试。
+- 当前本地映射正确；远端 `origin/main` 仍处在重写后的另一条无共同祖先历史，且其 `content/issues/issue-003.json` 实际是第002期。远端修复不能用普通 pull/merge，也不能未经确认 force push。
+
 
 ## 2026-09-12：子 Agent 派发在本环境失效（实测记录）
 
@@ -332,8 +338,8 @@
 ## 2026-09-06：投稿与通知证据
 
 - 用户批准全文，末句改为“公众号里的其他随笔暂不同步到官网。”；已审查维护者身份、AI辅助说明、链接、无亲测冒认及社区边界。
-- gh核验RongNianXin、仓库README允许文章Issue投稿，community/profile未提供额外投稿模板；author全状态检索无记录，已查规则未见单次自动提交禁令。通过gh issue create一次创建https://github.com/ruanyf/weekly/issues/11523，创建时间2026-09-06T08:34:35Z；标题/作者/全文回读一致，OPEN、评论0，GraphQL viewerSubscription=SUBSCRIBED。
-- 正文trim后SHA256 567ecd2b965bed38f2975b41548f1f68a59362eaabdf37657e7617c8244ee4b8；本机回执.local/weekly-submission-11523-receipt.json。提交成功不代表收录。
+- gh核验RongNianXin、目标仓库README允许文章Issue投稿，community/profile未提供额外投稿模板；author全状态检索无记录，已查规则未见单次自动提交禁令。通过gh issue create一次提交，具体回执地址保留在私密研究记录；创建时间2026-09-06T08:34:35Z；标题/作者/全文回读一致，OPEN、评论0，GraphQL viewerSubscription=SUBSCRIBED。
+- 正文 trim 后 SHA256 567ecd2b965bed38f2975b41548f1f68a59362eaabdf37657e7617c8244ee4b8；本机回执保留在私密研究记录。提交成功不代表收录。
 - 通知设置和真实邮件送达待验证；GitHub支持参与会话邮件通知，无需每天刷新，也无需公开邮箱。PROMOTION已登记反馈位置、订阅与投递分别验证、下次任务唤醒查反馈、无新调度规则。依据https://docs.github.com/en/subscriptions-and-notifications/get-started/configuring-notifications 。
 - 仅修改PROMOTION、task_plan、progress和findings记录；保留其他未提交成果，未Commit/Push/部署/发邮件/修改公众号/启用调度。
 

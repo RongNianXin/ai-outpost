@@ -5,7 +5,10 @@ import { ZodError } from "zod";
 
 import { loadIssueFiles } from "../../lib/content/load-files";
 import { loadSourceCatalog } from "../../lib/content/source-catalog";
-import { validateContentCollection } from "../../lib/content/validation";
+import {
+  validateContentCollection,
+  validateIssueFileNames,
+} from "../../lib/content/validation";
 
 async function main() {
   try {
@@ -20,6 +23,7 @@ async function main() {
     console.log(`Validated ${sources.length} source catalog entries.`);
 
     const collectionErrors = validateContentCollection(files, sources);
+    collectionErrors.push(...validateIssueFileNames(files));
     // Number zero is an unnumbered rehearsal, not a public series issue.
     files.forEach(({ fileName, issue }) => {
       if (issue.issueNumber <= 0) return;

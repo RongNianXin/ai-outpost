@@ -8,7 +8,10 @@ import {
 import { buildPreviewUrl, selectPreviewIssue } from "../lib/content/preview";
 import { getWeeklyImpactBullets } from "../lib/content/presentation";
 import { sourceCatalogSchema } from "../lib/content/source-catalog";
-import { validateContentCollection } from "../lib/content/validation";
+import {
+  validateContentCollection,
+  validateIssueFileNames,
+} from "../lib/content/validation";
 import { renderWechatMarkdown } from "../lib/content/wechat";
 import { getConfirmationPhrases } from "../lib/publishing/actions";
 import {
@@ -273,6 +276,50 @@ describe("issueSchema", () => {
         ],
       }),
     ).toThrow(/cross-checked/);
+  });
+});
+
+describe("issue file numbering contract", () => {
+  it("keeps formal issue file, id and public number aligned", () => {
+    const issue = issueSchema.parse({
+      ...baseIssue,
+      id: "issue-002",
+      issueNumber: 2,
+      title: "AI 前哨站第 002 期",
+    });
+
+    expect(validateIssueFileNames([{ fileName: "issue-002.json", issue }])).toEqual([]);
+    expect(validateIssueFileNames([{ fileName: "issue-003.json", issue }]))
+      .toEqual(expect.arrayContaining([
+        expect.objectContaining({ message: expect.stringContaining("issue-002.json") }),
+      ]));
+  });
+
+  it("allows only issue-NNN-draft for a draft with an assigned number", () => {
+    const issue = issueSchema.parse({
+      ...baseIssue,
+      id: "issue-002-draft",
+      issueNumber: 2,
+      status: "draft",
+      publishedAt: null,
+    });
+
+    expect(validateIssueFileNames([{ fileName: "issue-002-draft.json", issue }])).toEqual([]);
+    expect(validateIssueFileNames([{ fileName: "issue-002.json", issue }]).length).toBeGreaterThan(0);
+  });
+
+  it("keeps unnumbered rehearsals outside the issue namespace", () => {
+    const issue = issueSchema.parse({
+      ...baseIssue,
+      id: "draft-2026-06-18-agent-shortform",
+      issueNumber: 0,
+      status: "draft",
+      publishedAt: null,
+    });
+
+    expect(validateIssueFileNames([
+      { fileName: "draft-2026-06-18-agent-shortform.json", issue },
+    ])).toEqual([]);
   });
 });
 

@@ -1,5 +1,12 @@
 # AI Outpost Progress
 
+## 2026-09-12：期号契约补强与全面复核
+
+- 已确认本地四份内容：001→issue-001、002→issue-002、003→issue-003；无编号演练稿为 `draft-2026-06-18-agent-shortform` / issueNumber=0。没有把无编号演练误改成 `issue-002-draft`。
+- 新增文件名/id/issueNumber/status 一致性校验及3组测试；错误的 `issue-003.json` 承载第002期、正式草稿占用 `issue-NNN.json`、编号0非draft等情况会被阻断。规则同步到 CONTENT-OPS 与 WORKFLOW。
+- 全面检查：content:validate、273测试、typecheck、lint、build、ops:test 13项、git diff --check通过；31条链接无hard fail、2条官方站403警告。privacy:check仍命中4份既有公开记录，未通过，不能用于远端推送门禁。
+- 远端未改：origin/main 与本地无共同祖先，远端 issue-003 仍是第002期。下一步需先处理隐私门禁和远端历史策略，再发布003。
+
 ## 2026-09-12：003 发布核对与后续计划登记
 
 - 已在 `docs/ROADMAP.md` 的 V1.5 第二阶段登记：设计 GitHub 仓库封面并优化首页布局，提升官网入口可见性。
@@ -629,7 +636,7 @@
 - 用户认可小范围价值分享并要求执行前对抗审查。任务契约：只读调研真实入口、基于已有002写全文、更新现有方案；不发布、不Commit/Push、不改账号/调度。
 - 核对当前任务元数据与本机索引，当前写者仍commander-2；已有未提交成果保留。
 - 已修正把推广变成四期新内容生产的偏离；旧方案在PROMOTION折叠保留并标暂缓，更新AGENTS/WORKFLOW/task_plan/本机索引对应入口。
-- 依据：ruanyf/weekly README明确Issue投稿；V2EX FAQ与分享创造节点区分作品分享和纯搬链接。本次AI Outpost与AI 前哨站关键词Issue检索未命中，非绝对无重复；未找到合适近期问答，不凑跟帖。
+- 依据：已核验的中文科技周刊 README 明确 Issue 投稿；V2EX FAQ 与分享创造节点区分作品分享和纯搬链接。本次 AI Outpost 与 AI 前哨站关键词 Issue 检索未命中，非绝对无重复；未找到合适近期问答，不凑跟帖。
 - 交付PROMOTION内v2-A和v2-B完整文案，透明维护者及AI辅助身份、不冒充亲测、不新增产品性能主张。官网和002 brief均HTTP200；微信全文/内链仍未独立验收。
 - 观察：实际平台回执、明确反馈/收录及可得汇总；无网站来源统计不算转化率，不新增追踪或定时任务。
 - 完成审查：候选适配是判断，平台许可非采纳/增长保证；A优先待用户审阅，B仅备选。发布账号资格和最终正文授权未验收，只阻断外发。
@@ -640,7 +647,7 @@
 ## 2026-09-06：DISCOVERY-v3 公众号为长期推荐对象
 
 - 用户同意继续审稿并明确偏好推荐整个公众号；本轮只改本地方案与状态，不视为新版外发授权。
-- 依据：现有PROMOTION账号记录“暮雨笙的AI手记”；官方ruanyf/weekly README仍接受文章/软件/资源，但无接受公众号增粉投稿的保证。本次微信正式文章web读取Internal Error，未核实当前名字/归属/可读性。
+- 依据：现有 PROMOTION 账号记录“暮雨笙的AI手记”；已核验的中文科技周刊 README 仍接受文章/软件/资源，但无接受公众号增粉投稿的保证。本次微信正式文章 web 读取 Internal Error，未核实当前名字/归属/可读性。
 - 对抗审查：区分长期推荐对象、样本文与阅读入口；避免以单篇为整个账号质量背书、隐瞒自荐、虚构固定频率与增长。位置合适与行为克制比无广告词更重要，不能保证无人反感。
 - 已就地改PROMOTION至v3-A，明确公众号/品牌、微信试读及官网备选入口；旧v2-A替代，V2EX v2-B退出当前待发清单，保留历史执行证据。task_plan当前断点同步。
 - 当前完成本地文案与审查；无Commit/Push、外部投稿、社媒写入、调度或跨项目代码变更。下一步核对新版文案与实际公众号入口，公开动作另行最终确认。
@@ -706,8 +713,8 @@
 ## 2026-09-06：第002期单次投稿完成与反馈接收门禁
 
 - 用户批准全文，末句改为“公众号里的其他随笔暂不同步到官网。”；已审查维护者身份、AI辅助说明、链接、无亲测冒认及社区边界。
-- gh核验RongNianXin、仓库README允许文章Issue投稿，community/profile未提供额外投稿模板；author全状态检索无记录，已查规则未见单次自动提交禁令。通过gh issue create一次创建https://github.com/ruanyf/weekly/issues/11523，创建时间2026-09-06T08:34:35Z；标题/作者/全文回读一致，OPEN、评论0，GraphQL viewerSubscription=SUBSCRIBED。
-- 正文trim后SHA256 567ecd2b965bed38f2975b41548f1f68a59362eaabdf37657e7617c8244ee4b8；本机回执.local/weekly-submission-11523-receipt.json。提交成功不代表收录。
+- gh核验RongNianXin、目标仓库README允许文章Issue投稿，community/profile未提供额外投稿模板；author全状态检索无记录，已查规则未见单次自动提交禁令。通过gh issue create一次提交，具体回执地址保留在私密研究记录；创建时间2026-09-06T08:34:35Z；标题/作者/全文回读一致，OPEN、评论0，GraphQL viewerSubscription=SUBSCRIBED。
+- 正文 trim 后 SHA256 567ecd2b965bed38f2975b41548f1f68a59362eaabdf37657e7617c8244ee4b8；本机回执保留在私密研究记录。提交成功不代表收录。
 - 通知设置和真实邮件送达待验证；GitHub支持参与会话邮件通知，无需每天刷新，也无需公开邮箱。PROMOTION已登记反馈位置、订阅与投递分别验证、下次任务唤醒查反馈、无新调度规则。依据https://docs.github.com/en/subscriptions-and-notifications/get-started/configuring-notifications 。
 - 仅修改PROMOTION、task_plan、progress和findings记录；保留其他未提交成果，未Commit/Push/部署/发邮件/修改公众号/启用调度。
 
