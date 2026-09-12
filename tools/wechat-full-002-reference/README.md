@@ -4,7 +4,7 @@
 
 运行逻辑：本地期刊JSON和主图→行内样式HTML→浏览器复制text/html及text/plain→人工粘贴微信；图片转上传占位，图片/阅读原文另设。不是抓取GitHub网页，不自动发布。
 
-build.cjs依赖所在位置向上两层的项目根，读取content/issues/issue-003.json，要求002/6卡；署名、URL、输出文件、copy按钮文字均有固定值。运行会在脚本同目录覆盖full.html、hero.png、阅读原文地址.txt、发布字段.txt、verification-input.json。仅使用Node内置模块。serve.cjs绑定127.0.0.1:3193，仅GET/HEAD页面和主图。
+build.cjs依赖所在位置向上两层的项目根，读取content/issues/issue-002.json，要求002/6卡；署名、URL、输出文件、copy按钮文字均有固定值。运行会在脚本同目录覆盖full.html、hero.png、阅读原文地址.txt、发布字段.txt、verification-input.json。仅使用Node内置模块。serve.cjs绑定127.0.0.1:3193，仅GET/HEAD页面和主图。
 
 不要在本参考目录直接生成。原002操作入口仍为项目根的node exports/wechat-full-002/build.cjs及node exports/wechat-full-002/serve.cjs，先备份已审稿；失败查看Expected complete issue 002/输入路径/端口冲突，不强改期号绕过。
 

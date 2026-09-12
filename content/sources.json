@@ -1,16 +1,25 @@
 [
   {
+    "id": "deepseek",
+    "name": "DeepSeek",
+    "homepage": "https://www.deepseek.com/",
+    "officialUrls": ["https://api-docs.deepseek.com/"],
+    "topics": ["models", "multimodal"]
+  },
+  {
     "id": "openai",
     "name": "OpenAI",
     "homepage": "https://openai.com/",
     "officialUrls": [
       "https://openai.com/index/",
       "https://openai.com/news/",
+      "https://help.openai.com/",
+      "https://chatgpt.com/pricing",
       "https://platform.openai.com/docs/",
       "https://developers.openai.com/",
       "https://github.com/openai/"
     ],
-    "topics": ["models", "coding-tools", "agents", "multimodal"]
+    "topics": ["models", "coding-tools", "agents", "multimodal", "subscriptions", "pricing"]
   },
   {
     "id": "anthropic",

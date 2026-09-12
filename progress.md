@@ -1,5 +1,105 @@
 # AI Outpost Progress
 
+## 2026-09-12：期号契约补强与全面复核
+
+- 已确认本地四份内容：001→issue-001、002→issue-002、003→issue-003；无编号演练稿为 `draft-2026-06-18-agent-shortform` / issueNumber=0。没有把无编号演练误改成 `issue-002-draft`。
+- 新增文件名/id/issueNumber/status 一致性校验及3组测试；错误的 `issue-003.json` 承载第002期、正式草稿占用 `issue-NNN.json`、编号0非draft等情况会被阻断。规则同步到 CONTENT-OPS 与 WORKFLOW。
+- 全面检查：content:validate、273测试、typecheck、lint、build、ops:test 13项、git diff --check通过；31条链接无hard fail、2条官方站403警告。privacy:check仍命中4份既有公开记录，未通过，不能用于远端推送门禁。
+- 远端未改：origin/main 与本地无共同祖先，远端 issue-003 仍是第002期。下一步需先处理隐私门禁和远端历史策略，再发布003。
+
+## 2026-09-12：003 发布核对与后续计划登记
+
+- 已在 `docs/ROADMAP.md` 的 V1.5 第二阶段登记：设计 GitHub 仓库封面并优化首页布局，提升官网入口可见性。
+- 003 当前仍为 `approved`、`publishedAt=null`；内容校验、270 项测试、公众号导出与发布包准备已完成，公众号材料位于 `exports/wechat/` 与 `exports/publish/`。
+- 官网尚不能安全执行发布：工作区存在多项未提交代码/配置/文档及已暂存重命名，发布适配器会因非本期改动阻断。未强行提交、推送或部署，待明确保存范围后继续。
+- 用户随后明确授权提交、推送和触发 Pages；已将 38 个已跟踪文件提交为 `7c387ec`，排除未跟踪的“自己写的文案”目录。两次 `git push origin main` 均因环境无法连接 GitHub（代理 `127.0.0.1:443`）失败，因此未触发 workflow，003 尚未上线。
+
+## 2026-09-12：卡片渐变视觉修正
+
+- 用户指出上一版渐变未覆盖重点卡，实际仍呈蓝白单调。根因是重点卡统一使用 `keyCard` 背景，覆盖了基于 `nth-child` 的普通卡片渐变。
+- `IntelCard` 改为按卡片索引显式注入 `cardToneA/B/C`，重点卡也分别保留低饱和蓝—暖米色渐变；不使用粉色或高饱和色。
+- 已在 3100 真实预览中回读，卡片 05/06 等均可见不同色温渐变；`pnpm.cmd lint`、`pnpm.cmd typecheck`、`git diff --check` 通过。未提交、未推送、未部署。
+
+## 2026-09-12：移除官网阅读建议并扩写 003 卡片
+
+- 用户确认只调整官网卡片展示，并要求先做对抗式审查后执行。已移除 `IntelCard` 默认可见的“阅读建议”面板；`suggestedAction` 保留在 JSON 供公众号/资料包派生与内部流程使用。
+- 技术风险与 `developerImpact`（行动参考）移入展开区，默认卡片只显示“内容详情”和“造成的影响”。003 六卡两段文字按复杂度适度扩写，当前详情 99～170 字、影响 92～114 字，未新增事实。
+- 同步 `CONTENT-OPS`、`FACT-CHECK-PROTOCOL`、`WEEKLY-TASK-PROMPT`、`PRODUCT` 与 About 页面：单段原则上不超过约 200 字，简单新闻不凑字数。
+- 验证：`content:validate`、270 测试、typecheck、lint、生产 build 通过；390px Playwright 回读确认无横向溢出、标题和两版块存在，默认正文不含“阅读建议”；展开卡片可见技术风险、行动参考、事实和来源。
+- 边界：未修改公众号/社媒派生逻辑，未 Commit、Push、部署或平台写入；3100 预览继续保留供作者审阅。
+
+## 2026-09-12 晚：期号与内部id统一（用户确认方案B）
+
+- 用户确认方案B，并补充“以后的draft不要给正式issue编号”。已完成本地重命名：content/issues/issue-002.json（演练稿，issueNumber=0）→draft-2026-06-18-agent-shortform.json；issue-003.json（对外002）→issue-002.json；issue-004.json（对外003）→issue-003.json；三份JSON的id字段同步更新。
+- 公开网址不受影响：详情页、归档与资料包都按slug生成（/issues/<slug>/、/issues/<slug>/brief.md），slug未改。已公开第002期主图仍为public/images/issues/issue-003-hero-2026-09-05.png，不随内部id迁移，避免更换公开资源路径。
+- 规则更新（CONTENT-OPS、AGENTS、WORKFLOW、WEEKLY-TASK-PROMPT）：文件名里的数字只能是对外期号；已分配期号但未定稿用issue-NNN-draft；未分配期号或不发布的演练稿用draft-<日期>-<主题>且issueNumber=0；草稿转正式稿时改名并同步运行记录。带括号的写法（含全角“（draft）”）通不过id正则，不能作为文件名或id。
+- 同步范围：ops/weekly-run-state.json与ops/runs三条记录、tests四份（publish-action-gate、publish-adapter-gate、git-command-chain、check-weekly.checks fixture）、tools/wechat-full-002-reference、exports内两个生成器与派生产物、docs（CONTENT-OPS、WORKFLOW、WEEKLY-TASK-PROMPT、PROMOTION、PROGRESS、WEEKLY-AUTOMATION-ACCEPTANCE、reviews三份、两份周任务包注记）、根记录与本机索引。.local下历史备份与旧handoff清单不改，保留为历史证据。
+- 验证：content:validate（4期/10目录项）、268测试、typecheck、lint、生产build、ops:test 13项、ops:check、content:check:links均通过（无hard fail，9条已知403或超时WARN）。3100预览实测：003详情页200，003与002的brief.md均200。ops:check回读本周stage仍为awaiting_review，说明运行记录与新id的关联没断。
+- 边界：全部为本地改动，未Commit、未Push、未部署、未发布、未平台写入。最终快照为Temp/AI-Outpost-handoff-2026-09-12-commander-3-renumber.md；此前-final截点在本轮重命名后只作历史。
+
+## 2026-09-12 下午：主线重跑、官方核验与调度恢复
+
+- 用户更换中转模型后要求重跑主线并反馈结果。本轮在真实终端执行并回读：content:validate、268测试、typecheck、lint、生产构建、ops:test 13项、content:check:links、ops:check；3100预览详情页HTTP200且六卡齐全。
+- 用有头Playwright独立回读 help.openai.com/en/articles/9793128：正文写明“As of September 10, 2026, we are temporarily pausing new sign-ups and upgrades to the ChatGPT Pro $200 plan (Pro 20X)”，并写明 Free/Go/Plus/Pro $100 不能升级到该档、既有 Pro $200 与新老 Pro $100 不受影响、取消或降级生效后暂停期间不能重购。消息核实通过。证据存 .local/source-library/current-20260912/e06185c2c32b.json 与 .playwright-cli/page-2026-09-12T08-12-19-191Z.png；无头浏览器被Cloudflare返回403，有头可读；本会话未挂载内置浏览器工具。
+- 来源纠偏：原 openai-pro-pause-post 为个人X账号帖，读者无法稳定打开，且把它列入厂商 officialUrls 会让个人账号被当作厂商官方证据，与 CONTENT-OPS 现行来源规则冲突。公开稿改为只引用OpenAI帮助中心，并从 content/sources.json 移除该个人账号入口；事实依据不因此减少。
+- 内容补齐：DeepSeek 9月10日官方日志同时说明随V4.1 Flash发布API价格相应下调，按新增的“官方商业政策”固定检索类别补入 ds-price-cut，本期更新为6卡/14事实/14限制/10来源；未复算新旧单价差额，限制写明以价格页当期数字为准。
+- 调度缺口与恢复：本机 ~/.codex/automations 下已无 ai-outpost 目录，ops:check 一度返回 scheduleStatus=UNKNOWN，与12:50快照记录的ACTIVE冲突，消失原因未查明且非本轮删除。按用户既有“授权创建新的本地AI Outpost周六心跳”重建：id=ai-outpost、ACTIVE、FREQ=WEEKLY;BYDAY=SA;BYHOUR=10;BYMINUTE=0、绑定当前任务，配置SHA256 094B140A8D8B9D05596DDA78AB3F64FB8119C895936CBE9D6208D5676C912B34；写后 ops:check 回读 ACTIVE。实际唤醒与通知送达仍未验证，历史 ai-outpost-2 仍 PAUSED。
+- 独立审查缺口：按新增规则建立只读审查子Agent两批，均未按八项门禁输出，而是偏离到交接与单写者状态分析并重复同一结论。按用户设定的最多2—3轮上限已停止追问，未由执行者冒充独立审查；本期来源真实性由总指挥逐条回读公开页面留证，“独立第三方审查”仍是未完成项。
+- 仍未提交、未推送、未部署、未发布、未平台写入；远端main仍7f37536，本地7f53fdf保留分叉。3100服务保留供作者审阅。
+
+## 2026-09-12：正式003本地审阅稿完成
+
+- 收尾发现外部规则源在12:29—12:32变更：配置、02/04/07/10新SHA，09不变。旧切换时指纹校验保留历史，不冒充当前；已完整重读新配置及02/07，04新增调度标题、10受影响标题、03/06汇报出口和重建模板已回读，具体加载与新SHA只存本机索引。现有心跳实读唯一ACTIVE且绑定当前任务，状态VERIFY_ONLY；没有因新规则再次创建或改调度。新快照记录更新后的规则依据。
+
+- 已从本周精确断点完成本地检索与成稿：content/issues/issue-003.json，正式标题AI 前哨站第 003 期，6卡/13事实/13限制/10来源（下午更新为14/14/10）。新增正式文章必要的官方来源映射，不复制私密来源目录。研究证据、弃选和访问缺口只保存在.local/source-library/research-notes.md所指记录。网站复用现有蓝白布局，适配本期导读、重点和全文；没有新产品功能或旧期改写。
+- 内容校验通过4期与10个引用目录项；268测试、typecheck、lint和生产构建通过。构建只导出既有两期，本期approved不公开。链接检查31项无hard_fail、8个警告（含本期两OpenAI 403）；两模型页以PowerShell实际200回读，保留不同客户端限制，不能称所有链接无警告。
+- Playwright无头浏览器核对本期：390/1440宽度无横溢，全文标题、摘要、6卡及当时的13事实/13限制/10来源均与源JSON匹配；首页“查看完整分析”实际点击进入003，资料包HTTP200且六卡齐全，复制按钮显示已复制。首开favicon404和开发CSS预加载警告不影响正文，未改无关产品配置；未实测用户手机或真实模型效果。证据output/playwright/003-home-desktop.png及.local/verify-003-final.js。
+- 同源伴随稿已保存exports/wechat-full-003/full.html、发布字段.txt、verification-input.json和exports/wechat/2026-09-12-agents-workflows-image-models.md；生成器.local/build-003.cjs。全文与窄屏检查通过，复制成功反馈见output/playwright/003-companion-mobile.png；未做公众号平台粘贴、封面/正文图与公开入口上线，故不是完整可发布稿包，不阻断网站审阅。
+- 本轮启动3100（pnpm.cmd dev，工具会话54622）及3193（node .local/serve-003.cjs，会话80380）供本地审阅；只绑定127.0.0.1。Codex打开请求返回queued，不能声称窗口已显示；系统默认浏览器打开被自动审批策略拒绝（blocked by policy，无进一步原因），未绕过，需用户点击本地链接。用户看完后仅停止本轮服务，不继承为未来运行证据。
+- 周状态已改为2026-W37/issue-003/awaiting_human_review，保留draft_only与requiresUserConfirmation=true；ops检查回读为awaiting_review、report_only，不补跑或发布。远端main再次只读仍7f37536，本地main仍7f53fdf；未Commit/Push/部署/平台写入或专项通信。所有本轮必要成果已落盘但未保存至Git；编辑器未落盘内容无法核验，不声称掌握未保存想法。
+- 收尾断点：等待用户审阅本期内容和表达，已确认的通用作者立场不重复索取。最终当前快照为Temp/AI-Outpost-handoff-2026-09-12-commander-3-review.md，先前切换快照保留历史。配置、世代、基线、工作区或必要资产变化时局部重核，不沿用旧快照PASS。
+
+## 2026-09-12：commander-3切换登记
+
+- 用户确认旧心跳停止并授权重建及换任；平台创建ai-outpost成功，ACTIVE、每周六10:00，绑定本任务。新配置哈希d4766ab30ecddd7d38370b855f19de35173a6511c0975905a0c467551fd5f6d4；历史测试保留暂停。未测试实际唤醒或消息送达。
+- 旧快照对比仅automation发生已解释变化；工作区、来源库、索引及代码清单均匹配。远端实测7f37536，本地7f53fdf，保留分叉，不执行同步。
+- 更新中央入口及本机索引，commander-3为唯一写者，commander-2停止调度保留历史；旧授权不继承。本周检索与网站本地准备获新授权，未获产品无关修改、Commit/Push、部署或公开动作许可。
+- 04专项联络协议已定点回读；没有本轮有效专项通信授权，推广联络未通知，不恢复旧协作请求、不重建任务。此项只限制通信。
+
+## 2026-09-12：总指挥交接收口截点
+
+- 本步只做交接前核账与材料生成，未停止当前总指挥、未启动或修改调度、未提交/推送/部署、未写入公众号或社媒、未发送邮件。
+- 当前项目工作区：`main`，本地 `HEAD=7f53fdfbcc392ca47477199ff2a83a1d3af46e2f`；只读回读 `origin/main=7f3753680a122c8e280da2dc3d7e8e5899513a34`。两者有意不同，原因与历史清理连续性见 `task_plan.md` 顶部及 `.local/history-rehearsal/remote-verification.json`；不得把它们称为同一基线。
+- 当前未提交成果：已跟踪修改 `progress.md`、`task_plan.md`；未跟踪目录 `自己写的文案/`（其中含本轮保留的图片与文字资产）。未发现暂存文件。编辑器未保存内容无法从工作区核验，标记为待确认。
+- 周状态只读结果：`ops/weekly-run-state.json` 为 `draft_only`、`requiresUserConfirmation=true`；`pnpm.cmd ops:check` 报告 `scheduleStatus=ACTIVE`、到期周 `2026-09-12`、`stage=not_started`、`action=report_only`。这是待核对的周任务提示，不是自动发布许可。
+- 来源加载只读结果：`pnpm.cmd content:research:start` 成功，私密来源库 `entries=36`，指纹 `e7ecccdd017a4fec01630ff1fc01c582df0262a12b27b3b92676ac8dc8cdfbb2`；真实内容仍只在 `.local/source-library/`，交接正文不复制。
+- 自动化目录核对：`ai-outpost` 为唯一 `ACTIVE` 周六10:00心跳；`ai-outpost-2` 存在但为历史 `PAUSED` 2分钟测试，不构成当前重复调度证据。
+- 隐私检查：`pnpm.cmd privacy:check` 未通过，命中既有公开记录中的私密来源细节（`docs/PROMOTION.md`、`docs/reviews/SOLO-GROWTH-2026-09-06.md`、`findings.md`、`progress.md`，工作区与索引均命中）。这不是本轮把 `.local/source-library` 上传的证据；但在未另行修复/授权前，不得宣称公开隐私门禁通过。
+- 未核验/阻断：本地与远端基线差异需要继任者首次只读复核；本周到期但未开始的周任务需按现行规则核对后决定是否准备下一期；编辑器未保存内容不可见。私密来源与本机索引缺失时，暂停依赖它们的研究/交接动作。
+- 详细证据入口：`task_plan.md`、`findings.md`、`docs/WORKFLOW.md`、`docs/CONTENT-OPS.md`、`docs/PROMOTION.md`、`.local/AI状态索引.md`、`.local/research-context.json`、`.local/history-rehearsal/remote-verification.json`。本次快照在系统 Temp 目录，末尾含 `HANDOFF_CONTEXT` 清单。
+
+## 2026-09-09：远端历史清理完成
+
+- 按用户最终确认，以精确force-with-lease将main从7f53fdf更新为7f37536；前置基线、备份哈希及privacy检查通过。GitHub新克隆回读tree相同，30提交327版本无已确认残留，fsck通过。
+- 指定10产物逐ID核对及删除、GET404回读完成，其余7份保留；Actions仍17次运行，最新34015826232，未部署。原工作区和备份保留，仅追加记录，未修改权限、调度或平台状态。
+- 旧c166b36 raw匿名200仍是限制；详细回执见.local/history-rehearsal/remote-verification.json及artifact-deletion-receipt.json。原工作区HEAD仍7f53fdf，不得强推旧历史，后续本机分支衔接另行确认。
+- Windows沙箱初始化失败后按审批在沙箱外执行，补丁包装器多行参数失败后改为直接调用同一补丁引擎；未将失败的补丁当作已保存。
+
+## 2026-09-09：历史清理隔离演练通过
+
+- 用户明确授权本机完整备份、隔离演练及补查日志，禁止远端写入。原工作区两份未提交记录逐字备份，完整Git bundle含9引用并实际恢复/fsck通过；本地6标签未带入main清理副本，未修改原仓库引用。
+- 固定git-filter-repo 2.47.0从PyPI获取并核对wheel SHA256，只安装在忽略目录。隔离副本删除审查11路径历史，再恢复原HEAD中对应脱敏文件；最终新7f37536与原7f53fdf tree完全相同，139文件未变。
+- 独立新克隆扫描30提交327种路径/对象版本，无已确认旧残留对象及辅助隐私命中；范围外历史29映射提交逐项一致，1个仅记录提交被合并。原两份未提交记录在演练结束前哈希未变，22私密文件哈希未变；收尾仅追加本节及task_plan状态，不覆盖旧成果。
+- 失败日志补读50462字节，无来源/候选特征命中。10份原artifact ZIP哈希落盘，未删除远端产物或日志。远端main复查仍7f53fdf，无远端动作或部署。
+- 详细结果、恢复命令、旧新映射及待审批精确范围见.local/history-rehearsal/RESULT.md和rehearsal-receipt.json。因为最新树完全一致，本轮不重复产品构建/预览。下一步远端更换历史与指定产物删除必须单独最终确认，旧链接/缓存及外部副本不保证消失。
+
+## 2026-09-09：历史清理范围只读审查
+
+- 公开同步回执已回读；main为7f53fdf，历史审查前后远端无漂移，仅1分支、无标签/PR/Release/登记fork。未执行提交推送、历史改写、权限/调度修改、删除或部署。
+- 全部30提交371路径/对象版本扫描，11路径21版本命中内部明细；10份未过期Actions ZIP逐份检查均有候选记录，原包保存于忽略目录。16次运行日志无特征命中，1次TLS超时待核查。旧来源raw匿名200，Pages两个敏感路径抽查404，不据此声称全站绝对无残留。
+- 本机报告.local/history-audit/REVIEW.md包含候选路径、精确产物ID、备份/演练/远端门禁和官方缓存清理限制；inventory.json保存历史对象证据。二次独立扫描默认缓冲区不足失败，增大后完整复核一致；git-filter-repo未安装，未擅自安装。
+- 下一步先隔离副本演练并证明最新产品树不变，再提交具体远端清理结果供最终确认。历史旧SHA/缓存及他人副本不能保证消失，真实研究资料不写入公开记录。
+
 ## 2026-09-09：公开脱敏版本获最终同步授权
 
 - 用户明确批准清单22文件Commit、快进Push main和远端回读，保留其他成果；不含私密数据上传、历史改写、部署、权限、调度或平台写入。
@@ -32,6 +132,18 @@
 
 - 用户明确要求先确定4期问题/交付/数据，再配置自动准备人工发布；持续脱敏经验通信授权至撤销，不包含发布、跨项目改代码或新调度。明确排除微信群发、广告帖及冒犯边界行为。
 - 方案按识别变化、尝试能力、作出取舍、回顾修正四个读者问题组织；试验号与公开期号分离。每期同源官网/完整公众号稿包/来源与限制/预览及数据复盘；题材和日期不预编。
+
+## 2026-09-12 夜：003 期版块改版、标题与来源规则落地（本地）
+
+- 用户四条要求：卡1标题不能直接搬操作者的口语增补；标题去掉“200 美元”这类口语写法；来源索引每条至少一条来源、交稿前至少复核一次、顺序与卡片一致；本期起把「这和你有什么关系／真正改变了什么」改为「内容详情／造成的影响」。
+- 代码改动：components/IntelCard.tsx 卡片正文改为两栏「内容详情」（渲染 oneLineSummary，改为主文色）与「造成的影响」（渲染 whyItMatters）；developerImpact 不再单占正文，收进“展开技术实据与来源”的「行动参考」，字段、schema 和数据都没删；IssueView 卡片区说明同步为“先看内容详情与影响”。
+- 数据改动：content/issues/issue-003.json 共改 15 个字段。卡1标题定为「ChatGPT Pro 20X 暂停新购与升级，现有订阅不受影响」；六卡 oneLineSummary 统一写成“发生了什么”，whyItMatters 统一写成影响分析并逐卡只聚焦行业或个人一侧（卡1、卡4、卡5偏个人或选型，卡6偏团队）；sources[] 重排为按卡片首次引用顺序，第1条即卡1的 OpenAI 帮助中心。
+- 规则落地：CONTENT-OPS「标题与配图」加入“标题由编辑独立撰写，操作者增补只用于修正事实”；「每次检索与交稿统一门禁」第5条同步并新增第7条来源索引；新增「情报卡版块结构（2026-09-12 用户确认，003 期起生效）」一节。WEEKLY-TASK-PROMPT 与 FACT-CHECK-PROTOCOL 角色E 同步为内容详情／造成的影响。
+- 校验新增：lib/content/validation.ts 增加来源索引顺序校验（按卡片首次引用顺序比对 sources[]；draft/approved 报错，published/corrected 豁免，避免改动已公开页面）；tests/content-schema.test.ts 增加 2 个用例。
+- 验证：content:validate 通过（4期/10目录项）；270 测试、typecheck、lint、生产 build 全部通过。3100 详情页 HTTP 200；Playwright 实测 1280 与 390 宽度均无横向溢出，卡内 h3 顺序为 内容详情→造成的影响→行动参考→事实、测评与限制，来源索引 01 条对应卡1。content:check:links 仍为 10 条 WARN（Cloudflare 403／超时），无 hard fail，与上一轮同类。
+- 来源复核：有头 Playwright 重读 https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers，页首 Note 与既有证据一致：自 2026-09-10 起暂停 Pro $200（Pro 20X）新购与升级，Free/Go/Plus/Pro $100 不能升级，既有 Pro $200 与 Pro $100 不受影响，取消或降档后暂停期内不能重购；卡1事实未变。无头仍被 Cloudflare 403；页面内容与既有证据文件一致，未新增重复证据文件。
+- 子 Agent 实测：本环境 5 次派发加 1 次追加指令全部偏离为项目接手汇报，含一个只要求回显口令的探针，未产出审查意见。本轮因此没有独立审查，不冒充完成；根因、已做修复与验证方式见 findings。AGENTS.md 新增《子 Agent 派发与回收》并收紧《新会话恢复输出要求》适用范围，需新会话验证。
+- 边界：未 Commit、未 Push、未部署、未发布、未平台写入。上一份 -renumber 快照因 AGENTS.md 变更已漂移，本轮另生成新快照，旧快照只作历史。
 - 写前对抗审查：无数据记未采集，不以GitHub仓库访问冒充官网流量；用户认可和效果证据分开；正常公众号内容与微信群营销区分，但不自动取得发表/群发许可；不以换名绕过广告限制。现有三平台准备命令与002局部完整稿生成器不冒称本轮通用自动化。
 - 本地配置位置：PROMOTION维护唯一方案与授权，AGENTS添加触发入口，WORKFLOW/task_plan/本机索引更新相应状态；无代码/调度/远端写入。第1期端到端准备尚未运行；用户表示不理解“自动准备”，已用稿包/预览/本人判断解释，推荐先示范一轮，撤下技术启动方式选择题，不创建调度。
 - 同步项PROMO-TRIAL-v1：已向“项目推广总指挥2号（1）”发送，平台返回送达回执；尚不等于对方已反馈/认可。状态为AI审查可行方案及用户明确反营销边界，尚无4期效果证据；向现任推广角色发送时核验元数据和既有身份，保留送达与反馈的区别。
@@ -141,9 +253,9 @@
 
 ## 2026-09-05 对外期号更正为002，官网已更新
 
-- 用户明确授权更正并部署。保留内部issue-003及原URL、正文和发布时间；issueNumber改2，加入公开更正记录。旧未发布演练稿issue-002保留为draft/0，避免期号冲突及误补发；不删除历史。
+- 用户明确授权更正并部署。保留内部issue-002及原URL、正文和发布时间；issueNumber改2，加入公开更正记录。旧未发布演练稿draft-2026-06-18-agent-shortform保留为draft/0，避免期号冲突及误补发；不删除历史。
 - c763df6更正数据/下载名及编号规则；e40f403发布。Pages运行33960948924成功。67测试、类型/内容校验及完整发布门禁通过；本地预览HTTP200且Issue002、下载名正确。
-- 公网首页、归档、详情均200且显示002；下载文件名ai-outpost-issue-002.md。content:check:downloads核对两份公开Markdown正文匹配；网址保持原样，旧演练稿未泄露。真实浏览器打开请求queued，不冒充用户已看见。
+- 公网首页、归档、详情均200且显示002；下载文件名ai-outpost-issue-002.md（按对外issueNumber生成）。content:check:downloads核对两份公开Markdown正文匹配；网址保持原样，旧演练稿未泄露。真实浏览器打开请求queued，不冒充用户已看见。
 - 恢复draft_only并同步记录；不操作公众号/小红书。后续对外使用002，旧003仅指历史或内部id；用户现在可沿用之前链接分享。
 
 ## 2026-09-05 第003期官网上线
@@ -184,7 +296,7 @@
 - 对抗审查后的保护：下载先检查状态与正文一致性，404/过期文件不会被保存；剪贴板拒绝时自动展开并选中全文；basePath 使用同站相对路径，不向资料包写入本机地址。
 - 验证：34 项测试、typecheck、lint、根路径构建及 /ai-outpost 构建通过。构建自带文件一致性、入口及未公开文件泄露检查。真实无头浏览器验证下载文件名和保存正文、剪贴板内容（Windows CRLF 归一化）、复制拒绝备用、404 和旧版本提示、默认收起及 390px 无横向溢出。桌面/手机截图已查看，位于 output/playwright。
 - 未验证：本轮不部署，因此公网文件和各社交平台内下载行为尚未验证；已在 CONTENT-OPS 写明部署后只读校验命令。首次 favicon 404 为既有非阻断问题。
-- 预览继续运行；请求当前 Codex 打开资料区返回 queued。用户可直接测试复制后粘贴到专项 AI，或下载 ai-outpost-issue-003.md 核对第 003 期。
+- 预览继续运行；请求当前 Codex 打开资料区返回 queued。用户可直接测试复制后粘贴到专项 AI，或下载当时的 ai-outpost-issue-003.md 核对第 003 期。
 
 ## 2026-09-05 预览拒绝连接修复
 
@@ -198,7 +310,7 @@
 
 - 已读取项目计划、内容规则、来源目录、运行状态与旧第 003 期，确认旧期未公开后原地刷新。
 - 已检索并核对 2026-08-31 至 2026-09-05 10:01（Asia/Shanghai）窗口内官方来源，12 个候选中保留 6 个。
-- 已更新 `content/issues/issue-003.json`、`content/sources.json`，新增 `public/images/issues/issue-003-hero-2026-09-05.png`。
+- 已更新 `content/issues/issue-002.json`、`content/sources.json`，新增 `public/images/issues/issue-003-hero-2026-09-05.png`。
 - 已通过 `content:validate`、`typecheck`、`lint`、28 项测试与 `publish:prepare`；官网页面和主视觉 HTTP 200，关键内容回读完整。
 - 待完成：联网链接检查最终结果、生产构建、3101 控制页回读、运行记录、真实浏览器打开与最终对抗式审查。
 - 已完成联网链接检查（14 OK / 5 非阻断警告）、生产构建、3101 控制页令牌门禁与三平台状态回读；运行记录写入 `ops/runs/2026-W36-refresh-2026-09-05.json`。
@@ -276,7 +388,7 @@
 - 已完成第二轮 Google 与 Anthropic 官方来源检索；Google Omni 1.1 Flash 暂列正式候选，Anthropic 仍待打开具体 release note 条目。
 - 已打开并核验 OpenAI、Google、Cursor、GitHub、Anthropic 的具体公告或更新记录，形成 6 条正式候选；社区讨论和搜索摘要仅用于发现线索，未作为事实来源。
 - 已核对 `lib/content/schema.ts` 与 `lib/content/validation.ts`，确认 003 期可安全使用 `approved` 状态进行本地预览而不公开。
-- 已新增 `content/issues/issue-003.json`：6 张卡片、6 个官方来源、3 个产品机会和 1 个实践任务；当前为 `draft`，未公开。
+- 已新增 `content/issues/issue-002.json`：6 张卡片、6 个官方来源、3 个产品机会和 1 个实践任务；当前为 `draft`，未公开。
 - 已将 OpenAI `/index/` 正式公告目录加入来源白名单，并执行 `pnpm content:validate`：3 期内容与 7 个来源目录全部通过。
 - 已生成 003 期小红书/通用分享包；公众号稿等待本地预览通过后由项目脚本从同一份 JSON 导出。
 - 首轮验证：lint、18 项测试、生产构建通过；15 个来源链接中 10 个直接通过，5 个因官方站 403 或超时形成非阻断警告。类型检查受到并行构建竞态影响，等待串行复验。
@@ -313,7 +425,7 @@
 ## 2026-06-18 第 002 期自动化演练完成到人工审核点
 
 - 已创建运行状态文件：`ops/weekly-run-state.json` 和 `ops/runs/2026-W25.json`。
-- 已生成第 002 期短版草稿：`content/issues/issue-002.json`，状态为 `approved`，仅用于本地预览。
+- 已生成第 002 期短版草稿：`content/issues/draft-2026-06-18-agent-shortform.json`，状态为 `approved`，仅用于本地预览。
 - 已补充官方来源白名单：`content/sources.json` 增加 `https://cursor.com/changelog` 和 `https://commandline.microsoft.com/`。
 - 已生成公众号 Markdown：`exports/wechat/2026-06-18-agent-discovery-cloud-agents-tts.md`。
 - 已生成轻量分享包：`exports/social/2026-06-18-agent-discovery-cloud-agents-tts.md`。
@@ -524,7 +636,7 @@
 - 用户认可小范围价值分享并要求执行前对抗审查。任务契约：只读调研真实入口、基于已有002写全文、更新现有方案；不发布、不Commit/Push、不改账号/调度。
 - 核对当前任务元数据与本机索引，当前写者仍commander-2；已有未提交成果保留。
 - 已修正把推广变成四期新内容生产的偏离；旧方案在PROMOTION折叠保留并标暂缓，更新AGENTS/WORKFLOW/task_plan/本机索引对应入口。
-- 依据：ruanyf/weekly README明确Issue投稿；V2EX FAQ与分享创造节点区分作品分享和纯搬链接。本次AI Outpost与AI 前哨站关键词Issue检索未命中，非绝对无重复；未找到合适近期问答，不凑跟帖。
+- 依据：已核验的中文科技周刊 README 明确 Issue 投稿；V2EX FAQ 与分享创造节点区分作品分享和纯搬链接。本次 AI Outpost 与 AI 前哨站关键词 Issue 检索未命中，非绝对无重复；未找到合适近期问答，不凑跟帖。
 - 交付PROMOTION内v2-A和v2-B完整文案，透明维护者及AI辅助身份、不冒充亲测、不新增产品性能主张。官网和002 brief均HTTP200；微信全文/内链仍未独立验收。
 - 观察：实际平台回执、明确反馈/收录及可得汇总；无网站来源统计不算转化率，不新增追踪或定时任务。
 - 完成审查：候选适配是判断，平台许可非采纳/增长保证；A优先待用户审阅，B仅备选。发布账号资格和最终正文授权未验收，只阻断外发。
@@ -535,7 +647,7 @@
 ## 2026-09-06：DISCOVERY-v3 公众号为长期推荐对象
 
 - 用户同意继续审稿并明确偏好推荐整个公众号；本轮只改本地方案与状态，不视为新版外发授权。
-- 依据：现有PROMOTION账号记录“暮雨笙的AI手记”；官方ruanyf/weekly README仍接受文章/软件/资源，但无接受公众号增粉投稿的保证。本次微信正式文章web读取Internal Error，未核实当前名字/归属/可读性。
+- 依据：现有 PROMOTION 账号记录“暮雨笙的AI手记”；已核验的中文科技周刊 README 仍接受文章/软件/资源，但无接受公众号增粉投稿的保证。本次微信正式文章 web 读取 Internal Error，未核实当前名字/归属/可读性。
 - 对抗审查：区分长期推荐对象、样本文与阅读入口；避免以单篇为整个账号质量背书、隐瞒自荐、虚构固定频率与增长。位置合适与行为克制比无广告词更重要，不能保证无人反感。
 - 已就地改PROMOTION至v3-A，明确公众号/品牌、微信试读及官网备选入口；旧v2-A替代，V2EX v2-B退出当前待发清单，保留历史执行证据。task_plan当前断点同步。
 - 当前完成本地文案与审查；无Commit/Push、外部投稿、社媒写入、调度或跨项目代码变更。下一步核对新版文案与实际公众号入口，公开动作另行最终确认。
@@ -572,7 +684,7 @@
 ## 2026-09-06：系列标题与排版工具耐久参考
 
 - 授权范围：本地官网改名、工具登记与保存核对、本项目长期规则；不Commit/Push/部署/公众号写入。全局规则解释为本项目所有后续期刊与继任AI，不修改账号级其他项目规则。
-- 修改content/issues/issue-001.json与issue-003.json仅title为AI 前哨站第 001/002 期，components/IssueView主标题读issue.title；摘要/卡片/来源/URL/日期/图片不改。scripts/content/validate.ts校验正期号标题格式，0号演练排除。
+- 修改content/issues/issue-001.json与issue-002.json仅title为AI 前哨站第 001/002 期，components/IssueView主标题读issue.title；摘要/卡片/来源/URL/日期/图片不改。scripts/content/validate.ts校验正期号标题格式，0号演练排除。
 - 验证：content:validate、67测试、typecheck、build及2份公开Markdown导出检查通过；首页/归档/001/002本地200且新题存在。content:preview:url取得002原slug；pnpm dev会话54585启动3100，Codex可见页打开并截图回读新主标题/主图/卡片/来源。开发生成next-env.d.ts路径改动已恢复，本轮预览服务供待审保留。
 - 工具：tools/wechat-full-002-reference保存build/serve逐字源码及运行逻辑README/manifest，非Git忽略但未提交，原exports未覆盖。源build SHA FA68FBD45FBDE18C1A378FD7CD344312002113438216ECD15AA4936739C6FD1A；serve C0EC1AE89A5BBC669E9E109661C5627DE4FB90E39B108A570A8D797AC072A9F9。语法检查已过。
 - WX-TOOL-REUSE第2、3条指定文件及回执位置已发；wait显示对方completed，但正文为空，指定回执/公共目录工具登记未发现。达到每议题3条上限，不继续催或代写对方状态；当前只确认传输，未验证对方保存，不能承诺以后不用重做。
@@ -601,8 +713,8 @@
 ## 2026-09-06：第002期单次投稿完成与反馈接收门禁
 
 - 用户批准全文，末句改为“公众号里的其他随笔暂不同步到官网。”；已审查维护者身份、AI辅助说明、链接、无亲测冒认及社区边界。
-- gh核验RongNianXin、仓库README允许文章Issue投稿，community/profile未提供额外投稿模板；author全状态检索无记录，已查规则未见单次自动提交禁令。通过gh issue create一次创建https://github.com/ruanyf/weekly/issues/11523，创建时间2026-09-06T08:34:35Z；标题/作者/全文回读一致，OPEN、评论0，GraphQL viewerSubscription=SUBSCRIBED。
-- 正文trim后SHA256 567ecd2b965bed38f2975b41548f1f68a59362eaabdf37657e7617c8244ee4b8；本机回执.local/weekly-submission-11523-receipt.json。提交成功不代表收录。
+- gh核验RongNianXin、目标仓库README允许文章Issue投稿，community/profile未提供额外投稿模板；author全状态检索无记录，已查规则未见单次自动提交禁令。通过gh issue create一次提交，具体回执地址保留在私密研究记录；创建时间2026-09-06T08:34:35Z；标题/作者/全文回读一致，OPEN、评论0，GraphQL viewerSubscription=SUBSCRIBED。
+- 正文 trim 后 SHA256 567ecd2b965bed38f2975b41548f1f68a59362eaabdf37657e7617c8244ee4b8；本机回执保留在私密研究记录。提交成功不代表收录。
 - 通知设置和真实邮件送达待验证；GitHub支持参与会话邮件通知，无需每天刷新，也无需公开邮箱。PROMOTION已登记反馈位置、订阅与投递分别验证、下次任务唤醒查反馈、无新调度规则。依据https://docs.github.com/en/subscriptions-and-notifications/get-started/configuring-notifications 。
 - 仅修改PROMOTION、task_plan、progress和findings记录；保留其他未提交成果，未Commit/Push/部署/发邮件/修改公众号/启用调度。
 

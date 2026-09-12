@@ -1,5 +1,7 @@
 # 研发进度
 
+> 2026-09-12编号统一：本文正文的内部id已按新命名更新（内部id=对外期号）。对外002期现为 content/issues/issue-002.json，未发布演练稿现为 content/issues/draft-2026-06-18-agent-shortform.json。现行规则见 docs/CONTENT-OPS.md“期号与内部标识”。
+
 > 本文件保留历史研发记录，以下“当前”“下一阶段”和时间安排均按各段记录日期理解，不作为现行指导。现行推广、平台接入及提醒安排见 [PROMOTION.md](PROMOTION.md)，最新执行状态见根目录 task_plan.md / progress.md。旧“仅分享包”“17:05”不代表现行本机三平台与10:00刷新方案。
 
 ## 2026-06-18 周更自动化验收清单
@@ -22,7 +24,7 @@
 
 - 生成第 002 期短版草稿，主题为 Agent 资源发现、云端子 Agent 与 Gemini TTS streaming。
 - 新增周更运行状态与运行日志：`ops/weekly-run-state.json`、`ops/runs/2026-W25.json`。
-- 新增内容文件：`content/issues/issue-002.json`，当前为 `approved` 预览状态，不会被生产构建公开。
+- 新增内容文件：`content/issues/draft-2026-06-18-agent-shortform.json`，当前为 `approved` 预览状态，不会被生产构建公开。
 - 新增公众号导出与轻量分享包：`exports/wechat/2026-06-18-agent-discovery-cloud-agents-tts.md`、`exports/social/2026-06-18-agent-discovery-cloud-agents-tts.md`。
 - 修复同日预览排序问题，并通过新增测试验证。
 - 完成自动校验：内容校验、链接检查、公众号导出、类型检查、Lint、测试和生产构建均已完成；链接检查只有外部访问不确定警告。

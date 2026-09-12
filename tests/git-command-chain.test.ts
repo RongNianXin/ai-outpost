@@ -22,7 +22,7 @@ describe("real Git command to publishing gate", () => {
       await git("add", ".");
       await git("-c", "user.name=Test", "-c", "user.email=test@example.invalid",
         "-c", "commit.gpgsign=false", "commit", "-m", "fixture");
-      const issue = (await loadIssueFiles()).find(item => item.issue.id === "issue-003")!.issue;
+      const issue = (await loadIssueFiles()).find(item => item.issue.id === "issue-002")!.issue;
       expect(parseGitStatus(await git("status", "--porcelain"))).toEqual([]);
       await writeFile(file, "changed\n");
       const changes = parseGitStatus(await git("status", "--porcelain"));

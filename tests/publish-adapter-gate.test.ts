@@ -18,7 +18,7 @@ vi.mock("../lib/publishing/config", () => ({ getWechatConfig: () => ({
 }) }));
 // The restore scenario requires an approved input, regardless of the live issue's release state.
 const issue = issueSchema.parse({
-  ...JSON.parse(readFileSync("content/issues/issue-003.json", "utf8")),
+  ...JSON.parse(readFileSync("content/issues/issue-002.json", "utf8")),
   status: "approved",
   publishedAt: null,
 });
@@ -42,7 +42,7 @@ describe("adapter defense in depth", () => {
   it("website rechecks after build and restores local content without pushing", async () => {
     vi.mocked(assertPublishingAllowed).mockResolvedValueOnce(undefined)
       .mockResolvedValueOnce(undefined).mockRejectedValueOnce(new Error("emergency_stop"));
-    vi.mocked(loadIssueFiles).mockResolvedValue([{ fileName: "issue-003.json", issue }]);
+    vi.mocked(loadIssueFiles).mockResolvedValue([{ fileName: "issue-002.json", issue }]);
     vi.mocked(readFile).mockResolvedValue("original");
     vi.mocked(runCommand).mockImplementation(async (cmd, args) => ({
       ok: true, code: 0, stderr: "", stdout:
@@ -56,7 +56,7 @@ describe("adapter defense in depth", () => {
       (cmd === "git" && ["add", "commit", "push"].includes(args[0])) ||
       (cmd === "gh" && args[0] === "workflow"))).toBe(false);
     expect(vi.mocked(writeFile).mock.calls.some(([file, body]) =>
-      String(file).endsWith("issue-003.json") && body === "original")).toBe(true);
+      String(file).endsWith("issue-002.json") && body === "original")).toBe(true);
   });
   it("WeChat stops before cover upload if the mode changes during authentication", async () => {
     vi.mocked(assertPublishingAllowed).mockResolvedValueOnce(undefined).mockRejectedValue(new Error("paused"));

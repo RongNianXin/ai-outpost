@@ -78,7 +78,52 @@ export function validateContentCollection(
 
     addVaguePhraseErrors(fileName, issue, errors);
     addFormulaicStyleErrors(fileName, issue, errors);
+    addSourceIndexOrderErrors(fileName, issue, errors);
   });
+
+  return errors;
+}
+
+/**
+ * Enforce the public issue-number/file-name contract at the filesystem boundary.
+ * A rehearsal without a formal number uses a date/topic draft name; a numbered
+ * draft is reserved as issue-NNN-draft and must not occupy issue-NNN.json.
+ */
+export function validateIssueFileNames(
+  issues: Array<{ fileName: string; issue: Issue }>,
+): ContentValidationError[] {
+  const errors: ContentValidationError[] = [];
+
+  for (const { fileName, issue } of issues) {
+    const stem = fileName.replace(/\.json$/i, "");
+    if (stem !== issue.id) {
+      errors.push({
+        path: `${fileName}.id`,
+        message: `File name stem must match issue id: expected ${stem}, got ${issue.id}`,
+      });
+    }
+
+    if (issue.issueNumber > 0) {
+      const issueStem = `issue-${String(issue.issueNumber).padStart(3, "0")}`;
+      const expectedStem = issue.status === "draft" ? `${issueStem}-draft` : issueStem;
+      if (stem !== expectedStem) {
+        errors.push({
+          path: fileName,
+          message: `Numbered issue file must be ${expectedStem}.json; drafts must not occupy ${issueStem}.json`,
+        });
+      }
+    } else if (issue.status !== "draft") {
+      errors.push({
+        path: `${fileName}.status`,
+        message: "An issue with issueNumber 0 must remain a draft.",
+      });
+    } else if (stem.startsWith("issue-")) {
+      errors.push({
+        path: fileName,
+        message: "An unnumbered draft must use draft-<date>-<topic>.json, not issue-NNN.json.",
+      });
+    }
+  }
 
   return errors;
 }
@@ -140,6 +185,75 @@ function addFormulaicStyleErrors(
         message: `Formulaic style phrase "${matchedPhrase}" is not allowed. Rewrite with a concrete subject, action or consequence.`,
       });
     }
+  });
+}
+
+const sourceIndexOrderStatuses = new Set<Issue["status"]>(["draft", "approved"]);
+
+function addSourceIndexOrderErrors(
+  fileName: string,
+  issue: Issue,
+  errors: ContentValidationError[],
+) {
+  if (!sourceIndexOrderStatuses.has(issue.status)) {
+    return;
+  }
+
+  const expectedOrder: string[] = [];
+  const seenSourceIds = new Set<string>();
+
+  issue.cards.forEach((card) => {
+    card.facts.forEach((fact) => {
+      fact.sourceIds.forEach((sourceId) => {
+        if (seenSourceIds.has(sourceId)) {
+          return;
+        }
+        seenSourceIds.add(sourceId);
+        expectedOrder.push(sourceId);
+      });
+    });
+  });
+
+  const actualOrder = issue.sources.map((source) => source.id);
+  const length = Math.max(actualOrder.length, expectedOrder.length);
+  let mismatchIndex = -1;
+
+  for (let index = 0; index < length; index += 1) {
+    if (actualOrder[index] !== expectedOrder[index]) {
+      mismatchIndex = index;
+      break;
+    }
+  }
+
+  if (mismatchIndex === -1) {
+    return;
+  }
+
+  const actual = actualOrder[mismatchIndex];
+  const expected = expectedOrder[mismatchIndex];
+
+  if (actual === undefined) {
+    errors.push({
+      path: `${fileName}.sources`,
+      message: `Source index is missing entry ${mismatchIndex + 1} ("${expected}") required by card order.`,
+    });
+    return;
+  }
+
+  if (expected === undefined) {
+    errors.push({
+      path: `${fileName}.sources.${mismatchIndex}.id`,
+      message: `Source "${actual}" is not cited by any card. Attach it to a fact or remove it.`,
+    });
+    return;
+  }
+
+  errors.push({
+    path: `${fileName}.sources.${mismatchIndex}.id`,
+    message:
+      `Source index order must follow card order: entry ${mismatchIndex + 1} should be ` +
+      `"${expected}" but is "${actual}". Order sources[] by the first card that cites each source, ` +
+      `so the first entry supports the first card.`,
   });
 }
 

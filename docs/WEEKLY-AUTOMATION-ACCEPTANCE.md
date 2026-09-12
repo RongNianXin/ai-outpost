@@ -9,7 +9,7 @@
 ## 2026-09-07 核验与恢复设计（本地检查与正式草稿调度已启用）
 
 - 2026-09-07用户最终授权后，既有周六任务已通过自动任务工具更新为ACTIVE并绑定当前总指挥，时区Asia/Shanghai、周六10:00不变，实际提示词与WEEKLY-TASK-PROMPT正文逐字回读一致。两分钟测试保持PAUSED，远端weekly-ops不启用。没有新建重复任务。
-- ops/weekly-run-state.json的W36旧待审标记已按本地corrected/publishedAt及公网002页面200回读对账为published_local_record_reconciled，保留draft_only与人工确认锁。内部issue-003对应正式002，不以文件名推断新一期完成，未创建正式003。
+- ops/weekly-run-state.json的W36旧待审标记已按本地corrected/publishedAt及公网002页面200回读对账为published_local_record_reconciled，保留draft_only与人工确认锁。内部issue-002对应正式002，不以文件名推断新一期完成，未创建正式003。
 - 官方说明要求本地自动任务执行时电脑开机、应用运行、目录可用；已读说明没有给出离线漏跑后必补跑的保证。现有 GitHub 工作流检查仓库、导出和构建，不负责抓新闻，也不证明本周生产完成。
 - 最小设计：沿用现有周状态与运行日志，以周标识、正式期号、阶段、最近进展、版本、失败原因及提醒回执区分：未启动、运行中、中断、待作者审核、已完成、主动暂停。运行中的超时只是疑似卡住，先核对实际任务再决定；不能把待作者审核误报成执行失败。
 - 恢复入口：按用户最新偏好采用任务恢复/生产/发布/交接触发，node scripts/ops/check-weekly.mjs已实现，正常执行只读；可选--record只保存本地控制台展示回执。读取暂停状态，分辨待审、明确失败、需核对草稿及未启动，按周/状态变化去重。未安装Windows登录监听、桌面通知或新定时任务；此前登录提醒建议暂不实施。用户开机但没有打开任务/执行检查时仍不会主动弹窗，不能冒充无人值守提醒。
@@ -110,7 +110,7 @@ pnpm.cmd build
 
 交叉验证材料：
 
-- `content/issues/issue-002.json`
+- `content/issues/draft-2026-06-18-agent-shortform.json`
 - `ops/runs/2026-W25.json`
 - `findings.md`
 - 官方来源链接

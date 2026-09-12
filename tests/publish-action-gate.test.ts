@@ -19,7 +19,7 @@ vi.mock("../lib/publishing/adapters/website", () => ({ publishWebsite: vi.fn() }
 vi.mock("../lib/publishing/adapters/wechat", () => ({ createWechatDraft: vi.fn(), publishWechatDraft: vi.fn() }));
 vi.mock("../lib/publishing/adapters/xiaohongshu", () => ({ publishXiaohongshu: vi.fn() }));
 
-const issue = issueSchema.parse(JSON.parse(readFileSync("content/issues/issue-003.json", "utf8")));
+const issue = issueSchema.parse(JSON.parse(readFileSync("content/issues/issue-002.json", "utf8")));
 issue.status = "published"; // In-memory fixture only; no file or platform writes.
 const actions = Object.keys(actionLabels) as Array<keyof typeof actionLabels>;
 const adapters = [publishWebsite, createWechatDraft, publishWechatDraft, publishXiaohongshu];

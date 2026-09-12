@@ -22,7 +22,7 @@
 - build：通过；自动下载校验仅输出 1 期公开 Markdown，无 002/003 泄露。003 最终生产发布状态尚未构建，本轮不修改状态来模拟发布。
 - 派生包：manifest hash 与当前期刊一致，公众号 Markdown/HTML/封面、小红书文案/封面共 5 项存在；小红书标题 16 字符、正文 833 字符。这不是平台端验收。
 - Git：main；本机 HEAD 与 git ls-remote 的 origin/main 均为 603b920688b5632ed971bedd93c9070625eb42da；GitHub 登录有效。未 fetch/push/commit。
-- Pages：API 返回官网 https://rongnianxin.github.io/ai-outpost/ ，workflow 部署方式；最近一条部署记录成功，日期为 2026-06-18，不是本期部署。远端 issue-003 文件查询 404，与“本期未公开”一致，不是本期来源失效。
+- Pages：API 返回官网 https://rongnianxin.github.io/ai-outpost/ ，workflow 部署方式；最近一条部署记录成功，日期为 2026-06-18，不是本期部署。远端 issue-002 文件查询 404，与“本期未公开”一致，不是本期来源失效。
 - 小红书：项目预检的 xhs status 返回成功；post --help 存在 --private；当前期刊版本 receipts 为空。本轮没发测试笔记，不能声称发帖已打通。
 - 秘密边界：.env.local 没有列入 git ls-files，.env.local 与 .local/publish-state.json 受 ignore 保护；未读取或输出凭据值。这不是全仓库秘密扫描。
 - 自动化：本机 ai-outpost 配置 ACTIVE、周六10:00；GitHub weekly ops 为 disabled_inactivity，未启用或触发。

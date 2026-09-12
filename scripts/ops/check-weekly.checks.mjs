@@ -22,8 +22,8 @@ test('awaiting review, interrupted and draft are distinct; inputs unchanged', ()
   assert.equal(evaluate({ ...input, state: { ...state, failureReason: 'timeout' } }).weeks[0].stage, 'interrupted');
   assert.equal(evaluate({ ...input, state }).weeks[0].stage, 'draft_needs_reconciliation');
 });
-test('late publication and internal issue003 do not complete public003 week', () => {
-  const old = { ...draft, id: 'issue-003', issueNumber: 2, status: 'corrected', publishedAt: base.now, period: { end: '2026-09-05' } };
+test('late publication and issueNumber 2 do not complete the public 003 week', () => {
+  const old = { ...draft, id: 'issue-002', issueNumber: 2, status: 'corrected', publishedAt: base.now, period: { end: '2026-09-05' } };
   assert.equal(evaluate({ ...base, issues: [old] }).weeks[0].stage, 'not_started');
   assert.equal(evaluate({ ...base, issues: [{ ...draft, status: 'published', publishedAt: base.now }] }).weeks[0].stage, 'published_local_record');
 });
