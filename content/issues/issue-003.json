@@ -14,8 +14,8 @@
     "start": "2026-09-05",
     "end": "2026-09-12"
   },
-  "status": "approved",
-  "publishedAt": null,
+  "status": "published",
+  "publishedAt": "2026-09-12T15:35:47.000Z",
   "topChangeIds": [
     "openai-pro-pause",
     "deepseek-flash",
@@ -507,7 +507,7 @@
     "aiReviewCompleted": true,
     "factCheckCompletedAt": "2026-09-12T04:31:41Z",
     "previewApprovedAt": "2026-09-12T04:31:41Z",
-    "publicationApprovedAt": null,
+    "publicationApprovedAt": "2026-09-12T15:35:47.000Z",
     "notes": "本地审阅草稿，未经作者审定或发布授权。窗口为北京时间9月5日10:00至9月12日10:00，9月12日午间补查现行文档。9月12日按官方资料纠正用户提供的套餐名称：暂停新购的是Pro 200美元档，不是Plus 20美元档；以该消息替换MiniCPM5-2B。9月12日下午由总指挥用真实浏览器回读OpenAI帮助中心，确认暂停对象、生效日期与既有订阅规则；同日移除仅见于个人X账号、读者无法稳定打开的二手转述，公开稿改为只引用官方帮助中心。独立审查结果及检索缺口保存在私密研究记录。"
   }
 }
