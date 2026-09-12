@@ -1,8 +1,4 @@
-import {
-  strategyDescriptions,
-  strategyLabels,
-  technicalRiskLabels,
-} from "@/lib/content/labels";
+import { technicalRiskLabels } from "@/lib/content/labels";
 import type {
   EvidenceSource,
   IntelCard as IntelCardData,
@@ -25,7 +21,16 @@ export function IntelCard({
   sources,
 }: IntelCardProps) {
   const sourceById = new Map(sources.map((source) => [source.id, source]));
-  const cardClassName = isKey ? `${styles.card} ${styles.keyCard}` : styles.card;
+  const toneClassName = [styles.cardToneA, styles.cardToneB, styles.cardToneC][
+    index % 3
+  ];
+  const cardClassName = [
+    styles.card,
+    toneClassName,
+    isKey ? styles.keyCard : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
   const cardNumber = String(index + 1).padStart(2, "0");
   const factSourceCount = new Set(
     card.facts.flatMap((fact) => fact.sourceIds),
@@ -51,28 +56,21 @@ export function IntelCard({
             </time>
           </div>
           <p className={styles.conclusionLabel}>
-            {isKey ? "重点情报" : "情报简讯"} · 结论
+            {isKey ? "重点情报" : "情报简讯"}
           </p>
-          <p className={styles.summary}>{card.oneLineSummary}</p>
         </div>
 
         <div className={styles.insightGrid}>
           <section>
-            <h3>这和你有什么关系</h3>
-            <p>{card.developerImpact}</p>
+            <h3>内容详情</h3>
+            <p className={styles.detailText}>{card.oneLineSummary}</p>
           </section>
           <section>
-            <h3>真正改变了什么</h3>
+            <h3>造成的影响</h3>
             <p>{card.whyItMatters}</p>
           </section>
         </div>
 
-        <aside className={styles.actionPanel} aria-label="阅读建议与技术风险">
-          <span>阅读建议</span>
-          <strong>{strategyLabels[card.suggestedAction]}</strong>
-          <p>{strategyDescriptions[card.suggestedAction]}</p>
-          <small>技术风险：{technicalRiskLabels[card.reviewRisk]}</small>
-        </aside>
       </header>
 
       <details className={styles.evidence}>
@@ -81,6 +79,15 @@ export function IntelCard({
           <small>{factSourceCount} 个原始来源</small>
         </summary>
         <div className={styles.evidenceBody}>
+          <p className={styles.riskBadge}>
+            技术风险：{technicalRiskLabels[card.reviewRisk]}
+          </p>
+
+          <section className={styles.actionReference} aria-label="行动参考">
+            <h3>行动参考</h3>
+            <p>{card.developerImpact}</p>
+          </section>
+
           <section className={styles.factPanel} aria-label="事实支撑">
             <div className={styles.factPanelHeader}>
               <h3>事实、测评与限制</h3>

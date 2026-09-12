@@ -1,6 +1,6 @@
 {
   "weekId": "2026-W25",
-  "issueId": "issue-002",
+  "issueId": "draft-2026-06-18-agent-shortform",
   "period": {
     "start": "2026-06-17",
     "end": "2026-06-18",
@@ -28,7 +28,7 @@
     "This is the first V1.5 weekly automation rehearsal.",
     "Do not publish without explicit user confirmation.",
     "Status approved in content JSON means visible in local development preview; it does not mean publication is approved.",
-    "Link check warnings are limited to known OpenAI 403 and Google Gemini timeout/abort behavior; issue-002 Cursor, GitHub, and Microsoft links returned OK, while the Google issue-002 link returned uncertain due timeout/abort."
+    "Link check warnings are limited to known OpenAI 403 and Google Gemini timeout/abort behavior; the rehearsal draft (draft-2026-06-18-agent-shortform) Cursor, GitHub, and Microsoft links returned OK, while its Google link returned uncertain due timeout/abort."
   ],
   "privateResearch": "Research details retained in the owner-only local archive; see source-library module."
 }

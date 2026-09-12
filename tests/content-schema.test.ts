@@ -481,6 +481,93 @@ describe("validateContentCollection", () => {
       errors.some((error) => error.message.includes("Formulaic style phrase")),
     ).toBe(true);
   });
+
+  it("rejects a source index that does not follow card order", () => {
+    const issue = issueSchema.parse({
+      ...baseIssue,
+      status: "approved",
+      publishedAt: null,
+      cards: [
+        baseIssue.cards[0],
+        {
+          ...baseIssue.cards[0],
+          id: "card-002",
+          title: "第二项测试功能正式发布",
+          facts: [
+            {
+              ...baseIssue.cards[0].facts[0],
+              id: "fact-002",
+              sourceIds: ["source-002"],
+            },
+          ],
+        },
+      ],
+      sources: [
+        { ...baseIssue.sources[0], id: "source-002" },
+        baseIssue.sources[0],
+      ],
+    });
+    const errors = validateContentCollection(
+      [{ fileName: "issue.json", issue }],
+      sourceCatalogSchema.parse([
+        {
+          id: "official-source",
+          name: "Official Source",
+          homepage: "https://example.com/",
+          officialUrls: ["https://example.com/"],
+          topics: ["models"],
+        },
+      ]),
+    );
+
+    expect(
+      errors.some((error) =>
+        error.message.includes("Source index order must follow card order"),
+      ),
+    ).toBe(true);
+  });
+
+  it("keeps the source index rule off issues that are already public", () => {
+    const issue = issueSchema.parse({
+      ...baseIssue,
+      cards: [
+        baseIssue.cards[0],
+        {
+          ...baseIssue.cards[0],
+          id: "card-002",
+          title: "第二项测试功能正式发布",
+          facts: [
+            {
+              ...baseIssue.cards[0].facts[0],
+              id: "fact-002",
+              sourceIds: ["source-002"],
+            },
+          ],
+        },
+      ],
+      sources: [
+        { ...baseIssue.sources[0], id: "source-002" },
+        baseIssue.sources[0],
+      ],
+    });
+    const errors = validateContentCollection(
+      [{ fileName: "issue.json", issue }],
+      sourceCatalogSchema.parse([
+        {
+          id: "official-source",
+          name: "Official Source",
+          homepage: "https://example.com/",
+          officialUrls: ["https://example.com/"],
+          topics: ["models"],
+        },
+      ]),
+    );
+
+    expect(
+      errors.some((error) => error.message.includes("Source index order")),
+    ).toBe(false);
+  });
+
 });
 
 describe("issue visibility", () => {

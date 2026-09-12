@@ -34,11 +34,11 @@
 | --- | --- | --- |
 | 工程功能 | components、lib/content、app/issues/.../brief.md、scripts/content | 保留页面/来源分类/资料包等已验收成果 |
 | 发布准备与本轮门禁 | lib/publishing、scripts/publish-console、scripts/publish、scripts/start-preview.ps1、tests | 保留控制页和门禁测试，不能只提交新增guard而漏掉尚未跟踪的发送模块 |
-| 内容与资产 | content/sources.json、issue-003.json、public/images/issues、ops/runs、weekly-run-state.json | 保持003为approved且publishedAt空、运行模式draft_only；两张主视觉分别是当前引用和历史资产，不擅自删旧图 |
+| 内容与资产 | content/sources.json、issue-002.json、public/images/issues、ops/runs、weekly-run-state.json | 保持003为approved且publishedAt空、运行模式draft_only；两张主视觉分别是当前引用和历史资产，不擅自删旧图 |
 | 配置与依赖 | package.json、pnpm-lock.yaml、.gitignore、.env.example | 新增sharp用于图像派生；保留配套锁文件。示例凭据为空，不包含真实值 |
 | 文档 | AGENTS、README、docs、三份根记录、人工备忘录 | 保存现行推广入口及历史证据，注意不是授权放宽 |
 
-建议下一次授权后保存一个完整的本地未发布检查点，而非强行拆成互相依赖但无法独立测试的提交。测试直接使用issue-003，所以工程/测试提交若漏掉该数据将不自洽。
+建议下一次授权后保存一个完整的本地未发布检查点，而非强行拆成互相依赖但无法独立测试的提交。测试直接使用issue-002，所以工程/测试提交若漏掉该数据将不自洽。
 
 排除：.env.local、.local回执/日志、exports、output/playwright、.playwright-cli、node_modules、.next、out。已检查关键忽略规则；候选文本中常见ghp/sk密钥和私钥头格式扫描未命中。此扫描不是全面秘密审计，不保证识别所有凭据格式。提交前应复核精确文件清单和最终暂存差异，不使用无审查git add .。
 

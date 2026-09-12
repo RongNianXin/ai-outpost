@@ -78,6 +78,7 @@ export function validateContentCollection(
 
     addVaguePhraseErrors(fileName, issue, errors);
     addFormulaicStyleErrors(fileName, issue, errors);
+    addSourceIndexOrderErrors(fileName, issue, errors);
   });
 
   return errors;
@@ -140,6 +141,75 @@ function addFormulaicStyleErrors(
         message: `Formulaic style phrase "${matchedPhrase}" is not allowed. Rewrite with a concrete subject, action or consequence.`,
       });
     }
+  });
+}
+
+const sourceIndexOrderStatuses = new Set<Issue["status"]>(["draft", "approved"]);
+
+function addSourceIndexOrderErrors(
+  fileName: string,
+  issue: Issue,
+  errors: ContentValidationError[],
+) {
+  if (!sourceIndexOrderStatuses.has(issue.status)) {
+    return;
+  }
+
+  const expectedOrder: string[] = [];
+  const seenSourceIds = new Set<string>();
+
+  issue.cards.forEach((card) => {
+    card.facts.forEach((fact) => {
+      fact.sourceIds.forEach((sourceId) => {
+        if (seenSourceIds.has(sourceId)) {
+          return;
+        }
+        seenSourceIds.add(sourceId);
+        expectedOrder.push(sourceId);
+      });
+    });
+  });
+
+  const actualOrder = issue.sources.map((source) => source.id);
+  const length = Math.max(actualOrder.length, expectedOrder.length);
+  let mismatchIndex = -1;
+
+  for (let index = 0; index < length; index += 1) {
+    if (actualOrder[index] !== expectedOrder[index]) {
+      mismatchIndex = index;
+      break;
+    }
+  }
+
+  if (mismatchIndex === -1) {
+    return;
+  }
+
+  const actual = actualOrder[mismatchIndex];
+  const expected = expectedOrder[mismatchIndex];
+
+  if (actual === undefined) {
+    errors.push({
+      path: `${fileName}.sources`,
+      message: `Source index is missing entry ${mismatchIndex + 1} ("${expected}") required by card order.`,
+    });
+    return;
+  }
+
+  if (expected === undefined) {
+    errors.push({
+      path: `${fileName}.sources.${mismatchIndex}.id`,
+      message: `Source "${actual}" is not cited by any card. Attach it to a fact or remove it.`,
+    });
+    return;
+  }
+
+  errors.push({
+    path: `${fileName}.sources.${mismatchIndex}.id`,
+    message:
+      `Source index order must follow card order: entry ${mismatchIndex + 1} should be ` +
+      `"${expected}" but is "${actual}". Order sources[] by the first card that cites each source, ` +
+      `so the first entry supports the first card.`,
   });
 }
 

@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const root = path.resolve(__dirname, '../..');
-const raw = fs.readFileSync(path.join(root, 'content/issues/issue-003.json'),'utf8');
+const raw = fs.readFileSync(path.join(root, 'content/issues/issue-002.json'),'utf8');
 const issue = JSON.parse(raw);
 if(issue.issueNumber!==2 || issue.cards.length!==6) throw Error('Expected complete issue 002');
 const hash = value => crypto.createHash('sha256').update(value).digest('hex');

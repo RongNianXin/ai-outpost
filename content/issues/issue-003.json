@@ -1,572 +1,513 @@
 {
   "schemaVersion": 1,
   "id": "issue-003",
-  "slug": "2026-08-31-self-hosted-agents-video-understanding-pr-merge",
-  "issueNumber": 2,
-  "title": "AI 前哨站第 002 期",
-  "summary": "GPT-6 Astra 是这周不能漏掉的大事：OpenAI 把重点放在电脑操作和多步工作上。独立测评看到编程效率进步，也发现综合分数和呈现质量并非全面领先；博主的真实任务则提供了另一种观察角度。另有自托管 Agent、长视频理解和代码评审更新。",
+  "slug": "2026-09-12-agents-workflows-image-models",
+  "issueNumber": 3,
+  "title": "AI 前哨站第 003 期",
+  "summary": "从 200 美元 Pro 暂停新购，到 Agent 接手更长任务：本期既看模型与协作更新，也看价格、权限和验收边界。",
   "hero": {
-    "lead": "GPT-6 来了，能放心交活吗？",
-    "deck": "发布亮点、第三方测评，以及没那么完美的地方",
-    "visual": {
-      "src": "/images/issues/issue-003-hero-2026-09-05.png",
-      "width": 1536,
-      "height": 1024,
-      "alt": "透明工作站内的发光节点连接少量视频关键帧和一组从警告转为完成的任务节点",
-      "caption": "本期原创主视觉：本地执行、视频定位与任务收尾"
-    }
+    "lead": "会员暂停新购，长任务怎么验收？",
+    "deck": "价格与套餐、模型更新、项目协作：先确认能否使用，再判断怎样算做成",
+    "visual": null
   },
   "period": {
-    "start": "2026-08-31",
-    "end": "2026-09-05"
+    "start": "2026-09-05",
+    "end": "2026-09-12"
   },
-  "status": "corrected",
-  "publishedAt": "2026-09-05T10:13:02.781Z",
+  "status": "approved",
+  "publishedAt": null,
   "topChangeIds": [
-    "openai-gpt-6-astra",
-    "anthropic-fable-5-1",
-    "google-agentic-video-understanding"
+    "openai-pro-pause",
+    "deepseek-flash",
+    "cursor-projects"
   ],
-  "opportunities": [
-    {
-      "id": "self-hosted-agent-checklist",
-      "title": "自托管 Agent 边界清单",
-      "rationale": "把代码、密钥、构建产物、出站网络和操作日志分别标清存放位置，再决定哪些工具调用可以交给 Agent。",
-      "plainLanguage": "它能帮你看清 AI 在哪里干活、能碰什么，以及哪些资料仍会离开本机。",
-      "relatedCardIds": [
-        "cursor-self-hosted-machines",
-        "github-copilot-content-exclusions"
-      ],
-      "confidence": "high"
-    },
-    {
-      "id": "video-processing-cost-test",
-      "title": "长短视频处理对照表",
-      "rationale": "用同一批长短素材比较静态与 Agentic 模式的 Token、首字延迟和回答质量，避免只按厂商的最高节省比例估算成本。",
-      "plainLanguage": "同一段视频跑两种模式，就能知道省下的 Token 是否值得多等几秒。",
-      "relatedCardIds": [
-        "google-agentic-video-understanding"
-      ],
-      "confidence": "high"
-    },
-    {
-      "id": "pr-agent-safety-gate",
-      "title": "PR 收尾 Agent 安全门",
-      "rationale": "把可改文件、可重跑工作流、费用上限和最终合并权写成固定门禁，防止自动收尾越过代码与 CI 权限边界。",
-      "plainLanguage": "让 Agent 修冲突可以，真正合并和高成本重跑仍由人把关。",
-      "relatedCardIds": [
-        "vscode-agent-merge"
-      ],
-      "confidence": "medium"
-    }
-  ],
+  "opportunities": [],
   "practiceTask": {
-    "title": "给一个 Agent 流程画出数据和权限边界",
-    "durationMinutes": 45,
-    "objective": "选一个正在使用的 Agent 流程，记录代码、密钥、日志、外部请求和最终写操作分别发生在哪里。",
+    "title": "给一个 Agent 小任务写验收单",
+    "durationMinutes": 30,
+    "objective": "把完成目标、禁止操作和人工接管条件分开写，避免只凭最后一句“完成了”判断。",
     "steps": [
-      "选一个具体流程，例如让 Agent 修改网页并运行测试。",
-      "列出它要读取的代码、环境变量、网页和账号。",
-      "为每项数据标注本机、供应商云端或第三方服务。",
-      "写清哪些动作可自动执行，哪些必须由人确认。",
-      "模拟一次网络中断或重复执行，检查流程会不会误写或重复花费。"
+      "选择一个不涉及生产或敏感资料的小任务。",
+      "列出两到三个可观察的结果，并写清禁止操作。",
+      "记录每个目标是否完成、是否越界、是否需要人工接管。",
+      "检查结果与证据是否相符，不因部分完成就标记整体成功。"
     ],
     "relatedCardIds": [
-      "cursor-self-hosted-machines",
-      "github-copilot-content-exclusions",
-      "vscode-agent-merge"
+      "cursor-projects",
+      "aa-v43",
+      "github-permissions"
     ]
   },
   "glossary": [
     {
-      "term": "Self-hosted",
-      "explanation": "把执行环境放在自己管理的机器或云基础设施里，不等于所有模型计算都在本地完成。"
+      "term": "API",
+      "explanation": "程序调用模型服务的接口；模型名称、费用和可用功能需按该接口文档核对。"
     },
     {
-      "term": "Content exclusion",
-      "explanation": "按仓库规则阻止指定文件被 Copilot 直接当作上下文读取，但仍有工具和文件系统边界。"
+      "term": "AA / Artificial Analysis",
+      "explanation": "本期引用的第三方模型评测机构；榜单结果只适用于其公布的方法和测试条件。"
     },
     {
-      "term": "Cache read",
-      "explanation": "模型重复读取已经处理并缓存的上下文，通常按单独费率计费。"
+      "term": "Agent",
+      "explanation": "能调用工具执行任务的 AI；能执行不等于可以省略授权和验收。"
     },
     {
-      "term": "Public preview",
-      "explanation": "已开放试用但接口和行为仍可能变化，不宜直接当作稳定生产能力。"
+      "term": "Token",
+      "explanation": "模型计量输入和输出的单位，不简单等于一个字；费率相同也可能有不同总用量。"
+    },
+    {
+      "term": "模型快照",
+      "explanation": "带日期的固定模型版本名称，用来区分同一系列的具体版本。"
+    },
+    {
+      "term": "beta",
+      "explanation": "测试阶段，功能和开放范围仍可能调整。"
     }
   ],
   "cards": [
     {
-      "id": "openai-gpt-6-astra",
-      "title": "GPT-6 Astra 发布：会操作电脑，是否就能放心交活？",
-      "category": "模型与实测",
-      "publisher": "OpenAI / AA / Claire Vo",
-      "occurredAt": "2026-09-03",
-      "discoveredAt": "2026-09-05",
-      "oneLineSummary": "GPT-6 Astra 开始分批开放。AA 的编程评测看到效率提升，但综合分数持平；Claire Vo 的实测自述则把重点放在浏览器操作和做成具体功能上。",
-      "whyItMatters": "我们的判断：这次更值得试的是“做完一件事”，而不是再问一道题。能操作软件、检查结果并接着修改，才可能减少来回搬运信息。不过，编程测评的进步不能直接推导成所有办公任务都更强。",
-      "developerImpact": "拿一项你每周都做的任务对比新旧模型：给相同材料和验收标准，记录完成率、人工接手次数、总耗时与费用。先用脱敏材料和测试账号；付款、公开发布、删除数据仍由你确认。",
-      "maturity": "experimental",
-      "noiseRisk": "high",
-      "suggestedAction": "try",
-      "reviewRisk": "medium",
+      "id": "openai-pro-pause",
+      "title": "ChatGPT Pro 20X 暂停新购与升级，现有订阅不受影响",
+      "category": "会员与价格",
+      "publisher": "OpenAI",
+      "occurredAt": "2026-09-10",
+      "discoveredAt": "2026-09-12",
+      "oneLineSummary": "OpenAI 帮助中心写明：自 9 月 10 日起，ChatGPT Pro 200 美元档（Pro 20X）暂停新订阅和升级；Free、Go、Plus 与 Pro 100 美元档在这期间都不能升到该档，现有订阅不受影响，目前没有公布恢复日期。",
+      "whyItMatters": "影响主要落在个人用户这一侧：想升到 200 美元档的人只能等恢复，已经在用的人暂时不受影响；但一旦取消或降档，暂停期间就买不回来，因此不要把“现有订阅不受影响”理解成随时可以重新购买。",
+      "developerImpact": "本月打算购买该档的话，先把预算和使用计划顺延；已有订阅不要随手取消或降档，暂停期间无法重新购买。",
+      "maturity": "usable",
+      "noiseRisk": "medium",
+      "suggestedAction": "learn",
+      "reviewRisk": "high",
       "reviewStatus": "ai_cross_checked",
-      "communicationAngle": "先别急着换掉所有工具：让 Astra 做完一项熟悉的工作，看它究竟替你省了哪一步。",
-      "visualHint": "沿用本期无字工作站主视觉；它是编辑示意，不是 GPT-6 产品截图。",
+      "communicationAngle": "这不是 20 美元 Plus 停售，而是最高用量的 200 美元 Pro 档暂停新购；套餐名称与价格必须一起核对。",
+      "visualHint": "",
       "facts": [
         {
-          "id": "astra-release-fact",
-          "claim": "官方发布：OpenAI 的 9 月 3 日发布记录介绍 GPT-6 Astra，重点包括电脑操作、多步专业工作和软件开发；公告说明先向部分组织开放，随后逐步扩展至付费 ChatGPT 用户和 API。",
+          "id": "openai-pro-pause-scope",
+          "claim": "OpenAI 帮助中心写明：自9月10日起，ChatGPT Pro 200 美元档（Pro 20X）暂时停止新订阅和升级，Free、Go、Plus 或 Pro 100 美元用户均不能在暂停期间升级到该档。",
           "sourceIds": [
-            "openai-astra-launch"
+            "openai-pro-tiers"
           ],
           "limitations": [
-            "正式模型名是 GPT-6 Astra，不应把 9 月 5 日看到消息写成首次发布日期。",
-            "发布公告不代表你的账号已经获得权限；能力描述是厂商介绍，不是本站复现实测。"
+            "暂停对象不是20美元Plus；官方未给出恢复日期，不能写成永久停售。"
           ],
           "reviewStatus": "ai_cross_checked"
         },
         {
-          "id": "astra-aa-coding-fact",
-          "claim": "独立测评：Artificial Analysis 在 9 月 3 日报告中给出 Astra 在 Codex 中的编程代理指数为 67，约等于 Fable 5；max 配置相比 GPT-5.6 Sol 使用约三分之一 Token，单任务成本大致相同，得分高 2 分。",
+          "id": "openai-pro-pause-existing",
+          "claim": "现有 Pro 200 美元订阅和新老 Pro 100 美元订阅不受影响；Pro 200 美元订阅一旦取消或降档生效，暂停期间不能重新购买。",
           "sourceIds": [
-            "aa-astra-review"
+            "openai-pro-tiers"
           ],
           "limitations": [
-            "这是模型与工具环境组合的成绩，不是模型单独排名；Fable 5.1 在该报告中得分 70。",
-            "数据限于该日期、评测集与配置；Token 减少不等于你的账单会按相同比例下降。"
-          ],
-          "reviewStatus": "ai_cross_checked"
-        },
-        {
-          "id": "astra-aa-tradeoffs-fact",
-          "claim": "独立测评的反面：同一份 AA 报告中，Astra 的综合智能指数为 61，与 GPT-5.6 Sol 持平；长任务评测 AA-Briefcase 的分析质量提升，但呈现质量下降。",
-          "sourceIds": [
-            "aa-astra-review"
-          ],
-          "limitations": [
-            "这里引用 9 月 3 日报告及其 v4.1.1 指数口径，不与后续版本排行榜混用。",
-            "单项结果不能代表所有用户体验，也不能据此否定电脑操作方面的进步。"
-          ],
-          "reviewStatus": "ai_cross_checked"
-        },
-        {
-          "id": "astra-claire-review-fact",
-          "claim": "博主实测自述：Claire Vo 在 How I AI 的原文中介绍了 CRM 操作、浏览器 QA、ChatPRD 功能开发和 Blender 项目，并称 Astra 做成了她此前用其他模型反复尝试的部分任务。",
-          "sourceIds": [
-            "claire-astra-review"
-          ],
-          "limitations": [
-            "本期核对了作者署名原文、说明与章节，未完整观看视频或独立复现；可从 13:00 的 QA 和 15:20 的功能开发章节继续核查。",
-            "作者获提前体验资格，案例由她自行挑选，不是盲测；不能把个人感受外推为普遍成功率。"
+            "这是截至本次访问时的套餐规则，不代表服务容量、模型可用性或未来价格不会再变。"
           ],
           "reviewStatus": "ai_cross_checked"
         }
       ],
       "tags": [
-        "GPT-6 Astra",
-        "电脑操作",
-        "独立测评",
-        "工作流"
+        "ChatGPT",
+        "会员套餐",
+        "价格"
       ]
     },
     {
-      "id": "cursor-self-hosted-machines",
-      "title": "Cursor 让 Agent 在自家机器干活，密钥不用搬进托管环境",
-      "category": "Agent 基建",
+      "id": "deepseek-flash",
+      "title": "DeepSeek V4.1 Flash 上线，旧模型名背后的服务变了",
+      "category": "模型更新",
+      "publisher": "DeepSeek",
+      "occurredAt": "2026-09-10",
+      "discoveredAt": "2026-09-12",
+      "oneLineSummary": "DeepSeek 在 9 月 10 日上线 V4.1 Flash，支持原生视觉，推荐调用名为 deepseek-flash；旧的 V4 Flash 与 V4 Flash Vision Exp 已退役，旧调用名暂时路由到新模型并按 Flash 价格计费。官方更新日志还说明 API 价格下调，V4 Pro 在 9 月 14 日后继续提供服务。",
+      "whyItMatters": "影响先落在仍在用旧 Flash 名称的项目上：代码不动，背后的模型和计费也可能已经变了。模型换代、兼容路由和价格调整同时出现时，只看调用名或旧公告都可能做出错误判断，迁移前需要重新核对实际模型与当前价格。",
+      "developerImpact": "使用旧 Flash 名称的项目可先记录当前配置，用少量脱敏样例检查文字、图片和工具调用；不要仅凭原发布公告迁移 V4 Pro。",
+      "maturity": "usable",
+      "noiseRisk": "medium",
+      "suggestedAction": "learn",
+      "reviewRisk": "medium",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "同一个调用名称，不一定仍对应同一个模型。对已有应用，先确认实际模型与费用，比照搬发布榜单更有用。",
+      "visualHint": "",
+      "facts": [
+        {
+          "id": "ds-native",
+          "claim": "9月10日，DeepSeek 宣布 V4.1 Flash 正式上线 API，支持原生视觉，推荐调用名称为 deepseek-flash。",
+          "sourceIds": [
+            "ds-update",
+            "ds-price"
+          ],
+          "limitations": [
+            "本期核对文档，未调用付费 API，也未复现厂商性能分数。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        },
+        {
+          "id": "ds-alias",
+          "claim": "原 V4 Flash 与 V4 Flash Vision Exp 已退役；旧调用名称暂时路由至 V4.1 Flash，并按 Flash 价格计费。",
+          "sourceIds": [
+            "ds-update",
+            "ds-price"
+          ],
+          "limitations": [
+            "兼容名称不等于保留旧模型；临时路由的后续期限需继续查现行文档。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        },
+        {
+          "id": "ds-pro",
+          "claim": "截至9月12日补查，价格页与更新日志明确：V4 Pro 在9月14日后继续提供 API 服务，计费方式不变。",
+          "sourceIds": [
+            "ds-price",
+            "ds-update",
+            "ds-launch"
+          ],
+          "limitations": [
+            "9月10日发布公告仍保留把 V4 Pro 请求转向 Flash 的旧安排，与现行两页冲突；此处按现行价格页和日志说明，迁移前应再次核对。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        },
+        {
+          "id": "ds-price-cut",
+          "claim": "官方更新日志同时说明：随 V4.1 Flash 发布，API 价格相应下调，具体单价以官方 Models & Pricing 页为准。",
+          "sourceIds": [
+            "ds-update",
+            "ds-price"
+          ],
+          "limitations": [
+            "更新日志只说明价格已下调，未列出新旧单价对照；本期未复算差额，使用前按价格页当期数字核对。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "视觉",
+        "API",
+        "迁移"
+      ]
+    },
+    {
+      "id": "cursor-projects",
+      "title": "Cursor Projects：让协调 Agent 接住多项工作",
+      "category": "开发工具",
       "publisher": "Cursor",
-      "occurredAt": "2026-09-02",
-      "discoveredAt": "2026-09-05",
-      "oneLineSummary": "Cursor 推出 Self-hosted Machines，Agent 的工具调用可在个人机器、团队机器池或既有沙箱中执行。",
-      "whyItMatters": "不少团队愿意让 Agent 读代码，却不愿把代码和密钥搬到第三方运行环境。自托管把执行位置拉回自己的网络，但 Agent 仍需要连接 Cursor 服务。",
-      "developerImpact": "个人试用可先从 My Machines 开始。团队机器池需要 Enterprise、管理员开通和服务账号；镜像、密钥、网络、容量和生产验证仍由团队负责。",
-      "maturity": "usable",
-      "noiseRisk": "low",
-      "suggestedAction": "learn",
-      "reviewRisk": "high",
-      "reviewStatus": "ai_cross_checked",
-      "communicationAngle": "自托管解决的是执行位置和数据边界，不是把所有模型能力离线搬回本机。",
-      "visualHint": "一台位于企业网络边界内的工作机执行工具调用，外部只保留受控的服务连接。",
-      "facts": [
-        {
-          "id": "cursor-self-hosted-location-fact",
-          "claim": "Cursor 在 2026 年 9 月 2 日发布 Self-hosted Machines，说明代码库、构建产物和密钥可留在用户自己的内部机器，Agent 的工具调用在这些机器上执行。",
-          "sourceIds": [
-            "cursor-self-hosted-changelog"
-          ],
-          "limitations": [
-            "这是 Cursor 对产品数据边界的官方说明，实际日志、遥测和网络流量仍需按组织配置与协议核对。",
-            "自托管的是工具执行环境，不能据此断言底层模型推理完全离线。"
-          ],
-          "reviewStatus": "ai_cross_checked"
-        },
-        {
-          "id": "cursor-self-hosted-requirements-fact",
-          "claim": "Cursor 文档说明，团队机器池需要 Enterprise 计划、管理员启用、服务账号 API Key，以及到 Cursor 指定域名和对象存储的出站 HTTPS。",
-          "sourceIds": [
-            "cursor-self-hosted-integrations"
-          ],
-          "limitations": [
-            "参考模板不替代镜像、基础设施、密钥、伸缩策略和生产验证，责任仍在使用方。",
-            "个人单机使用 My Machines，与团队动态池的条件和能力不同。"
-          ],
-          "reviewStatus": "ai_cross_checked"
-        }
-      ],
-      "tags": [
-        "Cursor",
-        "Agent",
-        "自托管",
-        "数据边界"
-      ]
-    },
-    {
-      "id": "google-agentic-video-understanding",
-      "title": "Gemini 新增长视频理解模式，按问题寻找相关片段",
-      "category": "多模态",
-      "publisher": "Google",
-      "occurredAt": "2026-09-01",
-      "discoveredAt": "2026-09-05",
-      "oneLineSummary": "Gemini 的 Agentic 视频理解会按问题选择字幕、画面或音轨，官方称长视频最多可少用 88% Token。",
-      "whyItMatters": "长视频分析的成本常被逐帧取样推高。按需定位能让会议、课程和素材检索少塞进无关画面，也更适合追问某个时间点。",
-      "developerImpact": "长视频或定位具体片段时先测试 Agentic 模式；短于 5 分钟、要求低延迟或逐帧检查时保留静态模式，并同时记录 Token、首字延迟和回答质量。",
+      "occurredAt": "2026-09-10",
+      "discoveredAt": "2026-09-12",
+      "oneLineSummary": "Cursor 开始灰度测试 Projects：协调 Agent 负责规划和分派，执行 Agent 完成具体工作，再由协调 Agent 把结果交回用户检查；项目文件会在使用中的云端与本地机器之间同步，必要时还可启动本地 Agent 测试。",
+      "whyItMatters": "影响落在个人开发者的工作方式上：项目上下文能在任务之间保留，反复解释的成本会下降，也更适合把一个大任务拆给多个执行者。代价是资料同步、权限边界和最终验收都更复杂，不能只因为“有人替你执行”就省略检查。",
+      "developerImpact": "拿一个边界清楚的小功能做试验，先列出可同步资料、允许修改的目录和验收步骤。涉及生产、付款或公开发送，仍单独确认。",
       "maturity": "usable",
       "noiseRisk": "medium",
-      "suggestedAction": "try",
+      "suggestedAction": "learn",
       "reviewRisk": "medium",
       "reviewStatus": "ai_cross_checked",
-      "communicationAngle": "长视频不一定要全部读完，先按问题定位可能更省成本，但短片未必更快。",
-      "visualHint": "一条长视频时间轴只有少数字幕、帧和音轨片段被点亮，其余保持灰色。",
+      "communicationAngle": "项目上下文能跨任务保留，减少反复解释的成本；同时也需要想清楚哪些资料会同步，以及谁来验收结果。",
+      "visualHint": "",
       "facts": [
         {
-          "id": "google-agentic-video-release-fact",
-          "claim": "Google Gemini API 更新日志在 2026 年 9 月 1 日记录 Agentic Video Understanding，覆盖 Gemini 3.7 Flash、3.6 Flash 和 3.5 Flash-Lite，并可通过 Interactions 与 GenerateContent API 使用。",
+          "id": "cursor-coordinator",
+          "claim": "官方说明：协调 Agent 负责规划和分派，不直接写代码；执行 Agent 完成工作后，由协调 Agent 带回给用户检查。",
           "sourceIds": [
-            "google-agentic-video-changelog"
+            "cursor-projects-source"
           ],
           "limitations": [
-            "支持型号会随文档更新变化，接入时仍要核对当前模型列表和账号可用性。",
-            "功能用于理解视频，不是视频生成或剪辑接口。"
+            "这是产品工作方式说明，不是本项目对多 Agent 效率的实测。"
           ],
           "reviewStatus": "ai_cross_checked"
         },
         {
-          "id": "google-agentic-video-efficiency-fact",
-          "claim": "Google 文档称 Agentic 模式在长视频中按需读取字幕、帧或音轨，相对静态模式最多可少用 88% 总 Token；当前文档也列出 Gemini 3.8 Flash 支持该模式。",
+          "id": "cursor-cloud",
+          "claim": "Project 运行在云端电脑上，项目文件在其使用的云端与本地机器之间同步；需要在用户机器测试时，可启动本地 Agent。",
           "sourceIds": [
-            "google-agentic-video-guide"
+            "cursor-projects-source"
           ],
           "limitations": [
-            "88% 是最高值，不代表每段视频都会达到相同节省。",
-            "短于 5 分钟的片段可能因内部推理和工具往返增加首字延迟；逐帧精度任务仍更适合静态模式。"
+            "9月10日起以 beta 逐步开放，不代表每个账号已可用；同步范围与访问权限应在使用前确认。"
           ],
           "reviewStatus": "ai_cross_checked"
         }
       ],
       "tags": [
-        "Google",
-        "Gemini",
-        "视频理解",
-        "Token"
+        "多Agent",
+        "共享上下文",
+        "云端"
       ]
     },
     {
-      "id": "anthropic-fable-5-1",
-      "title": "Fable 5.1 缓存降价，实际省多少要看用法",
-      "category": "模型与成本",
-      "publisher": "Anthropic",
-      "occurredAt": "2026-09-01",
-      "discoveredAt": "2026-09-05",
-      "oneLineSummary": "Claude Fable 5.1 已在 API 和主要云平台上线，缓存读取降价 75%，输入与输出单价保持不变。",
-      "whyItMatters": "长任务会反复读取同一批代码、文档和历史记录，缓存费率会直接影响 Agent 的真实成本。模型更强只是一个变量，缓存命中率同样值得量。",
-      "developerImpact": "先用自己的任务记录缓存读取占比，再估算升级后的总成本。不要把“缓存便宜 75%”直接写成账单少 75%；官方对典型工作负载的估算约为总成本少 25%。",
+      "id": "image-25",
+      "title": "GPT Image 2.5：日常出图与精细修改分开选",
+      "category": "图像工具",
+      "publisher": "OpenAI",
+      "occurredAt": "2026-09-08",
+      "discoveredAt": "2026-09-12",
+      "oneLineSummary": "OpenAI 上线 GPT Image 2.5，两个型号分工：Flare 面向日常快速出图，Sunburst 面向更看重编辑精度的工作流；两者都接受文字和图片输入并输出图片，模型文档列出 9 月 8 日的快照。",
+      "whyItMatters": "影响主要落在日常选型上：出图和改图本来就是两种活，按任务挑型号，比只问哪个更新更容易得到能互相比较的结果。若任务很在意原图文字、布局或局部修改，就应该把编辑准确度单独记录，不能只看型号名称或宣传定位。",
+      "developerImpact": "可先准备同一份不含敏感信息的图片修改需求，写清必须保留的文字和布局；真正试用时同时记录修改准确度、耗时和实际账单。",
       "maturity": "usable",
       "noiseRisk": "medium",
-      "suggestedAction": "save",
-      "reviewRisk": "high",
+      "suggestedAction": "learn",
+      "reviewRisk": "medium",
       "reviewStatus": "ai_cross_checked",
-      "communicationAngle": "Agent 成本开始取决于上下文如何重复使用，而不只是输入和输出单价。",
-      "visualHint": "一组重复上下文被缓存后反复读取，费用条下降，但输入和输出费用保持原位。",
+      "communicationAngle": "做配图与修改已有图片是两种工作。按任务选择模型，比只问哪个更新更容易得到可比较的结果。",
+      "visualHint": "",
       "facts": [
         {
-          "id": "anthropic-fable-availability-fact",
-          "claim": "Anthropic 在 2026 年 9 月 1 日发布 Claude Fable 5.1，称其已在 Claude API、AWS、Google Cloud 和 Microsoft Azure 上可用，API 模型 ID 为 `claude-fable-5-1`。",
+          "id": "image-position",
+          "claim": "OpenAI 将 Flare 定位为快速、日常图像生成模型，将 Sunburst 定位于更重视编辑精度的工作流；两者接受文字和图片输入、输出图片。",
           "sourceIds": [
-            "anthropic-fable-5-1-announcement"
+            "image-flare",
+            "image-sunburst"
           ],
           "limitations": [
-            "同文提到的 Claude Mythos 5.1 只面向受审核的网络安全和生命科学项目，不能视为公众可用。",
-            "具体地区、账户额度和云平台上线节奏仍需在目标账号中确认。"
+            "这是厂商定位，本期没有生图对比或编辑精度实测；日期取文档中的模型快照日期，不代表 ChatGPT 全量开放日期。"
           ],
           "reviewStatus": "ai_cross_checked"
         },
         {
-          "id": "anthropic-fable-pricing-fact",
-          "claim": "Anthropic 将 Fable 5.1 的缓存读取价格下调 75% 至每百万 Token 0.25 美元，输入和输出仍为每百万 Token 10 美元与 50 美元。",
+          "id": "image-cost",
+          "claim": "两页注明 Token 费率与 GPT Image 2 相同，同时明确旧版计算器不估算 GPT Image 2.5 的 Token 消耗。",
           "sourceIds": [
-            "anthropic-fable-5-1-announcement"
+            "image-flare",
+            "image-sunburst"
           ],
           "limitations": [
-            "官方估算典型工作负载总成本约少 25%、高 Agent 比例负载最多约少 45%，依据其 2026 年 8 月四周的默认 effort 用量，不是通用承诺。",
-            "实际账单取决于缓存命中、输入输出比例、effort、工具调用和平台加价。"
+            "相同 Token 费率不等于每张图成本相同；API 免费层不支持，不据此推断 ChatGPT 套餐权益。"
           ],
           "reviewStatus": "ai_cross_checked"
         }
       ],
       "tags": [
-        "Anthropic",
-        "Claude",
-        "缓存",
-        "成本"
+        "生图",
+        "图片编辑",
+        "费用"
       ]
     },
     {
-      "id": "github-copilot-content-exclusions",
-      "title": "Copilot 的内容排除扩到 App 和 CLI，但仍有漏网边界",
-      "category": "代码隐私",
-      "publisher": "GitHub",
-      "occurredAt": "2026-09-02",
-      "discoveredAt": "2026-09-05",
-      "oneLineSummary": "GitHub Copilot app 和 CLI 已支持管理员配置的内容排除策略，适用于 Business 与 Enterprise 客户。",
-      "whyItMatters": "Agent 从编辑器走到独立 App 和命令行后，会接触更完整的仓库和工作流。统一排除规则能减少敏感文件被直接拿去做上下文的机会。",
-      "developerImpact": "管理员可先排除密钥模板、客户代码和敏感配置，再用真实仓库验证。符号链接、远程文件系统和 IDE 间接提供的类型信息仍是已知边界。",
+      "id": "aa-v43",
+      "title": "68.5% 得分，为什么不等于完成了 68.5% 的工作？",
+      "category": "第三方评测",
+      "publisher": "Artificial Analysis",
+      "occurredAt": "2026-09-07",
+      "discoveredAt": "2026-09-12",
+      "oneLineSummary": "Artificial Analysis 把智能指数升到 v4.3，换入更难的终端任务和业务流程评测，并把“部分目标得分”和“全部完成”拆成两个指标；同一模型可以在部分目标上得分，却没有完整做完任务。",
+      "whyItMatters": "影响首先落在怎么读榜单上：同一个模型，部分目标的得分是 68.5%，完整做完且没有越界的任务是 41.6%，两者差了一倍多。只看一个数字，很容易把“完成了一部分”误读成“整件事已经可靠完成”，尤其会忽略失败、越界和人工接管。",
+      "developerImpact": "为自己的试验设两个结果栏：完成了多少目标、是否全部完成且没有越界。失败和人工接管也要记下，不只展示成功截图。",
       "maturity": "usable",
-      "noiseRisk": "low",
-      "suggestedAction": "save",
-      "reviewRisk": "high",
+      "noiseRisk": "medium",
+      "suggestedAction": "learn",
+      "reviewRisk": "medium",
       "reviewStatus": "ai_cross_checked",
-      "communicationAngle": "内容排除是一层防护，不是敏感代码绝不会进入任何 AI 上下文的保证。",
-      "visualHint": "仓库中的敏感目录被排除框遮住，App、CLI 和代码评审共享同一条策略线。",
+      "communicationAngle": "选 Agent 时，做完一部分与整件事做成差别很大。读榜单先看分数在计什么，再判断它能否支撑你的工作。",
+      "visualHint": "",
       "facts": [
         {
-          "id": "github-content-exclusion-ga-fact",
-          "claim": "GitHub 在 2026 年 9 月 2 日宣布，Copilot app 和 Copilot CLI 已遵守企业、组织和仓库管理员配置的内容排除策略；该能力面向 Copilot Business 与 Enterprise。",
+          "id": "aa-method",
+          "claim": "v4.3 将 Terminal-Bench 升至 v4.0，并用 AutomationBench-AA 替换 τ³-Banking；后者使用657项模拟业务任务，部分目标可得分，但违反约束会使该任务得分归零。",
           "sourceIds": [
-            "github-content-exclusions-ga"
+            "aa-v43-source"
           ],
           "limitations": [
-            "个人 Copilot 计划不在公告列出的适用范围内。",
-            "排除规则减少直接读取，不等于所有工具链路都自动获得同样保护。"
+            "这是 Artificial Analysis 的评测实现与任务环境，不是本项目复现，也不代表真实企业流程。"
           ],
           "reviewStatus": "ai_cross_checked"
         },
         {
-          "id": "github-content-exclusion-limits-fact",
-          "claim": "GitHub 文档说明，IDE 仍可能通过类型或悬停定义间接提供排除文件的语义信息；符号链接和远程文件系统仓库当前不受内容排除支持。",
+          "id": "aa-completion",
+          "claim": "在该评测中，GPT-6 Astra（max）的 Score 为68.5%；全部目标完成且无违规的 Tasks Completed 为41.6%。",
           "sourceIds": [
-            "github-content-exclusions-docs"
+            "aa-v43-source"
           ],
           "limitations": [
-            "不同编辑器和模式的支持矩阵不同，GitHub 网站与移动端的部分能力仍是 public preview。",
-            "策略生效后仍要用目标客户端和仓库做验证。"
+            "两项指标计分方式不同，不能把68.5%改写成完整工作成功率；不同指数版本的总分也不可直接比较。"
           ],
           "reviewStatus": "ai_cross_checked"
         }
       ],
       "tags": [
-        "GitHub",
-        "Copilot",
-        "代码隐私",
-        "内容排除"
+        "评测口径",
+        "验收",
+        "Agent"
       ]
     },
     {
-      "id": "vscode-agent-merge",
-      "title": "VS Code 让 Agent 追着 PR 收尾，失败检查也会重跑",
-      "category": "开发工作流",
-      "publisher": "Microsoft / VS Code",
-      "occurredAt": "2026-09-04",
-      "discoveredAt": "2026-09-05",
-      "oneLineSummary": "VS Code 1.136 加入 Agent Merge 预览，可循环处理评审意见、失败检查和冲突，直到 PR 达到可合并状态。",
-      "whyItMatters": "PR 最耗时间的部分常在最后几轮：修意见、等 CI、解冲突、再确认。把这些动作串成闭环，能少一些来回切换。",
-      "developerImpact": "试用前先限制 Agent 可改文件和可重跑的工作流，并设置费用上限。功能仍是 Preview，最终合并权和高风险 CI 应继续由人控制。",
-      "maturity": "experimental",
+      "id": "github-permissions",
+      "title": "Copilot 企业权限：哪些操作能做，由管理规则兜住",
+      "category": "权限与协作",
+      "publisher": "GitHub",
+      "occurredAt": "2026-09-09",
+      "discoveredAt": "2026-09-12",
+      "oneLineSummary": "GitHub 为 Copilot Business 和 Enterprise 推出托管权限，把 shell 命令、文件读写和网络域名分成禁止、需逐次确认、允许三档，规则覆盖 Copilot app、CLI 和使用 Agent Host 的 VS Code 会话，并规定 deny 优先于 ask、ask 优先于 allow。",
+      "whyItMatters": "影响主要落在团队接入环节：Agent 长时间执行任务时，聊天里的约定挡不住越界操作，只有把高影响动作设成需要人工确认，边界才真正落到工具层。对企业来说，重点不是多了一份配置，而是要验证规则是否覆盖实际客户端、敏感目录和网络出口。",
+      "developerImpact": "企业使用者可与管理员核对实际客户端、规则覆盖和逐次确认行为；先在隔离环境验证允许与拒绝案例，不把一份配置当成绝对安全保证。",
+      "maturity": "usable",
       "noiseRisk": "medium",
       "suggestedAction": "learn",
       "reviewRisk": "high",
       "reviewStatus": "ai_cross_checked",
-      "communicationAngle": "Agent 可以接手 PR 收尾的重复劳动，但每次重跑都会改变代码、CI 状态和费用。",
-      "visualHint": "评审意见、失败检查和冲突依次进入修复循环，最终停在等待人工合并的节点。",
+      "communicationAngle": "Agent 持续工作时，口头边界需要工具层配合。把高影响操作设为确认项，是团队接入前值得检查的一步。",
+      "visualHint": "",
       "facts": [
         {
-          "id": "vscode-agent-merge-release-fact",
-          "claim": "GitHub 2026 年 9 月 4 日的 Copilot 周更将 Agent Merge 列入 VS Code 1.136 更新；VS Code 原文说明该功能会处理评审反馈、失败检查和合并冲突，并重跑工作流。",
+          "id": "github-controls",
+          "claim": "GitHub 宣布面向 Copilot Business 与 Enterprise 的托管权限，覆盖 shell 命令、文件读取和编辑、网络域名；公告列明 Copilot app、CLI 与使用 Agent Host 的 VS Code 会话。",
           "sourceIds": [
-            "github-copilot-weekly-aug31",
-            "vscode-1-136-release"
+            "github-permissions-source",
+            "github-settings"
           ],
           "limitations": [
-            "Agent Merge 仍是 Preview，需要显式开启 `chat.agentMerge.enabled`，行为可能变化。",
-            "官方说明是让 PR 准备好合并，不等于功能会替用户完成最终合并。"
+            "不是个人订阅或全部客户端统一支持的承诺；以所用客户端的当前支持表为准。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        },
+        {
+          "id": "github-precedence",
+          "claim": "官方文档规定 deny 优先于 ask，ask 优先于 allow；托管 ask 要求新的单次人工批准，不能用自动批准或旧批准记录满足。",
+          "sourceIds": [
+            "github-settings",
+            "github-permissions-source"
+          ],
+          "limitations": [
+            "权限规则不是完整安全证明；本期未配置企业环境，也未测试绕过或跨客户端执行效果。"
           ],
           "reviewStatus": "ai_cross_checked"
         }
       ],
       "tags": [
-        "VS Code",
-        "Agent",
-        "PR",
-        "CI"
+        "权限",
+        "人工确认",
+        "企业"
       ]
     }
   ],
   "sources": [
     {
-      "id": "cursor-self-hosted-changelog",
-      "catalogId": "cursor",
-      "title": "Self-hosted machines",
-      "url": "https://cursor.com/changelog",
-      "sourceType": "official_changelog",
-      "publisher": "Cursor",
-      "publishedAt": "2026-09-02",
-      "accessedAt": "2026-09-05T10:09:27.410+08:00",
-      "evidenceLocation": "Sep 2, 2026: Self-hosted machines",
-      "evidenceExcerpt": "Cursor 说明代码、构建产物和密钥可留在内部机器，Agent 的工具调用在自托管环境中执行。"
-    },
-    {
-      "id": "cursor-self-hosted-integrations",
-      "catalogId": "cursor",
-      "title": "Self-hosted Machines: Integrations",
-      "url": "https://cursor.com/docs/cloud-agent/self-hosted/integrations",
-      "sourceType": "official_docs",
-      "publisher": "Cursor",
-      "publishedAt": null,
-      "accessedAt": "2026-09-05T10:09:27.410+08:00",
-      "evidenceLocation": "What every integration needs",
-      "evidenceExcerpt": "文档列出 Enterprise、管理员启用、服务账号、出站 HTTPS 和机器池路由等要求。"
-    },
-    {
-      "id": "google-agentic-video-changelog",
-      "catalogId": "google-ai",
-      "title": "Gemini API Release notes",
-      "url": "https://ai.google.dev/gemini-api/docs/changelog",
-      "sourceType": "official_changelog",
-      "publisher": "Google",
-      "publishedAt": "2026-09-01",
-      "accessedAt": "2026-09-05T10:09:27.410+08:00",
-      "evidenceLocation": "September 1, 2026: Agentic video understanding",
-      "evidenceExcerpt": "更新日志列出支持型号、Interactions 与 GenerateContent API，以及按需读取视频片段的工作方式。"
-    },
-    {
-      "id": "google-agentic-video-guide",
-      "catalogId": "google-ai",
-      "title": "Video understanding",
-      "url": "https://ai.google.dev/gemini-api/docs/video-understanding",
-      "sourceType": "official_docs",
-      "publisher": "Google",
-      "publishedAt": null,
-      "accessedAt": "2026-09-05T10:09:27.410+08:00",
-      "evidenceLocation": "Agentic video understanding and token calculation",
-      "evidenceExcerpt": "文档对比 Agentic 与静态模式，说明长视频最高 Token 节省、支持型号和短视频首字延迟边界。"
-    },
-    {
-      "id": "anthropic-fable-5-1-announcement",
-      "catalogId": "anthropic",
-      "title": "Introducing Claude Fable 5.1 and Claude Mythos 5.1",
-      "url": "https://www.anthropic.com/claude-fable-and-mythos-5-1",
-      "sourceType": "official_announcement",
-      "publisher": "Anthropic",
-      "publishedAt": "2026-09-01",
-      "accessedAt": "2026-09-05T10:09:27.410+08:00",
-      "evidenceLocation": "Introduction; Cost and availability",
-      "evidenceExcerpt": "Anthropic 说明 Fable 5.1 的可用平台、API 模型 ID、缓存读取价格及典型工作负载测算边界。"
-    },
-    {
-      "id": "github-content-exclusions-ga",
-      "catalogId": "github",
-      "title": "Content exclusions generally available in Copilot app and CLI",
-      "url": "https://github.blog/changelog/2026-09-02-content-exclusions-generally-available-in-copilot-app-and-cli/",
-      "sourceType": "official_changelog",
-      "publisher": "GitHub",
-      "publishedAt": "2026-09-02",
-      "accessedAt": "2026-09-05T10:09:27.410+08:00",
-      "evidenceLocation": "Release announcement and plan availability",
-      "evidenceExcerpt": "GitHub 说明 Copilot app 和 CLI 已遵守管理员配置的内容排除策略，适用于 Business 与 Enterprise。"
-    },
-    {
-      "id": "github-content-exclusions-docs",
-      "catalogId": "github",
-      "title": "Content exclusion for GitHub Copilot",
-      "url": "https://docs.github.com/en/copilot/concepts/context/content-exclusion",
-      "sourceType": "official_docs",
-      "publisher": "GitHub",
-      "publishedAt": null,
-      "accessedAt": "2026-09-05T10:09:27.410+08:00",
-      "evidenceLocation": "Limitations of content exclusion",
-      "evidenceExcerpt": "文档列出 IDE 间接语义信息、符号链接、远程文件系统和不同客户端支持范围等限制。"
-    },
-    {
-      "id": "github-copilot-weekly-aug31",
-      "catalogId": "github",
-      "title": "GitHub Copilot weekly releases — August 31",
-      "url": "https://github.blog/changelog/2026-09-04-github-copilot-weekly-releases-august-31/",
-      "sourceType": "official_changelog",
-      "publisher": "GitHub",
-      "publishedAt": "2026-09-04",
-      "accessedAt": "2026-09-05T10:09:27.410+08:00",
-      "evidenceLocation": "VS Code 1.136 release updates",
-      "evidenceExcerpt": "GitHub 周更将 Agent Merge 列为 VS Code 1.136 的预览能力，用于处理评审、失败检查和冲突。"
-    },
-    {
-      "id": "vscode-1-136-release",
-      "catalogId": "microsoft-ai",
-      "title": "Visual Studio Code 1.136",
-      "url": "https://code.visualstudio.com/updates/v1_136",
-      "sourceType": "official_changelog",
-      "publisher": "Microsoft / VS Code",
-      "publishedAt": null,
-      "accessedAt": "2026-09-05T10:09:27.410+08:00",
-      "evidenceLocation": "Agent Merge (Preview)",
-      "evidenceExcerpt": "VS Code 说明 Agent Merge 的开启方式、循环处理对象和重跑工作流行为。"
-    },
-    {
-      "id": "openai-astra-launch",
+      "id": "openai-pro-tiers",
       "catalogId": "openai",
-      "title": "GPT-6 Astra: A new generation of intelligence",
-      "url": "https://openai.com/index/gpt-6-astra/",
-      "sourceType": "official_announcement",
+      "title": "About ChatGPT Pro tiers",
+      "url": "https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers",
+      "sourceType": "official_docs",
       "publisher": "OpenAI",
-      "publishedAt": "2026-09-03",
-      "accessedAt": "2026-09-05T07:51:49.512Z",
-      "evidenceLocation": "Introduction; The world’s best computer use model; A step change in professional work",
-      "evidenceExcerpt": "官方介绍电脑操作、多步专业工作和编程能力，并说明先向部分组织推出，再逐步扩大范围。"
+      "publishedAt": null,
+      "accessedAt": "2026-09-12T05:07:39Z",
+      "evidenceLocation": "页首提示及 Pro $200 暂停新订阅 FAQ",
+      "evidenceExcerpt": "As of September 10, 2026, we're temporarily pausing new sign-ups and upgrades to the ChatGPT Pro $200 plan (Pro 20X)."
     },
     {
-      "id": "aa-astra-review",
+      "id": "ds-update",
+      "catalogId": "deepseek",
+      "title": "DeepSeek 更新日志：V4.1 Flash",
+      "url": "https://api-docs.deepseek.com/updates/",
+      "sourceType": "official_changelog",
+      "publisher": "DeepSeek",
+      "publishedAt": "2026-09-10",
+      "accessedAt": "2026-09-12T04:31:41Z",
+      "evidenceLocation": "正文及对应说明段落",
+      "evidenceExcerpt": "Change the model name to deepseek-flash ... continue providing API services for DeepSeek V4 Pro after September 14, 2026."
+    },
+    {
+      "id": "ds-price",
+      "catalogId": "deepseek",
+      "title": "DeepSeek 当前模型与价格",
+      "url": "https://api-docs.deepseek.com/quick_start/pricing",
+      "sourceType": "official_pricing",
+      "publisher": "DeepSeek",
+      "publishedAt": null,
+      "accessedAt": "2026-09-12T04:31:41Z",
+      "evidenceLocation": "正文及对应说明段落",
+      "evidenceExcerpt": "The legacy names ... corresponding models have been retired ... continue providing API services for DeepSeek V4 Pro after September 14, 2026."
+    },
+    {
+      "id": "ds-launch",
+      "catalogId": "deepseek",
+      "title": "DeepSeek 9月10日发布公告（与现行安排有冲突）",
+      "url": "https://api-docs.deepseek.com/news/news260910",
+      "sourceType": "official_announcement",
+      "publisher": "DeepSeek",
+      "publishedAt": "2026-09-10",
+      "accessedAt": "2026-09-12T04:31:41Z",
+      "evidenceLocation": "正文及对应说明段落",
+      "evidenceExcerpt": "DeepSeek-V4.1-Flash Release"
+    },
+    {
+      "id": "cursor-projects-source",
+      "catalogId": "cursor",
+      "title": "Cursor Projects",
+      "url": "https://cursor.com/changelog/projects",
+      "sourceType": "official_changelog",
+      "publisher": "Cursor",
+      "publishedAt": "2026-09-10",
+      "accessedAt": "2026-09-12T04:31:41Z",
+      "evidenceLocation": "正文及对应说明段落",
+      "evidenceExcerpt": "The coordinator ... plans the work, delegates it ... brings the finished work back to you to check. Projects are available in beta and rolling out to all users starting today."
+    },
+    {
+      "id": "image-flare",
+      "catalogId": "openai",
+      "title": "GPT Image 2.5 Flare 模型文档",
+      "url": "https://developers.openai.com/api/docs/models/gpt-image-2.5-flare",
+      "sourceType": "official_docs",
+      "publisher": "OpenAI",
+      "publishedAt": null,
+      "accessedAt": "2026-09-12T04:31:41Z",
+      "evidenceLocation": "正文及对应说明段落",
+      "evidenceExcerpt": "GPT Image 2.5 Flare is our fastest model for high-quality, everyday image generation. The GPT Image 2 calculator does not estimate GPT Image 2.5 token consumption."
+    },
+    {
+      "id": "image-sunburst",
+      "catalogId": "openai",
+      "title": "GPT Image 2.5 Sunburst 模型文档",
+      "url": "https://developers.openai.com/api/docs/models/gpt-image-2.5-sunburst",
+      "sourceType": "official_docs",
+      "publisher": "OpenAI",
+      "publishedAt": null,
+      "accessedAt": "2026-09-12T04:31:41Z",
+      "evidenceLocation": "正文及对应说明段落",
+      "evidenceExcerpt": "Use it for workflows where editing precision matters most. gpt-image-2.5-sunburst-2026-09-08"
+    },
+    {
+      "id": "aa-v43-source",
       "catalogId": "artificial-analysis",
-      "title": "Benchmarking GPT-6 Astra",
-      "url": "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra",
+      "title": "Artificial Analysis 智能指数 v4.3",
+      "url": "https://artificialanalysis.ai/articles/artificial-analysis-intelligence-index-v4-3",
       "sourceType": "independent_review",
       "publisher": "Artificial Analysis",
-      "publishedAt": "2026-09-03",
-      "accessedAt": "2026-09-05T07:51:49.512Z",
-      "evidenceLocation": "Coding Agent Index / Intelligence Index key takeaways; AA-Briefcase",
-      "evidenceExcerpt": "编程代理指数 67，综合智能指数 61；max 配置的编程 Token 效率提升，AA-Briefcase 分析质量上升而呈现质量下降。"
+      "publishedAt": "2026-09-07",
+      "accessedAt": "2026-09-12T04:31:41Z",
+      "evidenceLocation": "正文及对应说明段落",
+      "evidenceExcerpt": "GPT-6 Astra (max) scores 68.5% ... completes every objective without a guardrail violation on 41.6% of workflows."
     },
     {
-      "id": "claire-astra-review",
-      "catalogId": "claire-vo",
-      "title": "GPT-6 Astra is a banger - here’s everything I’ve built",
-      "url": "https://www.lennysnewsletter.com/p/gpt-6-astra-is-a-banger-heres-everything",
-      "sourceType": "creator_review",
-      "publisher": "Claire Vo / How I AI",
-      "publishedAt": "2026-09-03",
-      "accessedAt": "2026-09-05T07:51:49.512Z",
-      "evidenceLocation": "Author introduction; What you’ll learn; 13:00 QA / 15:20 ChatPRD chapters",
-      "evidenceExcerpt": "作者说明获得提前体验资格，原文列出浏览器 QA、ChatPRD 功能开发、CRM 和 Blender 等任务。本期仅核对文字说明和章节，未完整观看视频。"
+      "id": "github-permissions-source",
+      "catalogId": "github",
+      "title": "Copilot 企业托管操作权限",
+      "url": "https://github.blog/changelog/2026-09-09-enterprise-managed-permissions-for-github-copilot-agent-operations",
+      "sourceType": "official_changelog",
+      "publisher": "GitHub",
+      "publishedAt": "2026-09-09",
+      "accessedAt": "2026-09-12T04:31:41Z",
+      "evidenceLocation": "正文及对应说明段落",
+      "evidenceExcerpt": "Managed restrictions can’t be weakened by user or workspace settings, auto-approval, or previously saved approvals."
+    },
+    {
+      "id": "github-settings",
+      "catalogId": "github",
+      "title": "GitHub 企业托管设置：deny、ask、allow",
+      "url": "https://docs.github.com/en/enterprise-cloud@latest/copilot/reference/enterprise-administrators/enterprise-managed-settings",
+      "sourceType": "official_docs",
+      "publisher": "GitHub",
+      "publishedAt": null,
+      "accessedAt": "2026-09-12T04:31:41Z",
+      "evidenceLocation": "正文及对应说明段落",
+      "evidenceExcerpt": "The permissions.deny, permissions.ask, and permissions.allow keys use deny > ask > allow precedence. ask requires fresh, one-time approval."
     }
   ],
-  "corrections": [{
-    "correctedAt": "2026-09-05T18:30:38+08:00",
-    "description": "对外期号由003更正为002：此前002仅为未发布演练稿。本期正文、原发布时间与网址不变。",
-    "affectedCardIds": []
-  }],
+  "corrections": [],
   "editorial": {
-    "generatedAt": "2026-09-05T07:51:49.512Z",
+    "generatedAt": "2026-09-12T04:31:41Z",
     "aiReviewCompleted": true,
-    "factCheckCompletedAt": "2026-09-05T07:51:49.512Z",
-    "previewApprovedAt": "2026-09-05T07:57:58.757Z",
-    "publicationApprovedAt": "2026-09-05T10:13:02.781Z",
-    "notes": "9 月 5 日补充重磅遗漏复核：GPT-6 Astra 替换 Playco 次要案例并置顶，保持 6 条与原 URL。官方发布事实、AA 9 月 3 日独立测评及 Claire Vo 实测自述分别归因；未独立复现评测或完整观看视频。其余 5 条沿用上午已核对内容。本轮为本地待用户审核版本，approved 仅表示自动预览门槛，不代表用户同意公开发布；publicationApprovedAt 保持 null。"
+    "factCheckCompletedAt": "2026-09-12T04:31:41Z",
+    "previewApprovedAt": "2026-09-12T04:31:41Z",
+    "publicationApprovedAt": null,
+    "notes": "本地审阅草稿，未经作者审定或发布授权。窗口为北京时间9月5日10:00至9月12日10:00，9月12日午间补查现行文档。9月12日按官方资料纠正用户提供的套餐名称：暂停新购的是Pro 200美元档，不是Plus 20美元档；以该消息替换MiniCPM5-2B。9月12日下午由总指挥用真实浏览器回读OpenAI帮助中心，确认暂停对象、生效日期与既有订阅规则；同日移除仅见于个人X账号、读者无法稳定打开的二手转述，公开稿改为只引用官方帮助中心。独立审查结果及检索缺口保存在私密研究记录。"
   }
 }

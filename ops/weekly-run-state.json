@@ -1,16 +1,16 @@
 {
   "mode": "draft_only",
-  "weekId": "2026-W36",
+  "weekId": "2026-W37",
   "issueId": "issue-003",
   "period": {
-    "start": "2026-08-31",
-    "end": "2026-09-05",
-    "basis": "scheduled_partial_week_refresh_cut_off_at_2026-09-05_10-01_asia_shanghai"
+    "start": "2026-09-05",
+    "end": "2026-09-12",
+    "basis": "saturday_10_asia_shanghai_window_with_2026-09-12_noon_document_recheck"
   },
-  "startedAt": "2026-09-05T10:01:37.000+08:00",
-  "lastStep": "published_local_record_reconciled",
+  "startedAt": "2026-09-12T04:18:44.617Z",
+  "lastStep": "awaiting_human_review",
   "requiresUserConfirmation": true,
   "failureReason": null,
-  "reconciledAt": "2026-09-07T07:15:22.821Z",
-  "reconciliationEvidence": "Formal issueNumber 002 is corrected with publishedAt; public permanent page HTTP 200. Internal issue-003 is not formal issue 003."
+  "reconciledAt": "2026-09-12T04:38:26Z",
+  "reconciliationEvidence": "Formal issueNumber 003 is local approved only, with six cards; browser text/layout and local Markdown download verified. Not published. Prior W36 record retained in Git/history."
 }

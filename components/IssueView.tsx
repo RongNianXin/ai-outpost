@@ -161,8 +161,8 @@ export function IssueView({ issue }: IssueViewProps) {
       <section className={styles.cards} aria-label="本期情报卡">
         <div className={styles.cardsHeader}>
           <p className={styles.sectionCode}>02 / 情报卡</p>
-          <h2>先看结论，再展开事实支撑</h2>
-          <p>默认只展示结论、影响和阅读建议；技术证据与来源可按需展开。</p>
+          <h2>先看内容详情与影响，再展开事实支撑</h2>
+          <p>默认只展示内容详情和造成的影响；行动参考、技术风险、证据与来源可按需展开。</p>
         </div>
         <div className={styles.cardsGrid}>
           {issue.cards.map((card, index) => (
