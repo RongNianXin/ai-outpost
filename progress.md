@@ -1,5 +1,12 @@
 # AI Outpost Progress
 
+## 2026-09-12：003 期正式上线回执
+
+- 远端备份分支：`backup/main-before-issue-number-repair-20260912-232159`。
+- 已将修复后的内容树以提交 `cc10d01` 整合到远端，再以 `fbce2d3` 补写 003 的 `published` 状态；Pages 运行 `34702778978` 的 build/deploy 均成功。
+- 公网回读：官网首页、003 期页面和 `brief.md` 均 HTTP 200，003 标题与卡片内容可见；`content:check:downloads --origin` 验证 3 份公开 Markdown 与链接一致。
+- 公众号材料仍仅本地准备，未进入后台、未保存草稿、未发表或群发。远端主分支已完成期号修复，保留备份分支以便回退。
+
 ## 2026-09-12：期号契约补强与全面复核
 
 - 已确认本地四份内容：001→issue-001、002→issue-002、003→issue-003；无编号演练稿为 `draft-2026-06-18-agent-shortform` / issueNumber=0。没有把无编号演练误改成 `issue-002-draft`。
