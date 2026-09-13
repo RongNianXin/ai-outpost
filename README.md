@@ -6,7 +6,7 @@
 
 从官方来源筛选少量重要变化，解释影响、限制与下一步阅读路径。
 
-[访问官网](https://rongnianxin.github.io/ai-outpost/) · [查看最新一期](https://rongnianxin.github.io/ai-outpost/issues/2026-09-12-agents-workflows-image-models/) · [了解内容流程](docs/CONTENT-OPS.md)
+[访问官网](https://rongnianxin.github.io/ai-outpost/) · [了解内容流程](docs/CONTENT-OPS.md)
 
 [![官网](https://img.shields.io/badge/官网-AI%20前哨站-2563EB.svg)](https://rongnianxin.github.io/ai-outpost/)
 [![最近更新](https://img.shields.io/github/last-commit/RongNianXin/ai-outpost?label=最近更新&color=0EA5A4)](https://github.com/RongNianXin/ai-outpost/commits/main)
