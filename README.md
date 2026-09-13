@@ -12,6 +12,12 @@
 [![最近更新](https://img.shields.io/github/last-commit/RongNianXin/ai-outpost?label=最近更新&color=0EA5A4)](https://github.com/RongNianXin/ai-outpost/commits/main)
 [![GitHub Pages](https://img.shields.io/badge/部署-GitHub%20Pages-111827.svg)](https://rongnianxin.github.io/ai-outpost/)
 
+<br />
+
+<img src="assets/repository-cover.png" alt="AI 前哨站从多源 AI 资讯中筛选并形成结构化简报的示意图" width="100%" />
+
+<sub>AI 生成示意图：从多源 AI 资讯到结构化简报的筛选过程。</sub>
+
 </div>
 
 > [!NOTE]
@@ -138,13 +144,7 @@ pnpm.cmd content:update-readme
 
 本首页借鉴成熟技术媒体常用的“中心化首屏 → 明确 CTA → 最新动态 → 读者路径 → 能力说明 → 快速开始 → 边界声明”节奏：先让访客知道项目是什么，再帮助他选择下一步。它没有照搬其他仓库面向复杂工作流的长篇章节，而是把 AI 前哨站最重要的内容可信度、官网入口和每期阅读路径放在前面。
 
-<p align="center">
-  <img src="assets/repository-cover.png" alt="AI 前哨站从多源 AI 资讯中筛选并形成结构化简报的示意图" width="100%">
-</p>
-
-<p align="center"><em>AI 生成示意图：从多源 AI 资讯到结构化简报的筛选过程。</em></p>
-
-仓库展示图已加入首屏 CTA 后。封面提示词仍保存在 [README-COVER-PROMPT.md](docs/README-COVER-PROMPT.md)，但此前总结的固定生图方向目前暂缓采用，后续重新筛选后再制定规则。
+仓库展示图已按参考仓库的首屏 Hero 结构，放置在项目标题、简介和徽章之后。封面提示词仍保存在 [README-COVER-PROMPT.md](docs/README-COVER-PROMPT.md)，但此前总结的固定生图方向目前暂缓采用，后续重新筛选后再制定规则。
 
 ## 许可证
 
