@@ -32,6 +32,14 @@ export default function AboutPage() {
         来源引用关系、模糊行动表述和官方来源链接。自动验证只能降低错误概率，不能替代原始来源；
         重要信息请以官方链接为准。发布后发现错误时会留下公开更正记录。
       </p>
+      <h2>项目与代码</h2>
+      <p>
+        想了解这份周报的生成流程和工程实现，可查看
+        <a href="https://github.com/RongNianXin/ai-outpost" target="_blank" rel="noreferrer">
+          GitHub 项目仓库
+        </a>
+        。仓库是技术资料入口，期刊正文和往期内容仍以本官网为准。
+      </p>
     </article>
   );
 }

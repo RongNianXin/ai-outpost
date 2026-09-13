@@ -53,6 +53,16 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <footer className={styles.footer}>
           <p>看见变化，理解影响，立即行动。</p>
           <p>内容由 AI 自动整理并交叉校验；重要信息请以官方来源为准。</p>
+          <p>
+            <a
+              className={styles.footerLink}
+              href="https://github.com/RongNianXin/ai-outpost"
+              target="_blank"
+              rel="noreferrer"
+            >
+              项目代码（GitHub）
+            </a>
+          </p>
         </footer>
       </body>
     </html>

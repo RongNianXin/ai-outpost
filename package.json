@@ -15,6 +15,7 @@
     "start": "next start",
     "content:validate": "tsx scripts/content/validate.ts",
     "content:check:links": "tsx scripts/content/check-links.ts",
+    "content:update-readme": "tsx scripts/content/update-readme-notice.ts",
     "content:export:wechat": "tsx scripts/content/export-wechat.ts",
     "content:preview:url": "tsx scripts/content/preview-url.ts",
     "publish:prepare": "tsx scripts/publish/prepare.ts",

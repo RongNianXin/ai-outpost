@@ -123,6 +123,11 @@
 
 [内部来源与研究明细已迁至本机私密记录；恢复须运行 content:research:start。]
 
+## 2026-09-13：微信外链与官网/GitHub 分层
+
+- 《微信外部链接内容管理规范》的公开条款禁止强制或利益诱导分享、诱导关注、文案与实际效果不符的误导下载/跳转；未找到针对自有官网或 GitHub 的统一禁令。这不是平台审核承诺，正文链接与手机端行为仍需实测。官方入口：https://weixin.qq.com/agreement/weixin_external_links_content_management_specification 。
+- 远端仓库 About 的 homepageUrl 已回读为 https://rongnianxin.github.io/ai-outpost/ ，本地 README 也有官网入口；官网“关于”页与页脚此前没有 GitHub 入口。用户已采用“官网主入口、GitHub 次级入口”，不把两者并列为公众号同等强度的引流目标。
+
 ### 设计决策
 
 - 页面任务：首屏只回答“这期最值得注意的两件事是什么”，详细的 6 条更新继续放在后文。

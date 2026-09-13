@@ -1,8 +1,18 @@
 # AI Outpost
 
-[在线阅读](https://rongnianxin.github.io/ai-outpost/)
+[访问 AI 前哨站官网](https://rongnianxin.github.io/ai-outpost/) · 查看最新一期、历史归档和可下载资料包。
 
-现行发布平台、推广流程、阶段成果与文档维护规则：[推广与分发](docs/PROMOTION.md)。本期检查结论：[003 期发布前检查](docs/reviews/ISSUE-003-PREFLIGHT-2026-09-05.md)。历史日志不代表当前操作规则。
+<!-- AI_OUTPOST_LATEST_START -->
+## 最新一期
+
+**AI 前哨站第 003 期**：会员暂停新购，长任务怎么验收？
+
+从 Astra 需求挤压下的 200 美元 Pro 暂停新购，到 Agent 接手更长任务：本期既看模型与协作更新，也看价格、权限和验收边界。
+
+[阅读本期官网](https://rongnianxin.github.io/ai-outpost/issues/2026-09-12-agents-workflows-image-models/)
+<!-- AI_OUTPOST_LATEST_END -->
+
+现行发布平台、推广流程、阶段成果与文档维护规则：[推广与分发](docs/PROMOTION.md)。历史日志不代表当前操作规则。
 
 AI 前哨站是一份面向 AI 应用创造者的低维护情报周报。
 
@@ -43,6 +53,7 @@ pnpm.cmd install
 pnpm.cmd dev
 pnpm.cmd content:validate
 pnpm.cmd content:check:links
+pnpm.cmd content:update-readme
 pnpm.cmd content:export:wechat
 pnpm.cmd publish:prepare
 pnpm.cmd publish:console

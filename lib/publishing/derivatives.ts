@@ -16,13 +16,21 @@ export function renderWechatHtml(issue: Issue): string {
   const sourceById = new Map(
     issue.sources.map((source) => [source.id, source]),
   );
-  const sections: string[] = [
-    paragraph(issue.summary, "font-size:17px;line-height:1.85;color:#1f2937;margin:0 0 18px;"),
-    paragraph(
-      `覆盖时间：${issue.period.start} 至 ${issue.period.end}`,
-      "font-size:13px;line-height:1.7;color:#64748b;margin:0 0 28px;",
-    ),
-  ];
+  const heroLead = issue.hero?.lead ?? issue.title;
+  const heroDeck = issue.hero?.deck ?? issue.summary;
+  const sections: string[] = [];
+
+  const topics = Array.from(new Set(issue.cards.map((card) => card.category))).slice(0, 4);
+  sections.push(
+    `<section style="margin:0 0 23px;padding:23px 18px;border:1px solid #d8e2ee;border-radius:18px;background-color:#f4f8ff;">`,
+    paragraph("AI 前哨站 / AI OUTPOST", "font-size:13px;letter-spacing:1px;font-weight:700;color:#2563eb;margin-bottom:13px;"),
+    paragraph(`第 ${String(issue.issueNumber).padStart(3, "0")} 期 · ${issue.period.start.replaceAll("-", ".")}—${issue.period.end.replaceAll("-", ".")}`, "font-family:Consolas,monospace;font-size:12px;color:#5d6b82;margin-bottom:23px;"),
+    `<h1 style="margin:0 0 15px;font-size:36px;line-height:1.2;font-weight:800;letter-spacing:-0.8px;color:#0b1220;">${escapeHtml(heroLead)}</h1>`,
+    paragraph(heroDeck, "font-size:21px;line-height:1.55;font-weight:700;color:#2a3d59;margin-bottom:22px;"),
+    `<p style="margin:0 0 20px;line-height:2.5;">${topics.map((topic) => `<span style="display:inline-block;margin:0 6px 6px 0;padding:2px 10px;border:1px solid #d8e2ee;border-radius:10px;background-color:#ffffff;font-size:12px;line-height:1.9;color:#2a3d59;font-weight:700;">${escapeHtml(topic)}</span>`).join("")}</p>`,
+    paragraph(issue.summary, "font-size:16px;margin-bottom:0;"),
+    `</section>`,
+  );
 
   if (issue.topChangeIds.length > 0) {
     const items = issue.topChangeIds
@@ -51,16 +59,23 @@ export function renderWechatHtml(issue: Issue): string {
       .join("");
 
     sections.push(
-      `<section style="margin:34px 0 0;padding-top:22px;border-top:1px solid #dce3e8;">`,
-      `<p style="margin:0 0 8px;font-size:12px;letter-spacing:1.5px;color:#0f766e;font-weight:700;">情报 ${String(index + 1).padStart(2, "0")} · ${escapeHtml(card.category)}</p>`,
-      `<h2 style="margin:0 0 14px;font-size:23px;line-height:1.4;color:#101827;">${escapeHtml(card.title)}</h2>`,
-      labelParagraph("发生了什么", card.oneLineSummary),
-      labelParagraph("为什么值得关注", card.whyItMatters),
-      labelParagraph("对你的影响", card.developerImpact),
-      `<p style="margin:14px 0;font-size:14px;line-height:1.8;color:#475569;">成熟度：${maturityLabels[card.maturity]}　·　噪声风险：${noiseRiskLabels[card.noiseRisk]}　·　建议：${actionLabels[card.suggestedAction]}</p>`,
-      `<p style="margin:16px 0 6px;font-size:14px;color:#0f766e;font-weight:700;">事实、测评与限制</p><ul style="padding-left:20px;font-size:14px;line-height:1.8;color:#334155;">${facts}</ul>`,
+      `<section style="margin:0 0 23px;padding:23px 18px;border:1px solid #bdd1f5;border-left:4px solid #2563eb;border-radius:18px;background-color:#ffffff;">`,
+      paragraph(`情报 ${String(index + 1).padStart(2, "0")} · ${card.category}`, "font-family:Consolas,Arial,sans-serif;font-size:13px;font-weight:700;color:#2563eb;margin-bottom:12px;"),
+      `<h2 style="margin:0 0 17px;font-size:25px;line-height:1.4;font-weight:800;color:#0b1220;">${escapeHtml(card.title)}</h2>`,
+      paragraph(`${card.occurredAt.replaceAll("-", ".")} · ${card.publisher}`, "font-size:12px;color:#5d6b82;margin-bottom:20px;"),
+      `<section style="margin:20px 0;padding:15px 14px;border-left:3px solid #2563eb;border-radius:0 10px 10px 0;background-color:#eff6ff;">${paragraph("先看结论", "font-size:12px;color:#2563eb;font-weight:700;margin-bottom:7px;")}${paragraph(card.oneLineSummary, "font-weight:700;margin-bottom:0;")}</section>`,
+      heading("为什么值得关注"),
+      paragraph(card.whyItMatters, "font-size:15px;line-height:1.85;color:#334155;"),
+      `<section style="margin:20px 0;padding:15px 14px;border:1px solid #f3d28d;border-radius:12px;background-color:#fff8e8;">${paragraph("对你的影响与建议", "font-size:13px;font-weight:700;color:#7a4a00;margin-bottom:8px;")}${paragraph(card.developerImpact, "color:#544017;margin-bottom:0;")}</section>`,
+      paragraph(`编辑判断 · 成熟度：${maturityLabels[card.maturity]} / 噪声风险：${noiseRiskLabels[card.noiseRisk]} / 建议：${actionLabels[card.suggestedAction]}`, "font-size:12px;color:#5d6b82;margin-bottom:12px;"),
+      `<p style="margin:16px 0 6px;font-size:14px;color:#2563eb;font-weight:700;">事实、测评与限制</p><ul style="padding-left:20px;font-size:14px;line-height:1.8;color:#334155;">${facts}</ul>`,
       `</section>`,
     );
+    if (index < issue.cards.length - 1) {
+      sections.push(
+        `<p aria-hidden="true" style="margin:0 0 23px;text-align:center;color:#a9bbcf;font-size:12px;letter-spacing:5px;line-height:1;">· · ·</p>`,
+      );
+    }
   });
 
   if (issue.sources.length > 0) {
@@ -71,12 +86,20 @@ export function renderWechatHtml(issue: Issue): string {
       )
       .join("");
     sections.push(
+      `<section style="margin:0 0 23px;padding:23px 18px;border:1px solid #d8e2ee;border-radius:18px;background:#ffffff;">`,
       heading("原始来源"),
+      paragraph("本期按官方资料、独立测评、作者实测自述和社媒原帖线索分别归因；来源编号与正文对应。", "font-size:14px;color:#5d6b82;"),
       `<ol style="padding-left:20px;font-size:14px;line-height:1.7;color:#334155;">${sources}</ol>`,
+      `</section>`,
     );
   }
 
   sections.push(
+    `<section style="margin:0 0 23px;padding:21px 18px;border:1px solid #d8e2ee;border-radius:18px;background-color:#f8fafc;">`,
+    heading("继续阅读与资料包"),
+    paragraph("本期完整来源、限制和可复制、下载的 Markdown 资料包，见本文底部「阅读原文」，进入 AI 前哨站官网。", "font-size:15px;color:#334155;"),
+    paragraph("想了解这份周报的生成流程和项目代码，可在官网「关于」页进入 GitHub 项目仓库。", "font-size:13px;color:#64748b;margin-bottom:0;"),
+    `</section>`,
     `<p style="margin:30px 0 0;padding:16px;border-radius:10px;background:#edf8f6;font-size:13px;line-height:1.75;color:#315e59;">来源事实和编辑判断分开呈现。内容经过 AI 交叉校验和脚本检查；产品信息以官方资料为准，测评只适用于原文所述条件。</p>`,
   );
 
@@ -122,10 +145,6 @@ export function renderXiaohongshuPost(issue: Issue) {
 
 function heading(text: string) {
   return `<h2 style="margin:32px 0 14px;font-size:22px;line-height:1.4;color:#101827;">${escapeHtml(text)}</h2>`;
-}
-
-function labelParagraph(label: string, value: string) {
-  return `<p style="margin:10px 0;font-size:15px;line-height:1.85;color:#334155;"><strong style="color:#101827;">${escapeHtml(label)}：</strong>${escapeHtml(value)}</p>`;
 }
 
 function paragraph(text: string, style: string) {

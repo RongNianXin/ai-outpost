@@ -6,6 +6,8 @@ import {
 import type { EvidenceSource, Issue } from "./schema";
 import { getSourceTypeLabel } from "./source-labels";
 
+const SITE_ORIGIN = "https://rongnianxin.github.io/ai-outpost";
+
 export function renderWechatMarkdown(issue: Issue): string {
   const sourceById = new Map(
     issue.sources.map((source) => [source.id, source]),
@@ -77,6 +79,12 @@ export function renderWechatMarkdown(issue: Issue): string {
   }
 
   lines.push(
+    "## 继续阅读与资料包",
+    "",
+    `本期完整来源、限制和可复制、下载的 Markdown 资料包，见本文底部「阅读原文」，进入 [AI 前哨站官网](${SITE_ORIGIN}/issues/${issue.slug}/)。`,
+    "",
+    "想了解这份周报的生成流程和项目代码，可在官网「关于」页进入 GitHub 项目仓库。",
+    "",
     "---",
     "",
     "来源事实和 AI 分析已按单列文本流整理。内容经过 AI 交叉校验和脚本检查；产品信息以官方资料为准，测评结论只适用于原文所述条件。",

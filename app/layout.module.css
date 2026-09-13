@@ -99,6 +99,18 @@
   margin: 0;
 }
 
+.footerLink {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  text-decoration-color: var(--color-line-strong);
+}
+
+.footerLink:hover {
+  color: var(--color-accent);
+  text-decoration-color: currentColor;
+}
+
 @media (max-width: 640px) {
   .headerInner {
     min-height: auto;

@@ -13,6 +13,12 @@ import {
   validateIssueFileNames,
 } from "../lib/content/validation";
 import { renderWechatMarkdown } from "../lib/content/wechat";
+import {
+  latestNoticeEnd,
+  latestNoticeStart,
+  renderLatestReadmeNotice,
+  replaceLatestReadmeNotice,
+} from "../lib/content/readme-notice";
 import { getConfirmationPhrases } from "../lib/publishing/actions";
 import {
   renderWechatHtml,
@@ -351,13 +357,31 @@ describe("publishing derivatives", () => {
   it("derives WeChat HTML and Xiaohongshu copy from the same issue", () => {
     const issue = issueSchema.parse(baseIssue);
     const html = renderWechatHtml(issue);
+    const markdown = renderWechatMarkdown(issue);
     const xiaohongshu = renderXiaohongshuPost(issue);
 
     expect(html).toContain(issue.cards[0].facts[0].claim);
     expect(html).toContain(issue.sources[0].url);
+    expect(html).toContain("本文底部「阅读原文」");
+    expect(html).toContain("官网「关于」页进入 GitHub 项目仓库");
+    expect(html).not.toContain("https://github.com/RongNianXin/ai-outpost");
+    expect(markdown).toContain("AI 前哨站官网");
+    expect(markdown).toContain("官网「关于」页进入 GitHub 项目仓库");
     expect(xiaohongshu.body).toContain(issue.cards[0].oneLineSummary);
     expect(xiaohongshu.body).toContain(issue.cards[0].developerImpact);
     expect(Array.from(xiaohongshu.title).length).toBeLessThanOrEqual(19);
+  });
+
+  it("keeps one replaceable latest-issue notice in README", () => {
+    const issue = issueSchema.parse(baseIssue);
+    const notice = renderLatestReadmeNotice(issue);
+    const readme = `# AI Outpost\n\n${latestNoticeStart}\nold\n${latestNoticeEnd}\n\n正文`;
+    const updated = replaceLatestReadmeNotice(readme, notice);
+
+    expect(updated).toContain(notice);
+    expect(updated.match(/AI_OUTPOST_LATEST_START/g)).toHaveLength(1);
+    expect(updated.match(/AI_OUTPOST_LATEST_END/g)).toHaveLength(1);
+    expect(replaceLatestReadmeNotice(updated, renderLatestReadmeNotice({ ...issue, issueNumber: 2 }))).not.toContain(notice);
   });
 
   it("keeps the content hash stable when only publication metadata changes", () => {
