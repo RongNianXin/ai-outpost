@@ -4,7 +4,7 @@
   "slug": "2026-09-12-agents-workflows-image-models",
   "issueNumber": 3,
   "title": "AI 前哨站第 003 期",
-  "summary": "从 200 美元 Pro 暂停新购，到 Agent 接手更长任务：本期既看模型与协作更新，也看价格、权限和验收边界。",
+  "summary": "从 Astra 需求挤压下的 200 美元 Pro 暂停新购，到 Agent 接手更长任务：本期既看模型与协作更新，也看价格、权限和验收边界。",
   "hero": {
     "lead": "会员暂停新购，长任务怎么验收？",
     "deck": "价格与套餐、模型更新、项目协作：先确认能否使用，再判断怎样算做成",
@@ -14,7 +14,7 @@
     "start": "2026-09-05",
     "end": "2026-09-12"
   },
-  "status": "published",
+  "status": "corrected",
   "publishedAt": "2026-09-12T15:35:47.000Z",
   "topChangeIds": [
     "openai-pro-pause",
@@ -72,15 +72,15 @@
       "publisher": "OpenAI",
       "occurredAt": "2026-09-10",
       "discoveredAt": "2026-09-12",
-      "oneLineSummary": "OpenAI 帮助中心写明：自 9 月 10 日起，ChatGPT Pro 200 美元档（Pro 20X）暂停新订阅和升级；Free、Go、Plus 与 Pro 100 美元档在这期间都不能升到该档，现有订阅不受影响，目前没有公布恢复日期。",
-      "whyItMatters": "影响主要落在个人用户这一侧：想升到 200 美元档的人只能等恢复，已经在用的人暂时不受影响；但一旦取消或降档，暂停期间就买不回来，因此不要把“现有订阅不受影响”理解成随时可以重新购买。",
-      "developerImpact": "本月打算购买该档的话，先把预算和使用计划顺延；已有订阅不要随手取消或降档，暂停期间无法重新购买。",
+      "oneLineSummary": "OpenAI 帮助中心写明：自 9 月 10 日起，ChatGPT Pro 200 美元档（Pro 20X）暂停新订阅和升级；Tibo 在 X 解释，原因是 Astra 需求给系统带来最大压力，其他套餐与 API 仍可用，现有账户不受影响。",
+      "whyItMatters": "这不只是“暂停新购”：Tibo 的公开说明把原因指向 Astra 需求与系统容量，后续是否恢复尚无日期。社媒上有人据此猜测 200 美元档可能不再回归、未来会出现 300 美元档，但那是个人预测，不是 OpenAI 方案。已有 Pro 200 用户若取消或降档，暂停期间不能重新购买，因此应把账户状态和升级路径分开看。",
+      "developerImpact": "准备购买最高档的用户要把预算与时间安排留出不确定性；已有 Pro 200 用户不要在未确认替代方案前取消或降档。若评估新套餐，等官方价格与权益公告，不按社媒猜测提前改预算。",
       "maturity": "usable",
       "noiseRisk": "medium",
       "suggestedAction": "learn",
       "reviewRisk": "high",
       "reviewStatus": "ai_cross_checked",
-      "communicationAngle": "这不是 20 美元 Plus 停售，而是最高用量的 200 美元 Pro 档暂停新购；套餐名称与价格必须一起核对。",
+      "communicationAngle": "官方事实是暂停 200 美元 Pro 新购与升级，原因是 Astra 需求和系统压力；“200 美元档不会回归”及“300 美元/30 倍、50 倍”只是个人预测，不能当作产品路线。",
       "visualHint": "",
       "facts": [
         {
@@ -102,6 +102,29 @@
           ],
           "limitations": [
             "这是截至本次访问时的套餐规则，不代表服务容量、模型可用性或未来价格不会再变。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        },
+        {
+          "id": "openai-pro-pause-reason",
+          "claim": "Tibo（@thsottiaux）在 X 表示，暂停 200 美元 Pro 订阅是因为该档对系统造成的压力最大；其他套餐和 API 仍可用，现有账户不受影响，团队正在增加容量。",
+          "sourceIds": [
+            "tibo-pro-pause",
+            "openai-pro-tiers"
+          ],
+          "limitations": [
+            "社媒原帖通过公开镜像核对；暂停范围与账户规则以 OpenAI 帮助中心为主。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        },
+        {
+          "id": "openai-pro-pause-prediction",
+          "claim": "Alex Berish 在 X 预测 200 美元 Pro 可能不会回归，并猜测 OpenAI 可能推出 300 美元（30 倍）档，早期用户或许获得 50 倍限制。",
+          "sourceIds": [
+            "alex-berish-post"
+          ],
+          "limitations": [
+            "这是个人预测，不是 OpenAI 公告；没有官方证据支持未来价格、倍率或时间，不能据此做购买决定。"
           ],
           "reviewStatus": "ai_cross_checked"
         }
@@ -393,6 +416,30 @@
       "evidenceExcerpt": "As of September 10, 2026, we're temporarily pausing new sign-ups and upgrades to the ChatGPT Pro $200 plan (Pro 20X)."
     },
     {
+      "id": "tibo-pro-pause",
+      "catalogId": "openai",
+      "title": "Tibo X 原帖：暂停 $200 Pro 订阅",
+      "url": "https://twiscan.com/en/x/thsottiaux/2098113585683808624",
+      "sourceType": "creator_review",
+      "publisher": "Tibo / OpenAI",
+      "publishedAt": "2026-09-10",
+      "accessedAt": "2026-09-13T02:30:00Z",
+      "evidenceLocation": "公开镜像中的原帖正文与时间（2026-09-10 18:17，时区未注明）",
+      "evidenceExcerpt": "To make sure our current users have an incredible experience and continued access to Astra, we are going to pause subscriptions to our $200 Pro plan."
+    },
+    {
+      "id": "alex-berish-post",
+      "catalogId": "openai",
+      "title": "Alex Berish X 帖子：关于 $200 Pro 的个人预测",
+      "url": "https://www.sotwe.com/AlexBerish?lang=en",
+      "sourceType": "creator_review",
+      "publisher": "Alex Berish",
+      "publishedAt": null,
+      "accessedAt": "2026-09-13T02:30:00Z",
+      "evidenceLocation": "公开镜像个人主页中与截图一致的帖子；截图界面显示 9 月 11 日",
+      "evidenceExcerpt": "The $200 Pro plan will not be returning ... OpenAI will introduce a $300 (30x) plan, maybe with 50x limits for early adopters"
+    },
+    {
       "id": "ds-update",
       "catalogId": "deepseek",
       "title": "DeepSeek 更新日志：V4.1 Flash",
@@ -501,13 +548,21 @@
       "evidenceExcerpt": "The permissions.deny, permissions.ask, and permissions.allow keys use deny > ask > allow precedence. ask requires fresh, one-time approval."
     }
   ],
-  "corrections": [],
+  "corrections": [
+    {
+      "correctedAt": "2026-09-13T02:35:00.000Z",
+      "description": "补充 Tibo 关于 Astra 需求与系统压力的公开说明，并将 Alex Berish 关于 200 美元档、300 美元档和倍率的内容明确标为个人预测；预测不作为 OpenAI 产品路线事实。",
+      "affectedCardIds": [
+        "openai-pro-pause"
+      ]
+    }
+  ],
   "editorial": {
     "generatedAt": "2026-09-12T04:31:41Z",
     "aiReviewCompleted": true,
     "factCheckCompletedAt": "2026-09-12T04:31:41Z",
     "previewApprovedAt": "2026-09-12T04:31:41Z",
     "publicationApprovedAt": "2026-09-12T15:35:47.000Z",
-    "notes": "本地审阅草稿，未经作者审定或发布授权。窗口为北京时间9月5日10:00至9月12日10:00，9月12日午间补查现行文档。9月12日按官方资料纠正用户提供的套餐名称：暂停新购的是Pro 200美元档，不是Plus 20美元档；以该消息替换MiniCPM5-2B。9月12日下午由总指挥用真实浏览器回读OpenAI帮助中心，确认暂停对象、生效日期与既有订阅规则；同日移除仅见于个人X账号、读者无法稳定打开的二手转述，公开稿改为只引用官方帮助中心。独立审查结果及检索缺口保存在私密研究记录。"
+    "notes": "本地审阅草稿，未经作者审定或发布授权。窗口为北京时间9月5日10:00至9月12日10:00，9月12日午间补查现行文档。9月12日按官方资料纠正用户提供的套餐名称：暂停新购的是Pro 200美元档，不是Plus 20美元档；以该消息替换MiniCPM5-2B。9月12日下午由总指挥用真实浏览器回读OpenAI帮助中心，确认暂停对象、生效日期与既有订阅规则；同日移除仅见于个人X账号、读者无法稳定打开的二手转述，公开稿改为只引用官方帮助中心。2026-09-13补充公开镜像中的Tibo原帖，并将Alex Berish的未来套餐判断标为个人预测；社媒截图内容与镜像逐字相符，但截图文件本身缺少原帖URL/原始元数据，不能据像素证明绝对未被编辑。独立审查结果及检索缺口保存在私密研究记录。"
   }
 }

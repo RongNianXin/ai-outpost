@@ -92,6 +92,21 @@ const server = createServer(async (request, response) => {
       const content = await readFile(prepared.files.wechatHtml, "utf8");
       return sendHtml(response, renderWechatPreview(selected, content));
     }
+    if (request.method === "GET" && url.pathname === "/download/wechat-html") {
+      const { selected } = await selectIssue(url.searchParams.get("slug"));
+      const prepared = await preparePlatformPackage(selected);
+      return serveStaticFile(response, prepared.files.wechatHtml, "text/html; charset=utf-8", false, "attachment");
+    }
+    if (request.method === "GET" && url.pathname === "/download/wechat-md") {
+      const { selected } = await selectIssue(url.searchParams.get("slug"));
+      const prepared = await preparePlatformPackage(selected);
+      return serveStaticFile(response, prepared.files.wechatMarkdown, "text/markdown; charset=utf-8", false, "attachment");
+    }
+    if (request.method === "GET" && url.pathname === "/download/wechat-cover") {
+      const { selected } = await selectIssue(url.searchParams.get("slug"));
+      const prepared = await preparePlatformPackage(selected);
+      return serveStaticFile(response, prepared.files.wechatCover, "image/jpeg", false, "attachment");
+    }
     if (request.method === "GET" && url.pathname === "/preview/xiaohongshu") {
       const { selected } = await selectIssue(url.searchParams.get("slug"));
       const prepared = await preparePlatformPackage(selected);
@@ -151,12 +166,14 @@ async function serveStaticFile(
   filePath: string,
   contentType: string,
   cache = true,
+  disposition?: "attachment",
 ) {
   const info = await stat(filePath);
   response.writeHead(200, {
     "Content-Type": contentType,
     "Content-Length": info.size,
     "Cache-Control": cache ? "no-cache" : "no-store",
+    ...(disposition ? { "Content-Disposition": disposition } : {}),
   });
   createReadStream(filePath).pipe(response);
 }
@@ -230,7 +247,11 @@ function setSecurityHeaders(response: ServerResponse) {
 }
 
 function renderWechatPreview(issue: Issue, content: string) {
-  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>公众号预览｜${escapeHtml(issue.title)}</title></head><body style="margin:0;background:#eef3f5;color:#172333;font-family:Microsoft YaHei,sans-serif;"><div style="position:sticky;top:0;z-index:2;padding:12px;text-align:center;background:#102131;"><button data-copy-target="#wechat-article" style="min-height:40px;padding:0 18px;border:0;background:#35d0ba;color:#102131;font-weight:700;cursor:pointer;">复制公众号富文本</button></div><main style="max-width:677px;margin:28px auto;padding:36px 28px;background:white;box-shadow:0 18px 50px rgba(20,45,59,.12);"><p style="margin:0 0 12px;color:#168c7b;font-size:13px;">公众号草稿预览 · 第 ${String(issue.issueNumber).padStart(3, "0")} 期</p><h1 style="font-size:30px;line-height:1.35;margin:0 0 24px;">${escapeHtml(issue.title)}</h1><article id="wechat-article">${content}</article></main><script src="/preview.js"></script></body></html>`;
+  const query = encodeURIComponent(issue.slug);
+  const originalUrl = `https://rongnianxin.github.io/ai-outpost/issues/${issue.slug}/`;
+  const summary = "从 200 美元 Pro 暂停新购，到 Agent 接手更长任务：本期既看模型与协作更新，也看价格、权限和验收边界。";
+  const field = (label: string, value: string) => `<div style="display:grid;grid-template-columns:72px 1fr auto;gap:8px;align-items:center;margin:8px 0;"><strong style="font-size:13px;">${label}</strong><code style="padding:8px;background:#f3f7f8;word-break:break-all;">${escapeHtml(value)}</code><button data-copy-value="${escapeHtml(value)}" style="min-height:34px;padding:0 10px;border:1px solid #168c7b;background:#fff;color:#168c7b;cursor:pointer;">复制</button></div>`;
+  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>公众号迁移交付｜${escapeHtml(issue.title)}</title></head><body style="margin:0;background:#eef3f5;color:#172333;font-family:Microsoft YaHei,sans-serif;"><div style="position:sticky;top:0;z-index:2;padding:12px;text-align:center;background:#102131;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;"><button data-copy-target="#wechat-article" style="min-height:40px;padding:0 18px;border:0;background:#35d0ba;color:#102131;font-weight:700;cursor:pointer;">复制完整正文</button><a href="/download/wechat-html?slug=${query}" style="padding:10px 14px;background:#fff;color:#102131;text-decoration:none;">下载 HTML</a><a href="/download/wechat-md?slug=${query}" style="padding:10px 14px;background:#fff;color:#102131;text-decoration:none;">下载 Markdown</a><a href="/download/wechat-cover?slug=${query}" style="padding:10px 14px;background:#fff;color:#102131;text-decoration:none;">下载封面</a></div><main style="max-width:760px;margin:28px auto;padding:0 18px 48px;"><section style="padding:22px;background:#fff;border:1px solid #cbd9df;box-shadow:0 18px 50px rgba(20,45,59,.08);"><p style="margin:0 0 8px;color:#168c7b;font-size:13px;">公众号迁移交付页 · 第 ${String(issue.issueNumber).padStart(3, "0")} 期</p><h1 style="margin:0 0 12px;font-size:30px;line-height:1.35;">${escapeHtml(issue.title)}</h1><p style="margin:0;color:#486071;line-height:1.7;">先复制字段，再复制完整正文；下载入口用于备用。这里不会写入公众号后台。</p>${field("标题", issue.title)}${field("作者", "暮雨笙")}${field("摘要", summary)}${field("原文链接", originalUrl)}<p style="margin:16px 0 0;color:#486071;font-size:13px;line-height:1.7;">迁移顺序：复制字段 → 复制完整正文 → 上传封面 → 在后台单独填写原文链接 → 保存草稿 → 手机预览。发布和群发仍需另行确认。</p></section><section style="margin-top:24px;padding:28px;background:#fff;box-shadow:0 18px 50px rgba(20,45,59,.08);"><article id="wechat-article">${content}</article></section></main><script src="/preview.js"></script></body></html>`;
 }
 
 function renderXhsPreview(

@@ -202,7 +202,7 @@ export function IssueView({ issue }: IssueViewProps) {
         <p className={styles.sectionCode}>04 / Sources</p>
         <h2 id="source-list">来源索引</h2>
         <p className={styles.sourceIntro}>
-          这里区分官方资料、独立测评和博主实测自述，并标注它们支撑的情报卡。卡片内链接用于就地核查，
+          这里区分官方资料、独立测评、博主实测自述和社媒原帖线索，并标注它们支撑的情报卡。卡片内链接用于就地核查，
           这里用于查看整期来源结构。
         </p>
         <details className={styles.sourceDetails}>

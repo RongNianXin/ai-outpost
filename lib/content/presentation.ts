@@ -13,9 +13,18 @@ export function getFastTakeaway(issue: Issue) {
 
 export function getIssueThemeLabels(issue: Issue) {
   const categories = Array.from(new Set(issue.cards.map((card) => card.category)));
-  const labels: string[] = [issue.sources.some((source) =>
-    ["independent_review", "creator_review"].includes(source.sourceType))
-    ? "官方 + 第三方测评" : "官方来源"];
+  const hasIndependentReview = issue.sources.some((source) =>
+    ["independent_review", "creator_review"].includes(source.sourceType) &&
+    !source.title.includes("X 帖子"),
+  );
+  const hasSocialLead = issue.sources.some((source) =>
+    source.sourceType === "creator_review" && source.title.includes("X 帖子"),
+  );
+  const labels: string[] = [hasIndependentReview
+    ? "官方 + 第三方测评"
+    : hasSocialLead
+      ? "官方 + 社媒线索"
+      : "官方来源"];
 
   if (categories.some((category) => category.includes("安全"))) {
     labels.push("审核安全");

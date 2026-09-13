@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
 
@@ -26,11 +27,12 @@ export async function generatePlatformAssets(
   ]);
 
   const heroPath = resolveHeroPath(issue);
+  const wechatHeroPath = resolveWechatCoverSource(issue) ?? heroPath;
   const wechatCover = path.join(wechatDirectory, `${issue.slug}-cover.jpg`);
   const xiaohongshuCover = path.join(xhsDirectory, "01-cover.jpg");
 
   await Promise.all([
-    renderWechatCover(issue, heroPath, wechatCover),
+    renderWechatCover(issue, wechatHeroPath, wechatCover),
     renderXiaohongshuCover(issue, heroPath, xiaohongshuCover),
   ]);
 
@@ -114,6 +116,13 @@ function resolveHeroPath(issue: Issue) {
     throw new Error("Hero image must stay under public/images/issues.");
   }
   return resolved;
+}
+
+function resolveWechatCoverSource(issue: Issue) {
+  if (issue.issueNumber <= 0) return null;
+  const filename = `issue-${String(issue.issueNumber).padStart(3, "0")}-wechat-cover.png`;
+  const resolved = path.resolve(process.cwd(), "public", "images", "issues", filename);
+  return existsSync(resolved) ? resolved : null;
 }
 
 function svgLines(

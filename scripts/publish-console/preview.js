@@ -25,3 +25,23 @@ document.querySelectorAll("[data-copy-target]").forEach((button) => {
     }
   });
 });
+
+document.querySelectorAll("[data-copy-value]").forEach((button) => {
+  button.addEventListener("click", async () => {
+    const value = button.dataset.copyValue ?? "";
+    try {
+      await navigator.clipboard.writeText(value);
+      button.textContent = "已复制";
+    } catch {
+      const input = document.createElement("textarea");
+      input.value = value;
+      input.style.position = "fixed";
+      input.style.opacity = "0";
+      document.body.append(input);
+      input.select();
+      document.execCommand("copy");
+      input.remove();
+      button.textContent = "已复制（备用）";
+    }
+  });
+});

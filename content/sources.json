@@ -19,6 +19,10 @@
       "https://developers.openai.com/",
       "https://github.com/openai/"
     ],
+    "reviewUrls": [
+      "https://twiscan.com/en/x/thsottiaux",
+      "https://www.sotwe.com/AlexBerish"
+    ],
     "topics": ["models", "coding-tools", "agents", "multimodal", "subscriptions", "pricing"]
   },
   {
