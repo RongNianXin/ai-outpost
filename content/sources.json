@@ -31,6 +31,7 @@
     "homepage": "https://www.anthropic.com/",
     "officialUrls": [
       "https://www.anthropic.com/news",
+      "https://www.anthropic.com/institute/",
       "https://www.anthropic.com/claude-fable-and-mythos-5-1",
       "https://docs.anthropic.com/",
       "https://github.com/anthropics/"
@@ -43,6 +44,7 @@
     "homepage": "https://ai.google/",
     "officialUrls": [
       "https://blog.google/technology/ai/",
+      "https://blog.google/innovation-and-ai/",
       "https://ai.google.dev/",
       "https://github.com/google-gemini/"
     ],

@@ -1,0 +1,268 @@
+{
+  "schemaVersion": 1,
+  "id": "issue-004",
+  "slug": "2026-09-19-frontier-ai-governance-and-agents",
+  "issueNumber": 4,
+  "title": "AI 前哨站第 004 期",
+  "summary": "从前沿实验室如何衡量 AI 发展速度，到生命科学验证、实时语音模型和代码审查：本期关注能力开放时的资格、监督与验收边界。",
+  "hero": {
+    "lead": "能力变强以后，谁来监督？",
+    "deck": "模型开放、Agent 协作与代码审查：先看适用范围，再判断能否交给它做",
+    "visual": null
+  },
+  "period": {
+    "start": "2026-09-12",
+    "end": "2026-09-19"
+  },
+  "status": "published",
+  "publishedAt": "2026-09-19T03:39:47.577Z",
+  "topChangeIds": [
+    "anthropic-pace",
+    "google-gemini-live",
+    "github-copilot-review"
+  ],
+  "opportunities": [],
+  "practiceTask": {
+    "title": "给一次 AI 试用补一张边界清单",
+    "durationMinutes": 30,
+    "objective": "把功能可用、适用资格、人工监督和验收证据分开记录，避免把“已经开放”误读成“可以直接托管”。",
+    "steps": [
+      "选择一个不涉及生产或敏感资料的 AI 功能。",
+      "记录它面向谁开放、在哪些渠道可用，以及仍处于什么阶段。",
+      "写出至少两个需要人工检查的结果或越界条件。",
+      "试用后分别记录功能结果、限制和人工接管点。"
+    ],
+    "relatedCardIds": [
+      "anthropic-life-sciences",
+      "google-gemini-live",
+      "github-copilot-review"
+    ]
+  },
+  "glossary": [
+    {
+      "term": "GA",
+      "explanation": "Generally Available，通常表示功能已进入正式可用阶段，但仍要看具体套餐和地区。"
+    },
+    {
+      "term": "Beta",
+      "explanation": "测试阶段，开放范围、能力和规则仍可能调整。"
+    },
+    {
+      "term": "Agent",
+      "explanation": "能调用工具执行多步任务的 AI；能执行不等于可以省略授权和验收。"
+    },
+    {
+      "term": "Model misalignment",
+      "explanation": "模型行为与预期目标或约束不一致；报道时要保留发生环境和证据范围。"
+    }
+  ],
+  "cards": [
+    {
+      "id": "anthropic-pace",
+      "title": "Anthropic 提出三类指标，观察 AI 离“自己做研发”还有多远",
+      "category": "研究与治理",
+      "publisher": "Anthropic",
+      "occurredAt": "2026-09-18",
+      "discoveredAt": "2026-09-19",
+      "oneLineSummary": "Anthropic 提出三类可公开跟踪的观察指标：AI 参与 AI 研发的程度、AI Agent 的监督能力，以及算力如何分配。",
+      "whyItMatters": "这类指标试图把“AI 发展很快”拆成可讨论的问题：AI 是辅助人，还是已经承担一段研发流程？谁在监督它？算力又被投入到哪里？但页面同时承认，目前还缺少跨实验室统一的方法。",
+      "developerImpact": "读到类似进展时，先问清指标测的是什么、样本来自哪里、谁做评估；不要把一家机构的内部快照当成整个行业的比例。",
+      "maturity": "experimental",
+      "noiseRisk": "medium",
+      "suggestedAction": "learn",
+      "reviewRisk": "high",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "把“AI 要自己做 AI”拆成参与程度、监督能力和算力分配三个可检查的问题。",
+      "visualHint": "三条测量轴：参与、监督、算力；标注为研究框架而非行业统计。",
+      "facts": [
+        {
+          "id": "anthropic-pace-metrics",
+          "claim": "Anthropic 的研究页面提出三类观察指标：AI 参与 AI 研发的程度、AI agent 监督能力，以及算力分配。",
+          "sourceIds": [
+            "anthropic-pace-source"
+          ],
+          "limitations": [
+            "这是 Anthropic 提出的研究框架，不是全行业统一统计，也不是第三方认证。",
+            "页面使用自家模型评估时可能存在 judge 偏差，数字会随方法和前沿进展变化。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "AI治理",
+        "Agent",
+        "研究方法"
+      ]
+    },
+    {
+      "id": "anthropic-life-sciences",
+      "title": "Anthropic 为生命科学开放验证计划，但资格和安全审核仍在",
+      "category": "模型开放",
+      "publisher": "Anthropic",
+      "occurredAt": "2026-09-17",
+      "discoveredAt": "2026-09-19",
+      "oneLineSummary": "Life Sciences Verification Program 面向生命科学专业人员提供 Mythos、Opus 和 Sonnet 的受审访问，并为生物相关工作采用更宽的安全护栏。",
+      "whyItMatters": "这里的重点不是“生物安全限制被取消”，而是开放方式变了：申请者仍需接受研究资质、安全标准和伦理监督审核，高风险使用还需要额外审查。模型能力和访问资格是两件事。",
+      "developerImpact": "涉及生命科学或其他高风险领域时，先确认账号资格、适用模型和批准范围；不要把新闻中的验证计划当成普通账号已经拥有同等能力。",
+      "maturity": "experimental",
+      "noiseRisk": "medium",
+      "suggestedAction": "learn",
+      "reviewRisk": "high",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "能力开放往往伴随资格审核和额外护栏，不能只看模型名称。",
+      "visualHint": "申请、审核、分级使用三段式流程，不画成无门槛开放。",
+      "facts": [
+        {
+          "id": "anthropic-lsvp-scope",
+          "claim": "Anthropic 于 2026 年 9 月 17 日介绍 Life Sciences Verification Program，为生命科学专业人员提供 Mythos、Opus 和 Sonnet 的受审访问，并保留资格、安全与伦理审核。",
+          "sourceIds": [
+            "anthropic-lsvp-source"
+          ],
+          "limitations": [
+            "该计划仍为 beta，初期面向团队或机构，不等于所有个人账号默认可用。",
+            "高风险使用和具体模型开放范围需按申请结果与当期规则核对。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "生命科学",
+        "安全边界",
+        "资格审核"
+      ]
+    },
+    {
+      "id": "google-gemini-live",
+      "title": "Gemini 3.8 Live 推出实时语音与视觉路线，渠道仍在分批开放",
+      "category": "模型更新",
+      "publisher": "Google",
+      "occurredAt": "2026-09-15",
+      "discoveredAt": "2026-09-19",
+      "oneLineSummary": "Google 发布 Gemini 3.8 Live 与 3.8 Live Extended Thinking，面向近实时语音、视觉上下文和复杂多步任务，并按开发者、企业和消费者渠道分批 rollout。",
+      "whyItMatters": "同一个型号在不同入口可能不是同一套权益：开发者 API、AI Studio、企业 private preview 和消费者订阅的开放节奏不同。看到“发布”时，先确认你实际能用的渠道，而不是默认全平台同步。",
+      "developerImpact": "做实时语音或视觉原型时，先记录模型 ID、地区、订阅或 API 资格和当前阶段；把厂商引用的基准当作参考，不当作自己的效果保证。",
+      "maturity": "experimental",
+      "noiseRisk": "medium",
+      "suggestedAction": "learn",
+      "reviewRisk": "medium",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "模型发布只是起点，真正决定能否使用的是渠道、资格和 rollout 阶段。",
+      "visualHint": "开发者、企业、消费者三条开放路径，突出分批开放。",
+      "facts": [
+        {
+          "id": "google-gemini-live-release",
+          "claim": "Google 页面标示 2026 年 9 月 15 日发布 Gemini 3.8 Live 与 Gemini 3.8 Live Extended Thinking，介绍了近实时语音和视觉上下文、复杂任务与多步推理方向。",
+          "sourceIds": [
+            "google-gemini-live-source"
+          ],
+          "limitations": [
+            "开发者、企业和消费者渠道的开放范围不同，部分功能仍是 private preview 或分批 rollout。",
+            "页面中的基准结果属于 Google 引用的特定评测条件，不能外推为普遍性能保证。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "Gemini",
+        "实时语音",
+        "多模态"
+      ]
+    },
+    {
+      "id": "github-copilot-review",
+      "title": "Copilot 代码审查更会追踪进度，但仍不是自动验收",
+      "category": "开发工具",
+      "publisher": "GitHub",
+      "occurredAt": "2026-09-18",
+      "discoveredAt": "2026-09-19",
+      "oneLineSummary": "GitHub 将 Copilot code review 的进度分组、评论标题、后续提交后的自动解决逻辑和批量建议提交信息更新为 generally available。",
+      "whyItMatters": "审查界面现在更容易看出哪些问题已解决、哪些仍开放，也能减少接受批量建议时写提交信息的工作。但“自动解决评论”只是在后续提交和回复满足条件时更新状态，不等于代码已经正确。",
+      "developerImpact": "把 Copilot 当作审查助手：逐项查看仍开放和新发现的问题，核对测试与 diff，再决定是否接受批量建议；不要把评论自动关闭当成合并许可。",
+      "maturity": "usable",
+      "noiseRisk": "low",
+      "suggestedAction": "try",
+      "reviewRisk": "medium",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "审查进度更清楚，不代表审查结果可以跳过人工验收。",
+      "visualHint": "Open、Resolved、Previously missed 三组审查状态，旁边保留人工验收标记。",
+      "facts": [
+        {
+          "id": "github-review-ga",
+          "claim": "GitHub 2026 年 9 月 18 日说明 Copilot code review 的改进已 generally available，包括 PR 概览分组、评论标题、后续提交后的更智能自动解决和符合条件的批量建议提交信息生成。",
+          "sourceIds": [
+            "github-copilot-review-source"
+          ],
+          "limitations": [
+            "智能提交信息只适用于符合条件的完整批量建议，自动解决依赖后续提交与回复。",
+            "这些功能不能证明 Copilot 审查正确，也不能替代人工查看 diff、测试和合并条件。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "Copilot",
+        "代码审查",
+        "验收"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "anthropic-pace-source",
+      "catalogId": "anthropic",
+      "title": "Measurements for understanding the pace of AI development inside frontier labs",
+      "url": "https://www.anthropic.com/institute/measuring-pace-of-ai-development",
+      "sourceType": "official_blog",
+      "publisher": "Anthropic",
+      "publishedAt": "2026-09-18",
+      "accessedAt": "2026-09-19T01:00:00+08:00",
+      "evidenceLocation": "研究页面的指标定义与方法限制段落",
+      "evidenceExcerpt": "Anthropic proposes three metrics for tracking the pace of AI development inside frontier labs."
+    },
+    {
+      "id": "anthropic-lsvp-source",
+      "catalogId": "anthropic",
+      "title": "Introducing the Life Sciences Verification Program",
+      "url": "https://www.anthropic.com/news/life-sciences-verification-program",
+      "sourceType": "official_announcement",
+      "publisher": "Anthropic",
+      "publishedAt": "2026-09-17",
+      "accessedAt": "2026-09-19T01:00:00+08:00",
+      "evidenceLocation": "计划范围、申请条件与 safeguards 段落",
+      "evidenceExcerpt": "The Life Sciences Verification Program gives life science professionals access to Claude models with additional safeguards."
+    },
+    {
+      "id": "google-gemini-live-source",
+      "catalogId": "google-ai",
+      "title": "Introducing Gemini 3.8 Live and 3.8 Live Extended Thinking",
+      "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-8-live-gemini-3-8-live-extended-thinking/",
+      "sourceType": "official_blog",
+      "publisher": "Google",
+      "publishedAt": "2026-09-15",
+      "accessedAt": "2026-09-19T01:00:00+08:00",
+      "evidenceLocation": "模型介绍、渠道开放与 rollout 段落",
+      "evidenceExcerpt": "Introducing Gemini 3.8 Live and Gemini 3.8 Live Extended Thinking."
+    },
+    {
+      "id": "github-copilot-review-source",
+      "catalogId": "github",
+      "title": "Copilot code review: An improved review experience",
+      "url": "https://github.blog/changelog/2026-09-18-copilot-code-review-an-improved-review-experience",
+      "sourceType": "official_changelog",
+      "publisher": "GitHub",
+      "publishedAt": "2026-09-18",
+      "accessedAt": "2026-09-19T01:00:00+08:00",
+      "evidenceLocation": "更新摘要、审查分组、自动解决与批量提交信息段落",
+      "evidenceExcerpt": "These updates are now generally available."
+    }
+  ],
+  "corrections": [],
+  "editorial": {
+    "generatedAt": "2026-09-19T01:00:00+08:00",
+    "aiReviewCompleted": true,
+    "factCheckCompletedAt": "2026-09-19T01:00:00+08:00",
+    "previewApprovedAt": "2026-09-19T02:00:00+08:00",
+    "publicationApprovedAt": "2026-09-19T03:39:47.577Z",
+    "notes": "第004期四条短版。作者已确认采用“能力开放以后，资格、监督和验收怎么跟上”的编辑主线；四条候选已由独立只读审查复核。OpenAI 页面 403 访问冲突与 GitHub Actions 404 候选未写入正文。approved 仅表示本地预览准备完成，不代表发布授权。"
+  }
+}

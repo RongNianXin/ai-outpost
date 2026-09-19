@@ -1,16 +1,16 @@
 {
-  "mode": "draft_only",
+  "mode": "normal",
   "weekId": "2026-W37",
-  "issueId": "issue-003",
+  "issueId": "issue-004",
   "period": {
-    "start": "2026-09-05",
-    "end": "2026-09-12",
+    "start": "2026-09-12",
+    "end": "2026-09-19",
     "basis": "saturday_10_asia_shanghai_window_with_2026-09-12_noon_document_recheck"
   },
   "startedAt": "2026-09-12T04:18:44.617Z",
-  "lastStep": "awaiting_human_review",
+  "lastStep": "awaiting_publication",
   "requiresUserConfirmation": true,
   "failureReason": null,
-  "reconciledAt": "2026-09-12T04:38:26Z",
-  "reconciliationEvidence": "Formal issueNumber 003 is local approved only, with six cards; browser text/layout and local Markdown download verified. Not published. Prior W36 record retained in Git/history."
+  "reconciledAt": "2026-09-19T03:40:00Z",
+  "reconciliationEvidence": "Issue 004 passed local content, link, type, lint, test, build and preview checks; publication authorized for this issue only."
 }
