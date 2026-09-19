@@ -22,7 +22,7 @@ const issue = issueSchema.parse({
   status: "approved",
   publishedAt: null,
 });
-const xhsInput = { issueId: issue.id, title: "test", body: "test", imagePath: "fake.jpg", isPrivate: true };
+const xhsInput = { issueId: issue.id, title: "test", body: "test", imagePaths: ["cover.jpg", "card.jpg"], isPrivate: true };
 beforeEach(() => { vi.resetAllMocks(); vi.stubGlobal("fetch", vi.fn()); });
 afterEach(() => vi.unstubAllGlobals());
 
@@ -69,5 +69,15 @@ describe("adapter defense in depth", () => {
     vi.mocked(assertPublishingAllowed).mockResolvedValueOnce(undefined).mockRejectedValue(new Error("paused"));
     await expect(publishXiaohongshu(xhsInput)).rejects.toThrow("paused");
     expect(runCommand).not.toHaveBeenCalled();
+  });
+  it("Xiaohongshu passes the complete ordered carousel to the CLI", async () => {
+    vi.mocked(assertPublishingAllowed).mockResolvedValue(undefined);
+    vi.mocked(runCommand).mockResolvedValue({ ok: true, code: 0, stderr: "", stdout: "{}" });
+    await publishXiaohongshu(xhsInput);
+    expect(runCommand).toHaveBeenCalledWith(
+      "xhs",
+      ["post", "--title", "test", "--body", "test", "--images", "cover.jpg", "--images", "card.jpg", "--private", "--json"],
+      { timeoutMs: 120_000 },
+    );
   });
 });

@@ -1,5 +1,5 @@
 {
-  "mode": "normal",
+  "mode": "draft_only",
   "weekId": "2026-W37",
   "issueId": "issue-004",
   "period": {
@@ -8,9 +8,9 @@
     "basis": "saturday_10_asia_shanghai_window_with_2026-09-12_noon_document_recheck"
   },
   "startedAt": "2026-09-12T04:18:44.617Z",
-  "lastStep": "awaiting_publication",
+  "lastStep": "awaiting_wechat_preparation",
   "requiresUserConfirmation": true,
   "failureReason": null,
-  "reconciledAt": "2026-09-19T03:40:00Z",
-  "reconciliationEvidence": "Issue 004 passed local content, link, type, lint, test, build and preview checks; publication authorized for this issue only."
+  "reconciledAt": "2026-09-19T04:50:00Z",
+  "reconciliationEvidence": "Issue 004 is published on the website; local state is draft_only for preparing the WeChat package only. No WeChat draft or publication has been performed."
 }

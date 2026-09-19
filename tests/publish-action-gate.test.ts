@@ -27,7 +27,7 @@ beforeEach(() => {
   vi.resetAllMocks();
   vi.mocked(assertPublishingAllowed).mockResolvedValue(undefined);
   vi.mocked(preparePlatformPackage).mockResolvedValue({
-    hash: "test", files: { wechatHtml: "test", wechatCover: "test", xiaohongshuCover: "test" },
+    hash: "test", files: { wechatHtml: "test", wechatCover: "test", wechatSquareCover: "test", xiaohongshuCover: "test", xiaohongshuImages: ["test"] },
     xiaohongshu: { title: "test", body: "test" },
   } as Awaited<ReturnType<typeof preparePlatformPackage>>);
   vi.mocked(publishWebsite).mockResolvedValue({ externalId: "test", detail: "mock" });

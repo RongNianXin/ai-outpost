@@ -121,7 +121,7 @@ async function executeWithLock(
       issueId: issue.id,
       title: prepared.xiaohongshu.title,
       body: prepared.xiaohongshu.body,
-      imagePath: prepared.files.xiaohongshuCover,
+      imagePaths: prepared.files.xiaohongshuImages,
       isPrivate: action === "xiaohongshu_private",
     });
     externalId = result.externalId;

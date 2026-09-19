@@ -14,6 +14,7 @@ import { loadLocalEnvironment } from "../../lib/publishing/config";
 import { getPublishingStatus } from "../../lib/publishing/preflight";
 import { preparePlatformPackage } from "../../lib/publishing/prepare";
 import type { PublishAction } from "../../lib/publishing/store";
+import { exportImagesToDirectory } from "../../lib/publishing/export-images";
 
 const host = "127.0.0.1";
 const port = readNumberArgument("--port") ?? 3101;
@@ -30,10 +31,35 @@ const allowedActions = new Set<PublishAction>([
 
 loadLocalEnvironment();
 
+const preparedPackageCache = new Map<
+  string,
+  ReturnType<typeof preparePlatformPackage>
+>();
+
+function prepareCachedPackage(issue: Issue) {
+  const cached = preparedPackageCache.get(issue.slug);
+  if (cached) return cached;
+  const preparing = preparePlatformPackage(issue).catch((error) => {
+    preparedPackageCache.delete(issue.slug);
+    throw error;
+  });
+  preparedPackageCache.set(issue.slug, preparing);
+  return preparing;
+}
+
 const server = createServer(async (request, response) => {
   try {
     setSecurityHeaders(response);
     const url = new URL(request.url ?? "/", `http://${host}:${port}`);
+    if (request.method === "POST" && url.pathname === "/api/export-images") {
+      assertMutationRequest(request);
+      const body = await readJsonBody(request);
+      const { selected } = await selectIssue(requireSlug(body.slug));
+      const prepared = await prepareCachedPackage(selected);
+      return sendJson(response, 200, await exportImagesToDirectory(
+        readString(body.directory), prepared.files.xiaohongshuImages, selected.issueNumber,
+      ));
+    }
     if (request.method === "GET" && url.pathname === "/") {
       return serveIndex(response);
     }
@@ -67,7 +93,7 @@ const server = createServer(async (request, response) => {
       const body = await readJsonBody(request);
       const slug = requireSlug(body.slug);
       const { selected } = await selectIssue(slug);
-      const prepared = await preparePlatformPackage(selected);
+      const prepared = await prepareCachedPackage(selected);
       return sendJson(response, 200, {
         manifestPath: prepared.manifestPath,
         hash: prepared.hash,
@@ -88,34 +114,49 @@ const server = createServer(async (request, response) => {
     }
     if (request.method === "GET" && url.pathname === "/preview/wechat") {
       const { selected } = await selectIssue(url.searchParams.get("slug"));
-      const prepared = await preparePlatformPackage(selected);
+      const prepared = await prepareCachedPackage(selected);
       const content = await readFile(prepared.files.wechatHtml, "utf8");
       return sendHtml(response, renderWechatPreview(selected, content));
     }
     if (request.method === "GET" && url.pathname === "/download/wechat-html") {
       const { selected } = await selectIssue(url.searchParams.get("slug"));
-      const prepared = await preparePlatformPackage(selected);
+      const prepared = await prepareCachedPackage(selected);
       return serveStaticFile(response, prepared.files.wechatHtml, "text/html; charset=utf-8", false, "attachment");
     }
     if (request.method === "GET" && url.pathname === "/download/wechat-md") {
       const { selected } = await selectIssue(url.searchParams.get("slug"));
-      const prepared = await preparePlatformPackage(selected);
+      const prepared = await prepareCachedPackage(selected);
       return serveStaticFile(response, prepared.files.wechatMarkdown, "text/markdown; charset=utf-8", false, "attachment");
     }
     if (request.method === "GET" && url.pathname === "/download/wechat-cover") {
       const { selected } = await selectIssue(url.searchParams.get("slug"));
-      const prepared = await preparePlatformPackage(selected);
+      const prepared = await prepareCachedPackage(selected);
       return serveStaticFile(response, prepared.files.wechatCover, "image/jpeg", false, "attachment");
+    }
+    if (request.method === "GET" && url.pathname === "/download/wechat-cover-square") {
+      const { selected } = await selectIssue(url.searchParams.get("slug"));
+      const prepared = await prepareCachedPackage(selected);
+      return serveStaticFile(response, prepared.files.wechatSquareCover, "image/jpeg", false, "attachment");
+    }
+    if (request.method === "GET" && url.pathname === "/preview/wechat-cover") {
+      const { selected } = await selectIssue(url.searchParams.get("slug"));
+      const prepared = await prepareCachedPackage(selected);
+      const variant = url.searchParams.get("variant") === "square" ? "square" : "wide";
+      const cover = variant === "square" ? prepared.files.wechatSquareCover : prepared.files.wechatCover;
+      return serveStaticFile(response, cover, "image/jpeg", false);
     }
     if (request.method === "GET" && url.pathname === "/preview/xiaohongshu") {
       const { selected } = await selectIssue(url.searchParams.get("slug"));
-      const prepared = await preparePlatformPackage(selected);
-      return sendHtml(response, renderXhsPreview(selected, prepared.xiaohongshu));
+      const prepared = await prepareCachedPackage(selected);
+      return sendHtml(response, renderXhsPreview(selected, prepared.xiaohongshu, prepared.files.xiaohongshuImages.length));
     }
-    if (request.method === "GET" && url.pathname === "/preview/xhs-cover") {
+    if (request.method === "GET" && url.pathname === "/preview/xhs-image") {
       const { selected } = await selectIssue(url.searchParams.get("slug"));
-      const prepared = await preparePlatformPackage(selected);
-      return serveStaticFile(response, prepared.files.xiaohongshuCover, "image/jpeg", false);
+      const prepared = await prepareCachedPackage(selected);
+      const index = Number(url.searchParams.get("index"));
+      const imagePath = prepared.files.xiaohongshuImages[index];
+      if (!Number.isInteger(index) || !imagePath) throw new HttpError(404, "没有这张小红书图片。");
+      return serveStaticFile(response, imagePath, "image/jpeg", false);
     }
     return sendJson(response, 404, { error: "没有这个页面。" });
   } catch (error) {
@@ -251,15 +292,20 @@ function renderWechatPreview(issue: Issue, content: string) {
   const originalUrl = `https://rongnianxin.github.io/ai-outpost/issues/${issue.slug}/`;
   const summary = issue.summary;
   const field = (label: string, value: string) => `<div style="display:grid;grid-template-columns:72px 1fr auto;gap:8px;align-items:center;margin:8px 0;"><strong style="font-size:13px;">${label}</strong><code style="padding:8px;background:#f3f7f8;word-break:break-all;">${escapeHtml(value)}</code><button data-copy-value="${escapeHtml(value)}" style="min-height:34px;padding:0 10px;border:1px solid #168c7b;background:#fff;color:#168c7b;cursor:pointer;">复制</button></div>`;
-  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>公众号迁移交付｜${escapeHtml(issue.title)}</title></head><body style="margin:0;background:#eef3f5;color:#172333;font-family:Microsoft YaHei,sans-serif;"><div style="position:sticky;top:0;z-index:2;padding:12px;text-align:center;background:#102131;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;"><button data-copy-target="#wechat-article" style="min-height:40px;padding:0 18px;border:0;background:#35d0ba;color:#102131;font-weight:700;cursor:pointer;">复制完整正文</button><a href="/download/wechat-html?slug=${query}" style="padding:10px 14px;background:#fff;color:#102131;text-decoration:none;">下载 HTML</a><a href="/download/wechat-md?slug=${query}" style="padding:10px 14px;background:#fff;color:#102131;text-decoration:none;">下载 Markdown</a><a href="/download/wechat-cover?slug=${query}" style="padding:10px 14px;background:#fff;color:#102131;text-decoration:none;">下载封面</a></div><main style="max-width:760px;margin:28px auto;padding:0 18px 48px;"><section style="padding:22px;background:#fff;border:1px solid #cbd9df;box-shadow:0 18px 50px rgba(20,45,59,.08);"><p style="margin:0 0 8px;color:#168c7b;font-size:13px;">公众号迁移交付页 · 第 ${String(issue.issueNumber).padStart(3, "0")} 期</p><h1 style="margin:0 0 12px;font-size:30px;line-height:1.35;">${escapeHtml(issue.title)}</h1><p style="margin:0;color:#486071;line-height:1.7;">先复制字段，再复制完整正文；下载入口用于备用。这里不会写入公众号后台。</p>${field("标题", issue.title)}${field("作者", "暮雨笙")}${field("摘要", summary)}${field("原文链接", originalUrl)}<p style="margin:16px 0 0;color:#486071;font-size:13px;line-height:1.7;">迁移顺序：复制字段 → 复制完整正文 → 上传封面 → 在后台单独填写原文链接 → 保存草稿 → 手机预览。发布和群发仍需另行确认。</p></section><section style="margin-top:24px;padding:28px;background:#fff;box-shadow:0 18px 50px rgba(20,45,59,.08);"><article id="wechat-article">${content}</article></section></main><script src="/preview.js"></script></body></html>`;
+  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>公众号迁移交付｜${escapeHtml(issue.title)}</title></head><body style="margin:0;background:#eef3f5;color:#172333;font-family:Microsoft YaHei,sans-serif;"><div style="position:sticky;top:0;z-index:2;padding:12px;text-align:center;background:#102131;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;"><button data-copy-target="#wechat-article" style="min-height:40px;padding:0 18px;border:0;background:#35d0ba;color:#102131;font-weight:700;cursor:pointer;">复制完整正文</button><a href="/download/wechat-html?slug=${query}" style="padding:10px 14px;background:#fff;color:#102131;text-decoration:none;">下载 HTML</a><a href="/download/wechat-md?slug=${query}" style="padding:10px 14px;background:#fff;color:#102131;text-decoration:none;">下载 Markdown</a><a href="/download/wechat-cover?slug=${query}" style="padding:10px 14px;background:#fff;color:#102131;text-decoration:none;">下载横版封面 2.35:1</a><a href="/download/wechat-cover-square?slug=${query}" style="padding:10px 14px;background:#fff;color:#102131;text-decoration:none;">下载方形封面 1:1</a></div><main style="max-width:900px;margin:28px auto;padding:0 18px 48px;"><section style="padding:22px;background:#fff;border:1px solid #cbd9df;box-shadow:0 18px 50px rgba(20,45,59,.08);"><p style="margin:0 0 8px;color:#168c7b;font-size:13px;">公众号迁移交付页 · 第 ${String(issue.issueNumber).padStart(3, "0")} 期</p><h1 style="margin:0 0 12px;font-size:30px;line-height:1.35;">${escapeHtml(issue.title)}</h1><p style="margin:0;color:#486071;line-height:1.7;">先复制字段，再复制完整正文；两张封面来自同一张无字主题底图，只按比例裁切并由程序叠加同一组期号与标题。这里不会写入公众号后台。</p>${field("标题", issue.title)}${field("作者", "暮雨笙")}${field("摘要", summary)}${field("原文链接", originalUrl)}<p style="margin:16px 0 0;color:#486071;font-size:13px;line-height:1.7;">迁移顺序：复制字段 → 复制完整正文 → 按平台需要上传横版或方形封面 → 在后台单独填写原文链接 → 保存草稿 → 手机预览。发布和群发仍需另行确认。</p></section><section style="margin-top:24px;padding:22px;background:#fff;box-shadow:0 18px 50px rgba(20,45,59,.08);"><h2 style="margin:0 0 16px;font-size:22px;">本期封面已准备好</h2><div style="display:grid;grid-template-columns:minmax(0,2.35fr) minmax(220px,1fr);gap:20px;align-items:start;"><figure style="margin:0;"><img src="/preview/wechat-cover?slug=${query}&variant=wide" alt="第 ${String(issue.issueNumber).padStart(3, "0")} 期横版封面 2.35:1" style="display:block;width:100%;height:auto;box-shadow:0 10px 28px rgba(20,45,59,.15);"><figcaption style="margin-top:8px;color:#486071;font-size:13px;">横版 2.35:1 · 公众号优先 · AI生成示意</figcaption></figure><figure style="margin:0;"><img src="/preview/wechat-cover?slug=${query}&variant=square" alt="第 ${String(issue.issueNumber).padStart(3, "0")} 期方形封面 1:1" style="display:block;width:100%;height:auto;box-shadow:0 10px 28px rgba(20,45,59,.15);"><figcaption style="margin-top:8px;color:#486071;font-size:13px;">方形 1:1 · 其他媒体备用 · AI生成示意</figcaption></figure></div></section><section style="margin-top:24px;padding:28px;background:#fff;box-shadow:0 18px 50px rgba(20,45,59,.08);"><article id="wechat-article">${content}</article></section></main><style>@media(max-width:680px){main>section:nth-child(2)>div{grid-template-columns:1fr!important}}</style><script src="/preview.js"></script></body></html>`;
 }
 
 function renderXhsPreview(
   issue: Issue,
   content: { title: string; body: string },
+  imageCount: number,
 ) {
   const query = encodeURIComponent(issue.slug);
-  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>小红书预览｜${escapeHtml(content.title)}</title></head><body style="margin:0;background:#eef3f5;color:#172333;font-family:Microsoft YaHei,sans-serif;"><div style="position:sticky;top:0;z-index:2;padding:12px;text-align:center;background:#102131;"><button data-copy-target="#xhs-copy" style="min-height:40px;padding:0 18px;border:0;background:#35d0ba;color:#102131;font-weight:700;cursor:pointer;">复制小红书标题和正文</button></div><main style="display:grid;grid-template-columns:minmax(280px,430px) minmax(280px,520px);gap:28px;max-width:1000px;margin:28px auto;padding:0 18px;"><img src="/preview/xhs-cover?slug=${query}" alt="小红书竖版封面" style="display:block;width:100%;box-shadow:0 18px 50px rgba(20,45,59,.14);"><article id="xhs-copy" style="padding:30px;background:white;"><p style="margin:0 0 10px;color:#168c7b;font-size:13px;">小红书图文预览</p><h1 style="font-size:27px;line-height:1.35;margin:0 0 22px;">${escapeHtml(content.title)}</h1><pre style="white-space:pre-wrap;font:15px/1.8 Microsoft YaHei,sans-serif;color:#394d5b;">${escapeHtml(content.body)}</pre></article></main><style>@media(max-width:760px){main{grid-template-columns:1fr!important}}</style><script src="/preview.js"></script></body></html>`;
+  const images = Array.from({ length: imageCount }, (_, index) =>
+    `<figure style="margin:0;"><a href="/preview/xhs-image?slug=${query}&index=${index}" download="${String(index + 1).padStart(2, "0")}-${index === 0 ? "cover" : "carousel"}.jpg"><img src="/preview/xhs-image?slug=${query}&index=${index}" alt="小红书轮播第 ${index + 1} 张" style="display:block;width:100%;box-shadow:0 18px 50px rgba(20,45,59,.14);"></a><figcaption style="margin-top:8px;color:#5d6b82;font-size:13px;">第 ${index + 1} 张 · 点击图片可单独保存</figcaption></figure>`,
+  ).join("");
+  const field = (label: string, value: string, multiline = false) => `<div style="display:grid;grid-template-columns:88px minmax(0,1fr) auto;gap:8px;align-items:start;margin:10px 0;"><strong style="padding-top:9px;font-size:13px;">${label}</strong><div style="padding:9px;background:#f3f7f8;white-space:${multiline ? "pre-wrap" : "normal"};word-break:break-word;line-height:1.65;">${escapeHtml(value)}</div><button data-copy-value="${escapeHtml(value)}" style="min-height:36px;padding:0 10px;border:1px solid #168c7b;background:#fff;color:#168c7b;cursor:pointer;">复制</button></div>`;
+  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>小红书预览｜${escapeHtml(content.title)}</title></head><body style="margin:0;background:#eef3f5;color:#172333;font-family:Microsoft YaHei,sans-serif;"><div style="position:sticky;top:0;z-index:2;padding:12px;text-align:center;background:#102131;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;"><button data-copy-value="${escapeHtml(content.title)}" style="min-height:40px;padding:0 18px;border:0;background:#35d0ba;color:#102131;font-weight:700;cursor:pointer;">复制标题</button><button data-copy-value="${escapeHtml(content.body)}" style="min-height:40px;padding:0 18px;background:#fff;color:#102131;font-weight:700;cursor:pointer;">复制正文</button><button data-export-focus style="min-height:40px;padding:0 18px;border:0;background:#f6c453;color:#102131;font-weight:700;cursor:pointer;">保存全部图片到目录</button></div><main style="max-width:1120px;margin:28px auto;padding:0 18px 48px;"><section style="margin-bottom:28px;padding:24px;background:#fff;border:1px solid #cbd9df;"><p style="margin:0 0 8px;color:#168c7b;font-size:13px;">小红书完整轮播稿包 · 第 ${String(issue.issueNumber).padStart(3, "0")} 期</p><h1 style="margin:0 0 14px;font-size:28px;">${escapeHtml(content.title)}</h1>${field("标题", content.title)}${field("正文描述", content.body, true)}<p style="margin:16px 0 0;color:#486071;line-height:1.7;">共 ${imageCount} 张。在下面粘贴目标文件夹的完整路径，再点击保存。系统会新建本期独立子目录，按 01、02、03… 编号保存；上传时按名称升序全选，并检查上传后的缩略图顺序。这里不会写入小红书。图片中的来源 URL 只是文字，逐条来源请进入官网资料包。</p><p style="margin:12px 0 0;color:#7a4a00;font-size:13px;line-height:1.7;">从资源管理器地址栏复制路径即可，无需 ZIP 解压或浏览器目录授权。目标文件夹必须已存在。</p><form id="directory-export" data-slug="${escapeHtml(issue.slug)}" data-token="${sessionToken}"><label for="export-directory">保存到文件夹</label><input id="export-directory" required placeholder="粘贴资源管理器地址栏的完整路径" style="display:block;width:90%;padding:12px;margin:10px 0"><button type="submit">保存全部 ${imageCount} 张图片</button><p id="export-status" role="status" style="overflow-wrap:anywhere;white-space:pre-wrap"></p><button type="button" id="copy-export-path" hidden>复制已保存目录</button></form></section><section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;">${images}</section></main><script src="/preview.js"></script></body></html>`;
 }
 
 function readArgument(name: string) {

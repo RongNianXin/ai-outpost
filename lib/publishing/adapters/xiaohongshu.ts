@@ -7,19 +7,19 @@ export async function publishXiaohongshu(input: {
   issueId: string;
   title: string;
   body: string;
-  imagePath: string;
+  imagePaths: string[];
   isPrivate: boolean;
 }) {
   await assertPublishingAllowed(input.issueId);
-  await access(input.imagePath);
+  if (input.imagePaths.length === 0) throw new Error("小红书图片清单为空。");
+  await Promise.all(input.imagePaths.map((imagePath) => access(imagePath)));
   const args = [
     "post",
     "--title",
     input.title,
     "--body",
     input.body,
-    "--images",
-    input.imagePath,
+    ...input.imagePaths.flatMap((imagePath) => ["--images", imagePath]),
   ];
   if (input.isPrivate) args.push("--private");
   args.push("--json");

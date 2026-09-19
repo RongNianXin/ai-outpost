@@ -15,6 +15,10 @@
 # generated content exports
 /exports
 
+# private author materials and local visual references
+/自己写的文案/
+/素材库/
+
 # local environment
 .env*
 !.env.example

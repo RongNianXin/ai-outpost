@@ -365,11 +365,23 @@ describe("publishing derivatives", () => {
     expect(html).toContain("本文底部「阅读原文」");
     expect(html).toContain("官网「关于」页进入 GitHub 项目仓库");
     expect(html).not.toContain("https://github.com/RongNianXin/ai-outpost");
+    const paragraphs = [...html.matchAll(/<p\b[^>]*style="([^"]*)"/g)].map((match) => match[1]);
+    expect(paragraphs.length).toBeGreaterThan(0);
+    expect(paragraphs.every((style) => /(?:^|;)\s*line-height\s*:/.test(style))).toBe(true);
+    expect(paragraphs.every((style) => style.includes("word-break:break-word"))).toBe(true);
     expect(markdown).toContain("AI 前哨站官网");
     expect(markdown).toContain("官网「关于」页进入 GitHub 项目仓库");
-    expect(xiaohongshu.body).toContain(issue.cards[0].oneLineSummary);
-    expect(xiaohongshu.body).toContain(issue.cards[0].developerImpact);
-    expect(Array.from(xiaohongshu.title).length).toBeLessThanOrEqual(19);
+    expect(xiaohongshu.body).toContain("完整卡片、事实、限制和来源见轮播图");
+    expect(xiaohongshu.body).toContain(issue.summary);
+    expect(xiaohongshu.title).toBe(issue.hero?.lead ?? issue.title);
+    expect(Array.from(xiaohongshu.title).length).toBeLessThanOrEqual(20);
+    const carouselText = xiaohongshu.sections
+      .flatMap((section) => [section.heading, ...section.blocks.map((block) => block.text)])
+      .join("\n");
+    expect(carouselText).toContain(issue.cards[0].oneLineSummary);
+    expect(carouselText).toContain(issue.cards[0].developerImpact);
+    expect(carouselText).toContain(issue.cards[0].facts[0].claim);
+    expect(carouselText).toContain(issue.sources[0].url);
   });
 
   it("keeps one replaceable latest-issue notice in README", () => {

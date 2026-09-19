@@ -25,7 +25,9 @@ async function main() {
   console.log(`Manifest: ${prepared.manifestPath}`);
   console.log(`Website preview: ${prepared.previewUrl}`);
   console.log(`WeChat HTML: ${prepared.files.wechatHtml}`);
-  console.log(`Xiaohongshu cover: ${prepared.files.xiaohongshuCover}`);
+  console.log(`WeChat cover (2.35:1): ${prepared.files.wechatCover}`);
+  console.log(`Square cover (1:1): ${prepared.files.wechatSquareCover}`);
+  console.log(`Xiaohongshu images (${prepared.files.xiaohongshuImages.length}): ${prepared.files.xiaohongshuImages.join(", ")}`);
 }
 
 function readArgument(name: string) {

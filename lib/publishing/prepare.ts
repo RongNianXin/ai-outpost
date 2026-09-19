@@ -54,8 +54,10 @@ export async function preparePlatformPackage(issue: Issue) {
       wechatMarkdown,
       wechatHtml,
       wechatCover: assets.wechatCover,
+      wechatSquareCover: assets.wechatSquareCover,
       xiaohongshuText: xhsText,
       xiaohongshuCover: assets.xiaohongshuCover,
+      xiaohongshuImages: assets.xiaohongshuImages,
     },
     xiaohongshu: xhs,
   };

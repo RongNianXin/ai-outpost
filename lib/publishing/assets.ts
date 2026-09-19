@@ -1,15 +1,26 @@
 import { existsSync } from "node:fs";
-import { mkdir } from "node:fs/promises";
+import { mkdir, readdir, unlink } from "node:fs/promises";
 import path from "node:path";
 
 import sharp from "sharp";
 
 import type { Issue } from "../content/schema";
+import {
+  renderXiaohongshuCarousel,
+  type XiaohongshuBlock,
+  type XiaohongshuCarouselSection,
+} from "./derivatives";
 
 export type PlatformAssets = {
   xiaohongshuCover: string;
+  xiaohongshuImages: string[];
   wechatCover: string;
+  wechatSquareCover: string;
 };
+
+const xiaohongshuWidth = 1080;
+const xiaohongshuHeight = 1440;
+const xiaohongshuMaxImages = 18;
 
 export async function generatePlatformAssets(
   issue: Issue,
@@ -29,38 +40,146 @@ export async function generatePlatformAssets(
   const heroPath = resolveHeroPath(issue);
   const wechatHeroPath = resolveWechatCoverSource(issue) ?? heroPath;
   const wechatCover = path.join(wechatDirectory, `${issue.slug}-cover.jpg`);
+  const wechatSquareCover = path.join(
+    wechatDirectory,
+    `${issue.slug}-cover-square.jpg`,
+  );
   const xiaohongshuCover = path.join(xhsDirectory, "01-cover.jpg");
-
   await Promise.all([
-    renderWechatCover(issue, wechatHeroPath, wechatCover),
-    renderXiaohongshuCover(issue, heroPath, xiaohongshuCover),
+    renderEditorialCover(issue, wechatHeroPath, wechatCover, "wide"),
+    renderEditorialCover(
+      issue,
+      wechatHeroPath,
+      wechatSquareCover,
+      "square",
+    ),
+    renderEditorialCover(
+      issue,
+      wechatHeroPath,
+      xiaohongshuCover,
+      "portrait",
+    ),
   ]);
+  const xiaohongshuImages = await renderXiaohongshuCarouselImages(
+    issue,
+    xhsDirectory,
+    xiaohongshuCover,
+  );
 
-  return { wechatCover, xiaohongshuCover };
+  return {
+    wechatCover,
+    wechatSquareCover,
+    xiaohongshuCover,
+    xiaohongshuImages,
+  };
 }
 
-async function renderWechatCover(
+async function renderXiaohongshuCarouselImages(
+  issue: Issue,
+  directory: string,
+  cover: string,
+) {
+  const coverFilename = path.basename(cover);
+  const stalePackageFiles = (await readdir(directory)).filter((filename) =>
+    filename !== coverFilename && /^\d{2}-(?:cover|carousel)\.jpg$/.test(filename),
+  );
+  await Promise.all(
+    stalePackageFiles.map((filename) => unlink(path.join(directory, filename))),
+  );
+  const carousel = renderXiaohongshuCarousel(issue);
+  const pages = paginateXiaohongshuSections(carousel.sections);
+  assertXiaohongshuCarouselContent(carousel.sections, pages);
+  const totalPages = pages.length + 1;
+  if (totalPages > xiaohongshuMaxImages) {
+    throw new Error(`小红书完整轮播需要 ${totalPages} 张图片，超过当前 ${xiaohongshuMaxImages} 张限制。请缩短内容或拆分期刊，不能静默删字。`);
+  }
+
+  const images = [cover];
+  for (const [index, page] of pages.entries()) {
+    const outputPath = path.join(directory, `${String(index + 2).padStart(2, "0")}-carousel.jpg`);
+    await renderXiaohongshuPage(issue, page, index + 2, totalPages, outputPath);
+    images.push(outputPath);
+  }
+  return images;
+}
+
+type EditorialCoverVariant = "wide" | "square" | "portrait";
+
+async function renderEditorialCover(
   issue: Issue,
   heroPath: string | null,
   outputPath: string,
+  variant: EditorialCoverVariant,
 ) {
+  const layout = variant === "wide"
+    ? {
+        width: 900,
+        height: 383,
+        barX: 52,
+        barY: 48,
+        barWidth: 44,
+        barHeight: 5,
+        issueY: 92,
+        issueSize: 22,
+        titleY: 164,
+        titleSize: 48,
+        titleUnits: 16,
+        titleLines: 2,
+      }
+    : variant === "square" ? {
+        width: 1200,
+        height: 1200,
+        barX: 72,
+        barY: 76,
+        barWidth: 58,
+        barHeight: 7,
+        issueY: 140,
+        issueSize: 30,
+        titleY: 246,
+        titleSize: 72,
+        titleUnits: 14,
+        titleLines: 3,
+      } : {
+        width: xiaohongshuWidth,
+        height: xiaohongshuHeight,
+        barX: 72,
+        barY: 84,
+        barWidth: 58,
+        barHeight: 7,
+        issueY: 150,
+        issueSize: 30,
+        titleY: 270,
+        titleSize: 72,
+        titleUnits: 14,
+        titleLines: 3,
+      };
   const base = heroPath
-    ? sharp(heroPath).resize(900, 383, { fit: "cover" }).modulate({ brightness: 0.72 })
+    ? sharp(heroPath)
+        .resize(layout.width, layout.height, {
+          fit: "cover",
+          position: "centre",
+        })
+        .modulate({ brightness: 0.78, saturation: 0.9 })
     : sharp({
         create: {
-          width: 900,
-          height: 383,
+          width: layout.width,
+          height: layout.height,
           channels: 3,
           background: "#112032",
         },
       });
+  const lead = issue.hero?.lead ?? issue.title;
   const overlay = Buffer.from(
-    `<svg width="900" height="383" xmlns="http://www.w3.org/2000/svg">
-      <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#07111f" stop-opacity=".92"/><stop offset=".75" stop-color="#07111f" stop-opacity=".2"/></linearGradient></defs>
-      <rect width="900" height="383" fill="url(#g)"/>
-      <rect x="52" y="48" width="44" height="5" rx="2" fill="#35d0ba"/>
-      <text x="52" y="92" fill="#9deade" font-size="22" font-family="Microsoft YaHei, sans-serif" font-weight="700">AI 前哨站 · 第 ${String(issue.issueNumber).padStart(3, "0")} 期</text>
-      ${svgLines(issue.hero?.lead ?? issue.title, 52, 164, 48, 2, 16, "#ffffff", 800)}
+    `<svg width="${layout.width}" height="${layout.height}" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="horizontal" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#07111f" stop-opacity=".96"/><stop offset=".58" stop-color="#07111f" stop-opacity=".48"/><stop offset="1" stop-color="#07111f" stop-opacity=".08"/></linearGradient>
+        <linearGradient id="vertical" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#07111f" stop-opacity=".72"/><stop offset=".44" stop-color="#07111f" stop-opacity=".08"/><stop offset="1" stop-color="#07111f" stop-opacity=".16"/></linearGradient>
+      </defs>
+      <rect width="${layout.width}" height="${layout.height}" fill="url(#horizontal)"/>
+      <rect width="${layout.width}" height="${layout.height}" fill="url(#vertical)"/>
+      <rect x="${layout.barX}" y="${layout.barY}" width="${layout.barWidth}" height="${layout.barHeight}" rx="3" fill="#35d0ba"/>
+      <text x="${layout.barX}" y="${layout.issueY}" fill="#b7f3e9" font-size="${layout.issueSize}" font-family="Microsoft YaHei, sans-serif" font-weight="700">AI 前哨站 · 第 ${String(issue.issueNumber).padStart(3, "0")} 期</text>
+      ${svgLines(lead, layout.barX, layout.titleY, layout.titleSize, layout.titleLines, layout.titleUnits, "#ffffff", 800)}
     </svg>`,
   );
 
@@ -70,41 +189,207 @@ async function renderWechatCover(
     .toFile(outputPath);
 }
 
-async function renderXiaohongshuCover(
+export type XiaohongshuPage = {
+  sectionIndex: number;
+  sectionLabel: string;
+  heading: string;
+  lineScale?: number;
+  lines: Array<{
+    text: string;
+    style: XiaohongshuBlock["style"];
+    blockIndex: number;
+  }>;
+};
+
+const minimumContinuationLines = 4;
+
+export function paginateXiaohongshuSections(sections: XiaohongshuCarouselSection[]) {
+  const pages: XiaohongshuPage[] = [];
+  for (const [sectionIndex, section] of sections.entries()) {
+    const sectionLines = section.blocks.flatMap((block, blockIndex) => {
+      const lines = wrapTextFully(block.text, unitsPerLine(block.style)).map((text) => ({
+        text,
+        style: block.style,
+        blockIndex,
+      }));
+      if (block.style === "heading" || block.style === "highlight") {
+        lines.push({ text: "", style: "muted", blockIndex });
+      }
+      return lines;
+    });
+    const defaultCapacity = xiaohongshuHeight - 125 - 300;
+    const usedHeight = sectionLines.reduce((sum, line) => sum + lineHeight(line.style), 0);
+    if (usedHeight <= defaultCapacity) {
+      pages.push({
+        ...createXiaohongshuPage(section, sectionIndex, false),
+        lines: sectionLines,
+      });
+      continue;
+    }
+    const compactScale = 0.9;
+    if (usedHeight * compactScale <= defaultCapacity) {
+      pages.push({
+        ...createXiaohongshuPage(section, sectionIndex, false),
+        lineScale: compactScale,
+        lines: sectionLines,
+      });
+      continue;
+    }
+
+    let page = createXiaohongshuPage(section, sectionIndex, false);
+    for (const line of sectionLines) {
+      if (!fitsXiaohongshuLine(page, line.style)) {
+        pages.push(page);
+        page = createXiaohongshuPage(section, sectionIndex, true);
+      }
+      page.lines.push(line);
+    }
+    pages.push(page);
+    rebalanceShortContinuationPages(pages, sectionIndex);
+    const orphan = pages.find(
+      (candidate) =>
+        candidate.sectionIndex === sectionIndex &&
+        candidate.sectionLabel.endsWith(" · 续") &&
+        countNonEmptyLines(candidate) < minimumContinuationLines,
+    );
+    if (orphan) {
+      throw new Error(
+        `小红书轮播分页产生孤页：${orphan.sectionLabel} 仅有 ${countNonEmptyLines(orphan)} 行有效内容，请缩短该情报或调整版式。`,
+      );
+    }
+  }
+  return pages;
+}
+
+function rebalanceShortContinuationPages(
+  pages: XiaohongshuPage[],
+  sectionIndex: number,
+) {
+  const sectionPages = pages.filter((page) => page.sectionIndex === sectionIndex);
+  for (let pageIndex = 1; pageIndex < sectionPages.length; pageIndex += 1) {
+    const page = sectionPages[pageIndex];
+    const previous = sectionPages[pageIndex - 1];
+    if (!page.sectionLabel.endsWith(" · 续")) continue;
+
+    while (countNonEmptyLines(page) < minimumContinuationLines) {
+      const blockIndex = previous.lines.at(-1)?.blockIndex;
+      if (blockIndex === undefined) break;
+      const moved = previous.lines.filter((line) => line.blockIndex === blockIndex);
+      if (moved.length === 0 || moved.length === previous.lines.length) break;
+      previous.lines = previous.lines.filter((line) => line.blockIndex !== blockIndex);
+      page.lines = [...moved, ...page.lines];
+    }
+  }
+}
+
+function countNonEmptyLines(page: XiaohongshuPage) {
+  return page.lines.filter((line) => line.text.trim().length > 0).length;
+}
+
+function assertXiaohongshuCarouselContent(
+  sections: XiaohongshuCarouselSection[],
+  pages: XiaohongshuPage[],
+) {
+  const renderedText = pages
+    .flatMap((page) => page.lines.map((line) => line.text))
+    .join("");
+  const missing = sections
+    .flatMap((section) => section.blocks.map((block) => block.text.trim()))
+    .find((text) => text && !renderedText.includes(text));
+  if (missing) {
+    throw new Error(`小红书轮播分页遗漏内容：${missing.slice(0, 80)}`);
+  }
+}
+
+function createXiaohongshuPage(
+  section: XiaohongshuCarouselSection,
+  sectionIndex: number,
+  isContinuation: boolean,
+): XiaohongshuPage {
+  return {
+    sectionIndex,
+    sectionLabel: isContinuation ? `${section.label} · 续` : section.label,
+    heading: section.heading,
+    lines: [],
+  };
+}
+
+function fitsXiaohongshuLine(page: XiaohongshuPage, style: XiaohongshuBlock["style"]) {
+  const headerHeight = 300;
+  const footerHeight = 125;
+  const used = page.lines.reduce((sum, line) => sum + lineHeight(line.style), 0);
+  return headerHeight + used + lineHeight(style) <= xiaohongshuHeight - footerHeight;
+}
+
+function unitsPerLine(style: XiaohongshuBlock["style"]) {
+  if (style === "title") return 20;
+  if (style === "heading") return 29;
+  if (style === "highlight") return 30;
+  if (style === "body") return 34;
+  return 44;
+}
+
+function lineHeight(style: XiaohongshuBlock["style"]) {
+  if (style === "title") return 58;
+  if (style === "heading") return 42;
+  if (style === "highlight") return 42;
+  if (style === "body") return 38;
+  return 30;
+}
+
+function wrapTextFully(text: string, maxUnits: number) {
+  const characters = Array.from(text.trim());
+  if (characters.length === 0) return [""];
+  const lines: string[] = [];
+  let line = "";
+  let units = 0;
+  for (const character of characters) {
+    const characterUnits = /[\x00-\xff]/.test(character) ? 0.55 : 1;
+    if (units + characterUnits > maxUnits && line) {
+      lines.push(line);
+      line = "";
+      units = 0;
+    }
+    line += character;
+    units += characterUnits;
+  }
+  if (line) lines.push(line);
+  return lines;
+}
+
+async function renderXiaohongshuPage(
   issue: Issue,
-  heroPath: string | null,
+  page: XiaohongshuPage,
+  pageNumber: number,
+  totalPages: number,
   outputPath: string,
 ) {
-  const base = heroPath
-    ? sharp(heroPath)
-        .resize(1080, 1440, { fit: "cover", position: "attention" })
-        .modulate({ brightness: 0.62, saturation: 0.85 })
-    : sharp({
-        create: {
-          width: 1080,
-          height: 1440,
-          channels: 3,
-          background: "#0d1b2a",
-        },
-      });
-  const lead = issue.hero?.lead ?? issue.title;
-  const deck = issue.hero?.deck ?? issue.summary;
+  let y = 320;
+  const lineScale = page.lineScale ?? 1;
+  const text = page.lines.map((line) => {
+    const fontSize = Math.round((line.style === "title" ? 44 : line.style === "heading" ? 30 : line.style === "highlight" ? 30 : line.style === "body" ? 26 : 21) * lineScale);
+    const color = line.style === "highlight" ? "#b7f3e9" : line.style === "muted" ? "#9eafbd" : "#ffffff";
+    const weight = line.style === "heading" || line.style === "title" || line.style === "highlight" ? 700 : 400;
+    y += Math.round(lineHeight(line.style) * lineScale);
+    return `<text x="72" y="${y}" fill="${color}" font-size="${fontSize}" font-family="Microsoft YaHei, sans-serif" font-weight="${weight}">${escapeXml(line.text)}</text>`;
+  }).join("");
   const overlay = Buffer.from(
-    `<svg width="1080" height="1440" xmlns="http://www.w3.org/2000/svg">
-      <defs><linearGradient id="v" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#07111f" stop-opacity=".12"/><stop offset=".52" stop-color="#07111f" stop-opacity=".62"/><stop offset="1" stop-color="#07111f" stop-opacity=".98"/></linearGradient></defs>
-      <rect width="1080" height="1440" fill="url(#v)"/>
-      <rect x="72" y="84" width="58" height="8" rx="4" fill="#35d0ba"/>
-      <text x="72" y="142" fill="#b7f3e9" font-size="28" font-family="Microsoft YaHei, sans-serif" font-weight="700" letter-spacing="2">AI 前哨站 · 第 ${String(issue.issueNumber).padStart(3, "0")} 期</text>
-      ${svgLines(lead, 72, 720, 86, 4, 11, "#ffffff", 850)}
-      ${svgLines(deck, 72, 1120, 40, 3, 22, "#dbe7ec", 500)}
-      <text x="72" y="1352" fill="#9deade" font-size="26" font-family="Microsoft YaHei, sans-serif">${escapeXml(issue.period.start)} — ${escapeXml(issue.period.end)}</text>
+    `<svg width="${xiaohongshuWidth}" height="${xiaohongshuHeight}" xmlns="http://www.w3.org/2000/svg">
+      <rect width="${xiaohongshuWidth}" height="${xiaohongshuHeight}" fill="#07111f"/>
+      <rect x="48" y="48" width="984" height="1344" rx="18" fill="#102131" stroke="#29485a"/>
+      <rect x="72" y="82" width="58" height="8" rx="4" fill="#35d0ba"/>
+      <text x="72" y="142" fill="#b7f3e9" font-size="28" font-family="Microsoft YaHei, sans-serif" font-weight="700">AI 前哨站 · 第 ${String(issue.issueNumber).padStart(3, "0")} 期</text>
+      <text x="72" y="204" fill="#35d0ba" font-size="24" font-family="Microsoft YaHei, sans-serif" font-weight="700">${escapeXml(page.sectionLabel)}</text>
+      ${svgLines(page.heading, 72, 268, 50, 2, 16, "#ffffff", 800)}
+      ${text}
+      <line x1="72" y1="1320" x2="1008" y2="1320" stroke="#29485a"/>
+      <text x="72" y="1364" fill="#9eafbd" font-size="22" font-family="Microsoft YaHei, sans-serif">${escapeXml(issue.period.start)} — ${escapeXml(issue.period.end)}</text>
+      <text x="1008" y="1364" text-anchor="end" fill="#9eafbd" font-size="22" font-family="Microsoft YaHei, sans-serif">${pageNumber} / ${totalPages}</text>
     </svg>`,
   );
-
-  await base
-    .composite([{ input: overlay }])
-    .jpeg({ quality: 90, mozjpeg: true })
-    .toFile(outputPath);
+  await sharp({
+    create: { width: xiaohongshuWidth, height: xiaohongshuHeight, channels: 3, background: "#07111f" },
+  }).composite([{ input: overlay }]).jpeg({ quality: 90, mozjpeg: true }).toFile(outputPath);
 }
 
 function resolveHeroPath(issue: Issue) {
