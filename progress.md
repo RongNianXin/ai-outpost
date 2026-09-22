@@ -996,3 +996,4 @@
 - 导出三件套：`*-title.txt`、`*-body.md`、完整 `*.md`；第004期回放样稿已生成到 `exports/zhihu/`，仅用于验证，不代表下一期稿件或平台发布。
 - 知乎加入 `config/content-network.json`；公开发布、回复和修改已发布内容仍逐期确认。本轮未登录或写入知乎后台。
 - 已将周六三平台人工操作、成功表现和异常回传写入 `docs/PROMOTION.md`，并把 `content:export:zhihu` 纳入周更导出步骤；当前仍只准备本地稿包，不触发平台写入。
+- 提交 `0a8da2fe1a9f1d56265410d14d307f810005adf7` 已推送 `origin/main`。远端工作流显示 `active` 且已包含知乎导出，但最近一次定时运行是 2026-08-22，之后三次周六没有定时运行记录；本机 `ops:check` 仍为 `UNKNOWN/report_only`。未擅自触发远端工作流，周六自动唤醒仍待单独恢复或人工触发验证。
