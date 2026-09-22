@@ -14,6 +14,7 @@ import {
   validateIssueFileNames,
 } from "../lib/content/validation";
 import { renderWechatMarkdown } from "../lib/content/wechat";
+import { renderZhihuMarkdown } from "../lib/content/zhihu";
 import {
   latestNoticeEnd,
   latestNoticeStart,
@@ -355,6 +356,18 @@ describe("renderWechatMarkdown", () => {
   });
 });
 
+describe("renderZhihuMarkdown", () => {
+  it("builds a standalone, source-linked deep-dive copy", () => {
+    const issue = issueSchema.parse(baseIssue);
+    const markdown = renderZhihuMarkdown(issue);
+    expect(markdown).toContain("先说结论");
+    expect(markdown).toContain("事实与限制");
+    expect(markdown).toContain(issue.practiceTask.objective);
+    expect(markdown).toContain(issue.sources[0].url);
+    expect(markdown).toContain("AI 辅助检索、整理和审校");
+  });
+});
+
 describe("publishing derivatives", () => {
   it("keeps every registered network resource auditable", () => {
     const registry = JSON.parse(readFileSync("config/content-network.json", "utf8")) as {
@@ -362,7 +375,7 @@ describe("publishing derivatives", () => {
     };
     const ids = registry.resources.map((resource) => resource.id);
     expect(new Set(ids).size).toBe(ids.length);
-    expect(ids).toEqual(expect.arrayContaining(["website", "github-readme", "wechat", "xiaohongshu"]));
+    expect(ids).toEqual(expect.arrayContaining(["website", "github-readme", "wechat", "xiaohongshu", "zhihu"]));
     for (const resource of registry.resources) {
       expect(resource).toEqual(expect.objectContaining({
         id: expect.any(String),

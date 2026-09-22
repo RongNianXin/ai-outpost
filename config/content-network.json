@@ -37,6 +37,15 @@
       "authorization": "standing_per_issue_private_test; public_publish_and_edit_separate_confirmation",
       "evidence": "私密笔记实际页面回读及测试回执",
       "onFailure": "登记 pending、blocked 或 unknown，不影响已完成的官网原子事务"
+    },
+    {
+      "id": "zhihu",
+      "label": "知乎 AI 前哨站适配稿/草稿",
+      "syncClass": "authorization_required",
+      "trigger": "issue_ready_after_local_review",
+      "authorization": "standing_per_issue_draft_or_private_test; public_publish_and_edit_separate_confirmation",
+      "evidence": "本地知乎 Markdown 稿包及知乎后台草稿/私密测试回读（如账号能力可用）",
+      "onFailure": "登记 pending、blocked 或 unknown，不影响已完成的官网原子事务"
     }
   ]
 }

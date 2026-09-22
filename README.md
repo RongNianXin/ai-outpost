@@ -104,9 +104,10 @@ pnpm.cmd publish:console
 ```powershell
 pnpm.cmd content:update-readme
 pnpm.cmd content:check:network-sync
+pnpm.cmd content:export:zhihu -- --slug <slug>
 ```
 
-官网发布会自动更新该区块；上述更新命令用于修复已有漂移，检查命令只读验证。脚本只处理 `AI_OUTPOST_LATEST_START/END` 之间的一个区块，并拒绝缺少安全锚点或出现重复锚点的 README，避免新公告覆盖首页其他内容。
+官网发布会自动更新该区块；上述更新命令用于修复已有漂移，检查命令只读验证。知乎导出命令会在 `exports/zhihu/` 生成标题、正文和完整合并稿，便于复制粘贴；不会登录或发布。README 更新脚本只处理 `AI_OUTPOST_LATEST_START/END` 之间的一个区块，并拒绝缺少安全锚点或出现重复锚点，避免新公告覆盖首页其他内容。
 
 ## 仓库结构
 

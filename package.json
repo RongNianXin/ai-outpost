@@ -18,6 +18,7 @@
     "content:update-readme": "tsx scripts/content/update-readme-notice.ts",
     "content:check:network-sync": "tsx scripts/content/update-readme-notice.ts --check",
     "content:export:wechat": "tsx scripts/content/export-wechat.ts",
+    "content:export:zhihu": "tsx scripts/content/export-zhihu.ts",
     "content:preview:url": "tsx scripts/content/preview-url.ts",
     "publish:prepare": "tsx scripts/publish/prepare.ts",
     "publish:console": "tsx scripts/publish-console/server.ts",

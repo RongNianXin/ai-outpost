@@ -41,6 +41,9 @@ jobs:
       - name: Export WeChat draft
         run: pnpm content:export:wechat
 
+      - name: Export Zhihu copy package
+        run: pnpm content:export:zhihu
+
       - name: Type check
         run: pnpm typecheck
 
