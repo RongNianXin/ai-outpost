@@ -349,8 +349,12 @@ AI根据稿件预填变量并核对事实，不要求作者填写技术问卷。
 - `content:validate`、`content:check:links`、测试和构建通过。
 - 本地预览通过后，Codex 记录 `previewApprovedAt`，将期刊从 `draft` 改为 `approved`。
 - 公开发布时填写 `publishedAt`，再改为 `published`。
+- 官网发布事务已同步更新所有 `atomic` 网络资源，并通过 `pnpm.cmd content:check:network-sync`；远端部署后回读官网和 GitHub README 均为同期。
+- `authorization_required` 平台逐项记录为已发布、待授权、受阻或待核验；未获授权不自动发布，但不得省略状态报告。
 - 公众号稿如需发布已经生成。
 - 中文确认摘要已生成，作者已确认发布或明确选择跳过。
+
+网络资源范围以 `config/content-network.json` 为准。新增入口必须登记触发事件、授权等级和验证证据；定时巡检只能补漏，不能替代正式发布事件的同步门禁。
 
 第 002 期稳定周更演练的具体执行任务包见 [第 002 期稳定周更任务包](ISSUE-002-WEEKLY-TASK-PACK.md)。
 

@@ -43,7 +43,11 @@ describe("adapter defense in depth", () => {
     vi.mocked(assertPublishingAllowed).mockResolvedValueOnce(undefined)
       .mockResolvedValueOnce(undefined).mockRejectedValueOnce(new Error("emergency_stop"));
     vi.mocked(loadIssueFiles).mockResolvedValue([{ fileName: "issue-002.json", issue }]);
-    vi.mocked(readFile).mockResolvedValue("original");
+    vi.mocked(readFile).mockImplementation(async (file) =>
+      String(file).endsWith("README.md")
+        ? "# Test\n\n<!-- AI_OUTPOST_LATEST_START -->\nold\n<!-- AI_OUTPOST_LATEST_END -->\n\n现行发布平台"
+        : "original",
+    );
     vi.mocked(runCommand).mockImplementation(async (cmd, args) => ({
       ok: true, code: 0, stderr: "", stdout:
         cmd === "git" && args[0] === "branch" ? "main" :
@@ -57,6 +61,8 @@ describe("adapter defense in depth", () => {
       (cmd === "gh" && args[0] === "workflow"))).toBe(false);
     expect(vi.mocked(writeFile).mock.calls.some(([file, body]) =>
       String(file).endsWith("issue-002.json") && body === "original")).toBe(true);
+    expect(vi.mocked(writeFile).mock.calls.some(([file, body]) =>
+      String(file).endsWith("README.md") && body === "# Test\n\n<!-- AI_OUTPOST_LATEST_START -->\nold\n<!-- AI_OUTPOST_LATEST_END -->\n\n现行发布平台")).toBe(true);
   });
   it("WeChat stops before cover upload if the mode changes during authentication", async () => {
     vi.mocked(assertPublishingAllowed).mockResolvedValueOnce(undefined).mockRejectedValue(new Error("paused"));

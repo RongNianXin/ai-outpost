@@ -26,9 +26,15 @@ export function parseGitStatus(output: string): GitChange[] {
     });
 }
 
-export function getBlockingChanges(changes: GitChange[], issue: Issue) {
+export function getBlockingChanges(
+  changes: GitChange[],
+  issue: Issue,
+  generatedPaths: ReadonlySet<string> = new Set(),
+) {
   return changes.filter(
-    (change) => change.staged || !isAllowedPreparationChange(change.path, issue),
+    (change) => change.staged || (
+      !generatedPaths.has(change.path) && !isAllowedPreparationChange(change.path, issue)
+    ),
   );
 }
 
@@ -48,12 +54,16 @@ export function isAllowedPreparationChange(filePath: string, issue: Issue) {
   return false;
 }
 
-export function getPublicationPaths(issue: Issue, changes: GitChange[]) {
+export function getPublicationPaths(
+  issue: Issue,
+  changes: GitChange[],
+  generatedPaths: ReadonlySet<string> = new Set(),
+) {
   const paths = new Set<string>();
   for (const change of changes) {
     const filePath = change.path;
     if (planningPaths.has(filePath)) continue;
-    if (isAllowedPreparationChange(filePath, issue)) paths.add(filePath);
+    if (generatedPaths.has(filePath) || isAllowedPreparationChange(filePath, issue)) paths.add(filePath);
   }
   paths.add(`content/issues/${issue.id}.json`);
   return [...paths];

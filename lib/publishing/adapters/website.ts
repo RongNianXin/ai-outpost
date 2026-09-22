@@ -2,6 +2,11 @@ import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 import { loadIssueFiles } from "../../content/load-files";
+import { compareIssuesNewestFirst } from "../../content/repository";
+import {
+  renderLatestReadmeNotice,
+  replaceLatestReadmeNotice,
+} from "../../content/readme-notice";
 import { issueSchema, type Issue } from "../../content/schema";
 import { commandSummary, runCommand } from "../commands";
 import { assertPublishingAllowed } from "../run-gate";
@@ -12,23 +17,28 @@ import {
 } from "../git-state";
 
 const EXPECTED_REMOTE = /RongNianXin[\\/]ai-outpost(?:\.git)?$/i;
+const GENERATED_PUBLICATION_PATHS = new Set(["README.md"]);
 
 export async function publishWebsite(issue: Issue) {
   await assertPublishingAllowed(issue.id);
   const initialChanges = await assertSafeMainBranch(issue);
   await assertRemoteCanFastForward();
 
-  const issueFile = (await loadIssueFiles()).find(
+  const issueFiles = await loadIssueFiles();
+  const issueFile = issueFiles.find(
     ({ issue: candidate }) => candidate.id === issue.id,
   );
   if (!issueFile) throw new Error(`找不到 ${issue.id} 的内容文件。`);
   const relativePath = path.join("content", "issues", issueFile.fileName);
   const absolutePath = path.join(process.cwd(), relativePath);
   const original = await readFile(absolutePath, "utf8");
+  const readmePath = path.join(process.cwd(), "README.md");
+  const originalReadme = await readFile(readmePath, "utf8");
   const originalNextEnv = await readOptionalFile(
     path.join(process.cwd(), "next-env.d.ts"),
   );
   let changedContent = false;
+  let publicationIssue = issue;
   let commitCreated = false;
   let stagedPaths: string[] = [];
 
@@ -47,11 +57,26 @@ export async function publishWebsite(issue: Issue) {
       });
       await writeFile(absolutePath, `${JSON.stringify(nextIssue, null, 2)}\n`, "utf8");
       changedContent = true;
+      publicationIssue = nextIssue;
     } else if (!new Set(["published", "corrected"]).has(issue.status)) {
       throw new Error(`当前内容状态 ${issue.status} 不允许官网发布。`);
     }
 
+    const latestPublicationIssue = issueFiles
+      .map(({ issue: candidate }) => candidate.id === publicationIssue.id ? publicationIssue : candidate)
+      .filter((candidate) => new Set(["published", "corrected"]).has(candidate.status))
+      .sort(compareIssuesNewestFirst)[0];
+    if (!latestPublicationIssue) throw new Error("发布后未找到可用于 README 的公开期刊。");
+    const nextReadme = replaceLatestReadmeNotice(
+      originalReadme,
+      renderLatestReadmeNotice(latestPublicationIssue),
+    );
+    if (nextReadme !== originalReadme) {
+      await writeFile(readmePath, nextReadme, "utf8");
+    }
+
     await runRequired("pnpm.cmd", ["content:validate"], 60_000, true);
+    await runRequired("pnpm.cmd", ["content:check:network-sync"], 60_000, true);
     await runRequired("pnpm.cmd", ["content:check:links"], 180_000, true);
     await runRequired("pnpm.cmd", ["typecheck"], 90_000, true);
     await runRequired("pnpm.cmd", ["lint"], 90_000, true);
@@ -67,12 +92,12 @@ export async function publishWebsite(issue: Issue) {
       10_000,
     );
     const currentChanges = parseGitStatus(currentStatus.stdout);
-    const blocking = getBlockingChanges(currentChanges, issue);
+    const blocking = getBlockingChanges(currentChanges, issue, GENERATED_PUBLICATION_PATHS);
     if (blocking.length > 0) {
       throw new Error("构建产生了本期内容之外的改动，官网发布已停止。");
     }
     await assertPublishingAllowed(issue.id);
-    stagedPaths = getPublicationPaths(issue, currentChanges);
+    stagedPaths = getPublicationPaths(issue, currentChanges, GENERATED_PUBLICATION_PATHS);
     await runRequired("git", ["add", "--", ...stagedPaths], 20_000);
     const issueNumber = String(issue.issueNumber).padStart(3, "0");
     const staged = await runCommand("git", ["diff", "--cached", "--quiet"], {
@@ -117,6 +142,7 @@ export async function publishWebsite(issue: Issue) {
       if (changedContent) {
         await writeFile(absolutePath, original, "utf8");
       }
+      await writeFile(readmePath, originalReadme, "utf8");
     }
     if (originalNextEnv !== null) {
       await writeFile(path.join(process.cwd(), "next-env.d.ts"), originalNextEnv, "utf8");

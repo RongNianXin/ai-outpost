@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 import { issueSchema } from "../lib/content/schema";
@@ -16,6 +17,7 @@ import { renderWechatMarkdown } from "../lib/content/wechat";
 import {
   latestNoticeEnd,
   latestNoticeStart,
+  getLatestReadmeNoticeMismatch,
   renderLatestReadmeNotice,
   replaceLatestReadmeNotice,
 } from "../lib/content/readme-notice";
@@ -354,6 +356,25 @@ describe("renderWechatMarkdown", () => {
 });
 
 describe("publishing derivatives", () => {
+  it("keeps every registered network resource auditable", () => {
+    const registry = JSON.parse(readFileSync("config/content-network.json", "utf8")) as {
+      resources: Array<Record<string, string>>;
+    };
+    const ids = registry.resources.map((resource) => resource.id);
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(ids).toEqual(expect.arrayContaining(["website", "github-readme", "wechat", "xiaohongshu"]));
+    for (const resource of registry.resources) {
+      expect(resource).toEqual(expect.objectContaining({
+        id: expect.any(String),
+        syncClass: expect.stringMatching(/^(atomic|authorization_required)$/),
+        trigger: expect.any(String),
+        authorization: expect.any(String),
+        evidence: expect.any(String),
+        onFailure: expect.any(String),
+      }));
+    }
+  });
+
   it("derives WeChat HTML and Xiaohongshu copy from the same issue", () => {
     const issue = issueSchema.parse(baseIssue);
     const html = renderWechatHtml(issue);
@@ -394,6 +415,8 @@ describe("publishing derivatives", () => {
     expect(updated.match(/AI_OUTPOST_LATEST_START/g)).toHaveLength(1);
     expect(updated.match(/AI_OUTPOST_LATEST_END/g)).toHaveLength(1);
     expect(replaceLatestReadmeNotice(updated, renderLatestReadmeNotice({ ...issue, issueNumber: 2 }))).not.toContain(notice);
+    expect(getLatestReadmeNoticeMismatch(updated, issue)).toBeNull();
+    expect(getLatestReadmeNoticeMismatch(readme, issue)).toBe(updated);
   });
 
   it("keeps the content hash stable when only publication metadata changes", () => {
@@ -442,17 +465,24 @@ describe("website publication allowlist", () => {
         " M content/issues/issue-001.json",
         "?? public/images/issues/issue-001-hero.jpg",
         " M task_plan.md",
+        " M README.md",
         " M lib/content/schema.ts",
       ].join("\n"),
     );
 
     expect(getBlockingChanges(changes, issue).map((change) => change.path)).toEqual([
+      "README.md",
       "lib/content/schema.ts",
     ]);
     expect(getPublicationPaths(issue, changes)).toEqual([
       "content/issues/issue-001.json",
       "public/images/issues/issue-001-hero.jpg",
     ]);
+    const generated = new Set(["README.md"]);
+    expect(getBlockingChanges(changes, issue, generated).map((change) => change.path)).toEqual([
+      "lib/content/schema.ts",
+    ]);
+    expect(getPublicationPaths(issue, changes, generated)).toContain("README.md");
   });
 
   it("blocks pre-staged publication files", () => {

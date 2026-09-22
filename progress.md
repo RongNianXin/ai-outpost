@@ -1,5 +1,14 @@
 # AI Outpost Progress
 
+## 2026-09-20：网络体系同步门禁（本地）
+
+- 新增 `config/content-network.json`，登记官网、GitHub README、公众号和小红书的触发方式、授权等级与证据。
+- 根规则及 ARCHITECTURE、CONTENT-OPS、PROMOTION、WORKFLOW 已写入事件触发优先和跨入口期号核账规则。
+- 新增 `content:check:network-sync` 只读检查；修复前准确报告 README 003 / 公开期刊 004 不一致。本地 README 已更新为第004期，修复后检查通过。
+- 官网发布适配器现于发布事务内生成 README，校验后将其纳入同一提交；未提交前失败会恢复原 README。旧期重部署按全部公开期刊排序，不会让 README 倒退。
+- 已通过：定向 Vitest 148 项、`content:validate`、`typecheck`、`lint`、完整测试 280 项（另 1 项按环境跳过）、production build、公开下载检查、worktree 隐私检查、网络同步检查和 `git diff --check`。
+- 未执行：Commit、Push、Pages 部署、公众号/小红书写入或定时任务操作。远端 README 仍待单独授权后同步。
+
 ## 2026-09-19 第004期小红书发布回执
 
 - 用户确认第004期小红书已发布。未获得笔记永久链接、后台截图或数据，因此仅记录用户回执，不推断平台审核、可见性、图片顺序或统计数据均已核验。
@@ -946,3 +955,22 @@
 - 第004期母图保存为 `public/images/issues/issue-004-wechat-cover.png`，主题为研究者面对三块研发评估图表和服务器设备，表达“测量/评估 AI 研发能力”；最终产物为 `exports/wechat/2026-09-19-frontier-ai-governance-and-agents-cover.jpg`（900×383）和 `exports/wechat/2026-09-19-frontier-ai-governance-and-agents-cover-square.jpg`（1200×1200），并保留 `issue-004-cover-2.35-v4.jpg`、`issue-004-cover-1x1-v4.jpg` 版本副本。两版均含 `AI 前哨站 · 第 004 期` 与 `能力变强以后，谁来监督？`。
 - 验证：`pnpm.cmd typecheck`、`pnpm.cmd lint`、`pnpm.cmd test`（24 个测试文件 / 274 项通过）、`pnpm.cmd content:validate` 通过；本机迁移页 HTTP 200，两个封面预览路由和方版下载均 HTTP 200；当前未登录、未创建草稿、未发布、未提交或推送。
 - 第004期小红书发布准备（2026-09-19）：只读检查 `xhs status --yaml` 返回 authenticated=true；本地预览页已打开，轮播稿包共 9 张 `1080×1440` JPEG，标题/正文来自同一期 JSON。未调用发帖命令；账号 cookie 有“7+ days”刷新提示，实际写入前需重新确认登录状态。等待微信确认完成及小红书私密测试/公开发布的独立授权。
+
+## 2026-09-19：交接收口核验
+
+- 已回读第004期本轮最终提交 `143512a` 的实际实现：`lib/publishing/export-images.ts` 将小红书图片写入操作者提供的既有本地目录下的独立临时子目录，使用 `wx` 创建、字节回读，并按 `01-cover.jpg` 至末页排序；`scripts/publish-console/server.ts` 仅在本机 token 与 Origin 校验后暴露该导出路由，未调用发布适配器；`lib/publishing/adapters/xiaohongshu.ts` 仍需显式发布动作才会运行 `xhs post`。
+- 已回读对应测试：`tests/export-images.test.ts` 覆盖顺序、隔离与字节回读；`tests/export-images-http.test.ts` 覆盖 token/Origin 拒绝及真实图片导出（需本机服务环境才运行）；`tests/export-images-ui.test.ts` 覆盖目录保存界面；`tests/xiaohongshu-assets.test.ts` 覆盖第004期情报03无孤页。最终验证证据为本轮 `content:validate`、`typecheck`、`lint`、`test`（279通过、1跳过）、`build`、`privacy:check` 与 HTTP 预览回读；未把未运行的平台后台操作写成通过。
+- 已回读本机状态：`ops/weekly-run-state.json` 为 `draft_only`、`issue-004`、`awaiting_wechat_preparation`；本机 `ai-outpost` 自动化配置缺失，`ai-outpost-2` 为 PAUSED 历史测试配置。`ops:check` 因此回报 UNKNOWN/report-only；未变更任一调度文件或平台状态。
+- 交接快照会引用项目根 `task_plan.md`、`findings.md`、本记录、`docs/WORKFLOW.md`、`docs/PROMOTION.md`、`docs/CONTENT-OPS.md`、`.local/AI状态索引.md` 和上述源码/测试。忽略的 `.local/`、`exports/`、`自己写的文案/`、`素材库/` 不提交；跨机时只有获得授权的复制/备份可携带它们。
+
+## 2026-09-19：交接材料修订证据
+
+- 直接核对时间：2026-09-19 16:00 左右。`git status --short --untracked-files=all`、`git diff --name-status` 与 `git diff --cached --name-status` 均确认只有 `task_plan.md`、`progress.md`、`findings.md` 三份工作区修改；`git ls-files --others --exclude-standard` 为空；HEAD 与 `origin/main` 均为 `143512abbb298abb1371d9125ef21280f43108e3`。
+- 平台线程回读：`list_threads` 显示本项目“【AI前哨站总指挥4号】(1)”为 `active`，`read_thread` 显示最近一轮为 `inProgress`；这与场景1D“候选评分前移交方仍保留并作为唯一中央写者”的流程相符，不构成旧写者冲突。同项目“【AI前哨站总指挥5号】(1)”为 `idle` 但内容不可读，只能作为候选存在的外部状态线索，不能证明其取得写权。
+- 交接材料因此不再把“旧写者未归档”写成低置信度原因；当前控制面可评为 `HIGH`，但自动调度仍为 UNKNOWN，正式切换仍需候选独立核验及操作者第二步确认。
+- 已完成声明的证据边界：官网发布由 `progress.md` 的 `3cbb917`、Pages 运行和公网 HTTP 回读记录支持；小红书“已发布”只有用户回执，公众号“未发布”由本地运行状态和未调用适配器支持；调度仅有 `ops:check UNKNOWN` 与本机配置目录缺失证据，不能写成已停用或无重复。
+## 2026-09-19：commander-5 正式接管
+
+- 用户确认 commander-4 已停止或归档，并正式切换本项目总指挥调度权。最小复核通过：轻量配置及02/04/07/09/10指纹匹配、`HANDOFF_CONTEXT` 为 `feab10cb0408b00e7e097c71378559522ce03dde5ade850c2a166a3acb3518ff`、`main` 与 `origin/main` 同为 `143512a`、无暂存且仅保留三份已跟踪交接记录修改。
+- 已更新并回读 `.local/AI状态索引.md`：commander-5 为唯一中央写者，commander-4 停止调度并保留历史；旧授权、运行进程、完成声明和专业结论未继承。
+- 按04“正式切换后的专项联络恢复”核对后，未发现本轮有效通信授权或必须继续协作的执行中专项；未发送通知、未重建任务。调度 UNKNOWN 继续只限制依赖调度的动作。

@@ -49,6 +49,11 @@ export function replaceLatestReadmeNotice(readme: string, notice: string) {
   return `${readme.slice(0, anchorIndex)}\n\n${normalizedNotice}${readme.slice(anchorIndex)}`;
 }
 
+export function getLatestReadmeNoticeMismatch(readme: string, issue: Issue) {
+  const expected = replaceLatestReadmeNotice(readme, renderLatestReadmeNotice(issue));
+  return expected === readme ? null : expected;
+}
+
 function normalizeInline(value: string) {
   return value.replace(/\s+/g, " ").trim();
 }

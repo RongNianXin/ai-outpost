@@ -26,14 +26,14 @@
 <!-- AI_OUTPOST_LATEST_START -->
 ## 最新一期
 
-**AI 前哨站第 003 期**：会员暂停新购，长任务怎么验收？
+**AI 前哨站第 004 期**：能力变强以后，谁来监督？
 
-从 Astra 需求挤压下的 200 美元 Pro 暂停新购，到 Agent 接手更长任务：本期既看模型与协作更新，也看价格、权限和验收边界。
+从前沿实验室如何衡量 AI 发展速度，到生命科学验证、实时语音模型和代码审查：本期关注能力开放时的资格、监督与验收边界。
 
-[阅读本期官网](https://rongnianxin.github.io/ai-outpost/issues/2026-09-12-agents-workflows-image-models/)
+[阅读本期官网](https://rongnianxin.github.io/ai-outpost/issues/2026-09-19-frontier-ai-governance-and-agents/)
 <!-- AI_OUTPOST_LATEST_END -->
 
-> 最新一期区块由 `pnpm.cmd content:update-readme` 自动替换。新一期发布后只更新这一处，不让公告在首页不断累积。
+> 官网正式发布会在同一事务内自动替换最新一期区块，并用 `pnpm.cmd content:check:network-sync` 阻止错期。`content:update-readme` 仅用于修复已有漂移。
 
 ## 先从这里开始
 
@@ -99,13 +99,14 @@ pnpm.cmd publish:console
 
 迁移控制页运行在 `http://127.0.0.1:3101/`，提供可复制正文、标题字段、原文链接、HTML/Markdown 和图片入口。公众号后台的保存、预览和发布仍由作者逐步确认。
 
-### 同步首页最新一期提示
+### 检查或修复首页最新一期提示
 
 ```powershell
 pnpm.cmd content:update-readme
+pnpm.cmd content:check:network-sync
 ```
 
-脚本只替换 `AI_OUTPOST_LATEST_START/END` 之间的一个区块，并拒绝缺少安全锚点或出现重复锚点的 README，避免新公告覆盖首页其他内容。
+官网发布会自动更新该区块；上述更新命令用于修复已有漂移，检查命令只读验证。脚本只处理 `AI_OUTPOST_LATEST_START/END` 之间的一个区块，并拒绝缺少安全锚点或出现重复锚点的 README，避免新公告覆盖首页其他内容。
 
 ## 仓库结构
 

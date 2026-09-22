@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "factSource": "content/issues/issue-NNN.json",
+  "resources": [
+    {
+      "id": "website",
+      "label": "AI 前哨站官网",
+      "syncClass": "atomic",
+      "trigger": "website_publish",
+      "authorization": "website_publish_explicit_confirmation",
+      "evidence": "首页、归档、同期详情页和资料包回读",
+      "onFailure": "停止官网发布收口并保留可重试状态"
+    },
+    {
+      "id": "github-readme",
+      "label": "GitHub 仓库 README 最新一期",
+      "syncClass": "atomic",
+      "trigger": "website_publish",
+      "authorization": "included_with_website_publish",
+      "evidence": "content:check:network-sync 与远端 README 回读",
+      "onFailure": "中止官网发布事务；未提交时恢复 README"
+    },
+    {
+      "id": "wechat",
+      "label": "微信公众号 AI 前哨站系列",
+      "syncClass": "authorization_required",
+      "trigger": "explicit_platform_authorization",
+      "authorization": "separate_per_issue_platform_action",
+      "evidence": "同期后台或公开文章回读",
+      "onFailure": "登记 pending、blocked 或 unknown，不影响已完成的官网原子事务"
+    },
+    {
+      "id": "xiaohongshu",
+      "label": "小红书 AI 前哨站系列",
+      "syncClass": "authorization_required",
+      "trigger": "explicit_platform_authorization",
+      "authorization": "separate_per_issue_platform_action",
+      "evidence": "同期后台或公开笔记回读",
+      "onFailure": "登记 pending、blocked 或 unknown，不影响已完成的官网原子事务"
+    }
+  ]
+}
