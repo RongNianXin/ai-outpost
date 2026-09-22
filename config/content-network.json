@@ -24,18 +24,18 @@
       "id": "wechat",
       "label": "微信公众号 AI 前哨站系列",
       "syncClass": "authorization_required",
-      "trigger": "explicit_platform_authorization",
-      "authorization": "separate_per_issue_platform_action",
-      "evidence": "同期后台或公开文章回读",
+      "trigger": "issue_ready_after_local_review",
+      "authorization": "standing_per_issue_draft_save; public_publish_and_group_send_separate_confirmation",
+      "evidence": "公众号草稿后台回读及本地稿包版本记录",
       "onFailure": "登记 pending、blocked 或 unknown，不影响已完成的官网原子事务"
     },
     {
       "id": "xiaohongshu",
       "label": "小红书 AI 前哨站系列",
       "syncClass": "authorization_required",
-      "trigger": "explicit_platform_authorization",
-      "authorization": "separate_per_issue_platform_action",
-      "evidence": "同期后台或公开笔记回读",
+      "trigger": "issue_ready_after_local_review",
+      "authorization": "standing_per_issue_private_test; public_publish_and_edit_separate_confirmation",
+      "evidence": "私密笔记实际页面回读及测试回执",
       "onFailure": "登记 pending、blocked 或 unknown，不影响已完成的官网原子事务"
     }
   ]
