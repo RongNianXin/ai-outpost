@@ -46,6 +46,7 @@
       "https://blog.google/technology/ai/",
       "https://blog.google/innovation-and-ai/",
       "https://ai.google.dev/",
+      "https://developer.android.com/",
       "https://github.com/google-gemini/"
     ],
     "topics": ["models", "coding-tools", "agents", "multimodal"]
@@ -57,7 +58,8 @@
     "officialUrls": [
       "https://github.blog/",
       "https://docs.github.com/",
-      "https://github.com/features/copilot"
+      "https://github.com/features/copilot",
+      "https://github.com/mattpocock/"
     ],
     "topics": ["coding-tools", "open-source"]
   },
