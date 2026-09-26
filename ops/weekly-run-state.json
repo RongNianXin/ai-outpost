@@ -1,16 +1,16 @@
 {
-  "mode": "draft_only",
-  "weekId": "2026-W37",
-  "issueId": "issue-004",
+  "mode": "normal",
+  "weekId": "2026-W39",
+  "issueId": "issue-005",
   "period": {
-    "start": "2026-09-12",
-    "end": "2026-09-19",
-    "basis": "saturday_10_asia_shanghai_window_with_2026-09-12_noon_document_recheck"
+    "start": "2026-09-26",
+    "end": "2026-10-03",
+    "basis": "saturday_10_asia_shanghai_window_manual_start_after_takeover"
   },
-  "startedAt": "2026-09-12T04:18:44.617Z",
-  "lastStep": "awaiting_wechat_preparation",
+  "startedAt": "2026-09-26T07:54:29.172Z",
+  "lastStep": "website_publish_confirmed",
   "requiresUserConfirmation": true,
   "failureReason": null,
-  "reconciledAt": "2026-09-19T04:50:00Z",
-  "reconciliationEvidence": "Issue 004 is published on the website; local state is draft_only for preparing the WeChat package only. No WeChat draft or publication has been performed."
+  "reconciledAt": "2026-09-26T07:54:35.145Z",
+  "reconciliationEvidence": "第004期已发布；本周研究已启动，知乎纳入本期派生链但等待新期事实稿。调度为 UNKNOWN/report_only，未执行平台或远端写入。"
 }

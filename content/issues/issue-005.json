@@ -1,0 +1,265 @@
+{
+  "schemaVersion": 1,
+  "id": "issue-005",
+  "slug": "2026-09-26-ai-models-agents-and-research-boundaries",
+  "issueNumber": 5,
+  "title": "AI 前哨站第 005 期",
+  "summary": "本周关注模型家族、实时语音、开发工具和 GitHub AI 技能：每条都把开放阶段、适用范围与仍需人工核验的边界写清楚。",
+  "hero": {
+    "lead": "能力开放之后，边界怎么验？",
+    "deck": "从模型发布到工程工具：先确认谁能用，再判断能否交给它做",
+    "visual": null
+  },
+  "period": {
+    "start": "2026-09-19",
+    "end": "2026-09-26"
+  },
+  "status": "published",
+  "publishedAt": "2026-09-26T09:48:37.281Z",
+  "topChangeIds": [
+    "openai-gpt6-sol-luna",
+    "github-skills",
+    "google-gemini-tts-ga"
+  ],
+  "opportunities": [],
+  "practiceTask": {
+    "title": "给一项 AI 更新补一张验收卡",
+    "durationMinutes": 30,
+    "objective": "把官方说法、开放阶段、适用资格和人工验收条件分开记录。",
+    "steps": [
+      "选一条本周更新并打开官方原文。",
+      "记录功能、开放阶段、渠道和资格限制。",
+      "写出至少两个不能由宣传语替代的验收问题。",
+      "保存来源链接和仍未知的部分。"
+    ],
+    "relatedCardIds": [
+      "openai-gpt6-sol-luna",
+      "google-gemini-tts-ga"
+    ]
+  },
+  "glossary": [
+    {
+      "term": "GA",
+      "explanation": "Generally Available，通常表示正式可用，但仍要看地区、套餐和接口限制。"
+    },
+    {
+      "term": "BYOA",
+      "explanation": "Bring Your Own Agent，把外部编码 Agent 接入开发工具；接入不等于结果自动可信。"
+    },
+    {
+      "term": "ACP",
+      "explanation": "Agent Client Protocol，用于连接 Agent 客户端与宿主工具的协议。"
+    }
+  ],
+  "cards": [
+    {
+      "id": "openai-gpt6-sol-luna",
+      "title": "OpenAI 发布 GPT-6 Sol 与 GPT-6 Luna，价格和调用边界要一起看",
+      "category": "模型更新",
+      "publisher": "OpenAI",
+      "occurredAt": "2026-09-22",
+      "discoveredAt": "2026-09-26",
+      "oneLineSummary": "OpenAI API 更新记录 GPT-6 Sol 与 GPT-6 Luna 上线：它们可通过 Responses 与 Chat Completions 调用，并分别列出输入输出价格。简单说，这是两个新的可调用模型，不是现有应用自动完成升级。",
+      "whyItMatters": "Sol、Luna 的定位、接口兼容性、价格和推理设置要一起看；如果只看到型号升级，就不能判断现有应用能否直接迁移。先查模型页和账号资格，再用少量真实任务回归，暂时不要直接替换生产模型。",
+      "developerImpact": "先核对模型页、价格、推理参数、工具调用和地区资格，再用代表性任务做小规模回归。",
+      "maturity": "usable",
+      "noiseRisk": "low",
+      "suggestedAction": "try",
+      "reviewRisk": "medium",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "发布消息要连同迁移条件一起读。",
+      "visualHint": "模型、接口、价格、迁移检查四格卡片",
+      "facts": [
+        {
+          "id": "openai-gpt6-fact",
+          "claim": "OpenAI API Changelog 于 2026 年 9 月 22 日记录 GPT-6 Sol 与 GPT-6 Luna 发布，并说明可通过 Responses 与 Chat Completions API 调用。",
+          "sourceIds": [
+            "openai-gpt6-source"
+          ],
+          "limitations": [
+            "价格和能力随处理等级、地区与账户资格变化，不能把公告价格当成所有场景最终成本。",
+            "厂商发布不等于现有项目已兼容，仍需按模型页和实际请求验证。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "OpenAI",
+        "GPT-6",
+        "模型迁移"
+      ]
+    },
+    {
+      "id": "google-gemini-tts-ga",
+      "title": "Gemini 3.8 TTS 与 Voices endpoint 进入 GA，生产接入仍要测成本",
+      "category": "多模态实时输出",
+      "publisher": "Google",
+      "occurredAt": "2026-09-22",
+      "discoveredAt": "2026-09-26",
+      "oneLineSummary": "Gemini API 更新记录 Gemini 3.8 Flash TTS、Flash-Lite TTS 和 Voices endpoint 可用。TTS 就是“文字转语音”，Voices endpoint 可理解为获取或管理可用声音的接口。",
+      "whyItMatters": "GA（通常可正式使用）只说明接口开放，不等于音质、延迟、语音授权、区域和费用已经适合你的产品。先用短样本测断句、延迟、重试和计费，未测完不要直接放进生产导读或实时助手。",
+      "developerImpact": "用短样本测试断句、延迟、重试和计费，再决定是否用于导读或实时助手。",
+      "maturity": "usable",
+      "noiseRisk": "medium",
+      "suggestedAction": "learn",
+      "reviewRisk": "medium",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "正式可用仍需要产品级验收。",
+      "visualHint": "文本、声音、授权和成本四项验收清单",
+      "facts": [
+        {
+          "id": "google-tts-fact",
+          "claim": "Google Gemini API Changelog 于 2026 年 9 月 22 日记录两款 Gemini 3.8 TTS 模型及 `/v1beta/voices` endpoint GA。",
+          "sourceIds": [
+            "google-gemini-tts-source"
+          ],
+          "limitations": [
+            "具体价格、地区、语音复制与同意验证要求需回到正式指南核对。",
+            "页面描述的是 API 能力，不是本项目已完成的听感或成本测试。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "Google",
+        "Gemini",
+        "TTS"
+      ]
+    },
+    {
+      "id": "android-byoa-acp",
+      "title": "Android Studio 预览支持通过 ACP 接入外部编码 Agent",
+      "category": "开发工具",
+      "publisher": "Android Developers",
+      "occurredAt": "2026-09-24",
+      "discoveredAt": "2026-09-26",
+      "oneLineSummary": "Android Developers 预览说明提到 BYOA 可通过 ACP，把 Claude Agent、OpenAI Codex 和 Google Antigravity 这类外部编码 Agent 接入 Android Studio。这里的 ACP 是负责连接 Agent 与宿主工具的协议。",
+      "whyItMatters": "它可能减少在多个编码工具之间切换的成本，但这是预览功能；版本、权限、稳定性和代码数据边界都还要单独核验。先在隔离项目试连、检查权限并确认能回滚，不要直接交给它处理生产工程。",
+      "developerImpact": "先在隔离项目验证连接、权限和回滚，再考虑纳入日常开发。",
+      "maturity": "experimental",
+      "noiseRisk": "medium",
+      "suggestedAction": "learn",
+      "reviewRisk": "high",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "能接入不代表能安全托管工程任务。",
+      "visualHint": "Android Studio、ACP、三个 Agent 的连接图",
+      "facts": [
+        {
+          "id": "android-byoa-fact",
+          "claim": "Android Developers 2026 年 9 月 24 日预览说明提到 BYOA 可通过 Agent Client Protocol 连接 Claude Agent、OpenAI Codex 和 Google Antigravity。",
+          "sourceIds": [
+            "android-byoa-source"
+          ],
+          "limitations": [
+            "该页面属于预览功能说明，支持范围取决于 Android Studio 版本和 Agent 实现。",
+            "接入成功不等于权限、隐私、结果正确性和稳定性已通过本项目验收。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "Android Studio",
+        "BYOA",
+        "ACP",
+        "Agent"
+      ]
+    },
+    {
+      "id": "github-skills",
+      "title": "GitHub 热门 skills 仓库把 AI 编程重点放回工程流程",
+      "category": "开发工具",
+      "publisher": "GitHub / Matt Pocock",
+      "occurredAt": "2026-09-26",
+      "discoveredAt": "2026-09-26",
+      "oneLineSummary": "mattpocock/skills 公开了一组面向真实工程工作的 Agent skills。可以把它理解成一套可复用的工作说明和流程模板，覆盖需求对齐、测试、诊断和代码设计；它不是新的 AI 模型。",
+      "whyItMatters": "它的价值在于把 Agent 的使用方式整理成工程流程，但热门度只说明有人关注，不能证明每个 skill 都适合所有项目。先选低风险仓库，检查许可证、安装范围和文件变更，再看测试结果；不要盲目全量安装。",
+      "developerImpact": "可以先挑一个低风险仓库试用，检查安装范围、文件变更、提示词边界和测试结果，再决定是否纳入团队流程。",
+      "maturity": "experimental",
+      "noiseRisk": "medium",
+      "suggestedAction": "learn",
+      "reviewRisk": "medium",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "Agent 工具开始从单次提示词转向可复用的工程方法。",
+      "visualHint": "需求对齐、实现、测试、诊断、审查五步流程",
+      "facts": [
+        {
+          "id": "github-skills-fact",
+          "claim": "该公开仓库将一组可组合的 Agent skills 发布为普通项目文件或安装包，README 覆盖需求对齐、测试、诊断和代码设计等工程流程。",
+          "sourceIds": [
+            "github-skills-source"
+          ],
+          "limitations": [
+            "仓库作者的说明和社区关注度不能替代本项目的独立效果测试。",
+            "安装会写入项目文件，必须先检查选中的 skill、许可证和变更范围。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "GitHub",
+        "Agent",
+        "Skills",
+        "工程流程"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "openai-gpt6-source",
+      "catalogId": "openai",
+      "title": "OpenAI API Changelog",
+      "url": "https://developers.openai.com/api/docs/changelog",
+      "sourceType": "official_changelog",
+      "publisher": "OpenAI",
+      "publishedAt": "2026-09-22",
+      "accessedAt": "2026-09-26T16:00:00+08:00",
+      "evidenceLocation": "September 22, 2026: GPT-6 Sol and GPT-6 Luna",
+      "evidenceExcerpt": "Released GPT-6 Sol and GPT-6 Luna."
+    },
+    {
+      "id": "google-gemini-tts-source",
+      "catalogId": "google-ai",
+      "title": "Gemini API Release notes",
+      "url": "https://ai.google.dev/gemini-api/docs/changelog",
+      "sourceType": "official_changelog",
+      "publisher": "Google",
+      "publishedAt": "2026-09-22",
+      "accessedAt": "2026-09-26T16:00:00+08:00",
+      "evidenceLocation": "September 22, 2026: Gemini 3.8 Flash TTS and Flash-Lite TTS GA",
+      "evidenceExcerpt": "Released next-generation text-to-speech models and Voices endpoint."
+    },
+    {
+      "id": "android-byoa-source",
+      "catalogId": "google-ai",
+      "title": "Android Studio preview features",
+      "url": "https://developer.android.com/studio/preview/features",
+      "sourceType": "official_docs",
+      "publisher": "Android Developers",
+      "publishedAt": "2026-09-24",
+      "accessedAt": "2026-09-26T16:00:00+08:00",
+      "evidenceLocation": "BYOA and ACP section",
+      "evidenceExcerpt": "Connect preferred AI coding agents including Claude Agent, OpenAI Codex and Google Antigravity."
+    },
+    {
+      "id": "github-skills-source",
+      "catalogId": "github",
+      "title": "mattpocock/skills",
+      "url": "https://github.com/mattpocock/skills",
+      "sourceType": "official_status",
+      "publisher": "Matt Pocock",
+      "publishedAt": "2026-09-26",
+      "accessedAt": "2026-09-26T16:00:00+08:00",
+      "evidenceLocation": "README、package.json 与 MIT LICENSE",
+      "evidenceExcerpt": "仓库说明工程类 skills、两种安装路径；package.json 与 LICENSE 均标示 MIT。"
+    }
+  ],
+  "corrections": [],
+  "editorial": {
+    "generatedAt": "2026-09-26T17:17:43+08:00",
+    "aiReviewCompleted": true,
+    "factCheckCompletedAt": "2026-09-26T17:17:43+08:00",
+    "previewApprovedAt": "2026-09-26T17:17:43+08:00",
+    "publicationApprovedAt": "2026-09-26T09:48:37.281Z",
+    "notes": "W39 本地预览稿。张驰团队专题和 Anthropic 科研案例均顺延；当前四卡已通过本地事实、结构、链接、类型、测试和隐私检查。已补足术语解释、适用边界和新手行动提示。approved 仅允许人工预览，不代表作者终审、平台草稿或公开发布授权。"
+  }
+}
