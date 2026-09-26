@@ -9,6 +9,9 @@
 - 隔离 worktree 首次运行 `privacy:check` 因 Git 忽略的本机私密比对库未随 worktree 出现而失败，错误为 `Private comparison library missing`；这不是内容泄漏结论。后续只临时链接主工作区现有私密库供检查读取，不复制或提交私密资料，并再次运行门禁。
 - 隔离复验中 `content:check:network-sync` 首次误报 README 与第005期不一致；回读 `origin/main` 已是第005期，运行更新命令前后的 Git 内容哈希相同，原因是 Windows worktree 的 CRLF 换行被检查器按原始文本比较。生成命令只规范本地换行，复检通过且 README 无实际内容差异；不触发其他平台写入。
 - 隔离环境最终本地门禁通过：`typecheck`、`lint`、`content:validate`、`content:check:network-sync`、`privacy:check`、全量测试（81 通过、1 跳过）、`publish:prepare` 与生产 `build`。构建生成 15 个静态页面，并校验 5 份公开 Markdown；隔离分支不包含主工作区其他未提交成果。
+- 修复提交 `99bc2457aa3250b12d0126eac2e62b4927c41751` 已推送 `main`，Pages 运行 `36238538775` 的 build/deploy 均成功。公网桌面计算样式确认四张情报卡的背景、边框、蓝到琥珀侧栏及“情报卡”标签完全一致；第三张 Android 卡已不再使用独立模板。
+- 公网窄屏回读确认 `390px` 下无横向溢出，四张卡宽度均为 `374px`；首页、第005期详情页和 `brief.md` 均返回 HTTP 200。保留两个既有非阻断项：根域 `favicon.ico` 首次请求 404、Next CSS 预加载警告；刷新后正文页无控制台错误，不影响本轮卡片修复。
+- GitHub Actions 同时提示部分官方 action 仍声明 Node.js 20、当前被运行器强制到 Node.js 24，以及 `ubuntu-latest` 将于 2026-10-19 起迁移到 Ubuntu 26。两项均未导致本轮 build/deploy 失败，记为后续工作流维护风险，不在本次 UI 修复中扩大处理。
 
 ## 2026-09-20：网络体系同步门禁（本地）
 
