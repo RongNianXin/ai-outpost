@@ -361,7 +361,9 @@ describe("renderZhihuMarkdown", () => {
     const issue = issueSchema.parse(baseIssue);
     const markdown = renderZhihuMarkdown(issue);
     expect(markdown).toContain("先说结论");
-    expect(markdown).toContain("事实与限制");
+    expect(markdown).toContain("事实、限制与来源");
+    expect(markdown).toContain("内容详情");
+    expect(markdown).toContain("造成的影响");
     expect(markdown).toContain(issue.practiceTask.objective);
     expect(markdown).toContain(issue.sources[0].url);
     expect(markdown).toContain("AI 辅助检索、整理和审校");

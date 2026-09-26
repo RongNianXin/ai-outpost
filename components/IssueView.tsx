@@ -32,7 +32,6 @@ function getSourceCardMap(issue: Issue) {
 }
 
 export function IssueView({ issue }: IssueViewProps) {
-  const keyCardIds = new Set(issue.topChangeIds);
   const topCards = getTopCards(issue);
   const themeLabels = getIssueThemeLabels(issue);
   const fastTakeaway = getFastTakeaway(issue);
@@ -169,7 +168,6 @@ export function IssueView({ issue }: IssueViewProps) {
             <IntelCard
               card={card}
               index={index}
-              isKey={keyCardIds.has(card.id)}
               key={card.id}
               sources={issue.sources}
             />

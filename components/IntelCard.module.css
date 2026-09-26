@@ -10,63 +10,12 @@
   padding: clamp(0.95rem, 2.2vw, 1.28rem);
 }
 
-.keyCard {
-  border-color: rgb(37 99 235 / 32%);
-}
-
-/* 每张卡片显式指定色调，避免重点卡的 class 覆盖渐变。 */
-.cardToneA {
-  border-color: rgb(148 181 214 / 58%);
-  background:
-    linear-gradient(135deg, rgb(239 247 255 / 96%), rgb(255 250 240 / 94%));
-}
-
-.cardToneB {
-  border-color: rgb(175 184 211 / 56%);
-  background:
-    linear-gradient(225deg, rgb(243 246 255 / 96%), rgb(255 249 237 / 94%));
-}
-
-.cardToneC {
-  border-color: rgb(161 190 194 / 56%);
-  background:
-    linear-gradient(150deg, rgb(240 249 250 / 96%), rgb(255 250 239 / 94%));
-}
-
-.card.keyCard.cardToneA,
-.card.keyCard.cardToneB,
-.card.keyCard.cardToneC {
-  border-color: rgb(37 99 235 / 32%);
-}
-
-.card.keyCard.cardToneA {
-  background:
-    linear-gradient(135deg, rgb(235 246 255 / 97%), rgb(255 249 237 / 94%)),
-    radial-gradient(circle at 100% 0%, rgb(37 99 235 / 10%), transparent 14rem);
-}
-
-.card.keyCard.cardToneB {
-  background:
-    linear-gradient(225deg, rgb(239 244 255 / 97%), rgb(255 248 234 / 94%)),
-    radial-gradient(circle at 0% 0%, rgb(37 99 235 / 9%), transparent 14rem);
-}
-
-.card.keyCard.cardToneC {
-  background:
-    linear-gradient(150deg, rgb(236 248 249 / 97%), rgb(255 249 237 / 94%)),
-    radial-gradient(circle at 100% 0%, rgb(14 116 144 / 8%), transparent 14rem);
-}
-
 .card::before {
   position: absolute;
   inset: 0 auto 0 0;
   width: 4px;
-  background: var(--color-line-strong);
-  content: "";
-}
-
-.keyCard::before {
   background: linear-gradient(180deg, var(--color-accent), var(--color-warning));
+  content: "";
 }
 
 .header {

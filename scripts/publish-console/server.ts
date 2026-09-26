@@ -158,6 +158,39 @@ const server = createServer(async (request, response) => {
       if (!Number.isInteger(index) || !imagePath) throw new HttpError(404, "没有这张小红书图片。");
       return serveStaticFile(response, imagePath, "image/jpeg", false);
     }
+    if (request.method === "GET" && url.pathname === "/preview/zhihu") {
+      const { selected } = await selectIssue(url.searchParams.get("slug"));
+      const prepared = await prepareCachedPackage(selected);
+      return sendHtml(
+        response,
+        renderZhihuPreview(
+          selected,
+          prepared.zhihu,
+          prepared.files.zhihuImages.length,
+        ),
+      );
+    }
+    if (request.method === "GET" && url.pathname === "/download/zhihu-md") {
+      const { selected } = await selectIssue(url.searchParams.get("slug"));
+      const prepared = await prepareCachedPackage(selected);
+      return serveStaticFile(
+        response,
+        prepared.files.zhihuMarkdown,
+        "text/markdown; charset=utf-8",
+        false,
+        "attachment",
+      );
+    }
+    if (request.method === "GET" && url.pathname === "/preview/zhihu-image") {
+      const { selected } = await selectIssue(url.searchParams.get("slug"));
+      const prepared = await prepareCachedPackage(selected);
+      const index = Number(url.searchParams.get("index"));
+      const imagePath = prepared.files.zhihuImages[index];
+      if (!Number.isInteger(index) || !imagePath) {
+        throw new HttpError(404, "没有这张知乎图片。");
+      }
+      return serveStaticFile(response, imagePath, "image/jpeg", false);
+    }
     return sendJson(response, 404, { error: "没有这个页面。" });
   } catch (error) {
     const statusCode = error instanceof HttpError ? error.statusCode : 500;
@@ -306,6 +339,19 @@ function renderXhsPreview(
   ).join("");
   const field = (label: string, value: string, multiline = false) => `<div style="display:grid;grid-template-columns:88px minmax(0,1fr) auto;gap:8px;align-items:start;margin:10px 0;"><strong style="padding-top:9px;font-size:13px;">${label}</strong><div style="padding:9px;background:#f3f7f8;white-space:${multiline ? "pre-wrap" : "normal"};word-break:break-word;line-height:1.65;">${escapeHtml(value)}</div><button data-copy-value="${escapeHtml(value)}" style="min-height:36px;padding:0 10px;border:1px solid #168c7b;background:#fff;color:#168c7b;cursor:pointer;">复制</button></div>`;
   return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>小红书预览｜${escapeHtml(content.title)}</title></head><body style="margin:0;background:#eef3f5;color:#172333;font-family:Microsoft YaHei,sans-serif;"><div style="position:sticky;top:0;z-index:2;padding:12px;text-align:center;background:#102131;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;"><button data-copy-value="${escapeHtml(content.title)}" style="min-height:40px;padding:0 18px;border:0;background:#35d0ba;color:#102131;font-weight:700;cursor:pointer;">复制标题</button><button data-copy-value="${escapeHtml(content.body)}" style="min-height:40px;padding:0 18px;background:#fff;color:#102131;font-weight:700;cursor:pointer;">复制正文</button><button data-export-focus style="min-height:40px;padding:0 18px;border:0;background:#f6c453;color:#102131;font-weight:700;cursor:pointer;">保存全部图片到目录</button></div><main style="max-width:1120px;margin:28px auto;padding:0 18px 48px;"><section style="margin-bottom:28px;padding:24px;background:#fff;border:1px solid #cbd9df;"><p style="margin:0 0 8px;color:#168c7b;font-size:13px;">小红书完整轮播稿包 · 第 ${String(issue.issueNumber).padStart(3, "0")} 期</p><h1 style="margin:0 0 14px;font-size:28px;">${escapeHtml(content.title)}</h1>${field("标题", content.title)}${field("正文描述", content.body, true)}<p style="margin:16px 0 0;color:#486071;line-height:1.7;">共 ${imageCount} 张。在下面粘贴目标文件夹的完整路径，再点击保存。系统会新建本期独立子目录，按 01、02、03… 编号保存；上传时按名称升序全选，并检查上传后的缩略图顺序。这里不会写入小红书。图片中的来源 URL 只是文字，逐条来源请进入官网资料包。</p><p style="margin:12px 0 0;color:#7a4a00;font-size:13px;line-height:1.7;">从资源管理器地址栏复制路径即可，无需 ZIP 解压或浏览器目录授权。目标文件夹必须已存在。</p><form id="directory-export" data-slug="${escapeHtml(issue.slug)}" data-token="${sessionToken}"><label for="export-directory">保存到文件夹</label><input id="export-directory" required placeholder="粘贴资源管理器地址栏的完整路径" style="display:block;width:90%;padding:12px;margin:10px 0"><button type="submit">保存全部 ${imageCount} 张图片</button><p id="export-status" role="status" style="overflow-wrap:anywhere;white-space:pre-wrap"></p><button type="button" id="copy-export-path" hidden>复制已保存目录</button></form></section><section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;">${images}</section></main><script src="/preview.js"></script></body></html>`;
+}
+
+function renderZhihuPreview(
+  issue: Issue,
+  content: { title: string; body: string },
+  imageCount: number,
+) {
+  const query = encodeURIComponent(issue.slug);
+  const images = Array.from({ length: imageCount }, (_, index) => {
+    const placement = index === 0 ? "文章封面" : `第 ${index} 条情报标题下方`;
+    return `<figure style="margin:0;"><a href="/preview/zhihu-image?slug=${query}&index=${index}" download="${String(index + 1).padStart(2, "0")}-${index === 0 ? "cover" : "card"}.jpg"><img src="/preview/zhihu-image?slug=${query}&index=${index}" alt="知乎配图 ${index + 1}" style="display:block;width:100%;border:1px solid #d8e2ee;box-shadow:0 16px 40px rgba(37,99,235,.10);"></a><figcaption style="margin-top:8px;color:#5d6b82;font-size:13px;">${placement} · 点击图片可单独保存</figcaption></figure>`;
+  }).join("");
+  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>知乎迁移预览｜${escapeHtml(content.title)}</title></head><body style="margin:0;background:#edf3f8;color:#0b1220;font-family:Microsoft YaHei,sans-serif;"><div style="position:sticky;top:0;z-index:2;padding:12px;background:#0b1220;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;"><button data-copy-value="${escapeHtml(content.title)}" style="min-height:40px;padding:0 18px;border:0;background:#2563eb;color:#fff;font-weight:700;cursor:pointer;">复制标题</button><button data-copy-value="${escapeHtml(content.body)}" style="min-height:40px;padding:0 18px;border:0;background:#fff;color:#0b1220;font-weight:700;cursor:pointer;">复制正文</button><a href="/download/zhihu-md?slug=${query}" style="padding:10px 16px;background:#fff;color:#0b1220;text-decoration:none;">下载 Markdown</a></div><main style="max-width:1120px;margin:28px auto;padding:0 18px 48px;"><section style="margin-bottom:26px;padding:24px;background:#fff;border:1px solid #d8e2ee;border-left:6px solid #2563eb;"><p style="margin:0 0 8px;color:#2563eb;font-size:13px;">知乎完整迁移稿包 · 第 ${String(issue.issueNumber).padStart(3, "0")} 期</p><h1 style="margin:0 0 14px;font-size:30px;line-height:1.35;">${escapeHtml(content.title)}</h1><p style="margin:0;color:#5d6b82;line-height:1.75;">知乎不支持复制官网 CSS。这里用同源封面和情报摘要图统一品牌视觉，正文使用知乎原生标题、引用和列表，保证文字仍可搜索、选择和阅读。迁移顺序：复制标题与正文 → 上传封面 → 在每条情报标题下插入对应图片 → 保存草稿并预览。这里不会写入知乎。</p></section><section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px;">${images}</section><section style="margin-top:26px;padding:28px;background:#fff;border:1px solid #d8e2ee;"><h2 style="margin:0 0 16px;font-size:22px;">完整正文</h2><pre style="margin:0;white-space:pre-wrap;word-break:break-word;font:15px/1.85 Microsoft YaHei,sans-serif;color:#334155;">${escapeHtml(content.body)}</pre></section></main><script src="/preview.js"></script></body></html>`;
 }
 
 function readArgument(name: string) {

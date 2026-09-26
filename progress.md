@@ -1,5 +1,15 @@
 # AI Outpost Progress
 
+## 2026-09-26：第005期官网修复与跨平台预览
+
+- 第005期原发布提交为 `9b6875955189cbdde4bb3ba9e967d0fc5d4af8ca`；首次 Pages 运行 `36233918916` 因来源白名单不同步失败，补交 `7ca8ffea54edacd713582ced4e87db4c0a756bff` 后运行 `36234093536` 成功。当前 UI 修复隔离发布从 `7ca8ffe` 开始，不覆盖已发布内容。
+- 已统一官网情报卡背景、边框、标签和蓝到琥珀侧栏；小红书第005期改为官网同源浅色卡并保护英文整词换行；知乎新增 1 张封面、4 张情报摘要图和本地迁移预览。
+- 小红书迁移页在桌面和 `390px` 均无横向溢出，8 张图片全部加载且均为 `1080×1440`；复制标题实测显示“已复制”，目录导出表单存在。
+- 知乎迁移页在桌面和 `390px` 均无横向溢出，5 张图片全部加载且均为 `1200×675`；复制标题、5 个图片接口和 Markdown 下载均实测成功。知乎后台未实测，不能把本地预览写成平台草稿或发布通过。
+- 隔离 worktree 首次运行 `privacy:check` 因 Git 忽略的本机私密比对库未随 worktree 出现而失败，错误为 `Private comparison library missing`；这不是内容泄漏结论。后续只临时链接主工作区现有私密库供检查读取，不复制或提交私密资料，并再次运行门禁。
+- 隔离复验中 `content:check:network-sync` 首次误报 README 与第005期不一致；回读 `origin/main` 已是第005期，运行更新命令前后的 Git 内容哈希相同，原因是 Windows worktree 的 CRLF 换行被检查器按原始文本比较。生成命令只规范本地换行，复检通过且 README 无实际内容差异；不触发其他平台写入。
+- 隔离环境最终本地门禁通过：`typecheck`、`lint`、`content:validate`、`content:check:network-sync`、`privacy:check`、全量测试（81 通过、1 跳过）、`publish:prepare` 与生产 `build`。构建生成 15 个静态页面，并校验 5 份公开 Markdown；隔离分支不包含主工作区其他未提交成果。
+
 ## 2026-09-20：网络体系同步门禁（本地）
 
 - 新增 `config/content-network.json`，登记官网、GitHub README、公众号和小红书的触发方式、授权等级与证据。

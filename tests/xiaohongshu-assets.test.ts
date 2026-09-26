@@ -5,6 +5,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   paginateXiaohongshuSections,
+  wrapTextFully,
 } from "../lib/publishing/assets";
 import { renderXiaohongshuCarousel } from "../lib/publishing/derivatives";
 import type { Issue } from "../lib/content/schema";
@@ -17,6 +18,17 @@ const issue = JSON.parse(
 ) as Issue;
 
 describe("小红书轮播分页", () => {
+  it("英文产品名和协议名在行宽允许时保持完整", () => {
+    const lines = wrapTextFully(
+      "OpenAI 发布 GPT-6 Sol，并通过 Chat Completions API 调用。",
+      12,
+    );
+
+    expect(lines.some((line) => line.includes("GPT-6"))).toBe(true);
+    expect(lines.some((line) => line.includes("Chat"))).toBe(true);
+    expect(lines.join("\n")).not.toMatch(/GPT\n-6|Complet\nions/);
+  });
+
   it("对第004期情报03使用安全压缩，避免生成孤页", () => {
     const pages = paginateXiaohongshuSections(
       renderXiaohongshuCarousel(issue).sections,
