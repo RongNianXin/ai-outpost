@@ -26,11 +26,11 @@
 <!-- AI_OUTPOST_LATEST_START -->
 ## 最新一期
 
-**AI 前哨站第 004 期**：能力变强以后，谁来监督？
+**AI 前哨站第 005 期**：能力开放之后，边界怎么验？
 
-从前沿实验室如何衡量 AI 发展速度，到生命科学验证、实时语音模型和代码审查：本期关注能力开放时的资格、监督与验收边界。
+本周关注模型家族、实时语音、开发工具和 GitHub AI 技能：每条都把开放阶段、适用范围与仍需人工核验的边界写清楚。
 
-[阅读本期官网](https://rongnianxin.github.io/ai-outpost/issues/2026-09-19-frontier-ai-governance-and-agents/)
+[阅读本期官网](https://rongnianxin.github.io/ai-outpost/issues/2026-09-26-ai-models-agents-and-research-boundaries/)
 <!-- AI_OUTPOST_LATEST_END -->
 
 > 官网正式发布会在同一事务内自动替换最新一期区块，并用 `pnpm.cmd content:check:network-sync` 阻止错期。`content:update-readme` 仅用于修复已有漂移。
