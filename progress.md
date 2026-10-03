@@ -6,6 +6,7 @@
 - 已将规则写入 `CONTENT-OPS`、`FACT-CHECK-PROTOCOL`、`DRAFT-REVIEW-AGENT` 和 `PROMOTION`：首轮、冻结复核、授权发布后三次核对；最终同步记录时间、时区、URL、入口、页面状态、摘录和限制；发现更新或访问不确定就暂停并全媒体重生成。
 - 独立规则审查 Agent 已完成：先返回 `RETURN`，指出旧记录只有 10:00 来源访问时间而缺少 final-sync 回执；修订规则并完成本轮同步后，内容审查 Agent 对最终 JSON、官网、公众号、知乎、小红书和 manifest 返回 `PASS`。
 - 本轮已在 13:54:48+08:00 重新核对 OpenAI、Anthropic、Google、GitHub 和 Artificial Analysis 相关入口，更新第006期来源访问时间、可见更正记录和 editorial.notes，并把 30 分钟有效期、授权时间、目标动作、公网回读字段写入规则。
+- `87806a9` 已推送到 `origin/main`；GitHub Pages 工作流 `37102096926` 构建和部署均成功。2026-10-03T14:10:25+08:00 回读公网第006期页面 HTTP 200，标题和更正记录可见；本机预览同样 HTTP 200。工作流仅有既有 lint 警告及 GitHub Actions Node.js 20 弃用提示，无失败项。
 
 ## 2026-10-03：第006期 GPT-6.1 Sol 入口范围纠错
 
