@@ -15,8 +15,8 @@
     "start": "2026-09-27",
     "end": "2026-10-03"
   },
-  "status": "approved",
-  "publishedAt": null,
+  "status": "published",
+  "publishedAt": "2026-10-03T04:26:49.000Z",
   "topChangeIds": [
     "openai-gpt61-sol",
     "anthropic-sonnet55",
@@ -371,7 +371,7 @@
     "aiReviewCompleted": true,
     "factCheckCompletedAt": "2026-10-03T11:39:29+08:00",
     "previewApprovedAt": "2026-10-03T11:40:30+08:00",
-    "publicationApprovedAt": null,
+    "publicationApprovedAt": "2026-10-03T12:26:49+08:00",
     "notes": "作者已确认第006期表达达到目标；专业自媒体编辑复核后修订 Sonnet 标题、GitHub 场景说明和 AA-AgentPerf 重复表达，双层表达规则已采用。"
   }
 }
