@@ -434,6 +434,27 @@ describe("optional main image from issue 006", () => {
 });
 
 describe("publishing derivatives", () => {
+  it("propagates public correction records to every platform derivative", () => {
+    const issue = issueSchema.parse(JSON.parse(readFileSync("content/issues/issue-006.json", "utf8")));
+    const correction = issue.corrections[0];
+    expect(correction).toBeDefined();
+    const outputs = [
+      renderWechatMarkdown(issue),
+      renderWechatHtml(issue),
+      renderZhihuMarkdown(issue),
+      renderXiaohongshuPost(issue).body,
+      renderXiaohongshuPost(issue).sections.flatMap((section) => [section.heading, ...section.blocks.map((block) => block.text)]).join("\n"),
+    ];
+    for (const output of outputs) {
+      expect(output).toContain(correction.description);
+      expect(output).toContain(correction.correctedAt.slice(0, 10));
+    }
+    expect(outputs[0]).toContain("本期更正记录");
+    expect(outputs[1]).toContain("本期更正记录");
+    expect(outputs[2]).toContain("本期更正记录");
+    expect(outputs[4]).toContain("本期更正记录");
+  });
+
   it("keeps every registered network resource auditable", () => {
     const registry = JSON.parse(readFileSync("config/content-network.json", "utf8")) as {
       resources: Array<Record<string, string>>;

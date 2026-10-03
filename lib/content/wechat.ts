@@ -64,6 +64,17 @@ export function renderWechatMarkdown(issue: Issue): string {
     lines.push("");
   }
 
+  if (issue.corrections.length > 0) {
+    lines.push("## 本期更正记录", "");
+    issue.corrections.forEach((correction) => {
+      lines.push(
+        `- ${correction.correctedAt.slice(0, 10)}：${correction.description}`,
+        `  - 涉及情报：${correction.affectedCardIds.join("、") || "未指定"}`,
+      );
+    });
+    lines.push("");
+  }
+
   if (issue.sources.length > 0) {
     lines.push("## 原始来源", "");
     issue.sources.forEach((source, index) => {

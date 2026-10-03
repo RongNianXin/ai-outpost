@@ -60,6 +60,17 @@ export function renderZhihuMarkdown(issue: Issue): string {
     lines.push("## 术语解释", "", ...issue.glossary.map((entry) => `- **${entry.term}**：${entry.explanation}`), "");
   }
 
+  if (issue.corrections.length > 0) {
+    lines.push("## 本期更正记录", "");
+    issue.corrections.forEach((correction) => {
+      lines.push(
+        `- ${correction.correctedAt.slice(0, 10)}：${correction.description}`,
+        `  - 涉及情报：${correction.affectedCardIds.join("、") || "未指定"}`,
+      );
+    });
+    lines.push("");
+  }
+
   lines.push("## 来源与继续阅读", "");
   issue.sources.forEach((source, index) => {
     lines.push(`${index + 1}. [${source.title}](${source.url})，${getSourceTypeLabel(source)}，${source.publishedAt ?? "来源页面未标注发布日期"}`);

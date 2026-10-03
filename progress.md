@@ -1,5 +1,12 @@
 # AI Outpost Progress
 
+## 2026-10-03：发布前最终同步检索规则采用
+
+- 用户要求对“官方仍未发布/仍没有修改/尚未开放/没有证据表明”等否定性当前状态进行更严格核对，并在明确授权发布后做最后一轮同步检索。
+- 已将规则写入 `CONTENT-OPS`、`FACT-CHECK-PROTOCOL`、`DRAFT-REVIEW-AGENT` 和 `PROMOTION`：首轮、冻结复核、授权发布后三次核对；最终同步记录时间、时区、URL、入口、页面状态、摘录和限制；发现更新或访问不确定就暂停并全媒体重生成。
+- 独立规则审查 Agent 已完成：先返回 `RETURN`，指出旧记录只有 10:00 来源访问时间而缺少 final-sync 回执；修订规则并完成本轮同步后，内容审查 Agent 对最终 JSON、官网、公众号、知乎、小红书和 manifest 返回 `PASS`。
+- 本轮已在 13:54:48+08:00 重新核对 OpenAI、Anthropic、Google、GitHub 和 Artificial Analysis 相关入口，更新第006期来源访问时间、可见更正记录和 editorial.notes，并把 30 分钟有效期、授权时间、目标动作、公网回读字段写入规则。
+
 ## 2026-10-03：第006期 GPT-6.1 Sol 入口范围纠错
 
 - 操作者指出标题“ChatGPT 还未开放”错误；官方公告实际区分 ChatGPT Work、Chat、Codex 和 API。已暂停此前的提交、推送与官网更新。

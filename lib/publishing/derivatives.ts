@@ -74,6 +74,21 @@ export function renderWechatHtml(issue: Issue): string {
     }
   });
 
+  if (issue.corrections.length > 0) {
+    const corrections = issue.corrections
+      .map(
+        (correction) =>
+          `<li style="margin:0 0 10px;"><strong>${escapeHtml(correction.correctedAt.slice(0, 10))}</strong>：${escapeHtml(correction.description)}<br><span style="font-size:12px;color:#64748b;">涉及情报：${escapeHtml(correction.affectedCardIds.join("、") || "未指定")}</span></li>`,
+      )
+      .join("");
+    sections.push(
+      `<section style="margin:0 0 23px;padding:23px 18px;border:1px solid #f3d28d;border-radius:18px;background:#fff8e8;">`,
+      heading("本期更正记录"),
+      `<ul style="padding-left:20px;font-size:14px;line-height:1.8;color:#544017;">${corrections}</ul>`,
+      `</section>`,
+    );
+  }
+
   if (issue.sources.length > 0) {
     const sources = issue.sources
       .map(
@@ -209,11 +224,19 @@ export function renderXiaohongshuCarousel(issue: Issue) {
 }
 
 function renderXiaohongshuBody(issue: Issue) {
+  const correctionLines = issue.corrections.length > 0
+    ? [
+        "",
+        "本期更正：",
+        ...issue.corrections.map((correction) => `${correction.correctedAt.slice(0, 10)}：${correction.description}`),
+      ]
+    : [];
   return [
     issue.summary,
     "",
     `本期整理 ${issue.cards.length} 条 AI 更新，完整卡片、事实、限制和来源见轮播图。`,
     `时间范围：${issue.period.start} 至 ${issue.period.end}。`,
+    ...correctionLines,
     `完整来源和资料包：${getPublicIssueUrl(issue)}`,
     "本文由 AI 辅助整理与排版；第三方测评或作者实测自述不等于本站复现，条件与限制见轮播图和官网。",
     "",
