@@ -64,17 +64,6 @@ export function renderWechatMarkdown(issue: Issue): string {
     lines.push("");
   }
 
-  if (issue.corrections.length > 0) {
-    lines.push("## 本期更正记录", "");
-    issue.corrections.forEach((correction) => {
-      lines.push(
-        `- ${correction.correctedAt.slice(0, 10)}：${correction.description}`,
-        `  - 涉及情报：${correction.affectedCardIds.join("、") || "未指定"}`,
-      );
-    });
-    lines.push("");
-  }
-
   if (issue.sources.length > 0) {
     lines.push("## 原始来源", "");
     issue.sources.forEach((source, index) => {
@@ -92,8 +81,6 @@ export function renderWechatMarkdown(issue: Issue): string {
     "想了解这份周报的生成流程和项目代码，可在官网「关于」页进入 GitHub 项目仓库。",
     "",
     "---",
-    "",
-    "来源事实和 AI 分析已按单列文本流整理。内容经过 AI 交叉校验和脚本检查；产品信息以官方资料为准，测评结论只适用于原文所述条件。",
     "",
   );
 

@@ -74,21 +74,6 @@ export function renderWechatHtml(issue: Issue): string {
     }
   });
 
-  if (issue.corrections.length > 0) {
-    const corrections = issue.corrections
-      .map(
-        (correction) =>
-          `<li style="margin:0 0 10px;"><strong>${escapeHtml(correction.correctedAt.slice(0, 10))}</strong>：${escapeHtml(correction.description)}<br><span style="font-size:12px;color:#64748b;">涉及情报：${escapeHtml(correction.affectedCardIds.join("、") || "未指定")}</span></li>`,
-      )
-      .join("");
-    sections.push(
-      `<section style="margin:0 0 23px;padding:23px 18px;border:1px solid #f3d28d;border-radius:18px;background:#fff8e8;">`,
-      heading("本期更正记录"),
-      `<ul style="padding-left:20px;font-size:14px;line-height:1.8;color:#544017;">${corrections}</ul>`,
-      `</section>`,
-    );
-  }
-
   if (issue.sources.length > 0) {
     const sources = issue.sources
       .map(
@@ -111,7 +96,7 @@ export function renderWechatHtml(issue: Issue): string {
     paragraph("本期完整来源、限制和可复制、下载的 Markdown 资料包，见本文底部「阅读原文」，进入 AI 前哨站官网。", "font-size:15px;color:#334155;"),
     paragraph("想了解这份周报的生成流程和项目代码，可在官网「关于」页进入 GitHub 项目仓库。", "font-size:13px;color:#64748b;margin-bottom:0;"),
     `</section>`,
-    `<p style="margin:30px 0 0;padding:16px;border-radius:10px;background:#edf8f6;font-size:13px;line-height:1.75;color:#315e59;word-break:break-word;">来源事实和编辑判断分开呈现。内容经过 AI 交叉校验和脚本检查；产品信息以官方资料为准，测评只适用于原文所述条件。</p>`,
+    `<p style="margin:30px 0 0;padding:16px;border-radius:10px;background:#edf8f6;font-size:13px;line-height:1.75;color:#315e59;word-break:break-word;">来源事实和编辑判断分开呈现；产品信息以官方资料为准，测评只适用于原文所述条件。</p>`,
   );
 
   return sections.join("\n");
@@ -189,17 +174,6 @@ export function renderXiaohongshuCarousel(issue: Issue) {
     })),
   ];
 
-  if (issue.corrections.length > 0) {
-    sections.push({
-      label: "更正说明",
-      heading: "本期更正记录",
-      blocks: issue.corrections.flatMap((correction) => [
-        { text: `${correction.correctedAt.slice(0, 10)} · ${correction.description}`, style: "body" as const },
-        { text: `涉及情报：${correction.affectedCardIds.join("、") || "未指定"}`, style: "muted" as const },
-      ]),
-    });
-  }
-
   sections.push({
     label: "原始来源",
     heading: "本期来源索引",
@@ -216,7 +190,6 @@ export function renderXiaohongshuCarousel(issue: Issue) {
     blocks: [
       { text: getPublicIssueUrl(issue), style: "highlight" },
       { text: "本期事实、来源、限制和可复制的 Markdown 资料包均可在官网查看。", style: "body" },
-      { text: "本文由 AI 辅助整理与排版。官方资料、第三方测评和作者实测自述分别归因；测评只适用于原文所述条件，不能外推为所有任务的结果。", style: "muted" },
     ],
   });
 
@@ -224,21 +197,12 @@ export function renderXiaohongshuCarousel(issue: Issue) {
 }
 
 function renderXiaohongshuBody(issue: Issue) {
-  const correctionLines = issue.corrections.length > 0
-    ? [
-        "",
-        "本期更正：",
-        ...issue.corrections.map((correction) => `${correction.correctedAt.slice(0, 10)}：${correction.description}`),
-      ]
-    : [];
   return [
     issue.summary,
     "",
     `本期整理 ${issue.cards.length} 条 AI 更新，完整卡片、事实、限制和来源见轮播图。`,
     `时间范围：${issue.period.start} 至 ${issue.period.end}。`,
-    ...correctionLines,
     `完整来源和资料包：${getPublicIssueUrl(issue)}`,
-    "本文由 AI 辅助整理与排版；第三方测评或作者实测自述不等于本站复现，条件与限制见轮播图和官网。",
     "",
     "#AI资讯 #人工智能 #AI工具 #独立开发",
   ].join("\n");

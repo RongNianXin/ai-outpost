@@ -15,6 +15,9 @@ import {
 export async function preparePlatformPackage(issue: Issue) {
   const hash = getIssuePackageHash(issue);
   const assets = await generatePlatformAssets(issue);
+  if (assets.zhihuIllustrations.length > 3) {
+    throw new Error("知乎正文插图最多只能有 3 张；请合并重复关系或回到无图方案。");
+  }
   const wechatDirectory = path.join(process.cwd(), "exports", "wechat");
   const xhsDirectory = path.join(
     process.cwd(),
@@ -91,18 +94,15 @@ export async function preparePlatformPackage(issue: Issue) {
     },
   };
   await writeFile(xhsManifestPath, `${JSON.stringify(xhsManifest, null, 2)}\n`, "utf8");
-  const zhihuImages = await Promise.all(
-    assets.zhihuImages.map(async (imagePath, index) => {
-      const mixed = issue.id === "issue-005";
+  const zhihuIllustrations = await Promise.all(
+    assets.zhihuIllustrations.map(async (imagePath, index) => {
       return {
         order: index + 1,
         name: path.basename(imagePath),
         path: imagePath,
-        placement: mixed
-          ? `第 ${index === 0 ? 1 : 3} 条情报标题下方`
-          : `第 ${index + 1} 条情报标题下方`,
+        placement: "对应正文段落下方（按插图计划登记）",
         width: 1200,
-        height: mixed ? (index === 0 ? 1080 : 1120) : 675,
+        height: 675,
         bytes: (await stat(imagePath)).size,
       };
     }),
@@ -121,7 +121,7 @@ export async function preparePlatformPackage(issue: Issue) {
       titlePath: zhihuTitle,
       bodyPath: zhihuBody,
       markdownPath: zhihuMarkdown,
-      uploadOrder: zhihuImages,
+      uploadOrder: zhihuIllustrations,
     }, null, 2)}\n`,
     "utf8",
   );
@@ -150,7 +150,7 @@ export async function preparePlatformPackage(issue: Issue) {
       zhihuMarkdown,
       zhihuManifest: zhihuManifestPath,
       zhihuCover: assets.zhihuCover,
-      zhihuImages: assets.zhihuImages,
+      zhihuIllustrations: assets.zhihuIllustrations,
     },
     xiaohongshu: xhs,
     zhihu,

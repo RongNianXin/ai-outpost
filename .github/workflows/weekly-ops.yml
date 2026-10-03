@@ -32,17 +32,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Check remote repository boundary
+        run: pnpm ops:check:remote-boundary -- --commit "${GITHUB_SHA}"
+
       - name: Validate content
         run: pnpm content:validate
 
       - name: Check source links
         run: pnpm content:check:links
-
-      - name: Export WeChat draft
-        run: pnpm content:export:wechat
-
-      - name: Export Zhihu copy package
-        run: pnpm content:export:zhihu
 
       - name: Type check
         run: pnpm typecheck
@@ -55,16 +52,6 @@ jobs:
 
       - name: Build static site
         run: pnpm build
-
-      - name: Upload weekly artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: weekly-ops-output
-          path: |
-            exports/**
-            ops/**
-            content/issues/**
 
       - name: Prepare notification message
         if: always()
@@ -79,7 +66,7 @@ jobs:
             echo "分支：${{ github.ref_name }}"
             echo "运行链接：${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
             echo ""
-            echo "如果状态为 success：请打开运行链接查看 artifacts 和草稿，再决定是否手动触发官网发布。"
+            echo "如果状态为 success：请打开运行日志查看校验结果，再决定是否在本机准备稿包或手动触发官网发布。"
             echo "如果状态为 failure：请先查看失败步骤，不要发布。"
             echo "EOF"
           } >> "$GITHUB_ENV"

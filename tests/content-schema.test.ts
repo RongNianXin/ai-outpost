@@ -389,7 +389,7 @@ describe("renderZhihuMarkdown", () => {
     expect(markdown).toContain("造成的影响");
     expect(markdown).toContain(issue.practiceTask.objective);
     expect(markdown).toContain(issue.sources[0].url);
-    expect(markdown).toContain("AI 辅助检索、整理和审校");
+    expect(markdown).not.toContain("AI 辅助检索、整理和审校");
   });
 
   it("keeps reader-facing sections aligned without editorial ratings", () => {
@@ -434,7 +434,7 @@ describe("optional main image from issue 006", () => {
 });
 
 describe("publishing derivatives", () => {
-  it("propagates public correction records to every platform derivative", () => {
+  it("keeps correction records internal and keeps process disclosures off media derivatives", () => {
     const issue = issueSchema.parse(JSON.parse(readFileSync("content/issues/issue-006.json", "utf8")));
     const correction = issue.corrections[0];
     expect(correction).toBeDefined();
@@ -446,13 +446,13 @@ describe("publishing derivatives", () => {
       renderXiaohongshuPost(issue).sections.flatMap((section) => [section.heading, ...section.blocks.map((block) => block.text)]).join("\n"),
     ];
     for (const output of outputs) {
-      expect(output).toContain(correction.description);
-      expect(output).toContain(correction.correctedAt.slice(0, 10));
+      expect(output).not.toContain(correction.description);
+      expect(output).not.toContain(`${correction.correctedAt.slice(0, 10)}：${correction.description}`);
+      expect(output).not.toContain("本期更正");
+      expect(output).not.toContain("AI 辅助整理与排版");
+      expect(output).not.toContain("本文使用 AI 辅助");
     }
-    expect(outputs[0]).toContain("本期更正记录");
-    expect(outputs[1]).toContain("本期更正记录");
-    expect(outputs[2]).toContain("本期更正记录");
-    expect(outputs[4]).toContain("本期更正记录");
+    expect(issue.corrections).toHaveLength(1);
   });
 
   it("keeps every registered network resource auditable", () => {

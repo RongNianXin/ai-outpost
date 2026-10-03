@@ -17,6 +17,7 @@ test("exports only listed images in order, verifies bytes and isolates repeated 
   const first = await exportImagesToDirectory(root, sources, 4);
   const second = await exportImagesToDirectory(root, sources, 4);
   expect(first.directory).not.toBe(second.directory);
+  expect(path.basename(first.directory)).toMatch(/^AI-Outpost-004-Xiaohongshu-/);
   expect(first.count).toBe(8);
   expect(await readdir(first.directory)).toEqual(first.names);
   expect(first.names[0]).toBe("02-carousel.jpg");

@@ -19,7 +19,7 @@ export default async function ArchivePage() {
       <header>
         <p className={styles.kicker}>Archive / Published issues</p>
         <h1>历史归档</h1>
-        <p>这里保存所有通过自动化验证并公开发布的 AI 前哨站周报，以及公开的更正记录。</p>
+        <p>这里保存所有通过自动化验证并公开发布的 AI 前哨站周报。发布后的修订由新版本直接替换，内部保留核验记录。</p>
       </header>
       {issues.length > 0 ? (
         <ol className={styles.issueList}>

@@ -47,6 +47,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Check remote repository boundary
+        run: pnpm ops:check:remote-boundary -- --commit "${GITHUB_SHA}"
+
       - name: Lint
         run: pnpm lint
 

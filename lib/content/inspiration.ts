@@ -44,9 +44,5 @@ export function renderInspirationMarkdown(issue: Issue) {
       `   发布日期：${source.publishedAt ?? "未标注"}；访问时间：${source.accessedAt}`,
       `   证据位置：${source.evidenceLocation}`);
   });
-  if (issue.corrections.length) {
-    lines.push("", "## 更正记录", "");
-    issue.corrections.forEach((item) => lines.push(`- ${item.correctedAt}：${item.description}`));
-  }
   return lines.join("\n") + "\n";
 }

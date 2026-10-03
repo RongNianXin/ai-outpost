@@ -245,22 +245,6 @@ export function IssueView({ issue }: IssueViewProps) {
         </details>
       </section>
 
-      {issue.corrections.length > 0 && (
-        <section className={styles.corrections} aria-labelledby="corrections">
-          <h2 id="corrections">更正记录</h2>
-          <ul>
-            {issue.corrections.map((correction) => (
-              <li key={`${correction.correctedAt}-${correction.description}`}>
-                <time dateTime={correction.correctedAt}>
-                  {formatDate(correction.correctedAt)}
-                </time>
-                <p>{correction.description}</p>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-
       <section className={styles.contactPanel} aria-label="联系与投稿">
         <span>邮件联系 / 投稿</span>
         <span className={styles.contactEmail}>RNX100823@outlook.com</span>

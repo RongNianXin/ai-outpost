@@ -5,7 +5,6 @@ import path from "node:path";
 import sharp from "sharp";
 
 import type { Issue } from "../content/schema";
-import { generateZhihuMixedVisuals } from "./zhihu-mixed-visuals";
 import {
   renderXiaohongshuCarousel,
   type XiaohongshuBlock,
@@ -16,7 +15,7 @@ export type PlatformAssets = {
   xiaohongshuCover: null;
   xiaohongshuImages: string[];
   zhihuCover: null;
-  zhihuImages: string[];
+  zhihuIllustrations: string[];
   wechatCover: null;
   wechatSquareCover: null;
 };
@@ -44,7 +43,7 @@ export async function generatePlatformAssets(
     issue,
     xhsDirectory,
   );
-  const { images: zhihuImages } = await generateZhihuAssets(issue);
+  const { illustrations: zhihuIllustrations } = await generateZhihuAssets(issue);
 
   return {
     wechatCover: null,
@@ -52,19 +51,18 @@ export async function generatePlatformAssets(
     xiaohongshuCover: null,
     xiaohongshuImages,
     zhihuCover: null,
-    zhihuImages,
+    zhihuIllustrations,
   };
 }
 
 export async function generateZhihuAssets(issue: Issue) {
-  if (issue.id === "issue-005") {
-    const visuals = await generateZhihuMixedVisuals(issue);
-    return { cover: null, images: [...visuals.values()] };
-  }
   const directory = path.join(process.cwd(), "exports", "zhihu", issue.slug);
   await mkdir(directory, { recursive: true });
-  const images = await renderZhihuCardImages(issue, directory);
-  return { cover: null, images };
+  const staleFiles = (await readdir(directory)).filter((filename) =>
+    /^\d{2}-(?:card|infographic)\.jpg$/.test(filename),
+  );
+  await Promise.all(staleFiles.map((filename) => unlink(path.join(directory, filename))));
+  return { cover: null, illustrations: [] as string[] };
 }
 
 type SocialCoverVariant = "wide" | "portrait";
@@ -117,44 +115,6 @@ async function renderSocialCover(
   await sharp({
     create: { width, height, channels: 3, background: "#edf3f8" },
   }).composite([{ input: overlay }]).jpeg({ quality: 90, mozjpeg: true }).toFile(outputPath);
-}
-
-async function renderZhihuCardImages(
-  issue: Issue,
-  directory: string,
-) {
-  const staleFiles = (await readdir(directory)).filter((filename) =>
-    /^\d{2}-card\.jpg$/.test(filename),
-  );
-  await Promise.all(staleFiles.map((filename) => unlink(path.join(directory, filename))));
-  const images: string[] = [];
-  for (const [index, card] of issue.cards.entries()) {
-    const outputPath = path.join(directory, `${String(index + 2).padStart(2, "0")}-card.jpg`);
-    const tone = ["#f5faff", "#f7f7ff", "#f3fbfa"][index % 3];
-    const overlay = Buffer.from(
-      `<svg width="1200" height="675" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="rail" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2563eb"/><stop offset="1" stop-color="#f59e0b"/></linearGradient></defs>
-        <rect width="1200" height="675" fill="#edf3f8"/>
-        <rect x="42" y="36" width="1116" height="603" rx="22" fill="${tone}" stroke="#d8e2ee"/>
-        <rect x="42" y="36" width="9" height="603" rx="5" fill="url(#rail)"/>
-        <text x="76" y="96" fill="#2563eb" font-size="23" font-family="Consolas, Microsoft YaHei, sans-serif" font-weight="700">情报 ${String(index + 1).padStart(2, "0")} · ${escapeXml(card.category)}</text>
-        ${svgLines(card.title, 76, 166, 38, 2, 29, "#0b1220", 800)}
-        <rect x="76" y="276" width="502" height="248" rx="14" fill="#ffffff" stroke="#d8e2ee"/>
-        <text x="102" y="322" fill="#5d6b82" font-size="20" font-family="Microsoft YaHei, sans-serif">内容详情</text>
-        ${svgLines(card.oneLineSummary, 102, 370, 21, 6, 20, "#0b1220", 700)}
-        <rect x="598" y="276" width="526" height="248" rx="14" fill="#ffffff" stroke="#d8e2ee"/>
-        <text x="624" y="322" fill="#5d6b82" font-size="20" font-family="Microsoft YaHei, sans-serif">行动建议</text>
-        ${svgLines(card.developerImpact, 624, 370, 21, 6, 22, "#334155", 400)}
-        <text x="76" y="592" fill="#5d6b82" font-size="20" font-family="Microsoft YaHei, sans-serif">${escapeXml(card.publisher)} · ${escapeXml(card.occurredAt)}</text>
-        <text x="1124" y="592" text-anchor="end" fill="#2563eb" font-size="20" font-family="Microsoft YaHei, sans-serif" font-weight="700">AI 前哨站 · 第 ${String(issue.issueNumber).padStart(3, "0")} 期</text>
-      </svg>`,
-    );
-    await sharp({
-      create: { width: 1200, height: 675, channels: 3, background: "#edf3f8" },
-    }).composite([{ input: overlay }]).jpeg({ quality: 90, mozjpeg: true }).toFile(outputPath);
-    images.push(outputPath);
-  }
-  return images;
 }
 
 async function renderXiaohongshuCarouselImages(

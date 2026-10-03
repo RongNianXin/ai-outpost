@@ -27,11 +27,11 @@ async function main() {
     ] as const;
     await Promise.all(outputs.map(([outputPath, content]) => writeFile(outputPath, content, "utf8")));
     const uploadOrder = await Promise.all(
-      assets.images.map(async (imagePath, index) => ({
+      assets.illustrations.map(async (imagePath, index) => ({
         order: index + 1,
         name: path.basename(imagePath),
         path: imagePath,
-        placement: index === 0 ? "文章封面" : `第 ${index} 条情报标题下方`,
+        placement: "对应正文段落下方（按插图计划登记）",
         width: 1200,
         height: 675,
         bytes: (await stat(imagePath)).size,

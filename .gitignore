@@ -14,6 +14,21 @@
 
 # generated content exports
 /exports
+/每一期底稿
+
+# per-issue materials and local state are never new remote candidates
+/content/issues/issue-*.json
+/content/issues/draft-*.json
+/content/sources.json
+/public/images/issues/*
+/ops/runs
+/ops/weekly-run-state.json
+/task_plan.md
+/findings.md
+/progress.md
+/docs/reviews
+/docs/ISSUE-*.md
+/docs/AI-CONTENT-MARKET-RESEARCH-*.md
 
 # private author materials and local visual references
 /自己写的文案/

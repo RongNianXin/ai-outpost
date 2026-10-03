@@ -60,17 +60,6 @@ export function renderZhihuMarkdown(issue: Issue): string {
     lines.push("## 术语解释", "", ...issue.glossary.map((entry) => `- **${entry.term}**：${entry.explanation}`), "");
   }
 
-  if (issue.corrections.length > 0) {
-    lines.push("## 本期更正记录", "");
-    issue.corrections.forEach((correction) => {
-      lines.push(
-        `- ${correction.correctedAt.slice(0, 10)}：${correction.description}`,
-        `  - 涉及情报：${correction.affectedCardIds.join("、") || "未指定"}`,
-      );
-    });
-    lines.push("");
-  }
-
   lines.push("## 来源与继续阅读", "");
   issue.sources.forEach((source, index) => {
     lines.push(`${index + 1}. [${source.title}](${source.url})，${getSourceTypeLabel(source)}，${source.publishedAt ?? "来源页面未标注发布日期"}`);
@@ -78,8 +67,6 @@ export function renderZhihuMarkdown(issue: Issue): string {
   lines.push(
     "",
     `本期官网详情页和可下载资料包：[AI 前哨站第 ${String(issue.issueNumber).padStart(3, "0")} 期](${SITE_ORIGIN}/issues/${issue.slug}/)。`,
-    "",
-    "本文使用 AI 辅助检索、整理和审校；作者负责选题、编辑判断和最终发布决定。事实以所列来源为准，测评或机构自述不外推为普遍结论。",
     "",
   );
   return lines.join("\n");

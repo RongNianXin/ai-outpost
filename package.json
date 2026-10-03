@@ -27,11 +27,13 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "content:research:start": "node scripts/ops/research-start.mjs",
+    "ops:archive:issue": "node scripts/ops/archive-issue-materials.mjs",
     "ops:check": "node scripts/ops/check-weekly.mjs",
+    "ops:check:remote-boundary": "node scripts/ops/check-remote-boundary.mjs",
     "ops:handoff:manifest": "node scripts/ops/check-handoff-context.mjs",
     "ops:handoff:check": "node scripts/ops/check-handoff-context.mjs --check",
     "privacy:check": "node scripts/ops/check-source-privacy.mjs",
-    "ops:test": "node --test scripts/ops/check-weekly.checks.mjs scripts/ops/research-start.checks.mjs scripts/ops/check-handoff-context.checks.mjs scripts/ops/check-source-privacy.checks.mjs"
+    "ops:test": "node --test scripts/ops/check-weekly.checks.mjs scripts/ops/research-start.checks.mjs scripts/ops/check-handoff-context.checks.mjs scripts/ops/check-source-privacy.checks.mjs scripts/ops/check-remote-boundary.checks.mjs"
   },
   "dependencies": {
     "markdown-it": "^15.0.2",
