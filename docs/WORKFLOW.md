@@ -175,6 +175,7 @@ http://127.0.0.1:3100/
 
 - 远端只保存模板、通用规则、技术实现、测试和 CI 配置。每期 `content/issues/`、`content/sources.json`、`public/images/issues/`、`exports/`、`每一期底稿/`、平台稿包、封面/图片、废弃文案、按期审查和本机状态记录均留在本机或私有存储。
 - 本地提交前运行 `pnpm.cmd ops:check:remote-boundary -- --staged`；准备推送前再运行 `pnpm.cmd ops:check:remote-boundary -- --base origin/main` 扫描整个待推送差异；CI 对当前提交运行 `pnpm ops:check:remote-boundary -- --commit "$GITHUB_SHA"`。发现禁用路径立即阻断，不以“已忽略”“本地已验证”或“只是历史复制”放行。
+- 当操作者要求“同步远端仓库”时，先输出允许同步项与本机保留项的分类结果，再执行检查和推送。边界、基线、权限、网络或 CI 任一环节失败，都要保留原始错误，说明阻断原因和可执行处理方法；不强推、不删除本机素材、不把失败写成已同步。
 - `.gitignore` 只防止新的未跟踪素材被误加入，不能解除已跟踪文件的边界检查；`privacy:check` 只负责来源隐私，两者都必须通过。
 - 现有远端历史期刊内容暂不自动删除，因为当前 GitHub Pages 构建仍读取它们。彻底迁移必须另行设计私有内容输入、官网构建、公开回读和回滚，确认前不得删除或强推历史。
 
