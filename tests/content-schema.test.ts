@@ -162,6 +162,18 @@ describe("third-party evidence", () => {
 });
 
 describe("issueSchema", () => {
+  it("keeps GPT-6.1 Sol availability scoped to Work, Chat, Codex and API surfaces", () => {
+    const issue = issueSchema.parse(JSON.parse(readFileSync("content/issues/issue-006.json", "utf8")));
+    const card = issue.cards.find((item) => item.id === "openai-gpt61-sol");
+
+    expect(card).toBeDefined();
+    expect(card?.title).toContain("ChatGPT 工作模式已开放");
+    expect(card?.title).not.toContain("ChatGPT 还未开放");
+    expect(card?.oneLineSummary).toContain("ChatGPT Work 和 Codex");
+    expect(card?.oneLineSummary).toContain("ChatGPT 普通对话暂未开放");
+    expect(card?.oneLineSummary).toContain("通过 API 调用");
+  });
+
   it("requires an explicit cover title for issue 005 and later approved issues", () => {
     const current = JSON.parse(readFileSync("content/issues/issue-005.json", "utf8"));
     expect(issueSchema.safeParse(current).success).toBe(true);
