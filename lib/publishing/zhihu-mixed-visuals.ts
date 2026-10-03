@@ -6,11 +6,14 @@ import sharp from "sharp";
 import type { Issue } from "../content/schema";
 
 export async function generateZhihuMixedVisuals(issue: Issue) {
+  const hasOpenAiSource = issue.sources.some(
+    (source) => source.id === "openai-gpt6-source",
+  );
   if (
     issue.id !== "issue-005" ||
     issue.cards[0]?.id !== "openai-gpt6-sol-luna" ||
     issue.cards[2]?.id !== "android-byoa-acp" ||
-    !issue.cards[0].facts.some((fact) => fact.claim.includes("输入 2 美元、输出 10 美元"))
+    !hasOpenAiSource
   ) {
     throw new Error("图文混排对照仅适用于当前已核对的第 005 期。 ");
   }
