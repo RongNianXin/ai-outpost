@@ -20,7 +20,7 @@
         <p class="eyebrow">Publish rail / 发布轨道</p>
         <div class="hero-grid">
           <div>
-            <h1 id="page-title">一份事实源，<br />三条独立出口。</h1>
+            <h1 id="page-title">一份事实源，<br />四条独立出口。</h1>
             <p class="hero-copy">先把本期内容和图片准备好，再分别检查、预览、发送。公开动作不会被合并成一个危险的“全发”按钮。</p>
           </div>
           <div class="run-panel">
@@ -28,7 +28,7 @@
             <select id="issue-select" aria-label="选择期刊"></select>
             <strong id="issue-title">正在读取…</strong>
             <span id="issue-meta">—</span>
-            <button class="prepare-button" id="prepare-button" type="button">生成三平台发布包</button>
+            <button class="prepare-button" id="prepare-button" type="button">生成四平台发布包</button>
             <button class="quiet-button" id="refresh-button" type="button">重新检查状态</button>
           </div>
         </div>
@@ -40,7 +40,7 @@
           <strong>期刊 JSON</strong>
         </div>
         <div class="rail-line" aria-hidden="true"><i></i><i></i><i></i></div>
-        <p>准备包会同时生成官网预览、公众号 HTML/封面和小红书竖版封面；三个平台各自保留确认门禁。</p>
+        <p>准备包会同时生成官网预览、公众号 HTML/封面、小红书轮播和知乎迁移稿；各平台保留独立确认门禁。</p>
       </section>
 
       <section class="platforms" aria-label="三平台发布状态">
@@ -77,6 +77,14 @@
             <button class="secondary-action" type="button" data-action="xiaohongshu_publish">公开发布</button>
           </div>
           <p class="fine-print">先做私密测试。登录 Cookie 由 xhs 工具保存在本机，绝不上传 GitHub；预览页也可复制文案供人工发布。</p>
+        </article>
+
+        <article class="platform">
+          <header><span class="platform-code">ZHI</span><div><h2>知乎</h2><p>文章迁移稿</p></div></header>
+          <div class="status-row"><span class="status-pill ready">本地已准备</span><span>人工迁移</span></div>
+          <ul class="checks"><li class="ok">同源标题与正文<small>使用知乎原生结构，不依赖自定义 CSS</small></li><li class="ok">同源视觉稿<small>宽版封面及逐条情报摘要图</small></li></ul>
+          <div class="platform-actions"><a class="preview-link" id="zhihu-preview" target="_blank" rel="noreferrer">预览知乎迁移稿</a></div>
+          <p class="fine-print">这里只生成可复制稿和配图，不登录或写入知乎；保存草稿、私密测试和公开发布分别核验。</p>
         </article>
       </section>
 

@@ -162,6 +162,17 @@ describe("third-party evidence", () => {
 });
 
 describe("issueSchema", () => {
+  it("requires an explicit cover title for issue 005 and later approved issues", () => {
+    const current = JSON.parse(readFileSync("content/issues/issue-005.json", "utf8"));
+    expect(issueSchema.safeParse(current).success).toBe(true);
+    delete current.hero.coverTitle;
+    const result = issueSchema.safeParse(current);
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.issues.some((issue) => issue.path.join(".") === "hero.coverTitle")).toBe(true);
+    }
+  });
+
   it("accepts a complete approved issue", () => {
     const issue = issueSchema.parse(baseIssue);
 
@@ -361,10 +372,52 @@ describe("renderZhihuMarkdown", () => {
     const issue = issueSchema.parse(baseIssue);
     const markdown = renderZhihuMarkdown(issue);
     expect(markdown).toContain("先说结论");
-    expect(markdown).toContain("事实与限制");
+    expect(markdown).toContain("事实、测评与限制");
+    expect(markdown).toContain("内容详情");
+    expect(markdown).toContain("造成的影响");
     expect(markdown).toContain(issue.practiceTask.objective);
     expect(markdown).toContain(issue.sources[0].url);
     expect(markdown).toContain("AI 辅助检索、整理和审校");
+  });
+
+  it("keeps reader-facing sections aligned without editorial ratings", () => {
+    const issue = issueSchema.parse(JSON.parse(readFileSync("content/issues/issue-005.json", "utf8")));
+    const outputs = [renderZhihuMarkdown(issue), renderWechatMarkdown(issue), renderWechatHtml(issue)];
+    for (const output of outputs) {
+      for (const label of ["内容详情", "造成的影响", "行动参考", "事实、测评与限制"]) {
+        expect(output).toContain(label);
+      }
+      for (const label of ["成熟度", "营销噪声风险", "建议动作", "建议处理", "技术风险"]) {
+        expect(output).not.toContain(label);
+      }
+    }
+  });
+});
+
+describe("issue 005 platform headline", () => {
+  it("uses the approved cover title in WeChat and Zhihu derivatives", () => {
+    const issue = issueSchema.parse(JSON.parse(readFileSync("content/issues/issue-005.json", "utf8")));
+    const headline = issue.hero!.coverTitle!;
+    expect(renderWechatHtml(issue)).toContain(headline);
+    expect(renderWechatHtml(issue)).toContain("【图片上传位置");
+    expect(renderWechatMarkdown(issue).split("\n")[0]).toBe(`# ${issue.title}｜${headline}`);
+    expect(renderZhihuMarkdown(issue).split("\n")[0]).toBe(`# ${issue.title}｜${headline}`);
+  });
+});
+
+describe("optional main image from issue 006", () => {
+  it("keeps issue 005 unchanged and makes later WeChat copy paste-ready", () => {
+    const issue005 = issueSchema.parse(JSON.parse(readFileSync("content/issues/issue-005.json", "utf8")));
+    const issue006 = { ...issue005, id: "issue-006", issueNumber: 6 };
+    expect(renderWechatHtml(issue005)).toContain("【图片上传位置");
+    for (const output of [renderWechatHtml(issue006), renderWechatMarkdown(issue006)]) {
+      expect(output).not.toContain("图片上传位置");
+      expect(output).not.toContain("主图：AI 生成示意");
+      expect(output).toContain(issue006.summary);
+    }
+    const unnumberedDraft = { ...issue006, issueNumber: 0 };
+    expect(renderWechatHtml(unnumberedDraft)).not.toContain("图片上传位置");
+    expect(renderWechatMarkdown(unnumberedDraft)).not.toContain("图片上传位置");
   });
 });
 

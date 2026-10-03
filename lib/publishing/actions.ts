@@ -95,6 +95,9 @@ async function executeWithLock(
   if (action === "website_publish") {
     ({ externalId, detail } = await publishWebsite(issue));
   } else if (action === "wechat_draft") {
+    if (!prepared.files.wechatCover) {
+      throw new Error("公众号封面待作者另行设计并审定，不能创建草稿。");
+    }
     externalId = await createWechatDraft(
       issue,
       prepared.files.wechatHtml,
@@ -114,6 +117,9 @@ async function executeWithLock(
     externalId = await publishWechatDraft(draft.externalId, issue.id);
     detail = "公众号草稿已提交发布；平台仍可能处于发布处理中";
   } else {
+    if (!prepared.files.xiaohongshuCover) {
+      throw new Error("小红书封面待作者另行设计并审定，不能上传笔记。");
+    }
     if (action === "xiaohongshu_publish") {
       assertWebsiteIsPublic(issue, "小红书笔记");
     }

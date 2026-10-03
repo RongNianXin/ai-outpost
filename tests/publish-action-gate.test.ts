@@ -29,7 +29,7 @@ beforeEach(() => {
   vi.mocked(preparePlatformPackage).mockResolvedValue({
     hash: "test", files: { wechatHtml: "test", wechatCover: "test", wechatSquareCover: "test", xiaohongshuCover: "test", xiaohongshuImages: ["test"] },
     xiaohongshu: { title: "test", body: "test" },
-  } as Awaited<ReturnType<typeof preparePlatformPackage>>);
+  } as unknown as Awaited<ReturnType<typeof preparePlatformPackage>>);
   vi.mocked(publishWebsite).mockResolvedValue({ externalId: "test", detail: "mock" });
   vi.mocked(publishXiaohongshu).mockResolvedValue({ externalId: "test", detail: "mock" });
   vi.mocked(createWechatDraft).mockResolvedValue("draft");
@@ -54,5 +54,20 @@ describe("all external action boundaries (mock adapters only)", () => {
       .mockResolvedValueOnce({ externalId: "draft" } as Awaited<ReturnType<typeof findSuccessfulReceipt>>);
     await executePublishAction(issue, action, actionLabels[action].phrase(issue));
     expect(adapters.reduce((n, adapter) => n + vi.mocked(adapter).mock.calls.length, 0)).toBe(1);
+  });
+  it("blocks social actions when the author has not supplied a cover", async () => {
+    const prepared = await preparePlatformPackage(issue);
+    vi.mocked(preparePlatformPackage).mockResolvedValueOnce({
+      ...prepared,
+      files: { ...prepared.files, wechatCover: null },
+    });
+    await expect(executePublishAction(issue, "wechat_draft", actionLabels.wechat_draft.phrase(issue))).rejects.toThrow("封面待作者");
+    vi.mocked(preparePlatformPackage).mockResolvedValueOnce({
+      ...prepared,
+      files: { ...prepared.files, xiaohongshuCover: null },
+    });
+    await expect(executePublishAction(issue, "xiaohongshu_private", actionLabels.xiaohongshu_private.phrase(issue))).rejects.toThrow("封面待作者");
+    expect(createWechatDraft).not.toHaveBeenCalled();
+    expect(publishXiaohongshu).not.toHaveBeenCalled();
   });
 });

@@ -5,6 +5,7 @@ import path from "node:path";
 import sharp from "sharp";
 
 import type { Issue } from "../content/schema";
+import { generateZhihuMixedVisuals } from "./zhihu-mixed-visuals";
 import {
   renderXiaohongshuCarousel,
   type XiaohongshuBlock,
@@ -12,10 +13,12 @@ import {
 } from "./derivatives";
 
 export type PlatformAssets = {
-  xiaohongshuCover: string;
+  xiaohongshuCover: null;
   xiaohongshuImages: string[];
-  wechatCover: string;
-  wechatSquareCover: string;
+  zhihuCover: null;
+  zhihuImages: string[];
+  wechatCover: null;
+  wechatSquareCover: null;
 };
 
 const xiaohongshuWidth = 1080;
@@ -37,51 +40,129 @@ export async function generatePlatformAssets(
     mkdir(xhsDirectory, { recursive: true }),
   ]);
 
-  const heroPath = resolveHeroPath(issue);
-  const wechatHeroPath = resolveWechatCoverSource(issue) ?? heroPath;
-  const wechatCover = path.join(wechatDirectory, `${issue.slug}-cover.jpg`);
-  const wechatSquareCover = path.join(
-    wechatDirectory,
-    `${issue.slug}-cover-square.jpg`,
-  );
-  const xiaohongshuCover = path.join(xhsDirectory, "01-cover.jpg");
-  await Promise.all([
-    renderEditorialCover(issue, wechatHeroPath, wechatCover, "wide"),
-    renderEditorialCover(
-      issue,
-      wechatHeroPath,
-      wechatSquareCover,
-      "square",
-    ),
-    renderEditorialCover(
-      issue,
-      wechatHeroPath,
-      xiaohongshuCover,
-      "portrait",
-    ),
-  ]);
   const xiaohongshuImages = await renderXiaohongshuCarouselImages(
     issue,
     xhsDirectory,
-    xiaohongshuCover,
   );
+  const { images: zhihuImages } = await generateZhihuAssets(issue);
 
   return {
-    wechatCover,
-    wechatSquareCover,
-    xiaohongshuCover,
+    wechatCover: null,
+    wechatSquareCover: null,
+    xiaohongshuCover: null,
     xiaohongshuImages,
+    zhihuCover: null,
+    zhihuImages,
   };
+}
+
+export async function generateZhihuAssets(issue: Issue) {
+  if (issue.id === "issue-005") {
+    const visuals = await generateZhihuMixedVisuals(issue);
+    return { cover: null, images: [...visuals.values()] };
+  }
+  const directory = path.join(process.cwd(), "exports", "zhihu", issue.slug);
+  await mkdir(directory, { recursive: true });
+  const images = await renderZhihuCardImages(issue, directory);
+  return { cover: null, images };
+}
+
+type SocialCoverVariant = "wide" | "portrait";
+
+async function renderSocialCover(
+  issue: Issue,
+  outputPath: string,
+  variant: SocialCoverVariant,
+) {
+  const portrait = variant === "portrait";
+  const width = portrait ? xiaohongshuWidth : 1200;
+  const height = portrait ? xiaohongshuHeight : 675;
+  const titleSize = portrait ? 72 : 40;
+  const titleY = portrait ? 286 : 190;
+  const titleUnits = portrait ? 13 : 14;
+  const titleLines = 3;
+  const signalY = portrait ? 690 : 160;
+  const signalX = portrait ? 72 : 790;
+  const signalWidth = portrait ? 936 : 338;
+  const signalHeight = portrait ? 118 : 92;
+  const signalGap = portrait ? 22 : 18;
+  const signalTitleUnits = portrait ? 25 : 14;
+  const lead = issue.hero?.coverTitle ?? issue.hero?.lead ?? issue.title;
+  const signals = issue.cards.slice(0, 4).map((card, index) => {
+    const y = signalY + index * (signalHeight + signalGap);
+    return `<g>
+      <rect x="${signalX}" y="${y}" width="${signalWidth}" height="${signalHeight}" rx="16" fill="#ffffff" stroke="#d8e2ee"/>
+      <rect x="${signalX}" y="${y}" width="7" height="${signalHeight}" rx="4" fill="${index % 2 === 0 ? "#2563eb" : "#f59e0b"}"/>
+      <text x="${signalX + 26}" y="${y + 35}" fill="#2563eb" font-size="20" font-family="Consolas, Microsoft YaHei, sans-serif" font-weight="700">${String(index + 1).padStart(2, "0")}</text>
+      ${svgLines(card.title, signalX + 80, y + 35, portrait ? 27 : 20, 2, signalTitleUnits, "#0b1220", 700)}
+    </g>`;
+  }).join("");
+  const overlay = Buffer.from(
+    `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="canvas" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e3f0ff"/><stop offset="1" stop-color="#f9f0e6"/></linearGradient>
+        <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#edf5ff"/><stop offset="0.52" stop-color="#fbfdff"/><stop offset="1" stop-color="#f3f8ed"/></linearGradient>
+        <linearGradient id="rail" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2563eb"/><stop offset="1" stop-color="#f59e0b"/></linearGradient>
+      </defs>
+      <rect width="${width}" height="${height}" fill="url(#canvas)"/>
+      <rect x="${portrait ? 46 : 42}" y="${portrait ? 46 : 36}" width="${width - (portrait ? 92 : 84)}" height="${height - (portrait ? 92 : 72)}" rx="24" fill="url(#paper)" stroke="#d8e2ee"/>
+      <rect x="${portrait ? 46 : 42}" y="${portrait ? 46 : 36}" width="9" height="${height - (portrait ? 92 : 72)}" rx="5" fill="url(#rail)"/>
+      <text x="72" y="${portrait ? 138 : 100}" fill="#2563eb" font-size="${portrait ? 29 : 23}" font-family="Microsoft YaHei, sans-serif" font-weight="700">AI 前哨站 · 第 ${String(issue.issueNumber).padStart(3, "0")} 期</text>
+      ${svgCoverTitle(lead, 72, titleY, titleSize, titleLines, titleUnits, "#0b1220")}
+      ${signals}
+      <text x="72" y="${height - 76}" fill="#5d6b82" font-size="20" font-family="Consolas, Microsoft YaHei, sans-serif">${escapeXml(issue.period.start)} — ${escapeXml(issue.period.end)}</text>
+      <text x="${width - 72}" y="${height - 76}" text-anchor="end" fill="#5d6b82" font-size="20" font-family="Microsoft YaHei, sans-serif">事实 · 影响 · 限制 · 来源</text>
+    </svg>`,
+  );
+  await sharp({
+    create: { width, height, channels: 3, background: "#edf3f8" },
+  }).composite([{ input: overlay }]).jpeg({ quality: 90, mozjpeg: true }).toFile(outputPath);
+}
+
+async function renderZhihuCardImages(
+  issue: Issue,
+  directory: string,
+) {
+  const staleFiles = (await readdir(directory)).filter((filename) =>
+    /^\d{2}-card\.jpg$/.test(filename),
+  );
+  await Promise.all(staleFiles.map((filename) => unlink(path.join(directory, filename))));
+  const images: string[] = [];
+  for (const [index, card] of issue.cards.entries()) {
+    const outputPath = path.join(directory, `${String(index + 2).padStart(2, "0")}-card.jpg`);
+    const tone = ["#f5faff", "#f7f7ff", "#f3fbfa"][index % 3];
+    const overlay = Buffer.from(
+      `<svg width="1200" height="675" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="rail" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2563eb"/><stop offset="1" stop-color="#f59e0b"/></linearGradient></defs>
+        <rect width="1200" height="675" fill="#edf3f8"/>
+        <rect x="42" y="36" width="1116" height="603" rx="22" fill="${tone}" stroke="#d8e2ee"/>
+        <rect x="42" y="36" width="9" height="603" rx="5" fill="url(#rail)"/>
+        <text x="76" y="96" fill="#2563eb" font-size="23" font-family="Consolas, Microsoft YaHei, sans-serif" font-weight="700">情报 ${String(index + 1).padStart(2, "0")} · ${escapeXml(card.category)}</text>
+        ${svgLines(card.title, 76, 166, 38, 2, 29, "#0b1220", 800)}
+        <rect x="76" y="276" width="502" height="248" rx="14" fill="#ffffff" stroke="#d8e2ee"/>
+        <text x="102" y="322" fill="#5d6b82" font-size="20" font-family="Microsoft YaHei, sans-serif">内容详情</text>
+        ${svgLines(card.oneLineSummary, 102, 370, 21, 6, 20, "#0b1220", 700)}
+        <rect x="598" y="276" width="526" height="248" rx="14" fill="#ffffff" stroke="#d8e2ee"/>
+        <text x="624" y="322" fill="#5d6b82" font-size="20" font-family="Microsoft YaHei, sans-serif">行动建议</text>
+        ${svgLines(card.developerImpact, 624, 370, 21, 6, 22, "#334155", 400)}
+        <text x="76" y="592" fill="#5d6b82" font-size="20" font-family="Microsoft YaHei, sans-serif">${escapeXml(card.publisher)} · ${escapeXml(card.occurredAt)}</text>
+        <text x="1124" y="592" text-anchor="end" fill="#2563eb" font-size="20" font-family="Microsoft YaHei, sans-serif" font-weight="700">AI 前哨站 · 第 ${String(issue.issueNumber).padStart(3, "0")} 期</text>
+      </svg>`,
+    );
+    await sharp({
+      create: { width: 1200, height: 675, channels: 3, background: "#edf3f8" },
+    }).composite([{ input: overlay }]).jpeg({ quality: 90, mozjpeg: true }).toFile(outputPath);
+    images.push(outputPath);
+  }
+  return images;
 }
 
 async function renderXiaohongshuCarouselImages(
   issue: Issue,
   directory: string,
-  cover: string,
 ) {
-  const coverFilename = path.basename(cover);
   const stalePackageFiles = (await readdir(directory)).filter((filename) =>
-    filename !== coverFilename && /^\d{2}-(?:cover|carousel)\.jpg$/.test(filename),
+    /^\d{2}-carousel\.jpg$/.test(filename),
   );
   await Promise.all(
     stalePackageFiles.map((filename) => unlink(path.join(directory, filename))),
@@ -94,7 +175,7 @@ async function renderXiaohongshuCarouselImages(
     throw new Error(`小红书完整轮播需要 ${totalPages} 张图片，超过当前 ${xiaohongshuMaxImages} 张限制。请缩短内容或拆分期刊，不能静默删字。`);
   }
 
-  const images = [cover];
+  const images: string[] = [];
   for (const [index, page] of pages.entries()) {
     const outputPath = path.join(directory, `${String(index + 2).padStart(2, "0")}-carousel.jpg`);
     await renderXiaohongshuPage(issue, page, index + 2, totalPages, outputPath);
@@ -168,7 +249,7 @@ async function renderEditorialCover(
           background: "#112032",
         },
       });
-  const lead = issue.hero?.lead ?? issue.title;
+  const lead = issue.hero?.coverTitle ?? issue.hero?.lead ?? issue.title;
   const overlay = Buffer.from(
     `<svg width="${layout.width}" height="${layout.height}" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -179,7 +260,7 @@ async function renderEditorialCover(
       <rect width="${layout.width}" height="${layout.height}" fill="url(#vertical)"/>
       <rect x="${layout.barX}" y="${layout.barY}" width="${layout.barWidth}" height="${layout.barHeight}" rx="3" fill="#35d0ba"/>
       <text x="${layout.barX}" y="${layout.issueY}" fill="#b7f3e9" font-size="${layout.issueSize}" font-family="Microsoft YaHei, sans-serif" font-weight="700">AI 前哨站 · 第 ${String(issue.issueNumber).padStart(3, "0")} 期</text>
-      ${svgLines(lead, layout.barX, layout.titleY, layout.titleSize, layout.titleLines, layout.titleUnits, "#ffffff", 800)}
+      ${svgCoverTitle(lead, layout.barX, layout.titleY, layout.titleSize, layout.titleLines, layout.titleUnits, "#ffffff")}
     </svg>`,
   );
 
@@ -237,7 +318,20 @@ export function paginateXiaohongshuSections(sections: XiaohongshuCarouselSection
     }
 
     let page = createXiaohongshuPage(section, sectionIndex, false);
-    for (const line of sectionLines) {
+    for (const [lineIndex, line] of sectionLines.entries()) {
+      const headingRun = line.style === "heading" && line.text.trim()
+        ? sectionLines.slice(lineIndex).filter((next) => next.blockIndex === line.blockIndex)
+        : [];
+      const nextContent = headingRun.length > 0
+        ? sectionLines.slice(lineIndex + headingRun.length).find((next) => next.text.trim())
+        : undefined;
+      const keepTogetherHeight = nextContent
+        ? headingRun.reduce((sum, next) => sum + lineHeight(next.style), 0) + lineHeight(nextContent.style)
+        : lineHeight(line.style);
+      if (page.lines.length > 0 && !fitsXiaohongshuHeight(page, keepTogetherHeight)) {
+        pages.push(page);
+        page = createXiaohongshuPage(section, sectionIndex, true);
+      }
       if (!fitsXiaohongshuLine(page, line.style)) {
         pages.push(page);
         page = createXiaohongshuPage(section, sectionIndex, true);
@@ -290,12 +384,13 @@ function assertXiaohongshuCarouselContent(
   sections: XiaohongshuCarouselSection[],
   pages: XiaohongshuPage[],
 ) {
-  const renderedText = pages
+  const normalize = (value: string) => value.replaceAll(/\s/g, "");
+  const renderedText = normalize(pages
     .flatMap((page) => page.lines.map((line) => line.text))
-    .join("");
+    .join(""));
   const missing = sections
     .flatMap((section) => section.blocks.map((block) => block.text.trim()))
-    .find((text) => text && !renderedText.includes(text));
+    .find((text) => text && !renderedText.includes(normalize(text)));
   if (missing) {
     throw new Error(`小红书轮播分页遗漏内容：${missing.slice(0, 80)}`);
   }
@@ -315,10 +410,14 @@ function createXiaohongshuPage(
 }
 
 function fitsXiaohongshuLine(page: XiaohongshuPage, style: XiaohongshuBlock["style"]) {
+  return fitsXiaohongshuHeight(page, lineHeight(style));
+}
+
+function fitsXiaohongshuHeight(page: XiaohongshuPage, height: number) {
   const headerHeight = 300;
   const footerHeight = 125;
   const used = page.lines.reduce((sum, line) => sum + lineHeight(line.style), 0);
-  return headerHeight + used + lineHeight(style) <= xiaohongshuHeight - footerHeight;
+  return headerHeight + used + height <= xiaohongshuHeight - footerHeight;
 }
 
 function unitsPerLine(style: XiaohongshuBlock["style"]) {
@@ -337,23 +436,51 @@ function lineHeight(style: XiaohongshuBlock["style"]) {
   return 30;
 }
 
-function wrapTextFully(text: string, maxUnits: number) {
-  const characters = Array.from(text.trim());
-  if (characters.length === 0) return [""];
+export function wrapTextFully(text: string, maxUnits: number) {
+  return wrapTextByUnits(text, maxUnits);
+}
+
+function wrapTextByUnits(
+  text: string,
+  maxUnits: number,
+  maxLines = Number.POSITIVE_INFINITY,
+) {
+  const tokens = text.trim().match(/[A-Za-z0-9][A-Za-z0-9+._/-]*|\s+|./gu) ?? [];
+  if (tokens.length === 0) return [""];
   const lines: string[] = [];
   let line = "";
   let units = 0;
-  for (const character of characters) {
-    const characterUnits = /[\x00-\xff]/.test(character) ? 0.55 : 1;
-    if (units + characterUnits > maxUnits && line) {
-      lines.push(line);
-      line = "";
-      units = 0;
+
+  const pushLine = () => {
+    if (!line.trim()) return;
+    lines.push(line.trimEnd());
+    line = "";
+    units = 0;
+  };
+
+  for (const token of tokens) {
+    if (lines.length >= maxLines) break;
+    if (/^\s+$/.test(token) && !line) continue;
+    const tokenUnits = Array.from(token).reduce(
+      (sum, character) => sum + (/[\x00-\xff]/.test(character) ? 0.55 : 1),
+      0,
+    );
+    if (units + tokenUnits > maxUnits && line) pushLine();
+    if (lines.length >= maxLines) break;
+    if (tokenUnits > maxUnits) {
+      for (const character of Array.from(token)) {
+        const characterUnits = /[\x00-\xff]/.test(character) ? 0.55 : 1;
+        if (units + characterUnits > maxUnits && line) pushLine();
+        if (lines.length >= maxLines) break;
+        line += character;
+        units += characterUnits;
+      }
+      continue;
     }
-    line += character;
-    units += characterUnits;
+    line += token;
+    units += tokenUnits;
   }
-  if (line) lines.push(line);
+  if (line && lines.length < maxLines) pushLine();
   return lines;
 }
 
@@ -368,27 +495,32 @@ async function renderXiaohongshuPage(
   const lineScale = page.lineScale ?? 1;
   const text = page.lines.map((line) => {
     const fontSize = Math.round((line.style === "title" ? 44 : line.style === "heading" ? 30 : line.style === "highlight" ? 30 : line.style === "body" ? 26 : 21) * lineScale);
-    const color = line.style === "highlight" ? "#b7f3e9" : line.style === "muted" ? "#9eafbd" : "#ffffff";
+    const color = line.style === "highlight" ? "#1d4ed8" : line.style === "muted" ? "#5d6b82" : "#0b1220";
     const weight = line.style === "heading" || line.style === "title" || line.style === "highlight" ? 700 : 400;
     y += Math.round(lineHeight(line.style) * lineScale);
     return `<text x="72" y="${y}" fill="${color}" font-size="${fontSize}" font-family="Microsoft YaHei, sans-serif" font-weight="${weight}">${escapeXml(line.text)}</text>`;
   }).join("");
   const overlay = Buffer.from(
     `<svg width="${xiaohongshuWidth}" height="${xiaohongshuHeight}" xmlns="http://www.w3.org/2000/svg">
-      <rect width="${xiaohongshuWidth}" height="${xiaohongshuHeight}" fill="#07111f"/>
-      <rect x="48" y="48" width="984" height="1344" rx="18" fill="#102131" stroke="#29485a"/>
-      <rect x="72" y="82" width="58" height="8" rx="4" fill="#35d0ba"/>
-      <text x="72" y="142" fill="#b7f3e9" font-size="28" font-family="Microsoft YaHei, sans-serif" font-weight="700">AI 前哨站 · 第 ${String(issue.issueNumber).padStart(3, "0")} 期</text>
-      <text x="72" y="204" fill="#35d0ba" font-size="24" font-family="Microsoft YaHei, sans-serif" font-weight="700">${escapeXml(page.sectionLabel)}</text>
-      ${svgLines(page.heading, 72, 268, 50, 2, 16, "#ffffff", 800)}
+      <defs>
+        <linearGradient id="canvas" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e3f0ff"/><stop offset="1" stop-color="#f9f0e6"/></linearGradient>
+        <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#edf5ff"/><stop offset="0.52" stop-color="#fbfdff"/><stop offset="1" stop-color="#f3f8ed"/></linearGradient>
+        <linearGradient id="rail" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2563eb"/><stop offset="1" stop-color="#f59e0b"/></linearGradient>
+      </defs>
+      <rect width="${xiaohongshuWidth}" height="${xiaohongshuHeight}" fill="url(#canvas)"/>
+      <rect x="48" y="48" width="984" height="1344" rx="18" fill="url(#paper)" stroke="#d8e2ee"/>
+      <rect x="48" y="48" width="9" height="1344" rx="5" fill="url(#rail)"/>
+      <text x="72" y="142" fill="#2563eb" font-size="28" font-family="Microsoft YaHei, sans-serif" font-weight="700">AI 前哨站 · 第 ${String(issue.issueNumber).padStart(3, "0")} 期</text>
+      <text x="72" y="204" fill="#2563eb" font-size="24" font-family="Microsoft YaHei, sans-serif" font-weight="700">${escapeXml(page.sectionLabel)}</text>
+      ${svgLines(page.heading, 72, 268, 50, 2, 16, "#0b1220", 800)}
       ${text}
-      <line x1="72" y1="1320" x2="1008" y2="1320" stroke="#29485a"/>
-      <text x="72" y="1364" fill="#9eafbd" font-size="22" font-family="Microsoft YaHei, sans-serif">${escapeXml(issue.period.start)} — ${escapeXml(issue.period.end)}</text>
-      <text x="1008" y="1364" text-anchor="end" fill="#9eafbd" font-size="22" font-family="Microsoft YaHei, sans-serif">${pageNumber} / ${totalPages}</text>
+      <line x1="72" y1="1320" x2="1008" y2="1320" stroke="#d8e2ee"/>
+      <text x="72" y="1364" fill="#5d6b82" font-size="22" font-family="Microsoft YaHei, sans-serif">${escapeXml(issue.period.start)} — ${escapeXml(issue.period.end)}</text>
+      <text x="1008" y="1364" text-anchor="end" fill="#5d6b82" font-size="22" font-family="Microsoft YaHei, sans-serif">${pageNumber} / ${totalPages}</text>
     </svg>`,
   );
   await sharp({
-    create: { width: xiaohongshuWidth, height: xiaohongshuHeight, channels: 3, background: "#07111f" },
+    create: { width: xiaohongshuWidth, height: xiaohongshuHeight, channels: 3, background: "#edf3f8" },
   }).composite([{ input: overlay }]).jpeg({ quality: 90, mozjpeg: true }).toFile(outputPath);
 }
 
@@ -429,27 +561,40 @@ function svgLines(
     .join("");
 }
 
-function wrapText(text: string, maxUnits: number, maxLines: number) {
-  const characters = Array.from(text.trim());
-  const lines: string[] = [];
-  let current = "";
-  let units = 0;
-
-  for (const character of characters) {
-    const characterUnits = /[\x00-\xff]/.test(character) ? 0.55 : 1;
-    if (units + characterUnits > maxUnits && current) {
-      lines.push(current);
-      current = "";
-      units = 0;
-      if (lines.length === maxLines) break;
-    }
-    current += character;
-    units += characterUnits;
+export function coverTitleLines(text: string, unitsPerLine: number, maxLines: number) {
+  const chunks = text.match(/[^：，！？]+[：，！？]?/gu) ?? [];
+  const fits = (line: string) => Array.from(line).reduce(
+    (units, character) => units + (/[^\x00-\xff]/.test(character) ? 1 : 0.55), 0,
+  ) <= unitsPerLine;
+  const lines = chunks.length > 1 && chunks.length <= maxLines && chunks.every(fits)
+    ? chunks
+    : wrapTextFully(text, unitsPerLine);
+  if (lines.length > maxLines || lines.some((line) => !fits(line)) || Array.from(lines.at(-1) ?? "").length < 2) {
+    throw new Error("封面主题标题无法在安全字区内完整排版；请审定短标题或调整母图。 ");
   }
+  return lines;
+}
 
-  if (current && lines.length < maxLines) lines.push(current);
-  const consumed = lines.join("").length;
-  if (consumed < characters.length && lines.length > 0) {
+function svgCoverTitle(
+  text: string,
+  x: number,
+  y: number,
+  fontSize: number,
+  maxLines: number,
+  unitsPerLine: number,
+  color: string,
+) {
+  return coverTitleLines(text, unitsPerLine, maxLines)
+    .map((line, index) =>
+      `<text x="${x}" y="${y + index * Math.round(fontSize * 1.25)}" fill="${color}" font-size="${fontSize}" font-family="Microsoft YaHei, sans-serif" font-weight="800">${escapeXml(line)}</text>`,
+    ).join("");
+}
+
+function wrapText(text: string, maxUnits: number, maxLines: number) {
+  const lines = wrapTextByUnits(text, maxUnits, maxLines);
+  const consumed = lines.join("").replaceAll(/\s/g, "").length;
+  const total = text.replaceAll(/\s/g, "").length;
+  if (consumed < total && lines.length > 0) {
     lines[lines.length - 1] = `${Array.from(lines.at(-1) ?? "")
       .slice(0, -1)
       .join("")}…`;

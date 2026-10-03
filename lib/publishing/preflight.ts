@@ -1,5 +1,3 @@
-import { access } from "node:fs/promises";
-import path from "node:path";
 
 import type { Issue } from "../content/schema";
 import { runCommand } from "./commands";
@@ -22,7 +20,7 @@ export type PlatformPreflight = {
 };
 
 export async function getPublishingStatus(issue: Issue) {
-  const [gitStatus, branch, remote, ghAuth, xhsStatus, heroExists, state] =
+  const [gitStatus, branch, remote, ghAuth, xhsStatus, state] =
     await Promise.all([
       runCommand("git", ["status", "--porcelain"], { timeoutMs: 10_000 }),
       runCommand("git", ["branch", "--show-current"], { timeoutMs: 10_000 }),
@@ -31,7 +29,6 @@ export async function getPublishingStatus(issue: Issue) {
         timeoutMs: 15_000,
       }),
       runCommand("xhs", ["status", "--yaml"], { timeoutMs: 20_000 }),
-      hasHero(issue),
       readPublishState(),
     ]);
   const wechat = getWechatConfig();
@@ -65,7 +62,7 @@ export async function getPublishingStatus(issue: Issue) {
     ]),
     makePlatform("wechat", [
       check("内容已通过预览门禁", issueReady, `当前状态：${issue.status}`),
-      check("封面图可用", heroExists, heroExists ? "将生成公众号封面" : "本期缺少主视觉"),
+      check("作者封面已审定", false, "封面待作者另行设计；本地稿包不自动生成"),
       check(
         "公众号开发者凭据已配置",
         wechat.configured,
@@ -76,7 +73,7 @@ export async function getPublishingStatus(issue: Issue) {
     ]),
     makePlatform("xiaohongshu", [
       check("内容已通过预览门禁", issueReady, `当前状态：${issue.status}`),
-      check("封面图可用", heroExists, heroExists ? "可生成 3:4 竖版封面" : "本期缺少主视觉"),
+      check("作者封面已审定", false, "封面待作者另行设计；本地稿包不自动生成"),
       check(
         "小红书登录有效",
         xhsStatus.ok,
@@ -119,16 +116,4 @@ function makePlatform(
 
 function check(label: string, ok: boolean, detail: string): Check {
   return { label, ok, detail };
-}
-
-async function hasHero(issue: Issue) {
-  const src = issue.hero?.visual?.src;
-  if (!src) return false;
-  const filePath = path.resolve(process.cwd(), "public", src.slice(1));
-  try {
-    await access(filePath);
-    return true;
-  } catch {
-    return false;
-  }
 }

@@ -23,6 +23,10 @@
 .env*
 !.env.example
 /.local
+/.private/handoff-seals/
+/.private/handoff-seals-v4/
+/.private/handoff-seals-v5/
+/.private/handoff-seals-v6/
 
 # logs and OS files
 *.log

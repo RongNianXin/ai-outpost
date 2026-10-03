@@ -17,11 +17,21 @@ export function checkPublicText(file, text, terms = []) {
   return errors;
 }
 
+export function resolvePrivateSourceLibrary(root, environment = process.env) {
+  const configuredDirectory = environment.AI_OUTPOST_PRIVATE_SOURCE_LIBRARY_DIR;
+  const libraryDirectory = configuredDirectory
+    ? path.resolve(configuredDirectory)
+    : path.join(root, '.local/source-library');
+  return path.join(libraryDirectory, 'catalog.json');
+}
+
 function main() {
   const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
   const git = args => execFileSync('git', ['-C', root, ...args], { encoding: 'utf8', maxBuffer: 32 * 1024 * 1024 });
-  const catalogPath = path.join(root, '.local/source-library/catalog.json');
-  if (!fs.existsSync(catalogPath)) throw Error('Private comparison library missing; full privacy audit unavailable');
+  const catalogPath = resolvePrivateSourceLibrary(root);
+  if (!fs.existsSync(catalogPath)) {
+    throw Error('Private comparison library missing; set AI_OUTPOST_PRIVATE_SOURCE_LIBRARY_DIR for an isolated worktree');
+  }
   const catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf8'));
   const terms = catalog.entries.filter(e => ['media', 'community', 'research'].includes(e.kind))
     .flatMap(e => [e.entryUrl, ...(['media'].includes(e.kind) ? [e.name] : [])]);

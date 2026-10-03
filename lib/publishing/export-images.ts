@@ -11,10 +11,14 @@ export async function exportImagesToDirectory(parent: string, images: string[], 
   if (contents.some((bytes) => bytes.length < 3 || bytes[0] !== 255 || bytes[1] !== 216)) {
     throw new Error("稿包包含无效 JPEG，请重新生成。");
   }
+  const filenames = images.map((image) => path.basename(image));
+  if (filenames.some((name) => !/^\d{2}-(?:cover|carousel)\.jpg$/.test(name)) || new Set(filenames).size !== filenames.length) {
+    throw new Error("图片文件名不符合稿包顺序。");
+  }
   const directory = await mkdtemp(path.join(root, `AI-Outpost-${String(issueNumber).padStart(3, "0")}-`));
   const names: string[] = [];
   for (let index = 0; index < images.length; index++) {
-    const name = `${String(index + 1).padStart(2, "0")}-${index === 0 ? "cover" : "carousel"}.jpg`;
+    const name = filenames[index];
     const destination = path.join(directory, name);
     try {
       await writeFile(destination, contents[index], { flag: "wx" });

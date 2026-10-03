@@ -1,5 +1,100 @@
 # AI Outpost Progress
 
+## 2026-09-27：commander-7 正式接管
+
+- 操作者本轮确认 commander-6 已停止或归档并授权切换；平台归档列表回读旧任务 `01a0dc95-5266-78d2-afd1-3ea3726bf875`，当前任务 ID 为 `01a0e241-9110-7e01-aa40-d128f890d6d0`。第10号候选封条的实时来源、工作区 0/38/11 和远端 `main@45c9b5f` 在切换前复核未变；配置及 02/09/10 因工作流持续更新漂移，按操作者明确例外不作为本次阻断。
+- 旧任务归档后生成第10号封条对应的轮换意图，顺序与04常规预停步骤不同，实际时间与意图均在私有封条链保留；随后更新三个 CURRENT 为 commander-7，追加第11号 `TAKEOVER_COMPLETED` 封条，摘要 `b5cb04d8749c86671c7b712774498e0952ba224fed723a0343a597047d4f2771`。实际来源回算 `PASS`，`transition_status=SETTLED`，唯一写者回读为 commander-7。
+- 本轮未运行产品测试、构建、跨平台后台或专业验收；旧验证结果只作历史证据。未修改产品、Commit、Push、部署或平台内容。04 专项联络核对未见本轮有效通信授权，也无已确认必须继续协作的执行中专项；未通知或重建任务。受影响通信保持暂停。
+
+## 2026-09-27：第005期发布结论及交接成果连续性
+
+- 发布：用户报告官网、公众号、小红书、知乎均已发布。本轮独立确认官网公开详情页 HTTP 200、`origin/main@45c9b5f` 包含第005期发布、来源修补和卡片 UI 部署；其余三平台的最终公开链接、封面和正文版本未独立回读，不能代签专业验收或重复发布。旧记录“知乎未发布”等仅对应旧截点，不代表当前状态。
+- Git：同机主 worktree `main@0fe4556`，tree `e81374a23548be2b2149c6bb806f106909d36228`；`origin/main@45c9b5f` 领先4提交。暂存0、已跟踪修改38、未跟踪实际文件11；无本轮删除/重命名。四个临时 detached worktree 与一个 UI 部署分支 worktree 保留原位，不把存在性当作活跃调度；UI 部署 worktree 洁净且与远端同 HEAD。旧 v1/v2 链只读 `LEGACY_UNVERIFIED`，本轮不改旧链。
+- 当前成果清单，位置均为主 worktree 原位：第005期事实源 `content/issues/issue-005.json`、`content/sources.json`；官网卡片 `components/IntelCard.tsx`、`IntelCard.module.css`、`IssueView.tsx`；平台派生 `lib/content/{schema,wechat,zhihu}.ts`、`lib/publishing/{actions,assets,derivatives,export-images,preflight,prepare,zhihu-mixed-visuals}.ts`、`scripts/content/export-zhihu.ts`、`scripts/publish/prepare.ts`、`scripts/publish-console/{app.js,index.html,preview.js,server.ts}`；运行配置 `package.json`、`pnpm-lock.yaml`、`ops/weekly-run-state.json`、`ops/runs/2026-W39.json`；规则与决策 `AGENTS.md`、`docs/{CONTENT-OPS,PROMOTION,WEEKLY-TASK-PROMPT,WORKFLOW,DRAFT-REVIEW-AGENT,PRIVACY-BOUNDARY-DESIGN}.md`、`task_plan.md`、`findings.md`、本文件。`assets/zhihu-columns/prompts.md` 为正文图提示与资产线索，不是最终封面。必要测试：`tests/{content-schema,export-images,publish-action-gate,xiaohongshu-assets,zhihu-mixed-assets}.test.ts` 与隐私脚本及其 checks。候选按这些入口回读内容、实际调用链与相应测试，不能只凭本清单或 HEAD。
+- 附加对象：`.gitignore` 是私有封条排除边界；`next-env.d.ts` 是构建伴生修改，归属待逐项审查。根目录未跟踪 `section).length})` 是浏览器脚本错误文本，非运行成果，不删除、不纳入提交/封条。忽略目录中的导出图、来源库、封条与截图保留原位；需依赖时核对实际文件与权限，不能假定 Git 推送会传送。`总指挥工作流/` 三个 CURRENT 来源及 `.local/控制面状态索引-v3.md` 是本机控制面必要材料，不作为公开产品代码处理。
+- 内容与实现决策：读者稿移除“成熟度/营销噪声风险/建议动作”评级，但保留具体限制和行动参考；知乎混排正文图独立于可复制正文；封面由作者另行设计，不自动生成/替换；第006期起可选主图不留占位。远端已发布的 `issue-005.json` 与主工作区本地版本不同，未经逐字段对照不得以本地稿覆盖公开版本。
+- 本轮验证：`content:validate`、`typecheck`、291项测试（另1跳过）、`privacy:check` 和 `git diff --check` 通过；隐私扫描仅覆盖当前工作区/暂存区，不证明历史清洁。`ops:check` 为 `UNKNOWN/report_only`，不恢复调度。未执行本轮构建、跨平台后台复核、真实复制粘贴或专业/运行效果验收；旧测试结果只作历史证据。工作区增量与远端分歧阻断直接推送，但不要求为交接 Commit/Stash/Clean。
+- 内容核验：候选同机按 `git status --porcelain=v1 -uall`、各必要文件 UTF-8 原文/图片 SHA-256、`git diff`（分别看 index 与 worktree）、Git HEAD/tree、`git ls-remote` 及上述测试回读；换 worktree/电脑前须获准生成含 tracked 与必要 untracked/资产的恢复方式，恢复后重算。编辑器未保存缓冲不可见，若存在须作者保存后重核；不把未知写成已保存。
+
+## 2026-09-27：第005期知乎平台草稿排版微调
+
+- 按作者要求仅在已登录知乎编辑页拆分第1条“造成的影响”：模型定位、第三方评测数据、评测能支持的判断和用户反馈缺口成为4个独立段落；没有改事实文字、来源、图片或封面。
+- 草稿显示“刚刚·草稿”；从编辑器重新打开的电脑预览回读为4段、2张正文图、25个正文链接。未发布。原本地迁移稿未同步这次平台手工排版，不能据此覆盖草稿；封面主题文字仍旧，需作者另行处理。
+
+## 2026-09-27：第005期知乎正式本地迁移页
+
+- 将获认可的两张竖版信息图接入 `/preview/zhihu` 与导出清单，分别标注第1、第3条情报标题下方；复制排版正文时过滤图片节点，封面仍待作者提供。其他期次不沿用005期定制信息图。
+- `typecheck`、`content:validate`、全量测试（287通过、1跳过）及新增定向测试（1通过）通过；定向 ESLint 无错误，保留 `assets.ts` 既有4条未使用警告。3106本地页面返回200，两图加载、清单位置和尺寸回读一致；390px无横向溢出，复制按钮显示成功。复制前的正文副本已核对为0张图、25个来源链接且不含本机图片地址；浏览器拒绝自动读取系统剪贴板，因此实际粘贴到知乎后的格式与图片位置尚未验证。未改知乎后台草稿或发布。
+
+## 2026-09-27：知乎图文混排对照与对抗式复核
+
+- 本地 `/preview/zhihu-mixed` 按原知乎 Markdown 顺序保留完整文字、限制和来源，只在第1、第3条情报后插入两张信息图；未改知乎平台草稿或公开文章。
+- 对抗式检查发现首版横图在390px手机端文字过小，已改为1200×1080和1200×1120竖图，并补充价格促销/实际账单及预览功能验收限制。图片回读无裁切；本地页面两图加载、25个正文链接保留，390px页面无横向溢出；`typecheck`、定向 ESLint 和 `git diff --check` 通过。知乎后台上传和实际预览仍待验证。
+
+## 2026-09-27：第005期小红书复核及微信、知乎本地迁移稿
+
+- 小红书旧笔记标题已改为 `AI 前哨站第 005 期`；本地清单、10 张 `1080×1440` 图片顺序、尺寸与字节数逐项回读一致。首图是本地排版候选，非作者网页版最终封面；未上传平台。
+- 公众号 HTML/备用 Markdown 与知乎独立 Markdown 均改用第005期已审定 `hero.coverTitle`，公众号迁移页复制标题同步；公众号正文新增主图插入提示及应保留的 AI 示意图注。知乎本机预览改为安全 Markdown 排版，情报图“行动建议”标签与实际字段一致，并修正长标题孤字。
+- 重新生成同源稿包；`content:validate`、`typecheck`、`lint`、全量测试（285 通过、1 跳过）通过。3102 本机迁移页的公众号、知乎页面及 5 个下载入口均返回 200；真实浏览器在 390px/1280px 下无横向溢出，图片全部加载；两页复制按钮显示成功。效果图在 `output/playwright/issue-005-wechat-desktop.png`、`issue-005-wechat-mobile.png`、`issue-005-zhihu-desktop-final.png`、`issue-005-zhihu-mobile-final.png`。官网原文地址当前返回 200；Codex 窗口打开请求返回 queued，未确认用户窗口已显示。未在微信或知乎后台保存草稿、预览或发布。
+- 待完成：作者网页版最终封面尚未进入本项目，当前封面只作排版候选；替换后需重新生成三比例并核对裁切。平台粘贴、手机预览、图片插入和链接点击仍待真实后台验收，不将本地截图当作平台效果。
+
+## 2026-09-26：第005期官网发布与小红书准备
+
+- 用户明确确认第005期官网合格并授权官网发布。为避免混入原工作区的其他未提交修改，使用隔离的临时 `main` 克隆执行发布；原工作区未重置、隐藏或打包其他改动。
+- 首次 Pages 运行 `36233918916` 因未同步 `content/sources.json` 的 Android Developers 与 Matt Pocock 来源白名单而失败；补交提交 `7ca8ffea54edacd713582ced4e87db4c0a756bff` 后重新触发运行 `36234093536`，构建与部署成功。公开第005期页面返回 HTTP 200 且标题可见；原发布提交为 `9b6875955189cbdde4bb3ba9e967d0fc5d4af8ca`。
+- 本轮 UI 修复部署复核时，远端 `main` 已前进到 `7ca8ffe`，包含第005期内容及来源白名单修复，但不含当前官网卡片与跨平台预览实现；后续隔离发布必须从该远端基线创建，不能从主工作区旧 `HEAD 0fe4556` 直接推送。小红书、知乎迁移页均返回 HTTP 200；一次对不存在的 `/api/zhihu/manifest` 路径探测返回 404，已改按现有图片、Markdown 下载和页面 DOM 接口验收，不影响实际预览。
+- 已运行 `publish:prepare` 生成第005期小红书本地稿包：1张封面、7张正文卡和 `post.txt`，共8张 1080×1440 JPG；抽检封面、情报03和末页未发现截断或孤页。尚未上传小红书、执行私密测试或公开发布。
+- 独立审查首轮因稿包缺少小红书目录级 `manifest.json` 返回 `return`；已改进 `lib/publishing/prepare.ts`，每次生成稿包自动写入该清单。重新运行 typecheck 与全量测试（281 通过、1 跳过）后，元数据复审返回 `pass`。
+
+## 2026-09-26：第005期预览改进版
+
+- 按新手理解回读实际改写四张卡的内容详情和造成的影响，补充术语解释、适用条件、成熟度和具体行动边界；保持原有四条选题和来源不变。
+- `pnpm.cmd content:validate` 通过；重启本地开发服务并在当前 Codex 内置浏览器重新打开预览，已回读新版文字。状态仍为 `approved`（仅本地人工预览），没有公开发布。
+- 独立轻量审查 Agent 以盲读方式复核改进版，返回 `pass`；摘要点明目标读者属于可选 `advisory`，不阻断本期。固定审查提示已保存至 `docs/DRAFT-REVIEW-AGENT.md`。
+
+## 2026-09-26：统一四平台卡片模板修复
+
+- 定位并修复官网卡片 UI 分叉：`topChangeIds` 不再控制 `IntelCard` 的 CSS 或标签，重点只保留在首页重点信号区。所有官网情报卡统一为同一结构和“情报卡”标签。
+- 已重新运行 typecheck、lint、全量测试（281 通过、1 跳过）、content:validate 和四平台本地派生；官网本地预览已刷新回读，四张卡标签一致。公众号、知乎、小红书稿包均已重新生成；本轮未重新推送或部署官网。
+- 小红书迁移页补充真实浏览器验收：桌面和 `390px` 窄屏均无横向溢出，8 张图片全部加载且原始尺寸均为 `1080×1440`；复制标题按钮点击后显示“已复制”，目录导出表单存在。截图为 `output/playwright/issue-005-xhs-desktop.png` 与 `output/playwright/issue-005-xhs-mobile.png`。
+- 知乎迁移页桌面回读确认 5 张图片全部加载且均为 `1200×675`，完整正文为可选择/搜索文本，Markdown 下载入口存在，页面无横向溢出。知乎平台不支持复制官网 CSS，因此验收范围是同源封面、情报摘要图、栏目层级与事实内容一致，不声称像素级复刻官网。
+- 知乎 `390px` 窄屏同样无横向溢出，复制标题按钮点击后显示“已复制”；5 个图片接口均返回 JPEG 200，Markdown 下载返回 `text/markdown` 200。截图为 `output/playwright/issue-005-zhihu-desktop.png` 与 `output/playwright/issue-005-zhihu-mobile.png`。视觉回读未见截断、错位或图片未加载。
+
+## 2026-09-26：W39 首轮候选与自动验证完成
+
+- 本平台任务 ID：`01a0dc95-5266-78d2-afd1-3ea3726bf875`；本轮只做本地研究、草稿和验证，没有平台公开写入、远端写入或发布。
+- 已运行 `pnpm.cmd content:research:start`，私密来源库加载指纹为 `e1faec64365a69a184c699610b5d3ec4876d65dfc5846918648cf1707662873c`；该回执不等于外网页面已逐条核验。
+- 已记录四条 W39 候选并创建 `content/issues/issue-005-draft.json`；Anthropic 科研候选保留为高风险，待作者白话理解回执，未提升为 approved。
+- 已将 Android Developers 官方域名登记入 Google AI 来源白名单，以通过来源归属校验；未改变远端。
+- 验证：`content:validate` 通过（6 个 issue 文件、10 个来源目录项）；全量测试通过（27 个测试文件，281 通过、1 跳过）；typecheck、lint、privacy:check 通过。`ops:check` 仍为 `scheduleStatus=UNKNOWN`、`report_only`，当前周 `draft_needs_reconciliation`。
+- 当前截点：等待逐页事实复核、作者立场/科研白话理解回执和草稿人工审核；未生成本期知乎适配稿，避免在 draft 状态绕过导出门禁。
+
+## 2026-09-26：第005期本地预览已打开
+
+- 按本周新增规则补入 GitHub AI skills 候选；张驰专题和 Anthropic 科研案例继续顺延，避免在证据不足或作者理解回执缺失时进入预览。
+- `issue-005-draft.json` 已按期号规则升级为 `content/issues/issue-005.json`，状态为 `approved`；此状态仅表示允许本地人工预览，不表示发布授权。
+- `content:validate`、`content:check:links`、`typecheck`、`lint`、全量测试（281 通过、1 跳过）、`privacy:check` 和 production build 已通过；历史两条 OpenAI 链接仍有既有 403 警告。
+- 预览服务运行于 `127.0.0.1:3100`，已在当前 Codex 窗口打开并保留页面：`/issues/2026-09-26-ai-models-agents-and-research-boundaries/`。尚未执行知乎/公众号/小红书平台写入、公开发布、Commit、Push 或部署。
+- 预览回读发现摘要曾残留“科研案例”字样；已修正为“模型发布到工程工具”，重新运行 `content:validate` 并刷新页面，当前页面与四张实际情报卡一致。
+
+## 2026-09-26：v3 交接前置迁移与只读预检
+
+- 修正自检：v3 工具实际位于当前 ChatGPT-Workflows 规则仓库的 `.github/scripts/`，此前把工具限定在 AI Outpost 项目根目录的判断不成立。
+- 已新增项目启用声明 `总指挥工作流/工作流启用声明.md`、中央来源 `总指挥工作流/中央工作项.md` 与 `总指挥工作流/当前进度视图.md`，以及被 `.local` 忽略的 `控制面状态索引-v3.md`、v3 规则清单、迁移草稿和 preflight 配置；旧 `.local/AI状态索引.md` 未改写。
+- 已在 `.gitignore` 精确排除 `.private/handoff-seals/`，创建空封条目录；没有追加封条记录。
+- 用当前规则仓库的 `Prepare-Handoff.mjs` 执行 `preflight_only`，结果 `READY`；source_count=3，workspace protection 为 staged=0、tracked_modified=6、untracked=6，legacy migration=`BOUND_TO_LEGACY_SUMMARY`。preflight 未生成正式附件、回执或封条。
+- 规则仓库的 `Test-HandoffSeal.mjs`（52 cases）、`Test-Prepare-Handoff.mjs`（16 cases）和 `Test-Mark-Handoff-Delivered.mjs`（3 cases）全部通过。
+- 限制：当前仍只是 v3 前置材料可验证，未达到正式 `MATERIAL_PREPARED + READY` 的交接候选结论；未停止当前总指挥，未切换写者，未 Commit、Push、部署或平台写入。
+- 交接回读清单：新候选须实际回读 `总指挥工作流/工作流启用声明.md`、`总指挥工作流/中央工作项.md`、`总指挥工作流/当前进度视图.md`、`.local/控制面状态索引-v3.md`、`.local/handoff-rule-manifest-v3.json`、`.local/handoff-draft-v3.json` 和 `.local/handoff-preflight-v3.json`；内容核验用 UTF-8 原文、SHA-256、CURRENT/HISTORY 标记与 preflight 输出。
+- 工具与测试证据入口：`C:/vibeCodeing/project/tools/ChatGPT-Workflows/.github/scripts/HandoffSeal.mjs`、`Prepare-Handoff.mjs`、`Mark-Handoff-Delivered.mjs` 及同目录 `Test-HandoffSeal.mjs`、`Test-Prepare-Handoff.mjs`、`Test-Mark-Handoff-Delivered.mjs`；新候选应回读实际脚本、规则模板 `templates/HANDOFF_STATE.schema.json` 和三组测试结果，不以本摘要代替。
+- 未提交成果保护：`AGENTS.md`、`docs/PROMOTION.md`、`docs/WEEKLY-TASK-PROMPT.md`、`progress.md`、`task_plan.md`、`.gitignore` 及两个未跟踪业务/设计文件均保留主工作区原位；它们未全部纳入封条来源 inventory，接手方须按工作区状态和内容哈希逐项核对。
+
+## 2026-09-26：v3 正式候选封存完成
+
+- 规则源指纹曾漂移，已只读回源并按当前 `2026-09-26.7` 实际文件更新本地 v3 清单；随后 `Prepare-Handoff.mjs` preflight 再次返回 `READY`。
+- 将配置切换为正式生成模式后，工具实时回算三项中央来源、工作区保护摘要、规则 manifest 与 Unicode inventory，成功生成 `ai-outpost-commander-handoff-20260926-final-1.md` 及 receipt；`chain_status=PASS`，seal digest=`5c0a1b02bad38ee994240abce68d13e6ae46ccd18ae276c5a0169ab6a4307936`。
+- 附件当前仅为 `GENERATED_NOT_DELIVERED`：未执行交付登记、旧总指挥停止、中央写者轮换或新调度。正式交接下一步须由操作者把主附件发送给新候选并明确切换确认；当前总指挥继续保留调度权。
+
 ## 2026-09-20：网络体系同步门禁（本地）
 
 - 新增 `config/content-network.json`，登记官网、GitHub README、公众号和小红书的触发方式、授权等级与证据。
@@ -938,7 +1033,7 @@
 - 工作流复核（2026-09-19）：重新回读 AGENTS、CONTENT-OPS、PROMOTION、WORKFLOW 和 WEEKLY-TASK-PROMPT；另一个 AI 的通知未作为任务、事实或授权继承，不回复、不采纳其未核验结论。
 - 作者确认后已将本地期刊从 `issue-004-draft.json` 改为 `content/issues/issue-004.json`，状态为 `approved`；修正文件名与 `id` 后 `content:validate` 通过。类型检查和 274 项测试继续通过。
 - 已启动本地开发服务并打开真实预览：`http://127.0.0.1:3100/issues/2026-09-19-frontier-ai-governance-and-agents/` 返回 HTTP 200，页面可见标题、4 张情报卡、来源索引和资料包入口。该服务供作者审阅，未执行发布、提交、推送或部署。
-- 西湖大学张驰团队世界模型专题调研启动：官方姓名为“张驰”（Chi Zhang）。已核验 WorldForge（CVPR 2026 Highlight）、Code World Model（arXiv 2608.25927）和 2026-09 公开代码的 World in World。判断：材料基础已足够列入下一期专题候选，但第004期既定主题和预览不宜临时改写；正式专题需补独立评测、复现条件、许可边界及团队对研究路线/限制的说明。作者与张驰存在私人友谊，正式稿需做关系披露。
+- 西湖大学张驰团队世界模型专题调研启动：官方姓名为“张驰”（Chi Zhang）。已核验 WorldForge（CVPR 2026 Highlight）、Code World Model（arXiv 2608.25927）和 2026-09 公开代码的 World in World。判断：材料基础已足够列入下一期专题候选，但第004期既定主题和预览不宜临时改写；正式专题需补独立评测、复现条件、许可边界及团队对研究路线/限制的说明。与作者相关的私人关系和选题偏好不再写入公开记录，改由本机私密上下文入口保存。
 - 第004期正式官网发布前复核（2026-09-19）：已回读最终 JSON 并完成 `content:validate`、来源链接检查、typecheck、lint、274 项测试与 production build；当前未发现第004期自身的语法、结构或明显标点/逻辑阻断。链接检查仅有历史期刊的 3 个 403 警告，不涉及第004期。发布未执行：官网发布脚本检测到工作区存在代码/配置/文档等非第004期改动，且 `ops/weekly-run-state.json` 仍为 `draft_only` 并绑定 issue-003；不能绕过这两个门禁或把无关改动一起推送。
 - 第004期发布阻断复盘（2026-09-19）：对照 `website.ts`、`run-gate.ts`、Git历史和现行运行文件确认，阻断来自预期安全门禁而非新Bug：工作区有跨期代码/配置/文档改动，且 `weekly-run-state.json` 仍为绑定 issue-003 的 `draft_only`。已将“预览通过即登记工作区与运行状态基线、发布前再次核对、发布后回读并恢复安全模式”写入 WORKFLOW、PROMOTION 和 findings；本轮不改闸门、不切 normal、不发布。
 - 第004期官网发布完成（2026-09-19）：为保护主工作区既有未提交成果，使用临时 `main` worktree 仅带入 `content/issues/issue-004.json`、本期所需 `content/sources.json` 和本期运行状态；在发布前将运行状态明确绑定 `issue-004` 并切换 `normal`，通过内容校验、链接检查、typecheck、lint、测试和构建后，以确认句执行官网发布。提交 `3cbb917d1fcfec5d958965b101377ec2f0585580` 已推送 `origin/main`，Pages 运行 `35419209451` 成功。公网首页、归档、第004期详情页和 `brief.md` 均 HTTP 200，`content:check:downloads --origin` 验证 4 个公开资料包和无未公开下载。公众号、小红书未操作；主工作区未提交成果保留原位。
@@ -997,3 +1092,112 @@
 - 知乎加入 `config/content-network.json`；公开发布、回复和修改已发布内容仍逐期确认。本轮未登录或写入知乎后台。
 - 已将周六三平台人工操作、成功表现和异常回传写入 `docs/PROMOTION.md`，并把 `content:export:zhihu` 纳入周更导出步骤；当前仍只准备本地稿包，不触发平台写入。
 - 提交 `0a8da2fe1a9f1d56265410d14d307f810005adf7` 已推送 `origin/main`。远端工作流显示 `active` 且已包含知乎导出，但最近一次定时运行是 2026-08-22，之后三次周六没有定时运行记录；本机 `ops:check` 仍为 `UNKNOWN/report_only`。未擅自触发远端工作流，周六自动唤醒仍待单独恢复或人工触发验证。
+- 2026-09-24：用户要求本周六优先复核西湖大学张驰团队世界模型专题；若按本期时间窗补查后达到“大新闻”标准且满足现有至少两项触发条件，则作为本期首条，否则顺延。已同步 task_plan、WEEKLY-TASK-PROMPT 和私密专题记录；未提前生成稿件、未联系团队、未执行平台或远端写入。私人关系默认不写入公开稿，只有作者针对具体期次另行确认时才可披露，并分开标注官方材料、独立证据和编辑判断。
+- 2026-09-24：用户进一步将张驰团队专题提升为高敏感科研门禁，要求反复交叉核验、成稿前白话教学，并查看其公开小红书/抖音/知乎作为补充线索。用户同时要求一项高敏感上下文只对本项目现任总指挥和本人可见；已建立本机 `.local/private-context/AI-Outpost-sensitive-context.md`，公开记录只保留通用规则和指针。最新隐私要求覆盖此前“自动披露私人关系”的旧记录：对外披露须逐期明确确认。未执行外部研究、平台写入、远端写入或跨项目通信。
+- 2026-09-24（对抗式审查修正）：发现“先教学再成稿”缺少可执行回执门禁；已补充要求作者明确回复“已理解”、提出补充疑问或表示“暂不理解”，无回执不得生成正式稿。该回执仅确认教学/表达意图，不替技术证据背书。
+- 2026-09-24（隐私对抗式审查）：当前工作区、暂存区和未跟踪 `.local` 私密文件均未进入 Git；但历史 Git/远端引用仍可能保留旧敏感表述，本轮未改写历史或清理远端。隐私边界因此仍有残余风险，待单独授权后处理，不把本轮结果表述为绝对保密。
+- 2026-09-24（小红书长文卡片流程）：按用户反馈移除自动封面，正文卡改为清新暖色 1080×1440 版本；采用“正文超过500字符自动卡片化、按完整语义块分页、封面由作者单独设置、确定性排版、超过18张停报”的长期方法，并已通过脱敏消息同步给“项目推广总指挥3号 (2)”和“推广 ChatGPT Workflows 2号（2）”。等待后者按总指挥职责回执审查意见；未执行平台上传。
+- 2026-09-24（小红书笔记风格 v3）：根据作者提供的封面参考，正文卡改为无渐变的米白横线笔记纸、蓝色手写编号、深色手写标题和少量橙/薄荷绿装饰；封面仍由作者单独设置。新版位于 `exports/xiaohongshu/ai-agent-tips-2026-09-24/notebook-v3/`，共10张正文卡，已回读总览和单张实际尺寸；未执行平台上传。
+- 2026-09-24（小红书笔记风格 v4）：按作者反馈修正编号与版式：始终预留 `01-cover.jpg`，正文输出 `02-01.jpg` 至 `11-10.jpg`；数字缩小并与标题留距，移除黄线，正文基线对齐横线纸格，右上角改为约50%透明度的 Q 版 ChatGPT 发卡头像。新版位于 `exports/xiaohongshu/ai-agent-tips-2026-09-24/notebook-v4/`，共10张正文卡，未执行平台上传。
+- 2026-09-25（小红书卡片复核修正）：作者指出仍有文字压线、末页字号变小及头像不符参考图。已改为固定 30px 正文字号、48px 统一编号、48px 横线间距与统一基线；直接使用作者提供的 Q 版头像做圆形裁切、约50%透明叠加，并缩小到右上角不遮挡标题。重新回读第 1、5、10 张及总览，正文从 `02-01.jpg` 到 `11-10.jpg`，未执行平台上传。
+- 2026-09-25（小红书卡片段落与页脚修正）：按作者反馈保留原文换行，不再为每个段落追加半行间距；原文真实空行才保留完整一行留白，所有正文继续使用固定 30px 字号与 48px 基线。卡片 03 的“【相关材料】”段落恢复为普通正文，不再绘制特殊卡片框；页脚“暮雨笙的 AI 手记”拆分微调 AI 基线以对齐中文。已重新生成并回读关键页，未执行平台上传。
+- 2026-09-25（小红书卡片 v5 基线统一）：已将 v4 完整存档至 `exports/xiaohongshu/ai-agent-tips-2026-09-24/archive/notebook-v4-2026-09-25-pre-layout-normalization/`，并定位到 03 压线根因：两行标题使用 64px 偏移而非 48px 信纸格距。v5 统一所有标题按 48px 格距紧贴下方横线；正文段落首行用固定坐标缩进两个汉字、续行顶格；原文真实空行才保留完整一行；03 引号下移、括号改用稳定字体；08 与其他卡片采用同一标题规则。新版位于 `exports/xiaohongshu/ai-agent-tips-2026-09-24/notebook-v5/`，共10张正文卡，未执行平台上传。
+- 2026-09-25（小红书风格模板目录）：按作者要求建立 `exports/xiaohongshu/小红书长文卡片模板/001信纸风格/`，保存 `小红书信纸风格记录.md` 与一张 `1080×1440` 的 `模板.jpg`。说明文档记录目录结构、输入文件、视觉规范、分页/字号/缩进规则、封面留位和验收清单，未执行平台上传或远端写入。
+- 2026-09-25（小红书模板分页说明合并）：核对 `notebook-v5/page-plan.md` 后，将其通用分页规则和本次示范的 10 个标题清单合并到 `001信纸风格/小红书信纸风格记录.md`；已标明标题清单仅属于本次示范，不作为未来文章固定结构。
+- 2026-09-26（总指挥交接诊断收口）：完成 `content:research:start`、`ops:check`、Git/工作区/远端指针、自动任务、端口和临时 worktree 只读核对；主工作区 `main` 与 `origin/main` 同为 `0fe4556`，保留 5 个已跟踪修改和 2 个未跟踪文件，未提交、未清理。发现 v3 交接实例链尚未落地，规则刷新 manifest 与当前 01/04/06/07/轻量配置指纹漂移，因此只生成 `C:\Users\94421\AppData\Local\Temp\codex-handoff-20260926-draft-v3-blocked.md` 诊断草稿，旧 schema v2 辅助检查回读 `HANDOFF_CONTEXT_OK`；未生成 `final-*`，未停止当前总指挥或启动新调度。
+# 2026-09-26：第005期官网预览复盘
+
+- 回看当前预览页后确认：结构和事实边界达到可审阅基线，但部分卡片对新手过于简洁。
+- 已将“新手理解回读”加入 `docs/CONTENT-OPS.md` 与 `docs/PROMOTION.md`，并在 `findings.md` 记录 GPT-6、Gemini TTS、Android BYOA/ACP、GitHub skills 的具体解释缺口。规则变更只影响后续预览审校，本轮未修改已批准的第005期内容。
+
+# 2026-09-26：正式接管后启动本周 AI 前哨站研究
+
+- 当前总指挥已切换为 commander-6；平台任务 ID `01a0dc95-5266-78d2-afd1-3ea3726bf875`。本轮只登记本周研究启动，不执行远端写入、部署或公开平台操作。
+- 已运行 `pnpm.cmd content:research:start`，私密来源库加载成功；已运行 `pnpm.cmd ops:check`，当前周识别为 2026-W39，调度为 `UNKNOWN/report_only`。
+- 本周新增知乎已纳入 `config/content-network.json` 的 authorization_required 资源链；待新一期事实稿完成本地审校后生成 `content:export:zhihu` 独立 Markdown，再按既有持续授权考虑草稿/私密测试。未复用第004期事实，未执行知乎后台写入。
+- 已建立 `ops/runs/2026-W39.json` 并更新 `ops/weekly-run-state.json` 为 `research_started`；下一步是本周候选筛选和新期事实底稿，不自动唤醒调度。
+# 2026-09-26：跨平台视觉统一处理中
+
+- 已确认用户截图是公网旧版，不是缓存；旧版第三张因非重点卡保留灰色侧栏，其他重点卡使用蓝到琥珀侧栏。本地主组件现进一步移除三种色调轮换，统一背景、边框、标签和侧栏。
+- 已将小红书第005期从深色科技卡改为官网同源浅色卡，保留 8 张、`1080×1440`、完整正文与来源；修复英文产品名逐字符断行。
+- 已新增知乎 `1200×675` 同源封面和 4 张情报摘要图、清单及本机迁移预览入口；正文仍为可搜索的原生 Markdown，不宣称复制官网 CSS。
+- 第一轮 `publish:prepare` 因完整性校验未忽略排版空格而误报缺字；已改为去除空白后核对，第二轮生成成功。当前未执行小红书/知乎平台写入，官网尚待全量验证与隔离部署。
+# 2026-09-26：第005期模型头条本地增补（待审）
+
+- 官方 API 标准档价格核对：GPT-6 Sol 输入/输出每百万 token 为 2/10 美元，GPT-5.6 Sol 为 4/20 美元；同口径两项标价各降 50%。GPT-6 Luna 为 0.10/0.50 美元。比较不覆盖订阅、其他服务档位或实际账单。
+- 第三方 Artificial Analysis 的 max 档页面核对：6 Sol/5.6 Sol 综合指数 48/47，生成速度约 84.5/84.9 token/秒，指数任务成本约 1.06/1.99 美元；6 Luna/5.6 Luna 综合指数同为 37，速度约 146.2/126.3 token/秒。只代表该评测口径，未取得足以概括总体口碑的用户反馈。
+- 已在本地 `issue-005.json` 增补头条、事实与来源，并把重大模型换代的价格、性能、性价比和用户反馈核对写入 CONTENT-OPS；Artificial Analysis 白名单限定增加已核验的 `/models/` 路径。`content:validate`、`typecheck` 和链接检查通过。线上与其他平台尚未更新；原发布授权不适用于这次修订。
+- `pnpm.cmd build` 通过，五份已公开期刊资料包导出校验通过；本机详情页 HTTP 200，回读包含新标题与评测数值。公网详情页 HTTP 200，但仍显示旧标题，确认本地修订未部署。Codex 浏览器打开请求返回 `queued`，不记为用户已看到预览。
+
+# 2026-09-26：封面期号提示词与小红书浅渐变（本地）
+
+## 2026-09-26：封面标题两级固定规则
+
+- 用户要求跨期统一封面标题的展示内容与排版关系。已采用“左上系列眉标 `AI 前哨站 · 第 NNN 期` + 一句较大的本期主题标题”两级结构；不加第三层解释性副标题。具体图片、配色和 UI 可按期变化。唯一现行细则写入 `docs/CONTENT-OPS.md`，`docs/PROMOTION.md` 改为引用。
+- 为避免再把 `hero.lead`、`hero.deck` 混作封面标题，新增独立 `hero.coverTitle`。第005期设为已确认的“从模型发布到工程工具：先确认谁能用，再判断能否交给它做”；005期起已批准/已公开稿缺字段会校验失败，历史001–004不回改。公众号、小红书、知乎封面生成器统一读取该字段；小红书封面移除重复的 `hero.deck` 文字。文章标题及正文未改。
+- `content:validate` 通过6份期刊，相关测试136项通过，`typecheck` 和 `git diff --check` 通过；第005期主题标题在横版排版计算中为2行、未截断。本轮未重生成、上传或发布任何封面，实际图片及平台裁切仍需另行回看。
+
+## 2026-09-26：小红书浅渐变可见度与同轮消息漏项修正
+
+- 上轮三版封面交付漏掉同轮可见的“小红书背景恢复轻微渐变”要求；现有记录不能证明 Codex 客户端投递故障，按执行端交付前漏核对处理。`docs/WORKFLOW.md` 已加入同轮新增消息的最终交付检查。
+- 第005期小红书正文卡原已有渐变，但纸面两处抽样像素仅相差个位数，视觉接近纯色。适度拉开浅蓝、近白、浅暖色的色差；同源小红书/知乎封面及小红书正文卡已重生成。保留蓝色标题、白色情报面板和琥珀色风险提示，不改官网或公众号已发布内容。
+- `publish:prepare` 成功，生成小红书10图；回看首图和导读图，期号、正文与裁切可见。`pnpm.cmd test` 282通过、1跳过，`pnpm.cmd typecheck` 通过。尚未在小红书后台上传或实测缩略图。
+
+- 核对第005期 JSON 的 `id=issue-005`、`issueNumber=5`、`title=AI 前哨站第 005 期`；官网/公众号/知乎标题含系列与期号，小红书主题标题不含期号，但本地封面及正文卡由生成器叠加 `AI 前哨站 · 第 005 期`。飞书未登记为本项目发布渠道，未取得相应封面/标题产物，不宣称已统一。
+- 旧提示词把无字母图的限制写清，但对外部 AI 未明确“这不是最终封面”和总指挥叠字责任。已在 CONTENT-OPS 的唯一现行提示词与固定流程补充当期 JSON 三字段核号、委托边界及最终平台标题/封面识别回读，不更改正式期号或已发布平台。
+- 小红书封面和正文卡改为相同的轻微蓝至暖白底色及纸面浅渐变，避免原大面积纯白。`publish:prepare -- --slug 2026-09-26-ai-models-agents-and-research-boundaries` 重生成本地全平台派生稿；小红书现为 10 张（包含上轮价格头条增补），抽看封面与末页均显示第005期、无明显截断。尚未执行平台上传或发布。
+- `pnpm.cmd content:validate`、`pnpm.cmd typecheck`、`pnpm.cmd test` 通过（282 项通过、1 项跳过），`git diff --check` 无补丁空白错误。未核验小红书、公众号、知乎后台真实上传与裁切；本地稿包更新不代表线上或平台草稿已同步。
+
+## 2026-09-27：自第006期起移除正文主图占位
+
+- 已按用户要求保留005既有稿包；006及以后公众号 HTML/Markdown 不输出主图上传黄框或固定图注，迁移页改为复制正文后可直接粘贴、主图可选。PROMOTION与AGENTS现行规则同步改为可选主图，其他媒体迁移页不新增可选主图占位。
+- `tests/content-schema.test.ts` 增加005保留/006移除对照；定向测试135通过，`typecheck` 与 `git diff --check` 通过。005本地公众号迁移页HTTP 200且仍含原占位提示；006真实迁移页需待该期生成后再回读。未改平台后台、远端或已发布内容。
+
+## 2026-09-27：知乎粘贴格式修复及 API 只读核对
+
+- 用户截图显示 Markdown 标记在知乎编辑区原样可见；复现命令从旧本地预览页取“复制正文”按钮，确认使用 `data-copy-value` 的纯文本剪贴板。现改为“复制排版正文”读取本地语义化 HTML 区域，另保留“复制 Markdown 备用”与下载入口；正文仍可搜索、编辑，不改为全文图片。迁移说明已同步。
+- 新本地预览 `http://127.0.0.1:3103/preview/zhihu?slug=2026-09-26-ai-models-agents-and-research-boundaries` 返回200；Playwright点击后读取剪贴板格式为 `text/html`、`text/plain`，HTML含标题和来源链接，纯文本不含开头 `**` 标记。定向测试135通过、typecheck通过、lint无错误（另有assets.ts旧代码4条未使用警告）、diff检查通过。Codex内置浏览器打开请求为queued，不冒充已展示。
+- 知乎实际编辑器粘贴/预览仍未由AI回读。官方开放平台入口本机请求返回422，未取得面向普通账号文章草稿/发布的正式接口文档、认证方式和授权条件；暂不实现写入CLI，不调用网页内部接口、Cookie或发布动作。
+## 2026-09-27：第005期跨平台读者栏目统一
+
+- 公众号、知乎、小红书派生器统一按内容详情、造成的影响、行动参考、事实/测评/限制展示，移除成熟度、噪声风险、建议动作的读者评级；官网本地卡片移除概括性技术风险，内部 JSON 字段及具体事实限制均保留。
+- 第005期本地稿包重生成，未生成封面；知乎已登录草稿仅局部删除4组评级并统一栏目名，刷新平台预览回读0处评级、4处行动参考、4处事实标题、2张正文图和25个链接，未发布。知乎此前手工拆段仍只在后台，整篇重贴会覆盖。
+- 小红书分页器修正页尾孤立标题，新图片复核通过。`pnpm.cmd test` 291通过、1跳过，`typecheck`、`content:validate`、`build` 通过；Lint 0错误、4条既有未使用函数警告。3107本地三平台预览返回200；旧3102/3106知乎预览服务仍缓存旧代码，不能用来判断本轮结果。官网3100本地详情页返回200，浏览器确认行动参考可见、技术风险评级不再出现；只见favicon缺失404及CSS预加载提示。Codex浏览器打开请求返回queued，未确认窗口已展示。官网未部署，公众号/小红书平台后台未改。
+
+## 2026-10-03：第006期本地官网与三平台稿包（待作者验收）
+
+- 已运行 `pnpm.cmd content:research:start`，并以公开官方来源及一项独立评测完成第006期六条事实底稿；未把私密来源名单写入公开稿件。
+- 第006期首轮稿经独立草稿后审查 Agent 两轮返回后修订，第三轮 `pass`。GPT-6.1 Sol、Sonnet 5.5、GitHub dynamic workflows 已补入口、账号/地区、计划、计费、版本、组织策略或实验开关等资格边界；审查 Agent 未改文件、未执行平台或远端操作。
+- 文件已按批准期刊规则从 `issue-006-draft.json` 改为 `issue-006.json`，状态 `approved`；`content:validate` 通过7份期刊和10个来源目录。
+- `publish:prepare -- --slug 2026-10-03-ai-models-agents-and-verification` 成功：公众号 HTML/Markdown、知乎标题/正文/Markdown/manifest、小红书正文 10 张 `1080×1440` JPG 及 manifest 已生成。三平台封面仍待作者提供，未生成封面。
+- 官网本机详情页 `http://127.0.0.1:3100/issues/2026-10-03-ai-models-agents-and-verification/` 返回 HTTP 200，标题、核心卡片和来源可见；已请求在当前 Codex 窗口打开。预览服务保持运行供作者查看。
+- `privacy:check`、`typecheck`、`test`（291通过、1跳过）、`build`、`content:check:links` 均通过；Lint 0错误、4条 `lib/publishing/assets.ts` 既有未使用函数警告。链接检查共54条，006期 OpenAI 两条因远端403记为警告，其他006期来源通过。
+- 本轮未登录或写入公众号、小红书、知乎后台，未部署、未推送、未修改远端；封面、作者立场与手机端平台效果仍待人工验收。
+- 已启动并验证本地发布预览控制台 `http://127.0.0.1:3101/`；公众号、小红书、知乎预览路径均返回 HTTP 200，并已请求在当前 Codex 窗口打开。服务需保留至作者审核结束；控制台只读准备/复制/下载，不代表平台后台写入。
+
+## 2026-10-03：第006期作者反馈修订与规则补强（待确认）
+
+- 作者指出 `2/10 美元` 会被理解为分数或 Sol/Astra 对比。已修订共同底稿为“输入每百万 token 2 美元、输出每百万 token 10 美元、缓存输入每百万 token 0.10 美元”，并补回 GPT-6.1 Sol 的真实入口：ChatGPT Work/Codex 的套餐范围、Chat 尚不可用、API 可用。官方原文已回读核对。
+- 同轮修订：Dots 在正文第一次出现时说明为可持续在云电脑和已连接应用执行任务的智能代理；Gemini 4 Argon 改为“目前没有证据表明已面向普通开发者开放”；GitHub dynamic workflows 改为“所有 Copilot 套餐均可使用”，删除“计划可用/计费归属”等生硬说法；Sonnet 5.5 补回 Claude Platform、AWS、Google Cloud、Azure 入口。
+- 影响段保留“造成的影响”，并按“证据变化 → 读者后果 → 成立条件”重写，删除把价格、上下文等细节重复成影响的表达。
+- 新增 `docs/AI-BASIC-TERMS.md`：首版基础词含 AI、模型、大模型、提示词、上下文、Agent、API、token、GA、Beta；新产品按传播证据决定正文一句或术语区一个位置，前两期去重，不凑术语。第006期移出无必要的术语区内容。
+- 规则已补强：`DRAFT-REVIEW-AGENT.md`、`FACT-CHECK-PROTOCOL.md`、`CONTENT-OPS.md`、`PROMOTION.md`、`AGENTS.md` 和官网“AI 自动验证说明”明确来源/数字核验、对抗式审查、角色明确的独立子 Agent、影响段门禁和跨平台一致性门禁。
+- 第006期共同底稿当前为 `content/issues/issue-006-draft.json`，已通过 `content:validate`；派生稿仍是旧版本，已停止3100/3101预览服务，未重生成。待操作者确认规则和重生成范围后，再运行新一轮独立审查、四平台派生、对照和预览。
+- 本轮没有修改远端或平台；未提交、未推送、未部署。官方检索与行业规则调研仅作规则依据，不把媒体经验当事实来源。
+- 独立复审最终 `pass` 已记录；第006期 JSON 当前可进入“等待操作者确认重生成范围”，尚未重新生成平台稿或预览。
+
+## 2026-10-03：第006期第二轮表达修订与复核
+
+- 作者继续指出价格单位、Gemini资格表达、GitHub dynamic workflows、实验功能开关、公开预览版、AA-AgentPerf“开源基准”和标题可读性问题；术语区不强制填充，但正文需要在首次出现处解释必要概念。
+- 共同底稿已修订：价格统一为“每百万输入 token 2 美元、每百万输出 token 10 美元、每百万缓存输入 token 0.10 美元”；Gemini资格句拆分为短句；GitHub改为“可暂停的多步任务流程”并解释CLI、实验功能开关和公开预览版；AA-AgentPerf改为解释公开代码/测试任务的比较工具，并明确只比较速度不代表质量；标题整体改为简洁人话。
+- 独立审查 Agent 以科技新闻编辑、AI入门级讲师、反向质疑者复核：首轮仅退回斜杠价格单位，修订后 PASS；其余卡片无事实越界或理解阻断。
+- 已重新生成官网发布清单、公众号 HTML/Markdown、知乎稿件和小红书 11 张正文卡；封面仍待作者提供。预览服务保持运行，官网与三平台路径 HTTP 200，已抽查小红书 02、05、06 页视觉与断行。
+- content:validate、build、test（291通过、1跳过）、privacy:check、lint 均通过；lint仍为4条 lib/publishing/assets.ts 既有未使用函数警告。未写入平台后台、未发布、未部署、未提交、未推送。
+
+## 2026-10-03：专业自媒体编辑复核与双层表达规则采用
+
+- 作者确认第006期整体达到目标，并要求以专业自媒体编辑角色复核及提炼长期模板。独立 Agent 以“专业自媒体编辑、兼顾小白可读性与行业信息密度”复核，首轮结论 `REVISE`。
+- 复核提出两项必须修订：Sonnet 标题删除来源未直接支持的“复杂判断仍交给 Opus”，改为“长任务仍要实测”；GitHub 05 先用“检查代码—运行测试—整理报告”说明场景，再引入 dynamic workflows、CLI 和公开预览；AA-AgentPerf 的工具定义与影响段去重。
+- 已把“专业性与易读性的双层表达”写入 docs/CONTENT-OPS.md，并将场景优先、技术证据保留、新手/专业双层回读写入 docs/DRAFT-REVIEW-AGENT.md。规则已采用：人话降低进入门槛，精确条件保留技术水平，避免用术语数量制造专业感。
+- 修订后重新生成官网、公众号、小红书、知乎派生稿；派生稿已回读新标题、GitHub场景和AA-AgentPerf边界。官网与三平台预览均 HTTP 200，小红书 05 页视觉抽查通过。
+- content:validate、build、test（291通过、1跳过）、privacy:check 均通过；未执行平台后台写入、发布、部署、提交或推送。

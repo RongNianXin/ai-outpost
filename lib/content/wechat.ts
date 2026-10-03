@@ -1,8 +1,3 @@
-import {
-  actionLabels,
-  maturityLabels,
-  noiseRiskLabels,
-} from "./labels";
 import type { EvidenceSource, Issue } from "./schema";
 import { getSourceTypeLabel } from "./source-labels";
 
@@ -13,10 +8,16 @@ export function renderWechatMarkdown(issue: Issue): string {
     issue.sources.map((source) => [source.id, source]),
   );
   const lines: string[] = [
-    `# ${issue.title}`,
+    `# ${issue.title}${issue.hero?.coverTitle ? `｜${issue.hero.coverTitle}` : ""}`,
     "",
     issue.summary,
     "",
+    ...(issue.issueNumber > 0 && issue.issueNumber <= 5 ? [
+      "【图片上传位置：上传本期审定主图后，删除本段提示；保留下方图注。】",
+      "",
+      "主图：AI 生成示意；对应本期模型、语音与工程工具的开放边界，不代表产品实测画面。",
+      "",
+    ] : []),
     `> 覆盖时间：${issue.period.start} 至 ${issue.period.end}`,
     "",
   ];
@@ -36,17 +37,11 @@ export function renderWechatMarkdown(issue: Issue): string {
     lines.push(
       `## ${index + 1}. ${card.title}`,
       "",
-      `**发生了什么：** ${card.oneLineSummary}`,
+      `**内容详情：** ${card.oneLineSummary}`,
       "",
-      `**为什么值得关注：** ${card.whyItMatters}`,
+      `**造成的影响：** ${card.whyItMatters}`,
       "",
-      `**对 AI 应用开发者的影响：** ${card.developerImpact}`,
-      "",
-      `**成熟度：** ${maturityLabels[card.maturity]}`,
-      "",
-      `**营销噪声风险：** ${noiseRiskLabels[card.noiseRisk]}`,
-      "",
-      `**建议处理：** ${actionLabels[card.suggestedAction]}`,
+      `**行动参考：** ${card.developerImpact}`,
       "",
       "**事实、测评与限制：**",
       "",

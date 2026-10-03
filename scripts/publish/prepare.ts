@@ -25,9 +25,8 @@ async function main() {
   console.log(`Manifest: ${prepared.manifestPath}`);
   console.log(`Website preview: ${prepared.previewUrl}`);
   console.log(`WeChat HTML: ${prepared.files.wechatHtml}`);
-  console.log(`WeChat cover (2.35:1): ${prepared.files.wechatCover}`);
-  console.log(`Square cover (1:1): ${prepared.files.wechatSquareCover}`);
-  console.log(`Xiaohongshu images (${prepared.files.xiaohongshuImages.length}): ${prepared.files.xiaohongshuImages.join(", ")}`);
+  console.log("公众号、小红书、知乎封面：待作者另行设计；本次未生成封面。");
+  console.log(`Xiaohongshu body images (${prepared.files.xiaohongshuImages.length}): ${prepared.files.xiaohongshuImages.join(", ")}`);
 }
 
 function readArgument(name: string) {

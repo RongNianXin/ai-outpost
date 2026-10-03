@@ -123,6 +123,7 @@ const glossaryEntrySchema = z.object({
 const issueHeroSchema = z.object({
   lead: z.string().min(4).max(36),
   deck: z.string().min(6).max(80),
+  coverTitle: z.string().min(4).max(36).optional(),
   visual: z
     .object({
       src: z
@@ -202,6 +203,14 @@ export const issueSchema = z
     const publicStatus = publicIssueStatuses.includes(
       issue.status as (typeof publicIssueStatuses)[number],
     );
+
+    if (issue.issueNumber >= 5 && approvedStatus && !issue.hero?.coverTitle) {
+      context.addIssue({
+        code: "custom",
+        path: ["hero", "coverTitle"],
+        message: "Issues from 005 onward require an approved cover title.",
+      });
+    }
 
     issue.topChangeIds.forEach((cardId, index) => {
       addMissingReferenceIssue(

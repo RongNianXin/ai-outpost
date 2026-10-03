@@ -9,7 +9,7 @@ test("exports only listed images in order, verifies bytes and isolates repeated 
   const root = await mkdtemp(path.join(os.tmpdir(), "outpost-export-test-"));
   const sources = [];
   for (let i = 0; i < 8; i++) {
-    const source = path.join(root, `source-${i}.jpg`);
+    const source = path.join(root, `${String(i + 2).padStart(2, "0")}-carousel.jpg`);
     await sharp({ create: { width: 10, height: 10, channels: 3, background: { r: i * 20, g: 0, b: 0 } } }).jpeg().toFile(source);
     sources.push(source);
   }
@@ -19,8 +19,8 @@ test("exports only listed images in order, verifies bytes and isolates repeated 
   expect(first.directory).not.toBe(second.directory);
   expect(first.count).toBe(8);
   expect(await readdir(first.directory)).toEqual(first.names);
-  expect(first.names[0]).toBe("01-cover.jpg");
-  expect(first.names[7]).toBe("08-carousel.jpg");
+  expect(first.names[0]).toBe("02-carousel.jpg");
+  expect(first.names[7]).toBe("09-carousel.jpg");
   for (let i = 0; i < 8; i++) {
     expect(await readFile(path.join(first.directory, first.names[i]))).toEqual(await readFile(sources[i]));
   }

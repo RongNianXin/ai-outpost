@@ -65,6 +65,7 @@ function renderIssue(issue) {
   document.querySelector("#website-preview").href = `http://127.0.0.1:3100/issues/${issue.slug}/`;
   document.querySelector("#wechat-preview").href = `/preview/wechat?slug=${encodeURIComponent(issue.slug)}`;
   document.querySelector("#xhs-preview").href = `/preview/xiaohongshu?slug=${encodeURIComponent(issue.slug)}`;
+  document.querySelector("#zhihu-preview").href = `/preview/zhihu?slug=${encodeURIComponent(issue.slug)}`;
 }
 
 function renderPlatforms(platforms, receipts) {

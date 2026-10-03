@@ -1,8 +1,3 @@
-import {
-  actionLabels,
-  maturityLabels,
-  noiseRiskLabels,
-} from "./labels";
 import type { EvidenceSource, Issue } from "./schema";
 import { getSourceTypeLabel } from "./source-labels";
 
@@ -11,11 +6,11 @@ const SITE_ORIGIN = "https://rongnianxin.github.io/ai-outpost";
 export function renderZhihuMarkdown(issue: Issue): string {
   const sourceById = new Map(issue.sources.map((source) => [source.id, source]));
   const lines: string[] = [
-    `# ${issue.title}${issue.hero?.lead ? `｜${issue.hero.lead}` : ""}`,
+    `# ${issue.title}${issue.hero?.coverTitle ? `｜${issue.hero.coverTitle}` : ""}`,
     "",
     `**先说结论：** ${issue.summary}`,
     "",
-    `这不是一份“新功能清单”。本期更关心一个问题：当 AI 的能力边界不断扩大时，我们怎样判断它适合做什么、谁能用、谁来监督，以及怎样验收结果？以下内容以同一期事实稿为基础，区分公开事实、编辑判断和仍待验证的限制。`,
+    "这不是一份“新功能清单”。下面按内容详情、造成的影响、行动建议和事实限制逐条拆解，并区分公开事实、编辑判断和仍待验证的部分。",
     "",
     `> 覆盖时间：${issue.period.start} 至 ${issue.period.end}`,
     "",
@@ -34,17 +29,13 @@ export function renderZhihuMarkdown(issue: Issue): string {
     lines.push(
       `## ${index + 1}. ${card.title}`,
       "",
-      `**发生了什么？** ${card.oneLineSummary}`,
+      `**内容详情：** ${card.oneLineSummary}`,
       "",
-      `**为什么值得看？** ${card.whyItMatters}`,
+      `**造成的影响：** ${card.whyItMatters}`,
       "",
-      `**我的判断：** ${card.developerImpact}`,
+      `**行动参考：** ${card.developerImpact}`,
       "",
-      `- 成熟度：${maturityLabels[card.maturity]}`,
-      `- 营销噪声风险：${noiseRiskLabels[card.noiseRisk]}`,
-      `- 建议动作：${actionLabels[card.suggestedAction]}`,
-      "",
-      "**事实与限制：**",
+      "**事实、测评与限制：**",
       "",
     );
     card.facts.forEach((fact) => {

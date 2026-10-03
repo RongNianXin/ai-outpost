@@ -1,4 +1,3 @@
-import { technicalRiskLabels } from "@/lib/content/labels";
 import type {
   EvidenceSource,
   IntelCard as IntelCardData,
@@ -10,27 +9,15 @@ import { getSourceTypeLabel } from "@/lib/content/source-labels";
 type IntelCardProps = {
   card: IntelCardData;
   index: number;
-  isKey: boolean;
   sources: EvidenceSource[];
 };
 
 export function IntelCard({
   card,
   index,
-  isKey,
   sources,
 }: IntelCardProps) {
   const sourceById = new Map(sources.map((source) => [source.id, source]));
-  const toneClassName = [styles.cardToneA, styles.cardToneB, styles.cardToneC][
-    index % 3
-  ];
-  const cardClassName = [
-    styles.card,
-    toneClassName,
-    isKey ? styles.keyCard : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
   const cardNumber = String(index + 1).padStart(2, "0");
   const factSourceCount = new Set(
     card.facts.flatMap((fact) => fact.sourceIds),
@@ -43,7 +30,7 @@ export function IntelCard({
   });
 
   return (
-    <article className={cardClassName} id={card.id}>
+    <article className={styles.card} id={card.id}>
       <header className={styles.header}>
         <div className={styles.titleBlock}>
           <h2>{card.title}</h2>
@@ -55,9 +42,7 @@ export function IntelCard({
               {card.occurredAt}
             </time>
           </div>
-          <p className={styles.conclusionLabel}>
-            {isKey ? "重点情报" : "情报简讯"}
-          </p>
+          <p className={styles.conclusionLabel}>情报卡</p>
         </div>
 
         <div className={styles.insightGrid}>
@@ -79,10 +64,6 @@ export function IntelCard({
           <small>{factSourceCount} 个原始来源</small>
         </summary>
         <div className={styles.evidenceBody}>
-          <p className={styles.riskBadge}>
-            技术风险：{technicalRiskLabels[card.reviewRisk]}
-          </p>
-
           <section className={styles.actionReference} aria-label="行动参考">
             <h3>行动参考</h3>
             <p>{card.developerImpact}</p>

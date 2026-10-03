@@ -34,12 +34,14 @@
     "ops:test": "node --test scripts/ops/check-weekly.checks.mjs scripts/ops/research-start.checks.mjs scripts/ops/check-handoff-context.checks.mjs scripts/ops/check-source-privacy.checks.mjs"
   },
   "dependencies": {
+    "markdown-it": "^15.0.2",
     "next": "16.2.9",
     "react": "19.2.7",
     "react-dom": "19.2.7",
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@types/markdown-it": "^14.2.0",
     "@types/node": "^24.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",

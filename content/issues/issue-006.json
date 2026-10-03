@@ -1,0 +1,377 @@
+{
+  "schemaVersion": 1,
+  "id": "issue-006",
+  "slug": "2026-10-03-ai-models-agents-and-verification",
+  "issueNumber": 6,
+  "title": "AI 前哨站第 006 期",
+  "summary": "本周几家厂商同时推进更强模型、常驻 Agent 和可编排工作流，但开放资格、测试口径与人工审批仍决定它们能否进入真实工程。",
+  "hero": {
+    "lead": "模型更强，边界更细",
+    "deck": "从 GPT-6.1 Sol 到 Gemini 4 Argon：先看开放范围，再看能否交给它做",
+    "coverTitle": "模型更强，边界更细",
+    "visual": null
+  },
+  "period": {
+    "start": "2026-09-27",
+    "end": "2026-10-03"
+  },
+  "status": "approved",
+  "publishedAt": null,
+  "topChangeIds": [
+    "openai-gpt61-sol",
+    "anthropic-sonnet55",
+    "google-gemini4-argon"
+  ],
+  "opportunities": [],
+  "practiceTask": {
+    "title": "给一个新 Agent 功能补一张边界验收卡",
+    "durationMinutes": 30,
+    "objective": "把开放资格、权限、可观察结果和人工确认点分开记录。",
+    "steps": [
+      "选一条本期更新并打开官方原文。",
+      "写清谁现在能用、需要什么套餐或计划。",
+      "列出一次成功和一次失败时应该观察什么。",
+      "记录仍未知的费用、权限、数据和回滚条件。"
+    ],
+    "relatedCardIds": [
+      "openai-dots",
+      "github-dynamic-workflows"
+    ]
+  },
+  "glossary": [],
+  "cards": [
+    {
+      "id": "openai-gpt61-sol",
+      "title": "GPT-6.1 Sol：API 输入每百万 token 2 美元，ChatGPT 还未开放",
+      "category": "模型更新",
+      "publisher": "OpenAI",
+      "occurredAt": "2026-09-29",
+      "discoveredAt": "2026-10-03",
+      "oneLineSummary": "OpenAI 发布 GPT-6.1 Sol：ChatGPT Work 和 Codex 已向 Plus、Pro、Business、Enterprise、Edu 用户开放，ChatGPT 普通对话暂未开放；开发者也可通过 API 调用。API 价格是：每百万输入 token 2 美元、每百万输出 token 10 美元、每百万缓存输入 token 0.10 美元。",
+      "whyItMatters": "官方评测显示 Sol 在部分任务上更强，厂商也给出更低的标准 token 单价；这可能降低相近任务的调用成本，但评测条件、推理档位、上下文、缓存和工具调用都会改变实际账单，不能推出你的项目必然更快或更省。",
+      "developerImpact": "先确认你使用的是 API、ChatGPT Work 还是 Codex 入口，再做小规模 A/B 测试（用两组相同的代表性任务比较不同模型配置）；记录推理档位、上下文长度、缓存和工具调用，不要把 token 单价直接当成生产成本。",
+      "maturity": "usable",
+      "noiseRisk": "low",
+      "suggestedAction": "try",
+      "reviewRisk": "medium",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "降价与能力提升同时出现，但实际收益仍取决于任务和推理设置。",
+      "visualHint": "模型能力、价格和任务条件三列对照",
+      "facts": [
+        {
+          "id": "openai-sol-fact",
+          "claim": "OpenAI 于 2026 年 9 月 29 日发布 GPT-6.1 Sol，并将其定位为面向复杂编程、专业工作和多步 Agent 任务的 GPT-6 Sol 升级版。",
+          "sourceIds": [
+            "openai-sol-source"
+          ],
+          "limitations": [
+            "官方页面的评测是特定数据集和设置，不代表所有工作流。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        },
+        {
+          "id": "openai-sol-price-fact",
+          "claim": "官方页面列出 GPT-6.1 Sol 标准输入每百万 token 2 美元、标准输出每百万 token 10 美元，缓存输入每百万 token 0.10 美元。",
+          "sourceIds": [
+            "openai-sol-source"
+          ],
+          "limitations": [
+            "这里是 API token 标价，不是订阅价格或完整任务成本；批处理、长上下文和工具调用会改变账单。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "OpenAI",
+        "GPT-6.1 Sol",
+        "API价格"
+      ]
+    },
+    {
+      "id": "openai-dots",
+      "title": "OpenAI 推出 Dots：能持续处理任务的智能代理",
+      "category": "Agent 产品",
+      "publisher": "OpenAI",
+      "occurredAt": "2026-09-29",
+      "discoveredAt": "2026-10-03",
+      "oneLineSummary": "Dots 是 OpenAI 推出的智能代理（Agent）：它可以在自己的云电脑和已连接应用中持续处理任务；目前正向符合条件市场的 Pro、Business Premium 和 Enterprise 用户推出。",
+      "whyItMatters": "Dots 会把 AI 从一次问答变成持续代办，风险也从“回答是否正确”扩展到“是否误操作、能否暂停或撤回”。只有应用权限、审批点和停止或回滚方式明确时，持续执行才适合试用。",
+      "developerImpact": "如果试用，先限定应用、数据和可执行动作，保留人工审批点，记录每次外部写入和停止方式。当前页面没有证明它已对所有地区和账号开放。",
+      "maturity": "experimental",
+      "noiseRisk": "medium",
+      "suggestedAction": "learn",
+      "reviewRisk": "high",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "常驻能力增加后，权限边界和可回滚性比单次回答更重要。",
+      "visualHint": "目标、权限、审批、执行记录四格流程",
+      "facts": [
+        {
+          "id": "openai-dots-fact",
+          "claim": "OpenAI 于 2026 年 9 月 29 日介绍 Dots，称其具备云电脑、浏览器和插件连接能力，并可持续处理任务。",
+          "sourceIds": [
+            "openai-dots-source"
+          ],
+          "limitations": [
+            "官方说明是产品介绍，不能替代真实账号资格、地区和权限回读。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "OpenAI",
+        "Dots",
+        "常驻Agent"
+      ]
+    },
+    {
+      "id": "anthropic-sonnet55",
+      "title": "Claude Sonnet 5.5：更快更便宜，长任务仍要实测",
+      "category": "模型更新",
+      "publisher": "Anthropic",
+      "occurredAt": "2026-09-28",
+      "discoveredAt": "2026-10-03",
+      "oneLineSummary": "Anthropic 发布 Claude Sonnet 5.5，称其比 Sonnet 5 快 30% 以上、对多数工作最多便宜 30%；目前可在 Claude Platform、Amazon Web Services、Google Cloud 和 Microsoft Azure 使用，具体账号权限以平台入口为准。官方价格为输入每百万 token 2 美元、输出每百万 token 10 美元，缓存读取每百万 token 0.20 美元。",
+      "whyItMatters": "官方测试称 Sonnet 5.5 更快、对多数工作成本更低；范围清楚的任务可能周转更快，但开放式长任务的判断力不能由单项基准代替，实际收益取决于返工、工具调用和任务条件。",
+      "developerImpact": "适合先在范围清楚的编码、文档和表格任务中试用；长链路任务要比较返工率、工具调用次数和总成本，而不是只比较每百万 token 价格。",
+      "maturity": "usable",
+      "noiseRisk": "low",
+      "suggestedAction": "try",
+      "reviewRisk": "medium",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "更快和更省不等于适合所有长任务，任务边界仍决定模型选择。",
+      "visualHint": "速度、单任务成本、开放式判断三项对照",
+      "facts": [
+        {
+          "id": "anthropic-sonnet-fact",
+          "claim": "Anthropic 于 2026 年 9 月 28 日发布 Claude Sonnet 5.5，称其比 Sonnet 5 快 30% 以上、对多数工作成本最多低 30%。",
+          "sourceIds": [
+            "anthropic-sonnet-source"
+          ],
+          "limitations": [
+            "速度和成本数字来自 Anthropic 的测试，外部任务条件可能不同。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        },
+        {
+          "id": "anthropic-sonnet-price-fact",
+          "claim": "Anthropic 页面列出 Sonnet 5.5 的价格为每百万输入 token 2 美元、输出 token 10 美元、缓存读取 0.20 美元。",
+          "sourceIds": [
+            "anthropic-sonnet-source"
+          ],
+          "limitations": [
+            "单价不包含应用侧工具、重试和上下文管理成本。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "Anthropic",
+        "Claude Sonnet 5.5",
+        "模型"
+      ]
+    },
+    {
+      "id": "google-gemini4-argon",
+      "title": "Gemini 4 Argon：先向可信网络开放，普通开发者暂未普遍可用",
+      "category": "模型更新",
+      "publisher": "Google DeepMind",
+      "occurredAt": "2026-09-30",
+      "discoveredAt": "2026-10-03",
+      "oneLineSummary": "Google DeepMind 发布 Gemini 4 Argon，称其面向复杂软件工程、企业知识工作和网络安全；当前先通过 Fairwind 计划向可信网络防御者提供，随后再扩大开放。",
+      "whyItMatters": "Argon 先向 Fairwind 计划中的可信网络防御者开放。这说明“发布”“可申请试用”和“普遍可用”不是一回事。普通开发者不能把发布会展示的能力当成已经可以接入；能否接入，仍取决于账号资格、所在地区和安全审查。",
+      "developerImpact": "把 Argon 当作观察对象，先记录开放阶段、资格和安全审查条件；等实际账号可用后再测长任务、价格和工具权限，不要用发布会数字替代接入验收。",
+      "maturity": "experimental",
+      "noiseRisk": "low",
+      "suggestedAction": "learn",
+      "reviewRisk": "medium",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "模型发布了，接入资格还没有同步普及。",
+      "visualHint": "发布、试用、公开可用三个阶段",
+      "facts": [
+        {
+          "id": "google-argon-fact",
+          "claim": "Google DeepMind 于 2026 年 9 月 30 日发布 Gemini 4 Argon，并说明它先通过 Fairwind 计划向可信网络防御者提供。",
+          "sourceIds": [
+            "google-argon-source"
+          ],
+          "limitations": [
+            "官方明确表示会逐步扩大访问，当前不能推断普通开发者已经可用。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        },
+        {
+          "id": "google-argon-price-fact",
+          "claim": "Google DeepMind 页面列出 Argon 初始价格为每百万输入 token 2 美元、输出 token 10 美元，缓存输入价格为输入价的 5%。",
+          "sourceIds": [
+            "google-argon-source"
+          ],
+          "limitations": [
+            "价格不等于当前账号可购买或 API 已开放；内部工作流案例也不是独立评测。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "Google",
+        "Gemini 4 Argon",
+        "开放范围"
+      ]
+    },
+    {
+      "id": "github-dynamic-workflows",
+      "title": "GitHub Copilot 推出可暂停的多步任务流程",
+      "category": "开发工具",
+      "publisher": "GitHub",
+      "occurredAt": "2026-10-01",
+      "discoveredAt": "2026-10-03",
+      "oneLineSummary": "它可以把“检查代码—运行测试—整理报告”这类重复工作写成一套流程，让 Copilot 按顺序执行，也能在提交代码或部署前暂停等你确认。这个功能叫 dynamic workflows，已提供给所有 Copilot 套餐；在命令行工具（CLI）里要先手动打开试用开关，目前仍是公开预览，功能和接口可能变化。",
+      "whyItMatters": "它让重复的多步任务可以按固定顺序执行，并在高风险步骤前暂停等人确认。但流程一旦写错，也可能把错误操作重复执行。",
+      "developerImpact": "先用只读任务试运行，例如检查代码或生成报告；把写入远端、部署和其他高影响动作设置为必须人工确认。CLI 要先打开实验功能开关；公开预览期间，升级前要重新核对版本和组织设置。",
+      "maturity": "experimental",
+      "noiseRisk": "low",
+      "suggestedAction": "learn",
+      "reviewRisk": "high",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "可编排不等于自动可信，流程边界要先写清楚。",
+      "visualHint": "代码流程、Agent步骤、人工检查点",
+      "facts": [
+        {
+          "id": "github-workflow-fact",
+          "claim": "GitHub 于 2026 年 10 月 1 日宣布 Copilot dynamic workflows 在 CLI、Copilot app 和 SDK 中可用，支持串行/并行步骤、结构化结果和暂停检查点。",
+          "sourceIds": [
+            "github-workflow-source"
+          ],
+          "limitations": [
+            "该功能为 public preview，能力和接口可能变化。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "GitHub",
+        "Copilot",
+        "工作流"
+      ]
+    },
+    {
+      "id": "aa-agentperf-local",
+      "title": "AA-AgentPerf：比较本地 Agent 完成任务的速度",
+      "category": "独立测评与工具",
+      "publisher": "Artificial Analysis",
+      "occurredAt": "2026-09-29",
+      "discoveredAt": "2026-10-03",
+      "oneLineSummary": "Artificial Analysis 发布 AA-AgentPerf-Local，一个用于比较本地 Agent 运行速度的开源工具：它用公开代码和测试任务，重新跑一组记录好的多步任务。",
+      "whyItMatters": "它只回答“不同电脑和部署方式谁跑得快”，不回答“任务完成得好不好”。只有任务、模型、量化方式、上下文长度和运行时一致，横向比较才有意义。",
+      "developerImpact": "如果要比较本地部署，先固定硬件、模型、量化方式（压缩模型参数的设置）、上下文长度和运行时；低于完整 65536 token 上下文的结果会标记为 reduced（缩短上下文），不能与完整结果直接比较。",
+      "maturity": "experimental",
+      "noiseRisk": "low",
+      "suggestedAction": "learn",
+      "reviewRisk": "medium",
+      "reviewStatus": "ai_cross_checked",
+      "communicationAngle": "本地 Agent 评测开始更接近真实会话，但速度仍不是效果。",
+      "visualHint": "会话回放、硬件、量化、延迟",
+      "facts": [
+        {
+          "id": "aa-agentperf-fact",
+          "claim": "Artificial Analysis 于 2026 年 9 月 29 日发布 AA-AgentPerf-Local，开源代码和数据，用 8 个记录任务、168 次模型调用回放本地 Agent 会话。",
+          "sourceIds": [
+            "aa-agentperf-source"
+          ],
+          "limitations": [
+            "默认跳过工具执行以隔离推理速度；这不是完整的应用效果或质量评测。",
+            "完整默认运行需要约 65536 token 上下文，缩小上下文会标记为 reduced。"
+          ],
+          "reviewStatus": "ai_cross_checked"
+        }
+      ],
+      "tags": [
+        "独立测评",
+        "本地部署",
+        "Agent"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "openai-sol-source",
+      "catalogId": "openai",
+      "title": "Introducing GPT-6.1 Sol",
+      "url": "https://openai.com/index/introducing-gpt-6-1-sol/",
+      "sourceType": "official_announcement",
+      "publisher": "OpenAI",
+      "publishedAt": "2026-09-29",
+      "accessedAt": "2026-10-03T10:00:00+08:00",
+      "evidenceLocation": "发布范围、入口、价格、能力与评测说明",
+      "evidenceExcerpt": "Available in ChatGPT Work and Codex for Plus, Pro, Business, Enterprise, and Edu users; not yet in Chat; API access is available with input, cached input, and output prices."
+    },
+    {
+      "id": "openai-dots-source",
+      "catalogId": "openai",
+      "title": "Introducing dots",
+      "url": "https://openai.com/index/introducing-dots/",
+      "sourceType": "official_announcement",
+      "publisher": "OpenAI",
+      "publishedAt": "2026-09-29",
+      "accessedAt": "2026-10-03T10:00:00+08:00",
+      "evidenceLocation": "产品能力、权限和推出范围",
+      "evidenceExcerpt": "Dots use a cloud computer and work across connected apps; rollout begins on eligible plans and markets."
+    },
+    {
+      "id": "anthropic-sonnet-source",
+      "catalogId": "anthropic",
+      "title": "Introducing Claude Sonnet 5.5",
+      "url": "https://www.anthropic.com/news",
+      "sourceType": "official_announcement",
+      "publisher": "Anthropic",
+      "publishedAt": "2026-09-28",
+      "accessedAt": "2026-10-03T10:00:00+08:00",
+      "evidenceLocation": "能力、速度、价格、平台入口和安全说明",
+      "evidenceExcerpt": "Sonnet 5.5 is faster and lower-cost for well-scoped tasks; it is available on the Claude Platform, AWS, Google Cloud, and Microsoft Azure."
+    },
+    {
+      "id": "google-argon-source",
+      "catalogId": "google-ai",
+      "title": "Introducing Gemini 4 Argon",
+      "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-argon/",
+      "sourceType": "official_announcement",
+      "publisher": "Google DeepMind",
+      "publishedAt": "2026-09-30",
+      "accessedAt": "2026-10-03T10:00:00+08:00",
+      "evidenceLocation": "开放阶段、价格与能力说明",
+      "evidenceExcerpt": "Argon is rolling out first to trusted cyber defenders through Fairwind before wider access."
+    },
+    {
+      "id": "github-workflow-source",
+      "catalogId": "github",
+      "title": "Dynamic workflows in Copilot CLI and the Copilot app",
+      "url": "https://github.blog/changelog/2026-10-01-dynamic-workflows-in-copilot-cli-and-the-copilot-app/",
+      "sourceType": "official_changelog",
+      "publisher": "GitHub",
+      "publishedAt": "2026-10-01",
+      "accessedAt": "2026-10-03T10:00:00+08:00",
+      "evidenceLocation": "功能定义、套餐范围、实验开关和预览状态",
+      "evidenceExcerpt": "Dynamic workflows are available on all Copilot plans; CLI use still requires an experimental feature flag and the feature remains in public preview."
+    },
+    {
+      "id": "aa-agentperf-source",
+      "catalogId": "artificial-analysis",
+      "title": "AA-AgentPerf-Local: Benchmarking local AI agents on laptops and workstations",
+      "url": "https://artificialanalysis.ai/articles/aa-agentperf-local",
+      "sourceType": "independent_review",
+      "publisher": "Artificial Analysis",
+      "publishedAt": "2026-09-29",
+      "accessedAt": "2026-10-03T10:00:00+08:00",
+      "evidenceLocation": "工作负载、上下文和部署条件",
+      "evidenceExcerpt": "The open-source tool replays eight recorded agent tasks with 168 model turns and compares local serving configurations."
+    }
+  ],
+  "corrections": [],
+  "editorial": {
+    "generatedAt": "2026-10-03T11:39:29+08:00",
+    "aiReviewCompleted": true,
+    "factCheckCompletedAt": "2026-10-03T11:39:29+08:00",
+    "previewApprovedAt": "2026-10-03T11:40:30+08:00",
+    "publicationApprovedAt": null,
+    "notes": "作者已确认第006期表达达到目标；专业自媒体编辑复核后修订 Sonnet 标题、GitHub 场景说明和 AA-AgentPerf 重复表达，双层表达规则已采用。"
+  }
+}

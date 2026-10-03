@@ -32,7 +32,6 @@ function getSourceCardMap(issue: Issue) {
 }
 
 export function IssueView({ issue }: IssueViewProps) {
-  const keyCardIds = new Set(issue.topChangeIds);
   const topCards = getTopCards(issue);
   const themeLabels = getIssueThemeLabels(issue);
   const fastTakeaway = getFastTakeaway(issue);
@@ -152,9 +151,9 @@ export function IssueView({ issue }: IssueViewProps) {
         <p className={styles.sectionCode}>Auto Verification</p>
         <h2 id="ai-verification">AI 自动验证说明</h2>
         <p>
-          本站内容由 AI 自动检索、整理和生成，并经过多轮 AI 交叉校验。构建前会执行字段完整性、
-          来源引用、模糊结论表述和链接活体检查。自动验证用于降低错误概率，不能替代原始来源；
-          产品信息以官方资料为准，第三方测评只适用于原文所述条件，本站未必独立复现。
+          本站内容由 AI 检索、整理和生成。成稿先经过来源与数字核验、反向质疑，再由具有明确角色的独立审查 Agent
+          盲读标题、内容详情、造成的影响和术语；出现 return 必须修订后重审。构建前还会检查字段、来源、跨平台派生稿和链接。
+          这些检查用于降低错误概率，不能替代原始来源和作者最终判断；产品信息以官方资料为准，第三方测评只适用于原文条件，本站未必独立复现。
         </p>
       </section>
 
@@ -162,14 +161,13 @@ export function IssueView({ issue }: IssueViewProps) {
         <div className={styles.cardsHeader}>
           <p className={styles.sectionCode}>02 / 情报卡</p>
           <h2>先看内容详情与影响，再展开事实支撑</h2>
-          <p>默认只展示内容详情和造成的影响；行动参考、技术风险、证据与来源可按需展开。</p>
+          <p>默认只展示内容详情和造成的影响；行动参考、证据与来源可按需展开。</p>
         </div>
         <div className={styles.cardsGrid}>
           {issue.cards.map((card, index) => (
             <IntelCard
               card={card}
               index={index}
-              isKey={keyCardIds.has(card.id)}
               key={card.id}
               sources={issue.sources}
             />

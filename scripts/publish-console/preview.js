@@ -3,21 +3,29 @@ document.querySelectorAll("[data-copy-target]").forEach((button) => {
     const target = document.querySelector(button.dataset.copyTarget);
     if (!target) return;
     try {
+      const copy = target.cloneNode(true);
+      copy.querySelectorAll("[data-copy-exclude]").forEach((element) => element.remove());
+      copy.style.position = "fixed";
+      copy.style.left = "-10000px";
+      document.body.append(copy);
+      const plainText = copy.innerText;
+      copy.remove();
       if (window.ClipboardItem && navigator.clipboard?.write) {
         await navigator.clipboard.write([
           new ClipboardItem({
-            "text/html": new Blob([target.innerHTML], { type: "text/html" }),
-            "text/plain": new Blob([target.innerText], { type: "text/plain" }),
+            "text/html": new Blob([copy.innerHTML], { type: "text/html" }),
+            "text/plain": new Blob([plainText], { type: "text/plain" }),
           }),
         ]);
       } else {
-        const selection = window.getSelection();
-        const range = document.createRange();
-        range.selectNodeContents(target);
-        selection.removeAllRanges();
-        selection.addRange(range);
+        const input = document.createElement("textarea");
+        input.value = plainText;
+        input.style.position = "fixed";
+        input.style.opacity = "0";
+        document.body.append(input);
+        input.select();
         document.execCommand("copy");
-        selection.removeAllRanges();
+        input.remove();
       }
       button.textContent = "已复制";
     } catch {
