@@ -1,85 +1,66 @@
-name: Deploy AI Outpost to GitHub Pages
-
+name: Deploy AI Outpost public site bundle
 on:
   workflow_dispatch:
-
+    inputs:
+      release_id:
+        description: Temporary draft release containing only public site.tar.gz
+        required: true
+      sha256:
+        description: Locally verified bundle SHA256
+        required: true
+      slug:
+        description: Approved issue slug
+        required: true
 permissions:
   contents: read
   pages: write
   id-token: write
-
 concurrency:
   group: pages
-  cancel-in-progress: true
-
+  cancel-in-progress: false
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 11.5.2
-          run_install: false
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: pnpm
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-
-      - name: Configure base path
-        shell: bash
-        run: |
-          REPO_NAME="${GITHUB_REPOSITORY#*/}"
-          if [[ "$REPO_NAME" == *.github.io ]]; then
-            echo "NEXT_PUBLIC_BASE_PATH=" >> "$GITHUB_ENV"
-          else
-            echo "NEXT_PUBLIC_BASE_PATH=/$REPO_NAME" >> "$GITHUB_ENV"
-          fi
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Check remote repository boundary
-        run: pnpm ops:check:remote-boundary -- --commit "${GITHUB_SHA}"
-
-      - name: Lint
-        run: pnpm lint
-
-      - name: Type check
-        run: pnpm typecheck
-
-      - name: Validate content
-        run: pnpm content:validate
-
-      - name: Check source links
-        run: pnpm content:check:links
-
-      - name: Test
-        run: pnpm test
-
-      - name: Build static site
-        run: pnpm build
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: out
-
   deploy:
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
     steps:
-      - name: Deploy to GitHub Pages
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Check remote repository boundary
+        run: node scripts/ops/check-remote-boundary.mjs --commit "$GITHUB_SHA"
+      - name: Validate deployment inputs and download public bundle
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_ID: ${{ inputs.release_id }}
+          BUNDLE_SHA256: ${{ inputs.sha256 }}
+          ISSUE_SLUG: ${{ inputs.slug }}
+          CODE_SHA: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$RELEASE_ID" =~ ^[0-9]+$ ]]
+          [[ "$BUNDLE_SHA256" =~ ^[a-f0-9]{64}$ ]]
+          [[ "$ISSUE_SLUG" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]]
+          gh api "repos/$GH_REPO/releases/$RELEASE_ID" > "$RUNNER_TEMP/release.json"
+          ASSET_ID=$(jq -er --arg sha "$CODE_SHA" '
+            select(.draft == true and .target_commitish == $sha)
+            | select(.tag_name | startswith("ai-outpost-pages-"))
+            | .assets | select(length == 1) | .[0]
+            | select(.name == "site.tar.gz" and .size < 524288000) | .id
+          ' "$RUNNER_TEMP/release.json")
+          gh api -H 'Accept: application/octet-stream' "repos/$GH_REPO/releases/assets/$ASSET_ID" > "$RUNNER_TEMP/site.tar.gz"
+          python scripts/publish/pages-bundle.py --archive "$RUNNER_TEMP/site.tar.gz" --sha256 "$BUNDLE_SHA256" --slug "$ISSUE_SLUG" --extract "$RUNNER_TEMP/public-site"
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ runner.temp }}/public-site
+          retention-days: 1
+      - name: Deploy verified public output
         id: deployment
         uses: actions/deploy-pages@v4

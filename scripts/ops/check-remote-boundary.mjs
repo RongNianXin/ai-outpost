@@ -3,6 +3,8 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const forbiddenRules = [
+  [/^(?:\.local|\.private|\.next|node_modules|output|总指挥工作流)\//, '私密数据、本机工具输出或控制面副本'],
+  [/^(?:.*\/)?\.env(?:\..*)?$/, '本机环境配置'],
   [/^content\/issues\//, '每期事实稿、草稿和修订稿'],
   [/^content\/sources\.json$/, '按期来源清单'],
   [/^public\/images\/issues\//, '官网每期图片素材'],
@@ -21,6 +23,7 @@ const forbiddenRules = [
 
 export function classifyPath(file) {
   const normalized = file.replaceAll('\\', '/').replace(/^\.\//, '');
+  if (normalized === '.env.example') return { file: normalized, forbidden: false };
   const rule = forbiddenRules.find(([pattern]) => pattern.test(normalized));
   return rule ? { file: normalized, forbidden: true, reason: rule[1] } : { file: normalized, forbidden: false };
 }

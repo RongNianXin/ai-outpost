@@ -7,7 +7,6 @@ import { runCommand } from "../lib/publishing/commands";
 import { publishWebsite } from "../lib/publishing/adapters/website";
 import { createWechatDraft, publishWechatDraft } from "../lib/publishing/adapters/wechat";
 import { publishXiaohongshu } from "../lib/publishing/adapters/xiaohongshu";
-import { loadIssueFiles } from "../lib/content/load-files";
 
 vi.mock("../lib/publishing/run-gate", () => ({ assertPublishingAllowed: vi.fn() }));
 vi.mock("../lib/publishing/commands", () => ({ runCommand: vi.fn() }));
@@ -39,30 +38,11 @@ describe("adapter defense in depth", () => {
     expect(fetch).not.toHaveBeenCalled();
     expect(writeFile).not.toHaveBeenCalled();
   });
-  it("website rechecks after build and restores local content without pushing", async () => {
-    vi.mocked(assertPublishingAllowed).mockResolvedValueOnce(undefined)
-      .mockResolvedValueOnce(undefined).mockRejectedValueOnce(new Error("emergency_stop"));
-    vi.mocked(loadIssueFiles).mockResolvedValue([{ fileName: "issue-002.json", issue }]);
-    vi.mocked(readFile).mockImplementation(async (file) =>
-      String(file).endsWith("README.md")
-        ? "# Test\n\n<!-- AI_OUTPOST_LATEST_START -->\nold\n<!-- AI_OUTPOST_LATEST_END -->\n\n现行发布平台"
-        : "original",
-    );
-    vi.mocked(runCommand).mockImplementation(async (cmd, args) => ({
-      ok: true, code: 0, stderr: "", stdout:
-        cmd === "git" && args[0] === "branch" ? "main" :
-        cmd === "git" && args[0] === "remote" ? "https://github.com/RongNianXin/ai-outpost.git" : "",
-    }));
-    await expect(publishWebsite(issue)).rejects.toThrow("emergency_stop");
-    const calls = vi.mocked(runCommand).mock.calls;
-    expect(calls.some(([cmd, args]) => cmd === "pnpm.cmd" && args[0] === "build")).toBe(true);
-    expect(calls.some(([cmd, args]) =>
-      (cmd === "git" && ["add", "commit", "push"].includes(args[0])) ||
-      (cmd === "gh" && args[0] === "workflow"))).toBe(false);
-    expect(vi.mocked(writeFile).mock.calls.some(([file, body]) =>
-      String(file).endsWith("issue-002.json") && body === "original")).toBe(true);
-    expect(vi.mocked(writeFile).mock.calls.some(([file, body]) =>
-      String(file).endsWith("README.md") && body === "# Test\n\n<!-- AI_OUTPOST_LATEST_START -->\nold\n<!-- AI_OUTPOST_LATEST_END -->\n\n现行发布平台")).toBe(true);
+  it("legacy website publication cannot commit or push private issue files", async () => {
+    vi.mocked(assertPublishingAllowed).mockResolvedValue(undefined);
+    await expect(publishWebsite(issue)).rejects.toThrow("官网不再提交期刊文件");
+    expect(runCommand).not.toHaveBeenCalled();
+    expect(writeFile).not.toHaveBeenCalled();
   });
   it("WeChat stops before cover upload if the mode changes during authentication", async () => {
     vi.mocked(assertPublishingAllowed).mockResolvedValueOnce(undefined).mockRejectedValue(new Error("paused"));

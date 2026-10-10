@@ -21,3 +21,10 @@ test('allows reusable code, tests and generic workflow rules', () => {
     assert.deepEqual(classifyPath(file), { file, forbidden: false });
   }
 });
+
+test('blocks force-added private paths and secrets while allowing the public env template', () => {
+  for (const file of ['.local/evidence.json', '.private/key', '.env.local', '.next/cache/data', 'output/check.png', '总指挥工作流/state.json']) {
+    assert.equal(classifyPath(file).forbidden, true);
+  }
+  assert.equal(classifyPath('.env.example').forbidden, false);
+});

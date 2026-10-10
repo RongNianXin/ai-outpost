@@ -17,8 +17,7 @@
 /每一期底稿
 
 # per-issue materials and local state are never new remote candidates
-/content/issues/issue-*.json
-/content/issues/draft-*.json
+/content/issues/
 /content/sources.json
 /public/images/issues/*
 /ops/runs
@@ -38,6 +37,9 @@
 .env*
 !.env.example
 /.local
+/.private/
+/output/
+/总指挥工作流/
 /.private/handoff-seals/
 /.private/handoff-seals-v4/
 /.private/handoff-seals-v5/
@@ -47,3 +49,7 @@
 *.log
 .DS_Store
 Thumbs.db
+
+# Python bytecode is local runtime output
+__pycache__/
+*.pyc
