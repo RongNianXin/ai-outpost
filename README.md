@@ -26,11 +26,11 @@
 <!-- AI_OUTPOST_LATEST_START -->
 ## 最新一期
 
-**AI 前哨站第 007 期**：低单价与执行边界
+**AI 前哨站第 008 期**：新模型怎么用，要花多少钱
 
-这一周，AI 工具开始把几件事拆开处理：重复的小任务交给更便宜的模型，复杂工作交给能持续执行的 Agent，文件与网络访问则加上单独的限制。对使用者来说，选模型之外，还要弄清任务在哪里运行、能碰哪些数据，以及一件事做完到底花多少钱。
+这周，Google 向付费开发者开放 Gemini 4 Argon，Meta 和 Reflection 则公开了可下载运行的模型权重。选择多了，费用、硬件和许可条件也要分开看。另外两条消息关注评估：Anthropic 扩大外部评估者的内部访问范围，Artificial Analysis 测试了 AI 操作机械臂的表现。
 
-[阅读本期官网](https://rongnianxin.github.io/ai-outpost/issues/2026-10-10-ai-costs-agents-and-boundaries/)
+[阅读本期官网](https://rongnianxin.github.io/ai-outpost/issues/2026-10-17-open-weights-and-evaluation-boundaries/)
 <!-- AI_OUTPOST_LATEST_END -->
 
 > 官网正式发布会在同一事务内自动替换最新一期区块，并用 `pnpm.cmd content:check:network-sync` 阻止错期。`content:update-readme` 仅用于修复已有漂移。
