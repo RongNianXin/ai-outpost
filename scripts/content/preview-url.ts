@@ -8,6 +8,7 @@ async function main() {
   const issue = selectPreviewIssue(
     files.map(({ issue: loadedIssue }) => loadedIssue),
     requestedSlug,
+    process.argv.includes("--draft"),
   );
 
   console.log(buildPreviewUrl(issue, baseUrl));

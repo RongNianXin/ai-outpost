@@ -5,6 +5,7 @@ import { issueSchema } from "../lib/content/schema";
 import {
   compareIssuesNewestFirst,
   isIssueVisible,
+  isLocalDraftPreview,
 } from "../lib/content/repository";
 import { buildPreviewUrl, selectPreviewIssue } from "../lib/content/preview";
 import { getWeeklyImpactBullets } from "../lib/content/presentation";
@@ -783,6 +784,15 @@ describe("validateContentCollection", () => {
 });
 
 describe("issue visibility", () => {
+  it("requires development and an exact explicit slug for draft previews", () => {
+    const issue = { status: "draft" as const, slug: "issue-007" };
+    expect(isLocalDraftPreview(issue, "development", "issue-007")).toBe(true);
+    expect(isLocalDraftPreview(issue, "production", "issue-007")).toBe(false);
+    expect(isLocalDraftPreview(issue, "development", undefined)).toBe(false);
+    expect(isLocalDraftPreview(issue, "development", "issue-008")).toBe(false);
+    expect(isIssueVisible("draft", "development")).toBe(false);
+    expect(selectPreviewIssue([issueSchema.parse({ ...baseIssue, status: "draft", publishedAt: null })], baseIssue.slug, true).status).toBe("draft");
+  });
   it("shows approved issues only in development previews", () => {
     expect(isIssueVisible("approved", "development")).toBe(true);
     expect(isIssueVisible("approved", "production")).toBe(false);

@@ -29,8 +29,19 @@ export async function getAllIssues(): Promise<Issue[]> {
 export async function getPublicIssues(): Promise<Issue[]> {
   const issues = await getAllIssues();
   return issues.filter((issue) =>
-    isIssueVisible(issue.status, process.env.NODE_ENV),
+    isIssueVisible(issue.status, process.env.NODE_ENV) ||
+    isLocalDraftPreview(issue, process.env.NODE_ENV, process.env.AI_OUTPOST_PREVIEW_SLUG),
   );
+}
+
+// Explicitly scoped to the loopback development server; never included in exports.
+export function isLocalDraftPreview(
+  issue: Pick<Issue, "status" | "slug">,
+  environment: string | undefined,
+  previewSlug: string | undefined,
+) {
+  return environment === "development" && issue.status === "draft" &&
+    Boolean(previewSlug) && issue.slug === previewSlug;
 }
 
 export function isIssueVisible(

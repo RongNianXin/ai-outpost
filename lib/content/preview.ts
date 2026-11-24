@@ -3,13 +3,13 @@ import { approvedIssueStatuses, type Issue } from "./schema";
 
 const defaultPreviewBaseUrl = "http://127.0.0.1:3100";
 
-export function selectPreviewIssue(issues: Issue[], requestedSlug?: string) {
+export function selectPreviewIssue(issues: Issue[], requestedSlug?: string, allowDraft = false) {
   if (requestedSlug) {
     const requestedIssue = issues.find((issue) => issue.slug === requestedSlug);
     if (!requestedIssue) {
       throw new Error(`Unknown issue slug: ${requestedSlug}`);
     }
-    if (!isPreviewable(requestedIssue)) {
+    if (!isPreviewable(requestedIssue) && !(allowDraft && requestedIssue.status === "draft")) {
       throw new Error(
         `Issue ${requestedSlug} is not previewable while status is ${requestedIssue.status}.`,
       );
