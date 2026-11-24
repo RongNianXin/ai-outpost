@@ -4,7 +4,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const archiveRoot = path.join(root, '每一期底稿');
-const issueFiles = fs.readdirSync(path.join(root, 'content/issues')).filter(name => /^issue-\d{3}\.json$/.test(name)).sort();
+const issueFiles = fs.readdirSync(path.join(root, 'content/issues')).filter(name => /^issue-\d{3,}\.json$/.test(name)).sort();
 
 function copyFile(source, destination, entries, label) {
   if (!fs.existsSync(source) || !fs.statSync(source).isFile()) return;
@@ -24,14 +24,26 @@ function copyTree(source, destination, entries, label) {
 }
 
 function issueNumberFromFile(file) {
-  return file.match(/^issue-(\d{3})\.json$/)?.[1] ?? null;
+  return file.match(/^issue-(\d{3,})\.json$/)?.[1] ?? null;
 }
 
-function archiveIssue(issueNumber) {
-  const issueFile = `issue-${issueNumber}.json`;
+function archiveInput(issueFile) {
+  if (path.basename(issueFile) !== issueFile || !issueFile.endsWith('.json')) throw new Error('归档来源必须是 content/issues 内的 JSON 文件名');
   const issuePath = path.join(root, 'content/issues', issueFile);
+  if (!fs.existsSync(issuePath)) throw new Error(`找不到结构化稿件 ${issueFile}`);
+  if (!fs.realpathSync(issuePath).startsWith(fs.realpathSync(path.join(root, 'content/issues')) + path.sep)) throw new Error('归档来源不能指向 content/issues 之外');
   const issue = JSON.parse(fs.readFileSync(issuePath, 'utf8'));
-  const destination = path.join(archiveRoot, issueNumber);
+  if (!Number.isSafeInteger(issue.issueNumber) || issue.issueNumber < 0 || typeof issue.id !== 'string' || typeof issue.slug !== 'string' || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(issue.id) || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(issue.slug)) throw new Error('归档来源的期号、id 或 slug 无效');
+  const issueNumber = String(issue.issueNumber).padStart(3, '0');
+  const destination = issue.issueNumber === 0
+    ? path.join(archiveRoot, 'drafts', issue.id)
+    : issue.status === 'draft' || issueFile.endsWith('-draft.json')
+      ? path.join(archiveRoot, issueNumber, 'drafts', issue.id)
+      : path.join(archiveRoot, issueNumber);
+  return { issueFile, issuePath, issue, issueNumber, destination };
+}
+
+function archiveIssue({ issueFile, issuePath, issue, issueNumber, destination }) {
   const entries = [];
 
   fs.mkdirSync(destination, { recursive: true });
@@ -57,6 +69,15 @@ function archiveIssue(issueNumber) {
     }
   }
 
+  const coverExportRoot = path.join(root, 'exports/wechat');
+  if (fs.existsSync(coverExportRoot)) {
+    for (const name of fs.readdirSync(coverExportRoot)) {
+      if (name.startsWith(`issue-${issueNumber}-cover-`)) {
+        copyFile(path.join(coverExportRoot, name), path.join(destination, 'cover', name), entries, 'cover-candidate');
+      }
+    }
+  }
+
   for (const legacy of [`wechat-full-${Number(issueNumber)}`, `wechat-style-sample-${Number(issueNumber)}`]) {
     copyTree(path.join(root, 'exports', legacy), path.join(destination, 'generated', 'legacy', legacy), entries, 'legacy-export');
   }
@@ -79,7 +100,7 @@ function archiveIssue(issueNumber) {
     ],
   };
   fs.writeFileSync(path.join(destination, 'manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
-  return { issueNumber, slug: issue.slug, entryCount: entries.length, destination: path.relative(root, destination).replaceAll(path.sep, '/') };
+  return { issueNumber, fileName: issueFile, slug: issue.slug, entryCount: entries.length, destination: path.relative(root, destination).replaceAll(path.sep, '/') };
 }
 
 function ensureReadme() {
@@ -104,14 +125,21 @@ function ensureReadme() {
 }
 
 function main() {
-  ensureReadme();
   const index = process.argv.indexOf('--issue');
   const requested = index >= 0 ? process.argv[index + 1] : null;
+  const fileIndex = process.argv.indexOf('--file');
+  const fileName = fileIndex >= 0 ? process.argv[fileIndex + 1] : null;
+  if (fileIndex >= 0 && (!fileName || index >= 0)) throw new Error('--file 需要准确文件名，且不能与 --issue 同用');
+  if (index >= 0 && !requested) throw new Error('--issue 需要期号');
   const numbers = requested ? [requested.padStart(3, '0')] : issueFiles.map(issueNumberFromFile).filter(Boolean);
-  for (const number of numbers) {
-    if (!/^\d{3}$/.test(number) || !fs.existsSync(path.join(root, 'content/issues', `issue-${number}.json`))) throw new Error(`找不到期刊 ${number} 的结构化稿件`);
+  if (numbers.some(number => !/^\d{3,}$/.test(number))) throw new Error('期号须为至少三位数字');
+  const inputs = (fileName ? [fileName] : numbers.map(number => `issue-${number}.json`)).map(archiveInput);
+  if (process.argv.includes('--check')) {
+    console.log(JSON.stringify(inputs.map(({ issueNumber, issueFile, destination }) => ({ issueNumber, fileName: issueFile, destination: path.relative(root, destination).replaceAll(path.sep, '/') })), null, 2));
+    return;
   }
-  console.log(JSON.stringify(numbers.map(archiveIssue), null, 2));
+  ensureReadme();
+  console.log(JSON.stringify(inputs.map(archiveIssue), null, 2));
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) main();
